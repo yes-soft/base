@@ -1,0 +1,17 @@
+<div class="schema-form-section {{form.htmlClass}} form-list-group">
+
+    <div class="header smaller lighter collapsed">
+        <label ng-class="{'sr-only': !showTitle() }">{{ form.title }}</label>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse" ng-click="isCollapsed = !isCollapsed">
+                <i class="ace-icon fa fa-chevron-up" ng-class="{'fa-chevron-down':!isCollapsed}"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12" collapse="isCollapsed">
+        <sf-decorator class="col-xs-12" ng-class="{'full-row':item.type=='textarea'}" ng-repeat="item in form.items"
+                      form="item"></sf-decorator>
+    </div>
+</div>

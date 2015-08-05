@@ -1,0 +1,137 @@
+.iframe-wrapper {
+  width: 100%;
+  height: 100%;
+}
+.n-content {
+  width: 100%;
+  height: 100%;
+}
+.dashboard .group-title {
+  color: #a0a0a0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 3px;
+}
+.dashboard .items {
+  padding-top: 5px;
+  clear: both;
+}
+.dashboard .items h5 {
+  margin: 10px 20px;
+}
+.dashboard .items a {
+  display: inline-block;
+  width: 64px;
+  font-weight: normal;
+  text-align: center;
+  text-shadow: 0 -1px -1px rgba(0, 0, 0, 0.2) !important;
+  border: 0;
+  border-radius: 12px;
+  padding: 5px 0 3px;
+  position: relative;
+  font-size: 12px;
+  line-height: 2.2;
+  color: #fff;
+  text-decoration: none;
+}
+.dashboard .icon-list {
+  margin: 0 8px;
+}
+.dashboard .icon-list li {
+  margin: 10px 6px;
+  border-radius: 10px;
+  text-align: center;
+  float: left;
+  min-width: 64px;
+  min-height: 60px;
+}
+.dashboard .icon-list li p {
+  padding: 0;
+}
+.dashboard .icon-list li i {
+  display: block;
+  font-size: 28px;
+  line-height: 28px;
+  margin: 0 0 3px;
+}
+.nextstep .title {
+  margin: 10px 0 0 8px;
+}
+.nextstep .next-step {
+  width: 100%;
+  border-top: 1px dashed #000;
+  padding-top: 6px;
+  margin: 6px 0 8px 0;
+}
+.nextstep .title-font {
+  font-size: 16px;
+}
+.nextstep .checked-title {
+  margin-bottom: 6px;
+}
+.nextstep .checked-title .view-div {
+  float: left;
+  background-color: #33CD5F;
+  border-right-width: 6px;
+  margin-left: 3px;
+  padding: 0 10px 2px 10px;
+  color: #FFF;
+}
+.nextstep .left-slide {
+  margin-left: 8px;
+}
+.nextstep .item-done {
+  margin: 4px 0 0 8px;
+}
+.nextstep .item-done-name {
+  margin: 6px 0 0 35px;
+}
+.nextstep .subject-div {
+  background: #FFFFFF;
+  width: 99%;
+  position: absolute;
+  border: 1px solid;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  margin: 50px 2px 0 2px;
+}
+.nextstep .next-step-div {
+  width: 100%;
+  border-top: 1px dashed #000;
+  padding: 6px 0 0 10px;
+  margin: 6px 0 8px 0;
+}
+.nextstep .subject-title-top {
+  background: #f2f2f2;
+  width: 100%;
+  height: 135px;
+  margin-top: 55px;
+}
+.nextstep .div-width {
+  width: 100%;
+}
+.nextstep .div-left-slide {
+  margin-left: 10px;
+}
+.nextstep .textarea-div {
+  margin-left: 0;
+  padding-left: 3%;
+  width: 100%;
+}
+.nextstep .textarea-in-div {
+  width: 86%;
+  float: left;
+}
+.nextstep .textarea {
+  width: 100%;
+  border: 1px solid #DDDDDD;
+  height: 100px;
+}
+.nextstep .img-responsive {
+  float: right;
+  width: 14%;
+  height: 50px;
+}
+.nextstep .remain {
+  height: 40px;
+  visibility: hidden;
+}
