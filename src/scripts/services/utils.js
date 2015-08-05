@@ -38,7 +38,7 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                     }
 
                     $http(options).success(function (res) {
-                        if (res.error == 0) {
+                        if (res.error == 0 || !res.error) {
                             deferred.resolve(res);
                         } else if (res['@timestamp']) {
                             var result = handles.parseView(res);

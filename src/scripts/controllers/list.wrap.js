@@ -101,14 +101,13 @@ angular.module('app')
                             }
                         }
 
-                        //TODO show loading;
-                        utils.dynamicApi(method, namespace, self.form.model).then(function (res) {
+                        utils.async(method, namespace, self.form.model).then(function (res) {
                             self.load();
                             self.events.trigger("closeDetail");
                             self.events.trigger("entrySaved");
                         });
 
-                    } else { //TODO if valid failure;
+                    } else {
                         console.log(self.form.model);
                     }
                 },

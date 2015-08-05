@@ -11,6 +11,7 @@ var path = require('path');
 
 var dist = "./dist/";
 var distBase = dist + "base/";
+var scripts = "scripts";
 
 gulp.task('clean', function (cb) {
     return del([
@@ -29,8 +30,8 @@ gulp.task('copy-plugins', function () {
 });
 
 gulp.task('templates', function () {
-    return gulp.src('./src/**/*.html')
-        .pipe(gulp.dest(distBase));
+    return gulp.src('./src/templates/**/*.html')
+        .pipe(gulp.dest(distBase + "templates"));
 });
 
 gulp.task('scripts', function () {
@@ -52,27 +53,26 @@ gulp.task('scripts', function () {
         './../components/angular-moment/angular-moment.js'
     ])
         .pipe(concat('app.js'))
-        .pipe(gulp.dest(distBase + 'app'))
+        .pipe(gulp.dest(distBase + scripts))
         .pipe(uglify())
         .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(distBase + 'app'));
+        .pipe(gulp.dest(distBase + scripts));
 });
-
 
 gulp.task('basejs', function () {
     return gulp.src([
         './src/scripts/**/*.js'
     ])
         .pipe(concat('base.js'))
-        .pipe(gulp.dest(distBase))
+        .pipe(gulp.dest(distBase + scripts))
         .pipe(uglify())
         .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(distBase));
+        .pipe(gulp.dest(distBase + scripts));
 });
 
 
 gulp.task('css', function () {
-    return gulp.src('./src/**/*.css')
+    return gulp.src('./src/css/**/*.css')
         .pipe(concat('main.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
@@ -83,8 +83,8 @@ gulp.task('default', ['scripts', 'basejs', 'css', 'templates', 'copy-vendor', 'c
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
 
         var js = gulp.src([
-            'base/app/app.min.js',
-            'base/base.js'
+            'base/scripts/app.js',
+            'base/scripts/base.js'
         ], {read: false, cwd: dist});
 
         var css = gulp.src([

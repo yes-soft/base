@@ -33,9 +33,9 @@
     <script src="base/vendor/ace/assets/js/jquery.1.11.1.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="base/assets/css/ui-grid.css">
-    <link href="scripts/css/common.css" rel="stylesheet">
-    <link href="scripts/css/pages.css" rel="stylesheet">
+    <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/pages.css" rel="stylesheet">
     <script type="text/javascript" src="base/vendor/app/app.js"></script>
     <script type="text/javascript" src="base/vendor/schema-form/tv4.js"></script>
     <script type="text/javascript" src="base/vendor/schema-form/object-path.js"></script>
@@ -61,12 +61,12 @@
         angular.module("app.config", [])
                 .constant("plugins", {
                     "templates": {
-                        'layout': 'plugins/base/templates/layout.html',
-                        'login': 'plugins/base/templates/login.html',
-                        'dashboard': 'plugins/base/templates/dashboard.html',
-                        'list': 'plugins/base/templates/list.uigrid.html',
-                        'detail': 'plugins/base/templates/detail.html',
-                        'searchCommon': 'plugins/base/templates/search-common.html'
+                        'layout': 'base/templates/layout.html',
+                        'login': 'base/templates/login.html',
+                        'dashboard': 'base/templates/dashboard.html',
+                        'list': 'base/templates/list.uigrid.html',
+                        'detail': 'base/templates/detail.html',
+                        'searchCommon': 'base/templates/search-common.html'
                     }
                 })
                 .constant("gateway", {
@@ -75,6 +75,8 @@
                 .constant("ENV", {
                     "version": "0.1.0",
                     "mock": true,
+                    "menuRoot": null,
+                    "menuApi": 'base/menus',
                     "apiPath": "/api",
                     "pluginFolder": '/plugins',
                     "pageSize": {

@@ -26,13 +26,21 @@ angular.module('app.controllers', [])
     .controller('AppCtrl', ["$scope", "$location", '$resource', '$log', 'utils', '$http', 'ENV',
         function ($scope, $location, $resource, $log, utils, $http, ENV) {
 
-            utils.async("GET", ENV.apiPath + '/menus?type=suball', {}).then(function (res) {
+            utils.async("GET", ENV.menuApi, {}).then(function (res) {
 
                 var data = res.body;
+
+                if (!angular.isArray(data)) {
+                    data = data.items;
+                }
+
                 var menus = data.sort(function (a, b) {
                     return a.order - b.order;
                 });
-                $scope.menus = utils.initMenus("", menus);
+
+                $scope.menus = utils.initMenus(ENV.menuRoot, menus);
+
+                console.log($scope.menus);
 
                 if ($scope.menus.length) {
                     $scope.menus[0].expanded = true;
@@ -53,7 +61,6 @@ angular.module('app.controllers', [])
             };
 
             $scope.displayName = localStorage.getItem("displayName");
-
             $scope.action = {
                 logout: function () {
                     utils.dynamicApi("GET", "logout").then(function (res) {
@@ -64,7 +71,4 @@ angular.module('app.controllers', [])
                     });
                 }
             };
-
         }]);
-
-
