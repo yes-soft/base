@@ -1,13 +1,13 @@
 {
-  "name": "renqipai",
+  "name": "yes-base",
   "version": "0.1.0",
   "authors": [
     "vellengs <vellengs@qq.com>"
   ],
-  "description": "ren qi pai is an auction project",
+  "description": "yes base is an angular front end solution",
   "license": "MIT",
-  "homepage": "http://renqipai.com",
-  "private": true,
+  "homepage": "http://www.yes-soft.cn",
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
