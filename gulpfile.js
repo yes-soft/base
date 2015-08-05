@@ -12,16 +12,20 @@ var path = require('path');
 var dist = "./dist/";
 var distBase = dist + "base/";
 
-
 gulp.task('clean', function (cb) {
     return del([
         dist
     ], cb);
 });
 
-gulp.task('copy', function () {
+gulp.task('copy-vendor', function () {
     return gulp.src('./src/base/vendor/**/*')
         .pipe(gulp.dest(distBase + "vendor"));
+});
+
+gulp.task('copy-plugins', function () {
+    return gulp.src('./src/plugins/**/*')
+        .pipe(gulp.dest(dist + "plugins"));
 });
 
 gulp.task('templates', function () {
@@ -57,7 +61,7 @@ gulp.task('scripts', function () {
 
 gulp.task('basejs', function () {
     return gulp.src([
-        './src/**/*.js'
+        './src/scripts/**/*.js'
     ])
         .pipe(concat('base.js'))
         .pipe(gulp.dest(distBase))
@@ -73,21 +77,22 @@ gulp.task('css', function () {
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('default', ['scripts', 'basejs', 'css', 'templates', 'copy'], function () {
+gulp.task('default', ['scripts', 'basejs', 'css', 'templates', 'copy-vendor', 'copy-plugins'],
+    function () {
 
-    var target = gulp.src('./dist.html').pipe(rename('index.html'));
+        var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
 
-    var js = gulp.src([
-        'base/app/app.min.js',
-        'base/base.js'
-    ], {read: false, cwd: dist});
+        var js = gulp.src([
+            'base/app/app.min.js',
+            'base/base.js'
+        ], {read: false, cwd: dist});
 
-    var css = gulp.src([
-        'base/css/main.css'
-    ], {read: false, cwd: dist});
+        var css = gulp.src([
+            'base/css/main.css'
+        ], {read: false, cwd: dist});
 
-    target
-        .pipe(inject(css, {addRootSlash: false}))
-        .pipe(inject(js, {addRootSlash: false}))
-        .pipe(gulp.dest(dist));
-});
+        target
+            .pipe(inject(css, {addRootSlash: false}))
+            .pipe(inject(js, {addRootSlash: false}))
+            .pipe(gulp.dest(dist));
+    });
