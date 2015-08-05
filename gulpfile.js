@@ -3,49 +3,91 @@ var gulp = require('gulp'),
     del = require('del'),
     concat = require('gulp-concat'), rename = require('gulp-rename'),
     uglify = require('gulp-uglify');
+
+var inject = require('gulp-inject');
+var annotate = require('gulp-ng-annotate');
+var es = require('event-stream');
 var path = require('path');
-var buildDist = "./sms-web-client/static/vendor/app/";
 
-gulp.task('concat-css',function(){
-    gulp.src([
+var dist = "./dist/";
+var distBase = dist + "base/";
 
-    ]).pipe();
 
-});
-
-gulp.task('clean',function(cb){
-    del([
-        buildDist
-        // we don't want to clean this file though so we negate the pattern
-        //'!dist/mobile/deploy.json'
+gulp.task('clean', function (cb) {
+    return del([
+        dist
     ], cb);
 });
 
-gulp.task('concat', function () {
-    gulp.src([
-        './bower_components/angular/angular.js',
-        './bower_components/angular-animate/angular-animate.js',
-        './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-        './bower_components/angular-cookie/angular-cookie.js',
-        './bower_components/angular-resource/angular-resource.js',
-        './bower_components/angular-sanitize/angular-sanitize.js',
-        './bower_components/angular-touch/angular-touch.js',
-        './bower_components/angular-translate/angular-translate.js',
-        './bower_components/angular-ui-router/release/angular-ui-router.js',
-        './bower_components/angular-ui-utils/ui-utils.js',
-        './bower_components/angular-ui-grid/ui-grid.js',
-        //'./bower_components/angular-schema-form/dist/bootstrap-decorator.js',
-        //'./bower_components/angular-schema-form/dist/schema-form.js',
-        './bower_components/ngstorage/ngStorage.js',
-        './bower_components/oclazyload/dist/oclazyload.js',
-        './bower_components/moment/min/moment-with-locales.js',
-        './bower_components/angular-moment/angular-moment.js'
-    ])
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(buildDist))
-        .pipe(uglify())
-        .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(buildDist));
+gulp.task('copy', function () {
+    return gulp.src('./src/base/vendor/**/*')
+        .pipe(gulp.dest(distBase + "vendor"));
 });
 
-gulp.task('default', ['clean','concat']);
+gulp.task('templates', function () {
+    return gulp.src('./src/**/*.html')
+        .pipe(gulp.dest(distBase));
+});
+
+gulp.task('scripts', function () {
+    return gulp.src([
+        './../components/angular/angular.js',
+        './../components/angular-animate/angular-animate.js',
+        './../components/angular-bootstrap/ui-bootstrap-tpls.js',
+        './../components/angular-cookie/angular-cookie.js',
+        './../components/angular-resource/angular-resource.js',
+        './../components/angular-sanitize/angular-sanitize.js',
+        './../components/angular-touch/angular-touch.js',
+        './../components/angular-translate/angular-translate.js',
+        './../components/angular-ui-router/release/angular-ui-router.js',
+        './../components/angular-ui-utils/ui-utils.js',
+        './../components/angular-ui-grid/ui-grid.js',
+        './../components/ngstorage/ngStorage.js',
+        './../components/oclazyload/dist/oclazyload.js',
+        './../components/moment/min/moment-with-locales.js',
+        './../components/angular-moment/angular-moment.js'
+    ])
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest(distBase + 'app'))
+        .pipe(uglify())
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest(distBase + 'app'));
+});
+
+
+gulp.task('basejs', function () {
+    return gulp.src([
+        './src/**/*.js'
+    ])
+        .pipe(concat('base.js'))
+        .pipe(gulp.dest(distBase))
+        .pipe(uglify())
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest(distBase));
+});
+
+
+gulp.task('css', function () {
+    return gulp.src('./src/**/*.css')
+        .pipe(concat('main.css'))
+        .pipe(gulp.dest(distBase + 'css'));
+});
+
+gulp.task('default', ['scripts', 'basejs', 'css', 'templates', 'copy'], function () {
+
+    var target = gulp.src('./dist.html').pipe(rename('index.html'));
+
+    var js = gulp.src([
+        'base/app/app.min.js',
+        'base/base.js'
+    ], {read: false, cwd: dist});
+
+    var css = gulp.src([
+        'base/css/main.css'
+    ], {read: false, cwd: dist});
+
+    target
+        .pipe(inject(css, {addRootSlash: false}))
+        .pipe(inject(js, {addRootSlash: false}))
+        .pipe(gulp.dest(dist));
+});
