@@ -30,7 +30,7 @@ gulp.task('copy-plugins', function () {
 });
 
 gulp.task('copy-templates', function () {
-    return gulp.src('./src/templates/**/*.html')
+    return gulp.src('./src/base/templates/**/*.html')
         .pipe(gulp.dest(distBase + "templates"));
 });
 

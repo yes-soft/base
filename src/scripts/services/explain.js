@@ -3,7 +3,6 @@
 angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugins", "utils",
     function ($stateParams, oPath, ENV, plugins, utils) {
 
-
         var injector = angular.element(document.body).injector();
         var defaultListOperations = {
             'search': {
@@ -167,8 +166,8 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
         var getDefaultSettings = function () {
             var __default = getConfig($stateParams.name, '__default') || {};
             __default = angular.extend({list: {}, form: {}}, __default);
-            overrideDefault(__default.form, 'template', plugins.templates.detail);
-            overrideDefault(__default.list, 'template', plugins.templates.list);
+            overrideDefault(__default.form, 'template', [utils.root, plugins.templates.detail].join('/'));
+            overrideDefault(__default.list, 'template', [utils.root, plugins.templates.list].join('/'));
             overrideDefault(__default.list, 'pageSize', ENV.pageSize['default']);
             return __default;
         };
