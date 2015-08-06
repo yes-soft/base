@@ -124,7 +124,6 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
             );
         };
 
-
         var buildMenuTree = function (menus) {
             var result = [];
             angular.forEach(menus, function (r) {

@@ -1,0 +1,20 @@
+<div ng-include="'./base/templates/breadcrumbs.html'"></div>
+<div class="page-content list-scope">
+    <div class="wrapper-md">
+
+        <div class="widget-box ui-sortable-handle fullscreen scroll-y" ng-show="detailUrl">
+            <div ng-include="detailUrl"></div>
+        </div>
+
+        <search-common operations="config.operations" filters-conf="config.list.filters" filter="filter"
+                       on-search="load();"></search-common>
+
+        <div class="list-wrap">
+            <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
+                <div ui-grid="gridOptions" ui-grid-selection ui-grid-resize-columns ui-grid-pagination
+                     class="grid"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

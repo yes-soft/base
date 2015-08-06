@@ -7,7 +7,7 @@ angular.module('app')
             $scope.login = function () {
                 utils.async("POST", ENV.apiPath + "/login", $scope.filter).then(function (res) {
                     //  console.log(res);
-                    localStorage.setItem("displayName", res.body.name);
+                    localStorage.setItem("displayName", res.body.displayName || res.body.name);
                     localStorage.setItem("username", $scope.filter.username);
                     localStorage.setItem("password", $scope.filter.password);
                     var hash = decodeURIComponent($location.search()["return"]);

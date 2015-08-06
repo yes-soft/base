@@ -63,17 +63,11 @@ angular.module("app.config")
                 }
             }
         },
-        account: {
+        accounts: {
             title: "账号管理",
             operation: {
                 'add': true,
-                'del': true,
-                'role': {
-                    name: '批量修改',
-                    action: function () {
-                      console.log('test ...');
-                    }
-                }
+                'del': true
             },
             list: {
                 wrap: "default",
@@ -152,6 +146,17 @@ angular.module("app.config")
                 ],
                 model: {}
             }
+        },
+        menus: {
+            title: "菜单管理",
+            operation: {
+                'add': true,
+                'del': true
+            },
+            list: {
+                filters: []
+            },
+            form: {}
         },
         log: {
             title: "日志管理",

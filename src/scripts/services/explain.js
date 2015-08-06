@@ -165,7 +165,7 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
                 config.form.operations = config.form.operations || defaultFormOperations;
                 config.form.tabs = config.form.tabs || defaultSettings.form.tabs;
                 config = explainOperations(config, scope);
-                //验证按钮权限.
+                //验证按钮权限. TODO
                 config = explainList(config, scope);
                 config.form = explainForm(config.form, scope);
                 return config

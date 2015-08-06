@@ -29,7 +29,7 @@ gulp.task('copy-plugins', function () {
         .pipe(gulp.dest(dist + "plugins"));
 });
 
-gulp.task('templates', function () {
+gulp.task('copy-templates', function () {
     return gulp.src('./src/templates/**/*.html')
         .pipe(gulp.dest(distBase + "templates"));
 });
@@ -70,14 +70,13 @@ gulp.task('basejs', function () {
         .pipe(gulp.dest(distBase + scripts));
 });
 
-
 gulp.task('css', function () {
     return gulp.src('./src/css/**/*.css')
         .pipe(concat('main.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('default', ['scripts', 'basejs', 'css', 'templates', 'copy-vendor', 'copy-plugins'],
+gulp.task('default', ['scripts', 'basejs', 'css', 'copy-templates', 'copy-vendor', 'copy-plugins'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
