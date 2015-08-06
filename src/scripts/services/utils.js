@@ -187,18 +187,15 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
             }
         };
 
+        var host = (gateway.host !== "self") ? gateway.host : (location.protocol + "//" + location.host);
+        var root = host + location.pathname.substr(0, location.pathname.lastIndexOf("/"));
+
         return {
             alert: function (msg, btnText) {
                 console.log(msg, btnText);
             },
-            getHost: function (gateway) {
-                if (gateway.host == "self") {
-                    var rootPath = location.pathname.substr(0, location.pathname.lastIndexOf("/"));
-                    return location.protocol + "//" + location.host;
-                } else {
-                    return gateway.host + gateway.path;
-                }
-            },
+            root: root,
+            host: host,
             serialize: handles.serialize,
             format: function (format) {
                 var args = Array.prototype.slice.call(arguments, 1);
@@ -227,21 +224,15 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                 var p = $location.search()[p];
                 return parseInt(p) || 1;
             },
-            dynamicApi: function (method, namespace, options) {
-                var apiPath = ENV.apiPath;
-                if (gateway.host != "self")
-                    apiPath = gateway.host + ENV.apiPath;
-                return handles.async(method, apiPath + "/" + namespace, options);
-            },
             async: function (method, path, options) {
-
-                var uri = ENV.apiPath;
-                if (gateway.host != "self")
-                    uri = gateway.host + ENV.apiPath + '/' + path;
-                else if (path.indexOf(ENV.apiPath) == 0) {
+                var uri = path;
+                if (path.indexOf('http') == 0) {
                     uri = path;
                 } else {
-                    uri = ENV.apiPath + '/' + path;
+                    if (path.indexOf(ENV.apiPath) !== 0) {
+                        uri = [ENV.apiPath, path].join('/').replace(/\/\//g, '/');
+                    }
+                    uri = [host, uri].join('/');
                 }
 
                 return handles.async(method, uri, options);

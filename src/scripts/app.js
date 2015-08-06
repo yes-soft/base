@@ -40,8 +40,6 @@ angular.module('app.controllers', [])
 
                 $scope.menus = utils.initMenus(ENV.menuRoot, menus);
 
-                console.log($scope.menus);
-
                 if ($scope.menus.length) {
                     $scope.menus[0].expanded = true;
                 }
@@ -63,7 +61,7 @@ angular.module('app.controllers', [])
             $scope.displayName = localStorage.getItem("displayName");
             $scope.action = {
                 logout: function () {
-                    utils.dynamicApi("GET", "logout").then(function (res) {
+                    utils.async("GET", "logout").then(function (res) {
                         localStorage.removeItem("displayName");
                         location.reload();
                     }, function (error) {

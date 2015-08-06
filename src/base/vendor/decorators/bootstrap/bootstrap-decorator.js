@@ -1,5 +1,5 @@
 angular.module('schemaForm').config(['schemaFormDecoratorsProvider', function (decoratorsProvider) {
-    var base = 'static/vendor/decorators/bootstrap/';
+    var base = 'base/vendor/decorators/bootstrap/';
 
     decoratorsProvider.defineDecorator('bootstrapDecorator', {
         textarea: {template: base + 'textarea.html', replace: false},

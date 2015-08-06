@@ -109,7 +109,7 @@ angular.module('app')
                         });
 
                     } else {
-                        console.log(self.form.model);
+
                     }
                 },
                 close: function () {
@@ -140,7 +140,7 @@ angular.module('app')
 
             self.load = function () {
                 var namespace = [$stateParams.name, $stateParams.page].join("/");
-                utils.dynamicApi("GET", namespace, self.filter).then(function (res) {
+                utils.async("GET", namespace, self.filter).then(function (res) {
                     var body = res.body;
                     self.entries = body.items || [];
                     self.headers = config.list.headers || body.headers;

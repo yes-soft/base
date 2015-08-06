@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugins",
-    function ($stateParams, oPath, ENV, plugins) {
+angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugins", "utils",
+    function ($stateParams, oPath, ENV, plugins, utils) {
+
 
         var injector = angular.element(document.body).injector();
-
         var defaultListOperations = {
             'search': {
                 'name': '查找'
@@ -102,6 +102,23 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
             invoke(resolves, context);
             return config
         };
+
+        var overrideDefault = function (config, property, defaultValue) {
+            if (config) {
+                config[property] = config[property] || angular.copy(defaultValue);
+            }
+        };
+
+        var overrideProperties = function (target, defaults) {
+            if (!target)
+                throw ('can not override properties with null');
+            for (var prop in defaults) {
+                if (defaults.hasOwnProperty(prop)) {
+                    overrideDefault(target, prop, defaults[prop]);
+                }
+            }
+        };
+
         var explainForm = function (config, scope) {
 
             var properties = oPath.get(config, 'schema.properties', {});
@@ -122,7 +139,6 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
                                 entry.opened = true;
                             };
                         }
-
                         if (angular.isObject(entry)) {
                             entry.required = entry.required || config.schema.properties[entry.key].required;
                         }
@@ -135,37 +151,50 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
             return config;
         };
 
+        var getFullTemplatePath = function (path) {
+
+            if (angular.isUndefined(path))
+                return;
+
+            if (path.indexOf('http') == 0 || path.indexOf('plugins') > -1)
+                return path;
+
+            var template = [ENV.pluginFolder, $stateParams.name, 'templates', path].join('/').replace(/\/\//g, '/');
+
+            return [utils.root, template].join('/');
+        };
+
         var getDefaultSettings = function () {
             var __default = getConfig($stateParams.name, '__default') || {};
             __default = angular.extend({list: {}, form: {}}, __default);
-            __default.list.pageSize = __default.list.pageSize || ENV.pageSize['default'];
-
-            if (__default.form.template) {
-                __default.form.template = ENV.pluginFolder + "/" + $stateParams.name + "/templates/" + __default.form.template;
-            }
-            __default.form.template = __default.form.template || plugins.templates.detail;
-
-            if (__default.list.template) {
-                __default.list.template = ENV.pluginFolder + "/" + $stateParams.name + "/templates/" + __default.list.template;
-            }
-            __default.list.template = __default.list.template || plugins.templates.list;
-
+            overrideDefault(__default.form, 'template', plugins.templates.detail);
+            overrideDefault(__default.list, 'template', plugins.templates.list);
+            overrideDefault(__default.list, 'pageSize', ENV.pageSize['default']);
             return __default;
         };
 
         return {
             configuration: function (scope) {
                 var defaultSettings = getDefaultSettings();
-                var config = getConfig($stateParams.name, $stateParams.page) || defaultSettings;
-                config.form = config.form || defaultSettings.form;
-                config.list = config.list || defaultSettings.list;
-                config.form.template = config.form.template || defaultSettings.form.template;
-                config.list.template = config.list.template || defaultSettings.list.template;
-                config.list.pageSize = config.list.pageSize || defaultSettings.list.pageSize;
-                config.form.operations = config.form.operations || defaultFormOperations;
-                config.form.tabs = config.form.tabs || defaultSettings.form.tabs;
+                var config = getConfig($stateParams.name, $stateParams.page) || {};
+
+                overrideDefault(config, 'form', {});
+                overrideDefault(config, 'list', {});
+
+                overrideProperties(config.form, defaultSettings.form);
+                overrideProperties(config.list, defaultSettings.list);
+
+
+                config.list.template = getFullTemplatePath(config.list.template);
+                config.form.template = getFullTemplatePath(config.form.template);
+
+                console.log(config.form.template);
+
                 config = explainOperations(config, scope);
-                //验证按钮权限. TODO
+
+                //validateAuthority(config.form.operations);
+                //validateAuthority(config.list.operations);
+
                 config = explainList(config, scope);
                 config.form = explainForm(config.form, scope);
                 return config

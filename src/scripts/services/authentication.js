@@ -12,7 +12,6 @@ angular.module('app').factory('authInterceptor', ['$rootScope', '$q', '$window',
         },
         responseError: function (rejection) {
             if (rejection.status === 401 && redirectOnce) {
-                console.log(encodeURIComponent(location.hash));
                 redirectOnce = false;
                 $location.path("/login").search('return', encodeURIComponent(location.hash));
 

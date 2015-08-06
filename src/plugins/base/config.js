@@ -60,7 +60,9 @@ angular.module("app.config")
                         name: " 接　口",
                         page: "d.interface"
                     }
-                }
+                },
+                schema: {},
+                form: ['*']
             }
         },
         accounts: {
@@ -214,7 +216,6 @@ angular.module("app.config")
                         label: "编号"
                     }]
             },
-
             form: {
                 schema: {
                     "type": "object",
