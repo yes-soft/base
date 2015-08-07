@@ -41,7 +41,7 @@ angular.module('app.controllers', [])
                 $scope.menus = utils.initMenus(ENV.menuRoot, menus);
 
                 if ($scope.menus.length) {
-                    $scope.menus[0].expanded = true;
+                    $scope.menus[0].expanded = true; //TODO
                 }
                 $scope.menusCache = utils.buildMenuTree(menus);
             });

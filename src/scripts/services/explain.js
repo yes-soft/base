@@ -4,6 +4,7 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
     function ($stateParams, oPath, ENV, plugins, utils) {
 
         var injector = angular.element(document.body).injector();
+
         var defaultListOperations = {
             'search': {
                 'name': '查找'

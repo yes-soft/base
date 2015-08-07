@@ -16,6 +16,12 @@ angular.module('app')
                             delete self.filter[key];
                     });
                 },
+                cancel: function () {
+                    console.log(self.form);
+                    angular.forEach(self.form.model, function (raw, key) {
+                        delete self.form.model[key];
+                    });
+                },
                 del: function () {
                     var rows = self.gridApi.selection.getSelectedRows() || [];
 

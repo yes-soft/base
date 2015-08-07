@@ -190,6 +190,15 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
         var host = (gateway.host !== "self") ? gateway.host : (location.protocol + "//" + location.host);
         var root = host + location.pathname.substr(0, location.pathname.lastIndexOf("/"));
 
+        var getMockResourceUrl = function (uri) {
+
+            var arr = uri.split('/');
+            if (ENV.mock && arr.length)
+                return 'data/' + arr.slice(3).join('.') + ".json";
+
+            return uri;
+        };
+
         return {
             alert: function (msg, btnText) {
                 console.log(msg, btnText);
@@ -234,7 +243,7 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                     }
                     uri = [host, uri].join('/');
                 }
-
+                uri = getMockResourceUrl(uri);
                 return handles.async(method, uri, options);
             },
             findViewConfig: function (stateName, page) {

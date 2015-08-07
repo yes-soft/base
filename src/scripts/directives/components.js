@@ -103,7 +103,7 @@
                                     if ($self.hasClass("last-menu")) {
                                         angular.element(".last-menu.open").removeClass("open");
                                     }
-                                    $self.toggleClass("open");
+                                    $self.toggleClass("open").siblings().removeClass('open');
                                     if ($self.hasClass('open')) {
                                         $self.children('.submenu').show();
                                     } else {
@@ -123,7 +123,8 @@
                 link: function (scope, element, attr) {
                     $timeout(function () {
                         element.on(
-                            'click', '#sidebar-collapse', function () {
+                            'click', '#sidebar-collapse',
+                            function () {
                                 element.toggleClass('menu-min');
                                 element.find('.tabbable.tabs-left').toggleClass("hidden-ele");
                                 angular.element('#sidebar-collapse').find('i').toggleClass('fa-angle-double-right');
@@ -136,7 +137,8 @@
         .directive('includeReplace', function () {
             return {
                 require: 'ngInclude',
-                restrict: 'A', /* optional */
+                restrict: 'A',
+                /* optional */
                 link: function (scope, el, attrs) {
                     el.replaceWith(el.children());
                 }
@@ -261,8 +263,7 @@
                             scope.conf.currentPage = scope.jumpPageNum;
                         }
                     };
-                    scope.changeItemsPerPage = function () {
-                    };
+                    scope.changeItemsPerPage = function () {};
 
                     scope.$watch('conf.totalItems', getPagination);
                 }
@@ -279,8 +280,7 @@
                     onSearch: "&",
                     operations: "="
                 },
-                link: function (scope, element, attrs) {
-                },
+                link: function (scope, element, attrs) {},
                 controller: ['$scope', '$attrs', '$element', '$rootScope', '$timeout', '$modal',
                     function ($scope, $attrs, $element, $rootScope, $timeout, $modal) {
                         $scope.selectChange = function (search) {
@@ -312,6 +312,7 @@
 
 
                         $scope.selectors = {};
+
                         function initConf() {
                             if ($scope.filtersConf) {
                                 $scope.filtersConf.forEach(function (search) {
@@ -374,8 +375,5 @@
                     }
                 ]
             };
-        })
-    ;
-
-
+        });
 })();

@@ -6,7 +6,7 @@
         <ul class="nav nav-tabs">
             <li id="{{menu.uid}}" ng-class="{'active':menu.expanded}" ng-repeat="menu in ::menus">
                 <a data-toggle="tab" class="clickable">
-                    <i class="menu-icon fa fa-desktop {{::menu.icon}}"></i>
+                    <i class="menu-icon fa {{::menu.icon}}"></i>
                     <span class="menu-text">{{menu.name}}</span></a>
             </li>
         </ul>
