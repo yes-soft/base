@@ -10,10 +10,9 @@
   "private": false,
   "ignore": [
     "**/.*",
-    "src/plugins/sms",
+    "src",
     "node_modules",
     "components",
-    "dist",
     "test",
     "tests"
   ]

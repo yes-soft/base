@@ -55,34 +55,6 @@ angular.module('app')
                                 }]
                         }
                     });
-            //.state("app.detail", {
-            //    url: "/:name/:page/:id",
-            //    views: {
-            //        "content": {
-            //            templateUrl: function () {
-            //                return plugins.templates.detail
-            //            },
-            //            controller: "app.module.detail"
-            //        }
-            //    },
-            //    resolve: {
-            //        deps: ["$ocLazyLoad", "$stateParams", "$http", "utils",
-            //            function ($ocLazyLoad, $stateParams, $http, utils) {
-            //
-            //                return $ocLazyLoad.load(
-            //                    [
-            //                        "plugins/" + $stateParams.name + "/config.js"
-            //                    ]
-            //                )
-            //                    .then(function (res) {
-            //                        return res;
-            //                    }, function (err) {
-            //                        console.log(err);
-            //                    });
-            //            }]
-            //    }
-            //});
-
             $urlRouterProvider.otherwise("/dashboard");
             //$locationProvider.hashPrefix('!');
         }]);
