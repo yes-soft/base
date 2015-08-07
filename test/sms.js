@@ -1,5 +1,5 @@
 module.exports = {
-    //__default: {
+    //__default: {test
     //    title: "短信平台",
     //    list: {
     //        operations: null
