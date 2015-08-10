@@ -16,6 +16,11 @@ angular.module('app', [
     'ui.grid.resizeColumns',
     'ui.grid.pagination',
     'schemaForm',
+    'toastr',
+    'ngDialog',
+    'ui.uploader',
+    'ui.grid.exporter',
+    'angularFileUpload',
     'app.controllers'])
     .run(['$log', '$timeout', '$state', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $state, $rootScope, amMoment, i18nService) {

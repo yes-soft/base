@@ -261,6 +261,9 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                 var re = /(?:\.([^.]+))?$/;
                 var ext = re.exec(fileName)[1];
                 return extMap.hasOwnProperty(ext) ? extMap[ext] : extMap.default;
+            },
+            dialogUpload: function (ngDialog) {
+                ngDialog.open({template: 'base/templates/dialog-container.html'});
             }
         };
     }]);

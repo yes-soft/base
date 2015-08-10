@@ -177,6 +177,10 @@ angular.module('app')
                     }
 
                     self.gridOptions.totalItems = body.count;
+
+                    if(self.form.debug && self.entries.length ){
+                        self.detailLoad(self.entries[0]);
+                    }
                 });
             };
 
@@ -201,6 +205,8 @@ angular.module('app')
 
             self.gridOptions = {
                 data: 'entries',
+                enableGridMenu: true,
+                exporterMenuCsv: true,
                 enablePaginationControls: true,
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
