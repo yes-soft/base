@@ -100,10 +100,23 @@
                                 'click', 'li',
                                 function (event) {
                                     var $self = angular.element(this);
+
                                     if ($self.hasClass("last-menu")) {
-                                        angular.element(".last-menu.open").removeClass("open");
+                                        $self.parents('li').siblings().removeClass("active");
+                                        $('.last-menu').not(this).removeClass('active');
                                     }
-                                    $self.toggleClass("open").siblings().removeClass('open');
+
+                                    if ($self.children().children().hasClass('last-menu')) {
+                                        $self.toggleClass("open");
+                                    } else {
+                                        if ($self.hasClass("last-menu")) {
+                                            $self.addClass("active").siblings().removeClass('active');
+                                        } else {
+                                            $self.addClass("active").siblings().removeClass('active');
+                                            $('.last-menu').removeClass('active');
+                                        }
+                                    }
+
                                     if ($self.hasClass('open')) {
                                         $self.children('.submenu').show();
                                     } else {
