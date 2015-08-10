@@ -3,7 +3,7 @@
 describe('登陆测试', function () {
 
     beforeEach(function () {
-        browser.get('http://localhost:3000/resources/index.html');
+        browser.get('http://localhost:3000/src/index.html');
     });
 
     it('输入用户名和密码', function () {
@@ -25,7 +25,7 @@ describe('登陆测试', function () {
         //expect(phoneList.count()).toBe(20);
         //
         //query.sendKeys('nexus');
-         expect(1).toBe(1);
+        //expect(1).toBe(1);
         //
         //query.clear();
         //query.sendKeys('motorola');
