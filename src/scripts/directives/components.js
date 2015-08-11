@@ -90,17 +90,23 @@
                 }
             }
         })
-        .directive('onMenuRender', function ($timeout) {
+        .directive('onMenuRender', function ($timeout, $stateParams) {
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {
                     if (scope.$last === true) {
                         $timeout(function () {
+                            var page = $stateParams.page,
+                                pages=$("a[href$="+page+"]");
+                           pages.parent().addClass('active');
+                            if(pages.parent().hasClass('last-menu')){
+                                pages.parents('li.ng-scope').addClass('open');
+                            }
+
                             element.parent().on(
                                 'click', 'li',
                                 function (event) {
                                     var $self = angular.element(this);
-
                                     if ($self.hasClass("last-menu")) {
                                         $self.parents('li').siblings().removeClass("active");
                                         $('.last-menu').not(this).removeClass('active');
@@ -276,7 +282,8 @@
                             scope.conf.currentPage = scope.jumpPageNum;
                         }
                     };
-                    scope.changeItemsPerPage = function () {};
+                    scope.changeItemsPerPage = function () {
+                    };
 
                     scope.$watch('conf.totalItems', getPagination);
                 }
@@ -293,7 +300,8 @@
                     onSearch: "&",
                     operations: "="
                 },
-                link: function (scope, element, attrs) {},
+                link: function (scope, element, attrs) {
+                },
                 controller: ['$scope', '$attrs', '$element', '$rootScope', '$timeout', '$modal',
                     function ($scope, $attrs, $element, $rootScope, $timeout, $modal) {
                         $scope.selectChange = function (search) {

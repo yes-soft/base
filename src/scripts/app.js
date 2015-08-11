@@ -41,9 +41,20 @@ angular.module('app.controllers', [])
                 $scope.menus = utils.initMenus(ENV.menuRoot, menus);
 
                 if ($scope.menus.length) {
-                    $scope.menus[0].expanded = true; //TODO
+                    var uri = $location.path().split('/').slice(1);
+                    $scope.menus.forEach(function (menu) {
+                        if (menu.tag == uri[0]) {
+                            menu.expanded = true;
+                        }
+                        else if (uri[0] == 'dashboard') {
+                            menus[0].expanded = true;
+                        }
+
+                    });
                 }
+
                 $scope.menusCache = utils.buildMenuTree(menus);
+
             });
 
             $scope.onSelect = function ($item, $model, $label) {
