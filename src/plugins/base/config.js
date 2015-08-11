@@ -67,8 +67,14 @@ angular.module("app.config").constant("base.config", {
             del: true,
             role: {
                 "name": "导入",
-                "action": function action(utils, ngDialog) {
-                    utils.dialogUpload(ngDialog);
+                "action": function action(utils) {
+                    utils.dialogUpload({
+                        url: '/upload',
+                        resolve: function () {
+                            //this.onSuccessItem = function (item, res, status, headers) {
+                            //}
+                        }
+                    });
                 }
             }
         },
