@@ -18,7 +18,6 @@ angular.module('app', [
     'schemaForm',
     'toastr',
     'ngDialog',
-    'ui.uploader',
     'ui.grid.exporter',
     'angularFileUpload',
     'app.controllers'])

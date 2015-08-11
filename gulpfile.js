@@ -34,6 +34,11 @@ gulp.task('copy-templates', function () {
         .pipe(gulp.dest(distBase + "templates"));
 });
 
+gulp.task('copy-data', function () {
+    return gulp.src('./src/data/**/*')
+        .pipe(gulp.dest(dist + "data"));
+});
+
 gulp.task('scripts', function () {
     return gulp.src([
         './../components/angular/angular.js',
@@ -77,7 +82,8 @@ gulp.task('css', function () {
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('default', ['scripts', 'basejs', 'css', 'copy-templates', 'copy-vendor', 'copy-plugins'],
+gulp.task('default', ['scripts', 'basejs', 'css',
+        'copy-templates', 'copy-vendor', 'copy-plugins', 'copy-data'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
