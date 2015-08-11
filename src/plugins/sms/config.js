@@ -2,7 +2,7 @@
 angular
     .module("app.config")
     .constant("sms.config", {
-        appointments: {
+        appointment: {
             title: "短信预约",
             operation: {
                 'del': true
@@ -40,6 +40,7 @@ angular
                 },
                 filters: [{
                     type: "datetime",
+                    autoclose: true,
                     name: "appointment$gte",
                     label: "预约时间起"
                 }, {
@@ -51,14 +52,6 @@ angular
                     name: "apid$eq",
                     label: "应用",
                     titleMap: []
-                }, {
-                    type: "datetime",
-                    name: "created$gte",
-                    label: "创建时间起"
-                }, {
-                    type: "datetime",
-                    name: "created$lte",
-                    label: "创建时间止"
                 }],
                 resolves: function (utils, oPath) {
                     var context = this;
@@ -69,7 +62,7 @@ angular
                             config.titleMap = res.body.items
                                 .map(function (entry) {
                                     return {
-                                        value: entry.uid,
+                                        value: entry.aid,
                                         name: entry.name
                                     };
                                 });
@@ -131,7 +124,7 @@ angular
                 }]
             }
         },
-        applications: {
+        ap: {
             title: "应用配置",
             operation: {
                 'add': true,
@@ -342,10 +335,10 @@ angular
                 }]
             }
         },
-        apis: {
+        api: {
             title: "接口配置",
             operation: {
-                add: true,
+
                 del: true
             },
             list: {
@@ -365,8 +358,8 @@ angular
                 }],
                 resolves: function (utils, oPath) {
                     var context = this;
-                    var config = oPath.find(context, ['list', 'filters',
-                        '[name:aid$eq]'], {});
+                    var config = oPath.find(context, ['list',
+                        'filters', '[name:aid$eq]'], {});
 
                     utils.async('get', 'sms/api', null).then(
                         function (res) {
@@ -466,10 +459,10 @@ angular
                     }]
             }
         },
-        gateways: {
+        gateway: {
             title: "网关配置",
             operation: {
-                'add': true,
+
                 'del': true
             },
             list: {
@@ -499,35 +492,34 @@ angular
                         minWidth: 200
                     }
                 },
-                filters: [
-                    {
-                        type: "select",
-                        name: "gid$eq",
-                        label: "网关名称"
+                filters: [{
+                    type: "select",
+                    name: "gid$eq",
+                    label: "网关名称"
+                }, {
+                    type: 'input',
+                    name: 'implClass$match',
+                    label: '实现类'
+                }, {
+                    type: "select",
+                    name: "state$eq",
+                    label: "状态",
+                    titleMap: [{
+                        value: true,
+                        name: "已启用"
                     }, {
-                        type: 'input',
-                        name: 'implClass$match',
-                        label: '实现类'
-                    }, {
-                        type: "select",
-                        name: "state$eq",
-                        label: "状态",
-                        titleMap: [{
-                            value: true,
-                            name: "已启用"
-                        }, {
-                            value: false,
-                            name: "已停用"
-                        }]
-                    }, {
-                        type: "datetime",
-                        name: "lastUse$eq",
-                        label: "最后使用止"
-                    }],
+                        value: false,
+                        name: "已停用"
+                    }]
+                }, {
+                    type: "datetime",
+                    name: "lastUse$eq",
+                    label: "最后使用止"
+                }],
                 resolves: function (utils, oPath) {
                     var context = this;
-                    var config = oPath.find(context, ['list', 'filters',
-                        '[name:gid$eq]'], {});
+                    var config = oPath.find(context, ['list',
+                        'filters', '[name:gid$eq]'], {});
 
                     utils.async('get', 'sms/gateway', null).then(
                         function (res) {
@@ -683,28 +675,25 @@ angular
                         "required": true
                     }]
                 },
-                form: [
-                    {
-                        type: "group",
-                        title: "基本信息",
-                        items: [{
-                            key: 'transitionId',
-                            placeholder: "请填写发送编号"
-                        },
-                            'mobileNumbers', 'people',
-                            'groups', {
-                                key: 'appointment',
-                                type: 'datetimepicker'
-                            }, {
-                                key: 'content',
-                                type: 'textarea',
-                                placeholder: "请填写短信内容"
-                            }]
+                form: [{
+                    type: "group",
+                    title: "基本信息",
+                    items: [{
+                        key: 'transitionId',
+                        placeholder: "请填写发送编号"
+                    }, 'mobileNumbers', 'people', 'groups', {
+                        key: 'appointment',
+                        type: 'datetimepicker'
                     }, {
-                        type: "group",
-                        title: "其他信息",
-                        items: ['sendStatus']
+                        key: 'content',
+                        type: 'textarea',
+                        placeholder: "请填写短信内容"
                     }]
+                }, {
+                    type: "group",
+                    title: "其他信息",
+                    items: ['sendStatus']
+                }]
             }
         },
         smsinfo: {
@@ -858,7 +847,7 @@ angular
                                 config.titleMap = res.body.items
                                     .map(function (entry) {
                                         return {
-                                            value: entry.uid,
+                                            value: entry.aid,
                                             name: entry.name
                                         };
                                     });
@@ -866,17 +855,14 @@ angular
                     },
                     function (utils, oPath) {
                         var context = this;
-                        var config = oPath.find(context, [
-                            'list', 'filters',
+                        var config = oPath.find(context, ['list', 'filters',
                             '[name:apiId$eq]'], {});
-                        utils
-                            .async('get', '/sms/api', null)
-                            .then(
+                        utils.async('get', '/sms/api', null).then(
                             function (res) {
                                 config.titleMap = res.body.items
                                     .map(function (entry) {
                                         return {
-                                            value: entry.uid,
+                                            value: entry.aid,
                                             name: entry.name
                                         };
                                     });
@@ -1192,7 +1178,17 @@ angular
             title: "人员管理",
             operation: {
                 'del': true,
-                'add': true
+                'add': true,
+                'import': {
+                    "name": "导入",
+                    "action": function action(utils) {
+                        utils.dialogUpload({
+                            url: 'sms/person/upload',
+                            resolve: function () {
+                            }
+                        });
+                    }
+                }
             },
             list: {
                 headers: {
@@ -1211,6 +1207,13 @@ angular
                     "filing": {
                         displayName: "运营商已备案",
                         width: 150
+                    },
+                    "isInternal": {
+                        displayName: "是否为内部人员",
+                        width: 170
+                    },
+                    "enable": {
+                        displayName: "是否启用"
                     }
                 },
                 filters: [{
@@ -1223,7 +1226,7 @@ angular
                 schema: {
                     type: "object",
                     properties: {
-                        uid: {
+                        pid: {
                             type: "string",
                             title: "人员编号",
                             required: "true"
@@ -1246,6 +1249,14 @@ angular
                         filing: {
                             type: "boolean",
                             title: "运营商已备案"
+                        },
+                        isInternal: {
+                            type: "boolean",
+                            title: "是否为内部人员"
+                        },
+                        enable: {
+                            type: "boolean",
+                            title: "是否启用"
                         }
                     }
                 },
@@ -1255,7 +1266,7 @@ angular
                     items: [
 
                         {
-                            key: "uid",
+                            key: "pid",
                             placeholder: "请填写人员编号"
                         }, {
                             key: "phone",
@@ -1274,7 +1285,7 @@ angular
                 }, {
                     type: "group",
                     title: "其他信息",
-                    items: ["filing"]
+                    items: ["filing", "isInternal", "enable"]
                 }],
                 model: {}
             }
@@ -1295,13 +1306,28 @@ angular
                         displayName: "群组编号"
                     },
                     "pid": {
-                        displayName: "人员编号"
+                        displayName: "上级群组编号"
                     }
                 },
                 filters: [{
-                    type: "input",
+                    type: "select",
                     name: "gid$eq",
                     label: "群组编号"
+                }],
+                resolves: [function (utils, oPath) {
+                    var context = this;
+                    var config = oPath.find(context, ['list',
+                        'filters', '[name:gid$eq]'], {});
+                    utils.async('get', '/sms/group', null).then(
+                        function (res) {
+                            config.titleMap = res.body.items
+                                .map(function (entry) {
+                                    return {
+                                        value: entry.gid,
+                                        name: entry.name
+                                    };
+                                });
+                        });
                 }]
             },
             form: {
@@ -1320,7 +1346,7 @@ angular
                         },
                         pid: {
                             type: "string",
-                            title: "人员编号"
+                            title: "上级群组编号"
                         }
                     }
                 },
@@ -1343,7 +1369,7 @@ angular
         policy: {
             title: "策略配置",
             operation: {
-                add: true,
+
                 del: true
             },
             list: {
@@ -1397,12 +1423,11 @@ angular
                         key: "pid",
                         placeholder: "请输入编号"
                     }]
-                },
-                    {
-                        type: "group",
-                        title: "其他配置",
-                        items: ['defaultPass']
-                    }]
+                }, {
+                    type: "group",
+                    title: "其他配置",
+                    items: ['defaultPass']
+                }]
             }
         }
     });

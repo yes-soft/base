@@ -188,8 +188,6 @@ angular.module('app').factory('explain', ["$stateParams", "oPath", "ENV", "plugi
                 config.list.template = getFullTemplatePath(config.list.template);
                 config.form.template = getFullTemplatePath(config.form.template);
 
-                console.log(config.form.template);
-
                 config = explainOperations(config, scope);
 
                 //validateAuthority(config.form.operations);

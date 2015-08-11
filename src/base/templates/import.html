@@ -1,16 +1,21 @@
 <div class="well" style="margin-top: 20px;padding-top: 5px;">
     <div class="row">
-        <h3 style="margin-top: 0;">{{title}}</h3>
+        <form enctype="multipart/form-data" method="POST">
+            <h3 style="margin-top: 0;">{{title}}</h3>
 
-        <div class="col-sm-6">
-            <input type="file" nv-file-select="" uploader="uploader" />
-        </div>
-        <div class="col-sm-6" style="margin-top: -10px;">
-            <button type="button" class="btn btn-default btn-sm" ng-click="uploader.uploadAll()"
-                    ng-disabled="!uploader.getNotUploadedItems().length">
-                <span class="glyphicon glyphicon-upload"></span> 导入
-            </button>
-        </div>
+            <div class="col-sm-6">
+
+                <input type="file" nv-file-select="" uploader="uploader"/>
+
+
+            </div>
+            <div class="col-sm-6" style="margin-top: -10px;">
+                <button type="button" class="btn btn-default btn-sm" ng-click="uploader.uploadAll()"
+                        ng-disabled="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> 导入
+                </button>
+            </div>
+        </form>
     </div>
 
     <div class="row">
