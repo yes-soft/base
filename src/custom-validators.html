@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>表单组件测试</title>
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  </head>
+  <body ng-app="test" class="container" ng-controller="TestCtrl">
+
+  <h3>表单组件测试, 异步验证测试</h3>
+  <form name="theForm">
+    <div sf-schema="schema" sf-form="form" sf-model="model"></div>
+    <div>
+      The form is <em ng-show="theForm.$pristine">pristine</em><em ng-show="theForm.$dirty">dirty</em>
+      and <em ng-show="theForm.$valid">valid</em><em ng-show="!theForm.$valid">invalid</em>.
+    </div>
+    <div>{{prettyModel}}</div>
+  </form>
+
+  <script type="text/javascript" src="../components/tv4.js"></script>
+  <script type="text/javascript" src="../components/angular/angular.min.js"></script>
+  <script type="text/javascript" src="../components/angular-sanitize/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="../components/ObjectPath.js"></script>
+  <script type="text/javascript" src="../components/schema-form.js"></script>
+  <script type="text/javascript" src="../components/bootstrap-decorator.min.js"></script>
+
+    <script>
+      angular.module('test', ['schemaForm']).controller('TestCtrl', function($scope, $q, $timeout) {
+
+        $scope.schema = {
+            "type": "object",
+            "title": "评论",
+            "properties": {
+              "name":  {
+                "title": "名称",
+                "type": "string"
+              },
+              "email":  {
+                "title": "邮箱",
+                "type": "string",
+                "pattern": "^\\S+@\\S+$",
+                "description": "邮箱描述."
+              },
+              "comment": {
+                "title": "评论",
+                "type": "string"
+              }
+            },
+            "required": ["name","email","comment"]
+          };
+
+          $scope.form = [
+            {
+              key: 'name',
+              placeholder: '名字随便,但不要是 "Bob"',
+              $asyncValidators: {
+                'async': function(name) {
+                  var deferred = $q.defer();
+                  $timeout(function(){
+                    if (angular.isString(name) && name.toLowerCase().indexOf('bob') !== -1) {
+                      deferred.reject();
+                    } else {
+                      deferred.resolve();
+                    }
+                  }, 500);
+                  return deferred.promise;
+                }
+              },
+              validationMessage: {
+                'async': "哦,错误的名字!"
+              }
+
+            },
+            {
+              key: 'email',
+              placeholder: '请填写您的邮箱',
+              ngModel: function(ngModel) {
+                ngModel.$validators.myMail = function(value) {
+                  return value !== 'david.lgj@gmail.com';
+                };
+              },
+              validationMessage: {
+                'myMail': "正确!"
+              }
+            },
+            {
+              "key": "comment",
+              "type": "textarea",
+              "placeholder": "写个评论看看",
+              $parsers: [
+                function(value) {
+                  if (value && value.replace) {
+                    return value.replace(/(damn|fuck|apple)/,'#!@%&');
+                  }
+                  return value;
+                }
+              ]
+            },
+            {
+              "type": "submit",
+        	    "style": "btn-info",
+              "title": "OK"
+            }
+          ];
+
+          $scope.model = {};
+
+          $scope.$watch('model', function(value){
+            if (value) {
+              $scope.prettyModel = JSON.stringify(value, undefined, 2);
+            }
+          }, true);
+
+      });
+
+    </script>
+
+
+  </body>
+</html>
