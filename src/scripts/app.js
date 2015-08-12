@@ -33,11 +33,9 @@ angular.module('app.controllers', [])
             utils.async("GET", ENV.menuApi, {}).then(function (res) {
 
                 var data = res.body;
-
                 if (!angular.isArray(data)) {
                     data = data.items;
                 }
-
                 var menus = data.sort(function (a, b) {
                     return a.order - b.order;
                 });

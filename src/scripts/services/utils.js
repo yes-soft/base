@@ -112,10 +112,16 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
         var initMenus = function (parentId, menus) {
             return menus.filter(
                 function (m) {
+
                     var r = (m.parent == parentId && m.type && m.type.toLowerCase() == "menu");
 
                     if (m.url == "#")
                         m.url = "";
+
+                    if (m.url.indexOf(ENV.serverRoot) != 0 && m.url.indexOf('/') === 0 && ENV.serverRoot != "") {
+                        m.url = ENV.serverRoot + m.url;
+                    }
+
                     if (r) {
                         m.subMenus = initMenus(m.uid, menus);
                     }
@@ -219,7 +225,7 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
             },
             root: root,
             host: host,
-            getAbsUrl:getAbsUrl,
+            getAbsUrl: getAbsUrl,
             serialize: handles.serialize,
             format: function (format) {
                 var args = Array.prototype.slice.call(arguments, 1);

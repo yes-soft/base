@@ -209,10 +209,10 @@ angular.module('app')
                 exporterMenuCsv: true,
                 enablePaginationControls: true,
                 enableFiltering: false,
-                enableRowHeaderSelection: false,
+                enableRowHeaderSelection: true,
                 exporterOlderExcelCompatibility: true,
-                useExternalPagination: true,
-                useExternalSorting: true,
+                //useExternalPagination: true,
+                //useExternalSorting: true,
                 onRegisterApi: function (gridApi) {
                     self.gridApi = gridApi;
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {

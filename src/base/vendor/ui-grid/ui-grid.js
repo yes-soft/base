@@ -12568,7 +12568,8 @@ module.filter('px', function() {
         },
         pagination: {
           sizes: '行每页',
-          totalItems: '行'
+          totalItems: '行',
+          of:'总'
         }
       });
       return $delegate;
