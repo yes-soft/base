@@ -1,8 +1,8 @@
 "use strict";
 angular.module('app')
     .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location',
-        '$log', '$resource', '$http', 'utils', 'explain', 'plugins',
-        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins) {
+        '$log', '$resource', '$http', 'utils', 'explain', 'plugins','toastr',
+        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins,toastr) {
 
             var self = $scope;
 
@@ -24,13 +24,23 @@ angular.module('app')
                 },
                 del: function () {
                     var rows = self.gridApi.selection.getSelectedRows() || [];
-
-                    angular.forEach(rows, function (row) {
-                        var namespace = [$stateParams.name, $stateParams.page].join("/");
-                        utils.async('delete', namespace + "/" + row.uid).then(function (res) {
-                            self.load();
+                    var loading = 0;
+                    if (rows.length) {
+                        angular.forEach(rows, function (row) {
+                            var namespace = [$stateParams.name, $stateParams.page].join("/");
+                            utils.async('delete', namespace + "/" + row.uid).then(function (res) {
+                                self.load();
+                                loading++;
+                                if (loading == rows.length) {
+                                    toastr.success('删除成功！');
+                                    loading=0;
+                                }
+                            });
                         });
-                    });
+                    }
+                    else{
+                        toastr.warning('请选中要删除的数据');
+                    }
                 },
                 create: function () {
                     self.detailLoad();
@@ -178,7 +188,7 @@ angular.module('app')
 
                     self.gridOptions.totalItems = body.count;
 
-                    if(self.form.debug && self.entries.length ){
+                    if (self.form.debug && self.entries.length) {
                         self.detailLoad(self.entries[0]);
                     }
                 });
