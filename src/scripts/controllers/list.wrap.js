@@ -210,6 +210,7 @@ angular.module('app')
                 enablePaginationControls: true,
                 enableFiltering: false,
                 enableRowHeaderSelection: false,
+                exporterOlderExcelCompatibility: true,
                 useExternalPagination: true,
                 useExternalSorting: true,
                 onRegisterApi: function (gridApi) {
