@@ -1,6 +1,6 @@
 'use strict';
-angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParams", "ENV", 'gateway',
-    function ($http, $q, $location, $stateParams, ENV, gateway) {
+angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParams", "ENV", 'gateway', 'ngDialog',
+    function ($http, $q, $location, $stateParams, ENV, gateway, ngDialog) {
         var headers = ENV.headers;
         var cacheContainer = {};
         var __menus = {};
@@ -199,12 +199,27 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
             return uri;
         };
 
+        var getAbsUrl = function (path) {
+
+            var uri = path;
+            if (path.indexOf('http') == 0) {
+                uri = path;
+            } else {
+                if (path.indexOf(ENV.apiPath) !== 0) {
+                    uri = [ENV.apiPath, path].join('/').replace(/\/\//g, '/');
+                }
+                uri = [host, uri].join('/');
+            }
+            return uri;
+        };
+
         return {
             alert: function (msg, btnText) {
                 console.log(msg, btnText);
             },
             root: root,
             host: host,
+            getAbsUrl:getAbsUrl,
             serialize: handles.serialize,
             format: function (format) {
                 var args = Array.prototype.slice.call(arguments, 1);
@@ -234,15 +249,7 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                 return parseInt(p) || 1;
             },
             async: function (method, path, options) {
-                var uri = path;
-                if (path.indexOf('http') == 0) {
-                    uri = path;
-                } else {
-                    if (path.indexOf(ENV.apiPath) !== 0) {
-                        uri = [ENV.apiPath, path].join('/').replace(/\/\//g, '/');
-                    }
-                    uri = [host, uri].join('/');
-                }
+                var uri = getAbsUrl(path);
                 uri = getMockResourceUrl(uri);
                 return handles.async(method, uri, options);
             },
@@ -261,6 +268,14 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
                 var re = /(?:\.([^.]+))?$/;
                 var ext = re.exec(fileName)[1];
                 return extMap.hasOwnProperty(ext) ? extMap[ext] : extMap.default;
+            },
+            dialogUpload: function (options) {
+                ngDialog.open({
+                    template: 'base/templates/dialog-container.html',
+                    controller: function ($scope) {
+                        $scope.options = options;
+                    }
+                });
             }
         };
     }]);

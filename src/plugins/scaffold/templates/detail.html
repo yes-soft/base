@@ -1,0 +1,46 @@
+<div class="document-detail" ng-class="{'editing':form.model.uid}">
+    <div class="widget-header widget-header-flat">
+        <h5 class="widget-title">{{config.title}}</h5>
+
+        <div class="widget-toolbar">
+            <a data-action="close" href="#" ng-click="action.close();">
+                <i class="ace-icon fa fa-times bigger-130"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form"
+              ng-submit="action.save(edit$form)">
+            <div class="buttons-wrap">
+
+                <button type="submit" name="yes_temp_show_task" class="btn btn-sm btn-info"
+                        title=""><i class="fa fa-save bigger-110"></i> 保存
+                </button>
+                <button type="button" name="yes_temp_show_task" ng-click="action.close();"
+                        class="btn btn-sm btn-info"
+                        title=""><i class="ace-icon fa fa-times bigger-130"></i> 返回
+                </button>
+            </div>
+
+            <div class="col-sm-12 edit-body">
+
+                <div class="schema-form-section">
+                    <div class="header smaller lighter collapsed">
+                        <label>基本配置</label>
+
+                        <div class="widget-toolbar">
+                            <a href="#" data-action="collapse" ng-click="isCollapsed = !isCollapsed">
+                                <i class="ace-icon fa fa-chevron-up" ng-class="{'fa-chevron-down':!isCollapsed}"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" collapse="isCollapsed">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
