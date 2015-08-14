@@ -1,5 +1,5 @@
 var baseConfig = require('./base.js');
-var baseDefault = baseConfig['__default'] || {};
+var baseDefault = baseConfig['_default'] || {};
 baseDefault.title = baseDefault.title || 'missing base settings';
 
 var checkList = {
@@ -38,7 +38,7 @@ var checkList = {
 
 var interpreter = {
     explain: function (json, name) {
-        var nodeDefault = json['__default'];
+        var nodeDefault = json['_default'];
         var node = ( json[name] || nodeDefault ) || baseDefault;
         checkList.title(node, nodeDefault);
         checkList.list(node, nodeDefault);

@@ -135,3 +135,197 @@
   height: 40px;
   visibility: hidden;
 }
+.document-detail .ul-line {
+  line-height: 2;
+}
+.document-detail .content-div {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 45px;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 1px solid #e47676;
+  height: 40px;
+  width: 40px;
+  color: #e47676;
+  background-color: #ffffff;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.15;
+}
+.document-detail .content-div i {
+  font-size: 18px;
+}
+.document-detail .next-div {
+  line-height: 30px !important;
+  background: #ffffff;
+  border-top: 1px solid #33CD5F !important;
+  height: 35px !important;
+  color: #33CD5F;
+}
+.document-detail .next-div .tab {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.document-detail .next-div .next-icon {
+  font-size: 25px !important;
+}
+.document-detail .next-div .next-span {
+  font-size: 14px;
+}
+.document-detail .font-size {
+  font-size: 14px;
+}
+.document-detail .checked-title {
+  margin-bottom: 6px;
+}
+.document-detail .checked-title .view-div {
+  float: left;
+  background-color: #33CD5F;
+  border-right-width: 6px;
+  margin-left: 3px;
+  padding: 2px 10px 2px 10px;
+  color: #FFF;
+}
+.document-detail .triangle-left {
+  float: left;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-right: 12px solid #33CD5F;
+  border-bottom: 12px solid transparent;
+}
+.document-detail .triangle-div {
+  float: left;
+  background-color: #33CD5F;
+  border-right-width: 6px;
+  padding: 2px 10px 2px 10px;
+  color: #FFF;
+}
+.document-detail .next-step-div {
+  width: 100%;
+  border-top: 1px dashed #000;
+  padding-top: 6px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+.document-detail .checked-div {
+  min-height: 150px;
+  width: 100%;
+  border-top: 1px dashed #000;
+  padding-top: 6px;
+  margin-top: 6px;
+}
+.document-detail .ma-left {
+  margin-left: 5px;
+}
+.document-detail td {
+  padding: 0;
+  text-align: left;
+}
+.document-detail label {
+  display: inline;
+}
+.document-detail .paper-table {
+  margin: auto;
+  width: 649px;
+}
+.document-detail .paper-table td {
+  padding: 5px;
+  vertical-align: middle;
+  border-left: 2px solid #fa4006;
+  border-top: 2px solid #fa4006;
+  border-right: 2px solid #fa4006;
+}
+.document-detail .paper-table tr:last-child {
+  border-bottom: 2px solid #fa4006;
+}
+.document-detail .paper-table input {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+.document-detail .paper-table input[readonly] {
+  color: #000 !important;
+  background-color: #fff !important;
+  cursor: default !important;
+}
+.document-detail .divLabel {
+  color: #fa4006;
+  font-size: 14px;
+  text-align: center;
+}
+.document-detail .divLel {
+  color: #fa4006;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.document-detail .hide {
+  float: right;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.document-detail .link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.document-detail div {
+  font-size: 14px;
+}
+.document-detail .all-content {
+  padding: 0;
+  width: 100%;
+}
+.document-detail .title-div {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.document-detail .title-div label {
+  line-height: 17px;
+  font-size: 17px;
+}
+.document-detail .tr-content-div {
+  width: 98%;
+}
+.document-detail .left-span {
+  margin-left: 5px;
+}
+.document-detail .base-info-div {
+  width: 100%;
+  font-size: 13px;
+}
+.document-detail .base-info-div label:nth-child(1) {
+  float: left;
+  margin-left: 10px;
+}
+.document-detail .base-info-div label:nth-child(2) {
+  float: right;
+  margin-right: 10px;
+}
+.document-detail .base-info-div label:nth-child(3) {
+  float: right;
+  margin-right: 20px;
+}
+.document-detail .auditing-div {
+  float: left;
+  width: 98%;
+  min-height: 80px;
+}
+.document-detail .auditing-div .adt-view {
+  margin-left: 20px;
+  font-size: 16px;
+}
+.document-detail .auditing-div .adt-name {
+  float: right;
+  margin-right: 20px;
+}
+.document-detail .auditing-div .left-name {
+  margin-left: 6px;
+}
+.document-detail .auditing-div .adt-time {
+  float: right;
+}
