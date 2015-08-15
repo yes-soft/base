@@ -1,10 +1,18 @@
 "use strict";
 angular.module('app')
     .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location',
-        '$log', '$resource', '$http', 'utils', 'explain', 'plugins',
-        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins) {
+        '$log', '$resource', '$http', 'utils', 'explain', 'plugins', 'toastr',
+        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr) {
 
             var self = $scope;
+            var loading = 0;
+
+            var showMessage = function (message) {
+                if (loading == 0)
+                    toastr.success(message);
+                else if (loading > 0)
+                    loading--;
+            };
 
             self.action = {
                 search: function () {
@@ -24,11 +32,12 @@ angular.module('app')
                 },
                 del: function () {
                     var rows = self.gridApi.selection.getSelectedRows() || [];
-
+                    loading++;
                     angular.forEach(rows, function (row) {
                         var namespace = [$stateParams.name, $stateParams.page].join("/");
                         utils.async('delete', namespace + "/" + row.uid).then(function (res) {
                             self.load();
+                            showMessage("删除成功!");
                         });
                     });
                 },
@@ -178,7 +187,7 @@ angular.module('app')
 
                     self.gridOptions.totalItems = body.count;
 
-                    if(self.form.debug && self.entries.length ){
+                    if (self.form.debug && self.entries.length) {
                         self.detailLoad(self.entries[0]);
                     }
                 });

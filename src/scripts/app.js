@@ -18,6 +18,7 @@ angular.module('app', [
     'schemaForm',
     'toastr',
     'ngDialog',
+    'ui.grid.autoResize',
     'ui.grid.exporter',
     'angularFileUpload',
     'app.controllers'])
