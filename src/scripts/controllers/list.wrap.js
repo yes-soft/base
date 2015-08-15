@@ -32,14 +32,23 @@ angular.module('app')
                 },
                 del: function () {
                     var rows = self.gridApi.selection.getSelectedRows() || [];
-                    loading++;
-                    angular.forEach(rows, function (row) {
-                        var namespace = [$stateParams.name, $stateParams.page].join("/");
-                        utils.async('delete', namespace + "/" + row.uid).then(function (res) {
-                            self.load();
-                            showMessage("删除成功!");
+                    var loading = 0;
+                    if (rows.length) {
+                        angular.forEach(rows, function (row) {
+                            var namespace = [$stateParams.name, $stateParams.page].join("/");
+                            utils.async('delete', namespace + "/" + row.uid).then(function (res) {
+                                self.load();
+                                loading++;
+                                if (loading == rows.length) {
+                                    toastr.success('删除成功！');
+                                    loading=0;
+                                }
+                            });
                         });
-                    });
+                    }
+                    else{
+                        toastr.warning('请选中要删除的数据');
+                    }
                 },
                 create: function () {
                     self.detailLoad();

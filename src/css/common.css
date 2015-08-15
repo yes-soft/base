@@ -23,6 +23,7 @@
   border-bottom: 1px solid #DDD;
 }
 .document-detail .tr-div > div {
+  min-height: 35.1042px;
   padding-top: 7px;
   padding-bottom: 7px;
   border-right: 1px solid #DDD;
@@ -32,6 +33,15 @@
 }
 .document-detail .widget-body {
   min-height: 400px;
+}
+.document-detail .btn.btn-sm.btn-info {
+  margin-right: 10px;
+}
+.document-detail .tab-detail-div {
+  margin-top: 10px;
+}
+.document-detail .tab-detail-div i {
+  margin: 0 4px;
 }
 .hide {
   display: none;
@@ -63,10 +73,6 @@
 }
 .tabbable.tabs-left .nav.nav-tabs li {
   text-align: center;
-}
-.tabbable.tabs-left .nav.nav-tabs i {
-  font-size: 24px;
-  margin: 0 auto;
 }
 .hidden-ele {
   visibility: hidden;
@@ -346,9 +352,6 @@ body {
 }
 .nav.nav-tabs li {
   cursor: pointer;
-}
-.document-detail .btn.btn-sm.btn-info {
-  margin-right: 10px;
 }
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   width: 520px;

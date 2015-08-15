@@ -8,19 +8,19 @@
                 <input type="file" nv-file-select="" uploader="uploader"/>
 
             </div>
-            <div class="col-sm-6" style="margin-top: -10px;">
+            <div class="col-sm-6" style="margin-top: -2px;"  >
                 <button type="button" class="btn btn-default btn-sm" ng-click="uploader.uploadAll()"
-                        ng-disabled="!uploader.getNotUploadedItems().length">
+                        ng-disabled="!uploader.getNotUploadedItems().length" style="padding: 2px 4px">
                     <span class="glyphicon glyphicon-upload"></span> 导入
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="row">
+    <div class="row"  style="margin-left: 3px;margin-top: 5px">
         <div>
             上传进度:
-            <div class="progress" style="">
+            <div class="progress" style="margin-top: 5px">
                 <div class="progress-bar" role="progressbar"
                      ng-style="{ 'width': uploader.progress + '%' }"></div>
             </div>
