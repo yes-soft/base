@@ -45,15 +45,19 @@ angular.module('app.controllers', [])
 
                 if ($scope.menus.length) {
                     var uri = $location.path().split('/').slice(1);
-                    $scope.menus.forEach(function (menu) {
-                        if (menu.tag == uri[0]) {
-                            menu.expanded = true;
-                        }
-                        else if (uri[0] == 'dashboard') {
-                            menus[0].expanded = true;
-                        }
-
-                    });
+                    if (uri[0] === 'dashboard') {
+                        $scope.menus[0].expanded = true;
+                    }
+                    else {
+                        $scope.menus.forEach(function (menu) {
+                            if (menu.tag == uri[0]) {
+                                menu.expanded = true;
+                            }
+                            else if(menu.expanded==true){
+                                menu.expanded=false;
+                            }
+                        });
+                    }
                 }
 
                 $scope.menusCache = utils.buildMenuTree(menus);
