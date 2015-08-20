@@ -273,7 +273,7 @@ angular.module('app').factory('utils', ["$http", "$q", "$location", "$stateParam
             getFileExtCss: function (fileName) {
                 var re = /(?:\.([^.]+))?$/;
                 var ext = re.exec(fileName)[1];
-                return extMap.hasOwnProperty(ext) ? extMap[ext] : extMap.default;
+                return extMap.hasOwnProperty(ext) ? extMap[ext] : extMap["default"];
             },
             dialogUpload: function (options) {
                 ngDialog.open({

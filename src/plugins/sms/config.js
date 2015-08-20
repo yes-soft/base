@@ -233,7 +233,7 @@ angular
                         policyId: {
                             type: "string",
                             title: "应用策略",
-                            enum: ['工作时间发送', '仅发送内部员工']
+                            "enum": ['工作时间发送', '仅发送内部员工']
                         },
                         state: {
                             type: "boolean",
@@ -269,7 +269,7 @@ angular
                         type: {
                             type: "number",
                             title: "类型",
-                            enum: [1, 2]
+                            "enum": [1, 2]
                         }
                     }
                 },

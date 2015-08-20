@@ -2,8 +2,8 @@
 
 (function () {
     angular.module('app')
-        .directive('uploaderContainer', ['$location', 'utils', '$log', 'FileUploader',
-            function ($location, utils, $log, FileUploader) {
+        .directive('uploaderContainer', ['$location', 'utils', '$log',
+            function ($location, utils, $log) {
                 return {
                     restrict: 'EA',
                     templateUrl: 'base/templates/uploader-container.html',

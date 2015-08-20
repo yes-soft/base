@@ -4,14 +4,12 @@ angular.module('app', [
     'ngResource',
     'ngSanitize',
     'ngTouch',
-    'ngStorage',
     'angularMoment',
     'oc.lazyLoad',
     'ui.router',
     'app.config',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
-    'ui.grid',
     'ui.grid.selection',
     'ui.grid.resizeColumns',
     'ui.grid.pagination',
@@ -20,13 +18,19 @@ angular.module('app', [
     'ngDialog',
     'ui.grid.autoResize',
     'ui.grid.exporter',
-    'angularFileUpload',
     'app.controllers'])
     .run(['$log', '$timeout', '$state', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $state, $rootScope, amMoment, i18nService) {
             i18nService.setCurrentLang('zh-cn');
             amMoment.changeLocale('zh-cn');
         }]);
+angular.module('test', [
+    'ui.grid.pagination'])
+    .run(['$log', '$timeout', '$state', '$rootScope', 'amMoment', 'i18nService',
+        function ($log, $timeout, $state, $rootScope, amMoment, i18nService) {
+            i18nService.setCurrentLang('zh-cn');
+            amMoment.changeLocale('zh-cn');
+        }])
 angular.module('app.controllers', [])
     .controller('AppCtrl', ["$scope", "$location", '$resource', '$log', 'utils', '$http', 'ENV',
         function ($scope, $location, $resource, $log, utils, $http, ENV) {

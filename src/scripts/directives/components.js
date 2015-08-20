@@ -291,7 +291,7 @@
         }])
         .directive('searchCommon', function (plugins) {
             return {
-                restrict: 'E',
+                restrict: 'EA',
                 templateUrl: plugins.templates.searchCommon,
                 replace: true,
                 scope: {

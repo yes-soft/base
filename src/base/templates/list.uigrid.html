@@ -6,8 +6,8 @@
             <div ng-include="detailUrl"></div>
         </div>
 
-        <search-common operations="config.operations" filters-conf="config.list.filters" filter="filter"
-                       on-search="load();"></search-common>
+        <div search-common operations="config.operations" filters-conf="config.list.filters" filter="filter"
+                       on-search="load();"></div>
 
         <div class="list-wrap">
             <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
