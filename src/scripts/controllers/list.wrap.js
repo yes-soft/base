@@ -5,14 +5,6 @@ angular.module('app')
         function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr) {
 
             var self = $scope;
-            var loading = 0;
-
-            var showMessage = function (message) {
-                if (loading == 0)
-                    toastr.success(message);
-                else if (loading > 0)
-                    loading--;
-            };
 
             self.action = {
                 search: function () {
@@ -25,9 +17,9 @@ angular.module('app')
                     });
                 },
                 cancel: function () {
-                    console.log(self.form);
                     angular.forEach(self.form.model, function (raw, key) {
                         delete self.form.model[key];
+                        console.log(self.form.feedback);
                     });
                 },
                 del: function () {
@@ -41,12 +33,12 @@ angular.module('app')
                                 loading++;
                                 if (loading == rows.length) {
                                     toastr.success('删除成功！');
-                                    loading=0;
+                                    loading = 0;
                                 }
                             });
                         });
                     }
-                    else{
+                    else {
                         toastr.warning('请选中要删除的数据');
                     }
                 },
@@ -133,7 +125,7 @@ angular.module('app')
                         });
 
                     } else {
-
+                        angular.element('.help-block').addClass('text-right');
                     }
                 },
                 close: function () {
@@ -192,6 +184,28 @@ angular.module('app')
 
                         });
                         self.gridOptions.columnDefs = columnDefs;
+
+                        if(body.count>self.paginationOptions.pageSize){
+                            $scope.height=((self.paginationOptions.pageSize * 30) + 90);
+                            self.gridOptions.minRowsToShow = self.paginationOptions.pageSize;
+                            // gridOptoins.virtualizationThreshold = self.paginationOptions.pageSize;
+
+                            setTimeout(function(){
+                                angular.element(window).trigger('resize');
+                            },500);
+
+                        }
+                        else{
+                            $scope.height=((body.count * 30) +90)>460?((body.count * 30) +90):460;
+                            self.gridOptions.minRowsToShow = body.count;
+                            // gridOptoins.virtualizationThreshold = body.count;
+
+                            setTimeout(function(){
+                                angular.element(window).trigger('resize');
+                            },500);
+
+                        }
+
                     }
 
                     self.gridOptions.totalItems = body.count;
@@ -244,6 +258,7 @@ angular.module('app')
                 selectedItems: [],
                 paginationPageSizes: [pageSize, 200, 1000],
                 paginationPageSize: pageSize,
+                virtualizationThreshold:1000,
                 appScopeProvider: {
                     onDblClick: function (row) {
                         self.detailLoad(row.entity);
