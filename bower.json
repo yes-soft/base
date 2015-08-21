@@ -16,10 +16,7 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "yes-bundle": "*"
-  },
   "devDependencies": {
-    "q": "~2.0.2"
+    "yes-bundle": "*"
   }
 }
