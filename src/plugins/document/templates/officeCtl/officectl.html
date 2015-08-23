@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Office编辑</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=10;IE=9; IE=8; IE=EDGE">
+
+</head>
+<body style="margin:0;padding:0;width:100%;height:100%;" onload="onLoad();">
+<form id="officeForm" action="uploadWordFile" enctype="multipart/form-data" style="width:100%;height:100%;">
+    <script type="text/javascript" src="fileJs/ntkoofficectl.js"></script>
+    <script language="JScript" for="TANGER_OCX" event="OnDocumentOpened(TANGER_OCX_str,TANGER_OCX_obj)">
+        DocumentOpenedBack(TANGER_OCX_str, TANGER_OCX_obj);
+    </script>
+    <script language="JScript" for="TANGER_OCX" event="OnFileCommand(TANGER_OCX_str,TANGER_OCX_obj)">
+        FileCommand(TANGER_OCX_str, TANGER_OCX_obj);
+    </script>
+    <script language="JScript" for="TANGER_OCX" event="AfterPublishAsPDFToURL(ret,code)">
+        PublishAsPdfToURLBack(ret, code);
+    </script>
+    <script language="JScript" for="TANGER_OCX" event="OnCustomButtonOnMenuCmd(btnPos,btnCaption,btnCmdid)">
+        CustomButtonOnMenuCmd(btnPos, btnCaption, btnCmdid);
+    </script>
+</form>
+
+<!--<script type="text/javascript" src="../../js/yesutils.js"></script>-->
+<script type="text/javascript" src="fileJs/OfficeFun.js"></script>
+<script type="text/javascript" src="fileJs/Officectl.js"></script>
+<script type="text/javascript">
+
+    function onLoad() {
+        resizeWindow();
+        window.onresize = resizeWindow;
+        var url = "http://test1.fjtic.cn/yesoa/u/0715/3BBABCEB3B504BB348257E830027EB4E/正文.doc";
+        NTKO_OCX_OpenDoc(url);
+    }
+
+    function resizeWindow() {
+        document.getElementById("TANGER_OCX").style.height = frameElement.style.height;
+        /*tanger_height = $(frameElement).height();
+        $('#TANGER_OCX').height(tanger_height);*/
+    }
+
+</script>
+</body>
+</html>

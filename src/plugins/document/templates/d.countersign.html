@@ -1,0 +1,34 @@
+<!--
+<div>
+    <div class="common-list" ng-if="paper.form=='gongwen'">
+        <div class="item countersign" ng-repeat="item in counterSign.ye.ls">
+            <label class="title">{{item.memo}}</label>
+            <label class="receive-time">处理人: <span class="fc-black">{{item.$handler}}</span></label>
+            <label class="receive-person">状态: <span class="fc-black">{{item.$state}}</span></label>
+        </div>
+    </div>
+</div>-->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                    <i class="fa fa-code-fork"></i>会稿/会签信息
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="tr-div clearfix">
+                    <div class="col-xs-2 center no-def-padding">处理人</div>
+                    <div class="col-xs-7 center no-def-padding">会稿/会签信息</div>
+                    <div class="col-xs-3 center no-def-padding">状态</div>
+                </div>
+                <div class="tr-div clearfix" ng-repeat="item in counterSign.ye.ls">
+                    <div class="col-xs-2 center no-def-padding">{{item.$handler}}</div>
+                    <div class="col-xs-7 center no-def-padding">{{item.memo}}</div>
+                    <div class="col-xs-3 center no-def-padding">{{item.$state}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                    <i class="fa fa-code-fork"></i>关联收文流程
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="tr-div clearfix">
+                    <div class="col-xs-1 center no-def-padding">操作</div>
+                    <div class="col-xs-3 center no-def-padding">接收单位</div>
+                    <div class="col-xs-2 center no-def-padding">接收时间</div>
+                    <div class="col-xs-2 center no-def-padding">签收人</div>
+                    <div class="col-xs-2 center no-def-padding">签收状态</div>
+                    <div class="col-xs-2 center no-def-padding">签收时间</div>
+                </div>
+                <div class="tr-div clearfix" ng-repeat="item in relation">
+                    <div class="col-xs-1 center no-def-padding">****流程</div>
+                    <div class="col-xs-3 center no-def-padding">{{item.receivedept}}</div>
+                    <div class="col-xs-2 center no-def-padding">{{item.yes_create_time}}</div>
+                    <div class="col-xs-2 center no-def-padding">{{item.handlername}}</div>
+                    <div class="col-xs-2 center no-def-padding">{{item.qsdate}}</div>
+                    <div class="col-xs-2 center no-def-padding">{{item.yes_state}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
