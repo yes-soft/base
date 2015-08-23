@@ -1,0 +1,21 @@
+<div ng-include="'./base/templates/breadcrumbs.html'"></div>
+<div class="page-content list-scope">
+    <div class="wrapper-md">
+
+        <div class="widget-box ui-sortable-handle fullscreen scroll-y" ng-show="detailUrl">
+            <div ng-include="detailUrl"></div>
+        </div>
+
+        <div search-common operations="config.operations" filters-conf="config.list.filters" filter="filter"
+                       on-search="load();"></div>
+
+        <div class="list-wrap">
+            <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
+                <div ui-grid="gridOptions"  ng-style="{'height':height}" ui-grid-selection ui-grid-resize-columns ui-grid-pagination
+                     ui-grid-exporter ui-grid-move-columns ui-grid-auto-resize
+                     class="grid"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
