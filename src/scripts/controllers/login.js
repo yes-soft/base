@@ -1,6 +1,6 @@
 angular.module('app')
-    .controller('app.login.index', ['$scope', '$stateParams', '$location', '$resource', 'utils', 'ENV',
-        function ($scope, $stateParams, $location, $resource, utils, ENV) {
+    .controller('app.login.index', ['$scope', '$stateParams', '$location', '$resource', 'utils', 'ENV','toastr',
+        function ($scope, $stateParams, $location, $resource, utils, ENV,toastr) {
 
             $scope.filter = {};
 
@@ -16,6 +16,9 @@ angular.module('app')
                     $location.search("return", null);
 
                 }, function (err) {
+                    toastr.error("用户名或者密码不正确！",{
+                        timeOut:3000
+                    });
                     utils.alert(err.message);
                 });
             };
