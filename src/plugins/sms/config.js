@@ -427,8 +427,7 @@ angular
                             'detailLoad',
                             function (entity) {
                                 if (entity && entity.uid) {
-                                    utils
-                                        .async(
+                                    utils.async(
                                         'get',
                                         '/sms/apigateway/?apiId$eq=' + entity.uid,
                                         null)
@@ -438,7 +437,7 @@ angular
                                                 .get(
                                                 context,
                                                 'scope.form.model', {});
-                                            model['values[]'] = res.body.items;
+                                            model['values'] = res.body.items;
                                         });
                                 }
                             });

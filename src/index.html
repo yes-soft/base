@@ -30,18 +30,18 @@
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
 
-    <!--[if !IE]> -->
-    <script src="base/vendor/ace/assets/js/jquery.2.1.1.min.js"></script>
-    <!-- <![endif]-->
 
-    <!--[if IE]>
-    <script src="base/vendor/ace/assets/js/jquery.1.11.1.min.js"></script>
-    <![endif]-->
-
-    <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
     <link href="css/common.css" rel="stylesheet">
     <link href="css/pages.css" rel="stylesheet">
     <!--<script type="text/javascript" src="base/vendor/app/app.js"></script>-->
+
+    <!--[if gte IE 9]><!-->
+    <script src="base/vendor/ace/assets/js/jquery.2.1.1.min.js"></script>
+    <!--<![endif]-->
+
+    <!--[if lte IE 8]>
+    <script src="base/vendor/angular-ie8/jquery-1.11.1.min.js"></script>
+    <![endif]-->
 
     <script type="text/javascript" src="base/vendor/angular-ie8/angular.js"></script>
     <script src="./../bower_components/ngStorage/src/angularLocalStorage.js"></script>
@@ -54,11 +54,21 @@
     <script src="./../bower_components/angular-translate/angular-translate.js"></script>
     <script src="./../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="./../bower_components/angular-ui-utils/index.js"></script>
-    <script src="./../bower_components/angular-ui-grid/ui-grid.js"></script>
     <script src="./../bower_components/ngStorage/src/angularLocalStorage.js"></script>
     <script src="./../bower_components/oclazyload/dist/ocLazyLoad.js"></script>
     <script src="./../bower_components/moment/min/moment-with-locales.js"></script>
     <script src="./../bower_components/angular-moment/angular-moment.js"></script>
+    <!--[if gte IE 9]><!-->
+        <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
+        <script src="./../bower_components/angular-ui-grid/ui-grid.js"></script>
+    <!--<![endif]-->
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" media="screen" href="base/vendor/jqgrid/css/jquery-ui.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="base/vendor/jqgrid/css/ui.jqgrid.min.css" />
+        <script type="text/javascript" src="base/vendor/jqgrid/js/grid.locale-cn.js"></script>
+        <script type="text/javascript" src="base/vendor/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <![endif]-->
 
     <script type="text/javascript" src="base/vendor/schema-form/tv4.js"></script>
     <script type="text/javascript" src="base/vendor/schema-form/object-path.js"></script>
@@ -101,9 +111,9 @@
                 })
                 .constant("ENV", {
                     "version": "0.1.0",
-                    "mock": true,
+                    "mock": false,
                     "menuRoot": null,
-                    "menuApi": 'base/menus',
+                    "menuApi": 'desktop/menus',
                     "language": navigator.language || navigator.userLanguage,
                     "apiPath": "api",
                     "serverRoot": 'src',
@@ -116,7 +126,6 @@
                     "headers": {"Content-Type": "application/json;charset=utf-8"}
                 });
     </script>
-
 </head>
 <body ng-app="app" class="no-skin">
 <div ui-view></div>
