@@ -1,0 +1,319 @@
+<div>
+    <div class="draft-div">
+        <table class="paper-table" border="0" cellspacing="0" cellpadding="0">
+            <tbody ng-if="paper.form=='deptshouwen'||paper.form=='shouwen'">
+            <tr>
+                <td colspan="10" class="all-content">
+                    <div class="divLabel title-div">
+                        <label name="typetitle"
+                               ng-if="paper.form=='deptshouwen'&& paper.iscenter=='否'&& paper.islowcenter=='否'"><b>部门收文处理单</b></label>
+                        <label name="typetitle" ng-if="paper.form=='shouwen'"><b>收文处理单</b></label>
+                        <label name="typetitle"
+                               ng-if="paper.form=='deptshouwen' && paper.iscenter=='是'"><b>中心部门收文处理单</b></label>
+                        <label name="typetitle" ng-if="paper.form=='deptshouwen' && paper.islowcenter=='是'"><b>中心二级部门收文处理单</b></label>
+                    </div>
+                    <div class="right-table" ng-if="paper.form=='shouwen'">
+                        <label>
+                            <span class="divLabel"></span>
+                        </label>
+                        <label>
+                            <span class="divLabel">收文流水号:</span> <input style="width: 240px;" ng-model="paper.rcode" ng-readonly="::isReadonly('rcode');">
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-title">
+                    <div class="divLabel">来文<br>单位</div>
+                </td>
+                <td class="td-input">
+                    <input ng-model="paper.dunits" ng-readonly="::isReadonly('dunits');">
+                </td>
+                <td class="td-title">
+                    <div class="divLabel">来文<br>日期</div>
+                </td>
+                <td class="td-input">
+                    <input ng-model="paper.lwdate" ng-readonly="::isReadonly('lwdate');">
+                </td>
+            </tr>
+            <tr>
+                <td class="td-title">
+                    <div class="divLabel">文件<br>字号</div>
+                </td>
+                <td class="td-input">
+                    <input ng-model="paper.gwnofull" ng-readonly="::isReadonly('gwnofull');">
+                </td>
+                <td class="td-title">
+                    <div class="divLabel">办结<br>时限</div>
+                </td>
+                <td class="td-input">
+                    <input ng-model="paper.gtlimit" ng-readonly="::isReadonly('gtlimit');">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="divLabel">文件<br>标题</div>
+                </td>
+                <td colspan="10">
+                    <input ng-model="paper.title" ng-readonly="::isReadonly('title');">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="divLabel"><span class="link">附件</span></div>
+                </td>
+                <td colspan="10">
+                    <label ng-if="angular.isArray(getatm)" ng-repeat="item in getatm">
+                        <div class="{{item.css}}"></div>
+                        <a>
+                            <span class="left-span">{{item.source}}</span>
+                            <label ng-if="item!=='false'">({{item.size}})</label><br>
+                        </a>
+                    </label>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='shouwen'&& paper.lwyj!=''">
+                <td>
+                    <div class="divLabel">来<br>文<br>意<br>见</div>
+                </td>
+                <td colspan="10">
+                    {{paper.lwyj.lwopin}}
+                    <br><br>
+
+                    <div align="right">
+                        {{paper.lwyj.lwname}}&nbsp;&nbsp;&nbsp;&nbsp;{{paper.lwyj.lwtime}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='centerdepart_paper'||paper.form=='deptshouwen'">
+                <td>
+                    <div class="divLabel">办公<br>室意<br>见</div>
+                </td>
+                <td colspan="10">
+                    {{paper.bgsopinion}}
+                    <br><br>
+
+                    <div align="right">
+                        {{paper.bgsperson}}&nbsp;&nbsp;&nbsp;&nbsp;{{paper.bgsdate}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='shouwen'">
+                <td>
+                    <div class="divLabel">办<br>公<br>室<br>领导<br>阅批<br>意见</div>
+                </td>
+                <td colspan="10">
+                    {{paper.opinion30}}
+                    <br><br>
+
+                    <div align="right">
+                        {{paper.bgsperson}}&nbsp;&nbsp;&nbsp;&nbsp;{{paper.bgsdate}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='deptshouwen'">
+                <td>
+                    <div class="divLabel">办公<br>室已<br>分发<br>部门</div>
+                </td>
+                <td colspan="10">
+                    <label>{{paper.bgsffdeptname}}</label>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='centerdepart_paper'||paper.form=='deptshouwen'">
+                <td>
+                    <div class="divLabel">公司<br>领导<br>批示</div>
+                </td>
+                <td colspan="10">
+                    <label ng-repeat="item in paper.leaderop">
+                        {{item.leaderopinion}}
+                        <br><br>
+
+                        <div align="right">
+                            {{item.leader}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.leaderdate}}
+                        </div>
+                    </label>
+                    <label ng-if="paper.form=='centerdepart_paper'">{{paper.lwopinion}}</label>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='deptshouwen'&&(paper.iscenter=='是'||paper.islowcenter=='是')">
+                <td>
+                    <div class="divLabel">综合<br>部意<br>见</div>
+                </td>
+                <td colspan="10">
+                    {{paper.zhbopinion}}
+                    <br><br>
+
+                    <div align="right">
+                        {{paper.zhbperson}}&nbsp;&nbsp;&nbsp;&nbsp;{{paper.zhbdate}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='deptshouwen'&&(paper.islowcenter=='是'|| paper.iscenter=='是')">
+                <td>
+                    <div class="divLabel">中心<br>领导<br>意见</div>
+                </td>
+                <td colspan="10">
+                    <label ng-repeat="item in lowCenterSW">
+                        {{item.centerleaderopinion}}
+                        <br><br>
+
+                        <div align="right">
+                            {{item.centerleader}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.centerleaderdate}}
+                        </div>
+                    </label>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='shouwen'">
+                <td>
+                    <div class="divLabel">公<br>司<br>领<br>导<br>批<br>示</div>
+                </td>
+                <td colspan="10">
+                    <label ng-repeat="item in paper.leaderop">
+                        {{item.leaderopinion}}
+                        <br><br>
+
+                        <div align="right">
+                            {{item.leader}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.leaderdate}}
+                        </div>
+                    </label>
+                    <label ng-if="paper.form=='centerdepart_paper'">{{paper.lwopinion}}</label>
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='shouwen'||(paper.form=='deptshouwen'&& paper.iscenter=='否'&& paper.islowcenter=='是')">
+                <td>
+                    <div class="divLabel">已<br>分<br>发<br>部<br>门</div>
+                </td>
+                <td colspan="10">
+                    {{paper.outdeptnames}}
+                </td>
+            </tr>
+            <tr ng-if="paper.form=='deptshouwen'&& paper.islowcenter=='否'">
+                <td>
+                    <div class="divLabel">部门<br>意见</div>
+                </td>
+                <td colspan="10">
+                    <label ng-if="paper.form=='deptshouwen'" ng-repeat="item in deptyj">
+                        {{item.deptopinion}}
+                        <br><br>
+
+                        <div align="right">
+                            {{item.deptsigner}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.deptdate}}
+                        </div>
+                    </label>
+                    <label ng-if="paper.form=='centerdepart_paper'">{{paper.lwopinion}}</label>
+                </td>
+            </tr>
+
+            </tbody>
+            <tbody ng-if="paper.form=='gongwen'||paper.form=='centersend_paper'">
+            <tr>
+                <td colspan="10" class="all-content">
+                    <div class="divLabel title-div">
+                        <label name="typetitle" ng-if="paper.form=='gongwen'"><b>福建中烟工业有限责任公司发文稿纸</b></label>
+                        <label name="typetitle" ng-if="paper.form=='centersend_paper'"><b>福建中烟工业有限责任公司中心发文稿纸</b></label>
+                    </div>
+                    <div class="align-center">
+                        <label>{{paper.gwnofull}}</label>
+                        <label><span class="divlabe">密级</span>: {{paper.sclassification}}</label>
+                        <label><span class="divlabe">缓急</span>: {{paper.prioritie}}</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <div class="auditing-div">
+                        <span class="divLabel">签发：</span><br>
+                        <label>{{paper.qfpizhu}}</label>
+                        <br>
+                        <label>{{paper.signleader}}</label>
+                        <br>
+                        <label>{{paper.qfdate}}</label>
+                    </div>
+                </td>
+                <td colspan="5">
+                    <div class="auditing-div">
+                        <span class="divLabel">会签：</span>
+                        <label class="left-name" ng-repeat="item in paper.consigners">{{item}}</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <div class="tr-content-div">
+                        <span class="divLel">主送</span><span class="divLabel">：</span>
+                        <label>{{paper.mainSend}}</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <div class="tr-content-div">
+                        <span class="divLel">抄送</span><span class="divLabel">：</span>
+                        <label>{{paper.copySend}}</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="divLabel">拟稿部门</td>
+                <td colspan="3" class="divLabel">拟稿人</td>
+                <td colspan="3" class="divLabel">电话</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-center">
+                    <input ng-model="paper.dunits" ng-readonly="::isReadonly('dunits');">
+                </td>
+                <td colspan="3" class="text-center">
+                    <input ng-model="paper.dperson" ng-readonly="::isReadonly('dperson');">
+                </td>
+                <td colspan="3" class="text-center">
+                    <input ng-model="paper.tel" ng-readonly="::isReadonly('tel');">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="divLabel">部门审核</td>
+                <td colspan="2" class="divLabel">文秘审核</td>
+                <td colspan="2" class="divLabel">办公室复核</td>
+                <td colspan="2" class="divLabel">校对</td>
+                <td colspan="2" class="divLabel">份数</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">
+                    <label name="dpic">{{paper.dpic}}</label>
+                </td>
+                <td colspan="2" class="text-center">
+                    <label name="secretarial">{{paper.secretarial}}</label>
+                </td>
+                <td colspan="2" class="text-center">
+                    <label name="bgspic">{{paper.bgspic}}</label>
+                </td>
+                <td colspan="2" class="text-center">
+                    <label name="jdperson">{{paper.jdperson}}</label>
+                </td>
+                <td colspan="2" class="text-center">
+                    <label name="printcount">{{paper.printcount}}</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <div class="tr-content-div">
+                        <span class="divLabel"><span class="link">附件</span>：</span><br>
+                        <label ng-repeat="item in getatm">
+                            <div class="{{item.css}}"></div>
+                            <span class="left-span">{{item.source}}</span>
+                            ({{item.size}})&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <div class="tr-content-div">
+                        <span class="divLabel"><span>标题*：</span></span>
+                        <label><input ng-model="paper.title" ng-readonly="::isReadonly('title');"></label>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<div on-dom-ready>
+    <div id="navbar" class="navbar navbar-default">
+
+        <div class="navbar-container" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <small>
+                        <i class="fa fa-leaf"></i>
+                        福建中烟办公协同平台
+                    </small>
+                </a>
+            </div>
+
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="light-blue toggle-open">
+                        <a data-toggle="dropdown" class="dropdown-toggle">
+
+								<span class="user-info">
+								    {{displayName}}
+								</span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="javascript:;" ng-click="action.logout()">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    退出登录
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container" id="main-container">
+        <div id="sidebar" class="sidebar responsive" on-side-bar-render>
+
+            <div id="sidebar-shortcuts" class="sidebar-shortcuts">
+                <span class="input-icon">
+                <input type="text" ng-model="select" typeahead-on-select="onSelect($item, $model, $label)"
+                       typeahead="menu.name for menu in getMenus($viewValue) "
+                       placeholder="搜索...">
+                <i class="ace-icon fa fa-search nav-search-icon"></i>
+            </span>
+            </div>
+            <div class="menu-wrap" ng-include="'./base/templates/menu-tab.html'"></div>
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i class="ace-icon fa fa-angle-double-left"></i>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div ui-view="content"></div>
+            </div>
+        </div>
+        <!-- /.main-content -->
+        <div class="footer" style="visibility: hidden">
+            <div class="footer-inner">
+                <div class="footer-content">
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div>
+    <!-- /.main-container -->
+</div>

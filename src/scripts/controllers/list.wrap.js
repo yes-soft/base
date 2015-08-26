@@ -19,7 +19,9 @@ angular.module('app')
                 cancel: function () {
                     angular.forEach(self.form.model, function (raw, key) {
                         delete self.form.model[key];
-                        console.log(self.form.feedback);
+                        if (self.form.schema.properties[key].default) {
+                            self.form.model[key] = self.form.schema.properties[key].default;
+                        }
                     });
                 },
                 del: function () {

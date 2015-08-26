@@ -1,0 +1,65 @@
+<div class="well" style="margin-top: 20px;padding-top: 5px;">
+    <div class="row">
+        <h3 style="margin-top: 0;">文件上传</h3>
+
+        <div class="col-sm-6">
+            <input type="file" nv-file-select="" uploader="uploader" multiple/>
+        </div>
+        <div class="col-sm-6" style="margin-top: -10px;" >
+            <button type="button" class="btn btn-default btn-sm" ng-click="uploader.save()"
+                    ng-disabled="!uploader.getNotUploadedItems().length">
+                <span class="glyphicon glyphicon-save"></span> 确定
+            </button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="uploader.uploadAll()"
+                    ng-disabled="!uploader.getNotUploadedItems().length">
+                <span class="glyphicon glyphicon-upload"></span> 上传所有
+            </button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="uploader.clearQueue()"
+                    ng-disabled="!uploader.queue.length">
+                <span class="glyphicon glyphicon-trash"></span> 移除所有
+            </button>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="50%">名称</th>
+                <th ng-show="uploader.isHTML5">大小</th>
+                <th ng-show="uploader.isHTML5">进度</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in uploader.queue">
+                <td><strong>{{ item.file.name }}</strong></td>
+                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="uploader.isHTML5">
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar"
+                             ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> 删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            上传进度:
+            <div class="progress" style="">
+                <div class="progress-bar" role="progressbar"
+                     ng-style="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+        </div>
+        <p>文件大小: {{ uploader.queue.length }}</p>
+    </div>
+</div>

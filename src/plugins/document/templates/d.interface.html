@@ -1,0 +1,41 @@
+<!--
+<div>
+    <div class="next-step-div">
+        <div class="checked-title">
+            <div class="view-div">关联收文接口</div>
+            <div class="clear"></div>
+        </div>
+        <div class="common-list">
+            <div class="item interface" ng-repeat="item in interface">
+                <label class="title">{{item.receive}}</label>
+                <label class="company">{{item.distribute}} : <span class="fc-black">{{item.date}} </span></label>
+                <label class="time">{{item.status}} : <span class="fc-black">{{item.state}}</span></label>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                    <i class="ace-icon fa fa-gavel"></i>关联收文接口
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="tr-div clearfix">
+                    <div class="col-xs-6 center no-def-padding">接收单位</div>
+                    <div class="col-xs-3 center no-def-padding">分发日期</div>
+                    <div class="col-xs-3 center no-def-padding">状态</div>
+                </div>
+                <div class="tr-div clearfix" ng-repeat="item in interface">
+                    <div class="col-xs-6 center no-def-padding">{{item.receive}}</div>
+                    <div class="col-xs-3 center no-def-padding">{{item.date}}</div>
+                    <div class="col-xs-3 center no-def-padding">{{item.status}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
