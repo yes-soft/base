@@ -1,8 +1,8 @@
 "use strict";
 angular.module('app')
     .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location',
-        '$log', '$resource', '$http', 'utils', 'explain', 'plugins', 'toastr',
-        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr) {
+        '$log', '$resource', '$http', 'utils', 'explain', 'plugins', 'toastr', 'ngDialog',
+        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr, ngDialog) {
 
             var self = $scope;
 
@@ -28,19 +28,30 @@ angular.module('app')
                     var rows = self.gridApi.selection.getSelectedRows() || [];
                     var loading = 0;
                     if (rows.length) {
-                        angular.forEach(rows, function (row) {
-                            var namespace = [$stateParams.name, $stateParams.page].join("/");
-                            utils.async('delete', namespace + "/" + row.uid).then(function (res) {
-                                self.load();
-                                loading++;
-                                if (loading == rows.length) {
-                                    toastr.success('删除成功！');
-                                    loading = 0;
-                                }
+                        ngDialog.openConfirm({
+                            template: '\
+                <p>确定删除该条记录?</p>\
+                <div style="text-align: center" class="ngdialog-buttons">\
+                    <button type="button" style="margin-right: 115px;" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" style="margin-right: 115px;" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Yes</button>\
+                </div>',
+                            plain: true
+                        }).then(function () {
+                            angular.forEach(rows, function (row) {
+                                var namespace = [$stateParams.name, $stateParams.page].join("/");
+                                utils.async('delete', namespace + "/" + row.uid).then(function (res) {
+                                    self.load();
+                                    loading++;
+                                    if (loading == rows.length) {
+                                        toastr.success('删除成功！');
+                                        loading = 0;
+                                    }
+                                });
                             });
                         });
-                    }
-                    else {
+
+
+                    } else {
                         toastr.warning('请选中要删除的数据');
                     }
                 },
@@ -50,7 +61,10 @@ angular.module('app')
 
                         self.scaffold = true;
 
-                        self.form.model = {"type": "object", "properties": []};
+                        self.form.model = {
+                            "type": "object",
+                            "properties": []
+                        };
 
                         angular.forEach(self.headers, function (raw, key) {
                             var entry = {};
@@ -140,7 +154,8 @@ angular.module('app')
 
             self.events = utils.createEvents();
 
-            var config = explain.configuration(self), pageSize = config.list.pageSize;
+            var config = explain.configuration(self),
+                pageSize = config.list.pageSize;
 
             self.init = function () {
                 self.entries = [];
@@ -167,7 +182,10 @@ angular.module('app')
                         var columnDefs = [];
                         angular.forEach(self.headers, function (name, key) {
 
-                            var col = angular.isObject(name) ? name : {name: key, displayName: name};
+                            var col = angular.isObject(name) ? name : {
+                                name: key,
+                                displayName: name
+                            };
 
                             col.name = key;
 
@@ -176,7 +194,10 @@ angular.module('app')
                                 col.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"phoneNumbers" }}</div>';
                                 columnDefs.push(col);
 
-                                var col2 = {name: key + "2", displayName: name};
+                                var col2 = {
+                                    name: key + "2",
+                                    displayName: name
+                                };
                                 col2.displayName = "预约的短信内容";
                                 col2.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"message" }}</div>';
                                 columnDefs.push(col2);
@@ -187,24 +208,20 @@ angular.module('app')
                         });
                         self.gridOptions.columnDefs = columnDefs;
 
-                        if(body.count>self.paginationOptions.pageSize){
-                            $scope.height=((self.paginationOptions.pageSize * 30) + 90);
+                        if (body.count > self.paginationOptions.pageSize) {
+                            $scope.height = ((self.paginationOptions.pageSize * 30) + 90);
                             self.gridOptions.minRowsToShow = self.paginationOptions.pageSize;
-                            // gridOptoins.virtualizationThreshold = self.paginationOptions.pageSize;
 
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 angular.element(window).trigger('resize');
-                            },500);
+                            }, 500);
 
-                        }
-                        else{
-                            $scope.height=((body.count * 30) +90)>460?((body.count * 30) +90):460;
+                        } else {
+                            $scope.height = ((body.count * 30) + 90) > 460 ? ((body.count * 30) + 90) : 460;
                             self.gridOptions.minRowsToShow = body.count;
-                            // gridOptoins.virtualizationThreshold = body.count;
-
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 angular.element(window).trigger('resize');
-                            },500);
+                            }, 500);
 
                         }
 
@@ -260,16 +277,16 @@ angular.module('app')
                 selectedItems: [],
                 paginationPageSizes: [pageSize, 200, 1000],
                 paginationPageSize: pageSize,
-                virtualizationThreshold:1000,
+                virtualizationThreshold: 1000,
                 appScopeProvider: {
                     onDblClick: function (row) {
                         self.detailLoad(row.entity);
                     }
                 },
                 rowTemplate: "<div ng-dblclick=\"grid.appScope.onDblClick(row)\" " +
-                "ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" " +
-                "class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" " +
-                "ui-grid-cell ></div>"
+                    "ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" " +
+                    "class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" " +
+                    "ui-grid-cell ></div>"
             };
 
             self.events.on("closeDetail", function () {
