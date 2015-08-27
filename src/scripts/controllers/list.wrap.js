@@ -232,6 +232,7 @@ angular.module('app')
                     if (self.form.debug && self.entries.length) {
                         self.detailLoad(self.entries[0]);
                     }
+                    self.events.trigger('listLoaded');
                 });
             };
 
@@ -259,10 +260,10 @@ angular.module('app')
                 enableGridMenu: true,
                 exporterMenuCsv: true,
                 enablePaginationControls: true,
-                enableFiltering: false,
+                enableFiltering: true,
                 enableRowHeaderSelection: true,
                 exporterOlderExcelCompatibility: true,
-                //useExternalPagination: true,
+                useExternalPagination: true,
                 //useExternalSorting: true,
                 onRegisterApi: function (gridApi) {
                     self.gridApi = gridApi;
