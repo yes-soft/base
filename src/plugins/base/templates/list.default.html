@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="table m-b-none table-striped b-t b-light">
+        <thead>
+        <tr>
+            <th data-sort-ignore="true"><label class="i-checks m-b-none">
+                <input ng-model="checkAll" ng-change="action.changed()" type="checkbox"><i></i>
+            </label></th>
+            <th data-toggle="true">用户名</th>
+            <th data-hide="phone,tablet">名称</th>
+            <th data-hide="phone,tablet">最后登录时间</th>
+            <th data-hide="phone,tablet">创建时间</th>
+            <th data-hide="phone">类型</th>
+            <th data-hide="phone">状态</th>
+            <th style="max-width: 60px" data-sort-ignore="true" colspan="2">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="entry in entries">
+            <td><label class="i-checks m-b-none"><input type="checkbox" ng-model="entry.checked"
+                                                        name="checked[]"><i></i></label></td>
+            <td>{{entry.username}}</td>
+            <td>{{entry.displayName}}</td>
+            <td>{{entry.lastLogin}}</td>
+            <td>{{entry.createdAt}}</td>
+            <td>{{entry.type}}</td>
+            <td><span style="display: none">{{entry.active}}</span><i class="fa"
+                                                                      ng-class="{'fa-unlock':entry.active, 'fa-lock': !entry.active}"></i>
+            </td>
+            <td><i style="cursor:pointer" ng-click="action.edit(entry)" class="fa fa-edit"></i></td>
+            <td><i style="cursor:pointer" ng-click="action.delete(entry)" class="fa fa-remove"></i></td>
+        </tr>
+        </tbody>
+        <tfoot class="hide-if-no-paging">
+        <tr>
+            <td colspan="12" class="text-center">
+                <div page-bar conf="pageConfig"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
