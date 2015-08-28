@@ -5,24 +5,11 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta charset="utf-8"/>
     <title>YES Base</title>
+
     <link rel="stylesheet" href="base/vendor/ace/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
-    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
-    <link rel="stylesheet" href="base/vendor/angular.boostrap/css/datetimepicker.css"/>
-    <link rel="stylesheet" href="base/vendor/angular-toastr/angular-toastr.min.css"/>
-    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog.css"/>
-    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog-theme-default.css"/>
-    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog-theme-plain.css"/>
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace-part2.min.css" class="ace-main-stylesheet"/>
-    <![endif]-->
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace-ie.min.css"/>
-    <![endif]-->
-    <!-- inline styles related to this page -->
+
     <!-- ace settings handler -->
-    <script type="text/javascript" src="base/vendor/angular-ie8/es5-shim.min.js"></script>
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
@@ -30,95 +17,136 @@
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
 
-    <!--[if !IE]> -->
-    <script src="base/vendor/ace/assets/js/jquery.2.1.1.min.js"></script>
-    <!-- <![endif]-->
-
-    <!--[if IE]>
-    <script src="base/vendor/ace/assets/js/jquery.1.11.1.min.js"></script>
-    <![endif]-->
-
     <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
     <link href="css/common.css" rel="stylesheet">
     <link href="css/pages.css" rel="stylesheet">
-    <script type="text/javascript" src="base/vendor/app/app.js"></script>
-
-   <!-- <script type="text/javascript" src="base/vendor/angular-ie8/angular.js"></script>
-    <script src="./../bower_components/ngStorage/src/angularLocalStorage.js"></script>
-    <script src="./../bower_components/angular-animate/angular-animate.js"></script>
-    <script src="./../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="./../bower_components/angular-cookie/angular-cookie.js"></script>
-    <script src="./../bower_components/angular-resource/angular-resource.js"></script>
-    <script src="./../bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="./../bower_components/angular-touch/angular-touch.js"></script>
-    <script src="./../bower_components/angular-translate/angular-translate.js"></script>
-    <script src="./../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="./../bower_components/angular-ui-utils/index.js"></script>
-    <script src="./../bower_components/angular-ui-grid/ui-grid.js"></script>
-    <script src="./../bower_components/ngStorage/src/angularLocalStorage.js"></script>
-    <script src="./../bower_components/oclazyload/dist/ocLazyLoad.js"></script>
-    <script src="./../bower_components/moment/min/moment-with-locales.js"></script>
-    <script src="./../bower_components/angular-moment/angular-moment.js"></script>-->
-
-    <script type="text/javascript" src="base/vendor/schema-form/tv4.js"></script>
-    <script type="text/javascript" src="base/vendor/schema-form/object-path.js"></script>
-    <script type="text/javascript" src="base/vendor/schema-form/schema-form.js"></script>
-    <script type="text/javascript" src="base/vendor/ace/assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="base/vendor/angular.boostrap/js/datetimepicker.js"></script>
-    <script type="text/javascript" src="base/vendor/decorators/bootstrap/bootstrap-decorator.js"></script>
-    <script type="text/javascript" src="base/vendor/angular-toastr/angular-toastr.tpls.js"></script>
-    <!--<script type="text/javascript" src="base/vendor/angular-file-upload/angular-file-upload.min.js"></script>-->
-    <script type="text/javascript" src="base/vendor/ng-dialog/ngDialog.js"></script>
-    <script type="text/javascript" src="scripts/app.js"></script>
-    <script type="text/javascript" src="scripts/config.router.js"></script>
-    <script type="text/javascript" src="scripts/services/authentication.js"></script>
-    <script type="text/javascript" src="scripts/services/utils.js"></script>
-    <script type="text/javascript" src="scripts/services/opath.js"></script>
-    <script type="text/javascript" src="scripts/services/file.size.js"></script>
-    <script type="text/javascript" src="scripts/services/explain.js"></script>
-    <script type="text/javascript" src="scripts/directives/components.js"></script>
-    <script type="text/javascript" src="scripts/directives/uploader.js"></script>
-    <script type="text/javascript" src="scripts/filters/common.js"></script>
-    <script type="text/javascript" src="scripts/controllers/dashboard.js"></script>
-    <script type="text/javascript" src="scripts/controllers/login.js"></script>
-    <script type="text/javascript" src="scripts/controllers/list.wrap.js"></script>
-    <script type="text/javascript" src="plugins/document/controllers/detail.js"></script>
-    <script type="text/javascript">
-        "use strict";
-        angular.module("app.config", [])
-                .constant("plugins", {
-                    "templates": {
-                        'layout': 'base/templates/layout.html',
-                        'login': 'base/templates/login.html',
-                        'dashboard': 'base/templates/dashboard.html',
-                        'list': 'base/templates/list.uigrid.html',
-                        'detail': 'base/templates/detail.html',
-                        'searchCommon': 'base/templates/search-common.html'
-                    }
-                })
-                .constant("gateway", {
-                    "host": "self"
-                })
-                .constant("ENV", {
-                    "version": "0.1.0",
-                    "mock": false,
-                    "menuRoot": "root",
-                    "menuApi": 'menu_desktop/self?count=9999',
-                    "language": navigator.language || navigator.userLanguage,
-                    "apiPath": "api/desktop",
-                    "serverRoot": 'src',
-                    "pluginFolder": 'plugins',
-                    "pageSize": {
-                        "default": 20,
-                        "more": 10
-                    },
-                    "debug": true,
-                    "headers": {"Content-Type": "application/json;charset=utf-8"}
-                });
-    </script>
 
 </head>
-<body ng-app="app" class="no-skin">
+<body>
 <div ui-view></div>
+
+<!--[if !IE]> -->
+<script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="base/ie8/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="./../components/yes-bundle/dist/yes.bundle.js"></script>
+<script type="text/javascript" src="./../components/yes-utils/dist/yes.utils.js"></script>
+<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/tv4.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/schema-form.js"></script>
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/bootstrap-decorator.js"></script>
+
+<script type="text/javascript">
+
+    angular.module('app.config', [
+        'ui.bootstrap',
+        'toastr',
+        'schemaForm',
+        'ui.grid.selection',
+        'ui.grid.resizeColumns',
+        'ui.grid.pagination',
+        'ui.grid.autoResize',
+        'ui.grid.exporter'
+    ]);
+
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
+    angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
+        function (settingsProvider, $ocLazyLoadProvider) {
+
+            var settings = {
+                version: "0.2.0",
+                host: 'self',
+                mock: false,
+                menuRoot: null,
+                debug: true,
+                menuApi: 'menu_desktop/self?count=9999',
+                apiPath: "api/desktop",
+                serverRoot: 'src',
+                pluginFolder: 'plugins',
+                language: navigator.language || navigator.userLanguage,
+                templates: {
+                    'layout': 'base/templates/layout.html',
+                    'login': 'base/templates/login.html',
+                    'dashboard': 'base/templates/dashboard.html',
+                    'list': 'base/templates/list.uigrid.html',
+                    'detail': 'base/templates/detail.html',
+                    'searchCommon': 'base/templates/search-common.html'
+                },
+                pageSize: {
+                    "default": 20,
+                    "more": 10
+                }
+            };
+
+            settings.routers = {
+                'app': {
+                    url: '',
+                    templateUrl: settings.templates.layout,
+                    abstract: true,
+                    controller: 'app.layout',
+                    dependencies: [
+                        'base/controllers/layout'
+                    ]
+                },
+                'login': {
+                    url: '/login',
+                    templateUrl: settings.templates.login,
+                    controller: "app.login"
+                },
+                'app.dashboard': {
+                    url: '/dashboard',
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.dashboard;
+                            },
+                            controller: "app.dashboard"
+                        }
+                    },
+                    dependencies: [
+                        'base/controllers/dashboard'
+                    ]
+                },
+                'app.list': {
+                    url: '/:name/:page',
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.list;
+                            },
+                            controller: "app.wrap.list"
+                        }
+                    },
+                    dependencies: [
+                        './../plugins/{$name}/config',
+                        'base/controllers/list.wrap'
+                    ]
+                },
+                'app.detail': {
+                    url: '/:name/:page/:action',
+                    templateUrl: settings.templates.detail
+                }
+            };
+            settings.otherwise = '/dashboard';
+
+            $ocLazyLoadProvider.config({
+                jsLoader: requirejs,
+                debug: settings.debug
+            });
+            settingsProvider.setSettings(settings);
+        }]);
+</script>
+
+<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/require.js"
+        data-main="plugins/start.js"></script>
+
 </body>
 </html>

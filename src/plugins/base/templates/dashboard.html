@@ -11,6 +11,9 @@
     </script>
 
     <div class="col-xs-12">
+
+        <div tree-view  resource="$parent.menus"></div>
+
         <div class="row" ng-repeat="menu in menus">
             <h3 class="header smaller lighter green">{{::menu.name}}
                 <small>&nbsp;</small>

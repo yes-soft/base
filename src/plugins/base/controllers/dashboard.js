@@ -1,11 +1,7 @@
 angular.module('app')
-    .controller('app.dashboard', ['$scope', '$stateParams', 'utils',
-        function ($scope, $stateParams, utils) {
+    .controller('app.dashboard', ['$scope', '$stateParams', 'utils', 'settings',
+        function ($scope, $stateParams, utils, settings) {
             var self = $scope;
-            self.init = function () {
-
-            };
-            self.init();
 
 
         }]);

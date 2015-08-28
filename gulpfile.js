@@ -20,7 +20,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('copy-vendor', function () {
-    return gulp.src('./src/base/vendor/**/*')
+    return gulp.src('./components/yes-bundle/vendor/**/*')
         .pipe(gulp.dest(distBase + "vendor"));
 });
 
@@ -39,32 +39,6 @@ gulp.task('copy-data', function () {
         .pipe(gulp.dest(dist + "data"));
 });
 
-gulp.task('scripts', function () {
-    return gulp.src([
-        'components/angular/angular.js',
-        'components/angular-animate/angular-animate.js',
-        'components/angular-bootstrap/ui-bootstrap-tpls.js',
-        'components/angular-cookie/angular-cookie.js',
-        'components/angular-resource/angular-resource.js',
-        'components/angular-sanitize/angular-sanitize.js',
-        'components/angular-touch/angular-touch.js',
-        'components/angular-translate/angular-translate.js',
-        'components/angular-ui-router/release/angular-ui-router.js',
-        'components/angular-ui-utils/ui-utils.js',
-        'components/angular-ui-grid/ui-grid.js',
-        'components/ngstorage/ngStorage.js',
-        'components/oclazyload/dist/oclazyload.js',
-        'components/moment/min/moment-with-locales.js',
-        'components/angular-moment/angular-moment.js'
-    ])
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(distBase + scripts))
-        .pipe(uglify())
-        .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(distBase + scripts));
-});
-
-
 gulp.task('basejs', function () {
     return gulp.src([
         './src/scripts/**/*.js'
@@ -82,7 +56,7 @@ gulp.task('css', function () {
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('default', ['scripts', 'basejs', 'css',
+gulp.task('default', [ 'basejs', 'css',
         'copy-templates', 'copy-vendor', 'copy-plugins', 'copy-data'],
     function () {
 

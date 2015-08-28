@@ -31,8 +31,8 @@
     <![endif]-->
 
     <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
-    <link href="css/common.css" rel="stylesheet">
-    <link href="css/pages.css" rel="stylesheet">
+    <link href="base/css/common.css" rel="stylesheet">
+    <link href="base/css/pages.css" rel="stylesheet">
 
 </head>
 <body class="no-skin">
@@ -48,29 +48,12 @@
 
 <script type="text/javascript" src="./../components/yes-bundle/dist/yes.bundle.js"></script>
 <script type="text/javascript" src="./../components/yes-utils/dist/yes.utils.js"></script>
+<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.dependencies.js"></script>
 <script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/tv4.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/schema-form.js"></script>
-<script type="text/javascript" src="./bootstrap-decorator.js"></script>
-<script type="text/javascript" src="./yes.forms.js"></script>
+<script type="text/javascript" src="./plugins/base/directives/tree.js"></script>
 
 <script type="text/javascript">
-
-    angular.module('app.config', [
-        'ui.bootstrap',
-        'toastr',
-        'schemaForm',
-        'ui.grid.selection',
-        'ui.grid.resizeColumns',
-        'ui.grid.pagination',
-        'ui.grid.autoResize',
-        'ui.grid.exporter'
-    ]);
-
+    angular.module('app.config', []);
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
@@ -90,6 +73,7 @@
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
+                    'authority': 'plugins/base/templates/authority.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
                     'detail': 'plugins/base/templates/detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html'
@@ -99,7 +83,6 @@
                     "more": 10
                 }
             };
-
             settings.routers = {
                 'app': {
                     url: '',
@@ -127,6 +110,20 @@
                     },
                     dependencies: [
                         'base/controllers/dashboard'
+                    ]
+                },
+                'app.authority': {
+                    url: '/authority',
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.authority;
+                            },
+                            controller: "app.authority"
+                        }
+                    },
+                    dependencies: [
+                        'base/controllers/authority'
                     ]
                 },
                 'app.list': {
