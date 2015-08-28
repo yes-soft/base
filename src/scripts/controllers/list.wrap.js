@@ -1,10 +1,18 @@
 "use strict";
 angular.module('app')
     .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location',
-        '$log', '$resource', '$http', 'utils', 'explain', 'plugins', 'toastr', 'ngDialog',
-        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr, ngDialog) {
+        '$log', '$resource', '$http', 'utils', 'explain', 'plugins', 'toastr',"ngDialog",
+        function ($scope, $stateParams, $timeout, $location, $log, $resource, $http, utils, explain, plugins, toastr,ngDialog) {
 
             var self = $scope;
+            var loading = 0;
+
+            var showMessage = function (message) {
+                if (loading == 0)
+                    toastr.success(message);
+                else if (loading > 0)
+                    loading--;
+            };
 
             self.action = {
                 search: function () {
@@ -17,23 +25,33 @@ angular.module('app')
                     });
                 },
                 cancel: function () {
+
+
                     angular.forEach(self.form.model, function (raw, key) {
-                        delete self.form.model[key];
+                        if(angular.isArray(self.form.model[key])){
+                            self.form.model[key]=[];
+                        }
+                        else{
+                            delete self.form.model[key];
+                        }
+
                         if (self.form.schema.properties[key].default) {
                             self.form.model[key] = self.form.schema.properties[key].default;
                         }
                     });
+
                 },
                 del: function () {
                     var rows = self.gridApi.selection.getSelectedRows() || [];
                     var loading = 0;
                     if (rows.length) {
                         ngDialog.openConfirm({
+                            className:'confirmdelete',
                             template: '\
-                <p>确定删除该条记录?</p>\
-                <div style="text-align: center" class="ngdialog-buttons">\
-                    <button type="button" style="margin-right: 115px;" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
-                    <button type="button" style="margin-right: 115px;" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Yes</button>\
+                <p style="margin-left:20px;">确定删除该条记录？</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" style="margin-right:45px;" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" style="margin-right:35px;" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Yes</button>\
                 </div>',
                             plain: true
                         }).then(function () {
@@ -132,14 +150,17 @@ angular.module('app')
                                 }
                             }
                         }
-
+                        self.events.trigger("beforeSave", self.form);
                         //TODO show loading;
                         utils.async(method, namespace, self.form.model).then(function (res) {
-                            self.load();
-                            self.events.trigger("closeDetail");
-                            self.events.trigger("entrySaved");
-                        });
-
+                                self.load();
+                                self.events.trigger("closeDetail");
+                                self.events.trigger("entrySaved");
+                            },
+                            function(res){
+                                toastr.warning('应用编号已经存在！');
+                                console.log(res);
+                            });
                     } else {
                         angular.element('.help-block').addClass('text-right');
                     }
