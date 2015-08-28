@@ -55,8 +55,8 @@
 <script type="text/javascript" src="./../components/yes-bundle/dist/vendor/tv4.js"></script>
 <script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
 <script type="text/javascript" src="./../components/yes-bundle/dist/vendor/schema-form.js"></script>
-<script type="text/javascript" src="./bootstrap-decorator.js"></script>
-<script type="text/javascript" src="./yes.forms.js"></script>
+
+<script type="text/javascript" src="./plugins/base/directives/tree.js"></script>
 
 <script type="text/javascript">
 
@@ -90,6 +90,7 @@
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
+                    'authority': 'plugins/base/templates/authority.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
                     'detail': 'plugins/base/templates/detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html'
@@ -127,6 +128,20 @@
                     },
                     dependencies: [
                         'base/controllers/dashboard'
+                    ]
+                },
+                'app.authority': {
+                    url: '/authority',
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.authority;
+                            },
+                            controller: "app.authority"
+                        }
+                    },
+                    dependencies: [
+                        'base/controllers/authority'
                     ]
                 },
                 'app.list': {
