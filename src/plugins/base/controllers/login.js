@@ -1,11 +1,11 @@
 angular.module('app')
-    .controller('app.login', ['$scope', '$stateParams', '$location', '$resource', 'utils', 'ENV',
-        function ($scope, $stateParams, $location, $resource, utils, ENV) {
+    .controller('app.login', ['$scope', '$stateParams', '$location', '$resource', 'utils', 'settings',
+        function ($scope, $stateParams, $location, $resource, utils, settings) {
 
             $scope.filter = {};
 
             $scope.login = function () {
-                utils.async("POST", ENV.apiPath + "/login", $scope.filter).then(function (res) {
+                utils.async("POST", settings.apiPath + "/login", $scope.filter).then(function (res) {
                     //  console.log(res);
                     localStorage.setItem("displayName", res.body.displayName || res.body.name);
                     localStorage.setItem("username", $scope.filter.username);

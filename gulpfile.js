@@ -20,7 +20,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('copy-vendor', function () {
-    return gulp.src('./components/yes-bundle/vendor/**/*')
+    return gulp.src('./src/base/vendor/**/*')
         .pipe(gulp.dest(distBase + "vendor"));
 });
 
@@ -29,35 +29,8 @@ gulp.task('copy-plugins', function () {
         .pipe(gulp.dest(dist + "plugins"));
 });
 
-gulp.task('copy-templates', function () {
-    return gulp.src('./src/base/templates/**/*.html')
-        .pipe(gulp.dest(distBase + "templates"));
-});
 
-gulp.task('copy-data', function () {
-    return gulp.src('./src/data/**/*')
-        .pipe(gulp.dest(dist + "data"));
-});
-
-gulp.task('basejs', function () {
-    return gulp.src([
-        './src/scripts/**/*.js'
-    ])
-        .pipe(concat('base.js'))
-        .pipe(gulp.dest(distBase + scripts))
-        .pipe(uglify())
-        .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(distBase + scripts));
-});
-
-gulp.task('css', function () {
-    return gulp.src('./src/css/**/*.css')
-        .pipe(concat('main.css'))
-        .pipe(gulp.dest(distBase + 'css'));
-});
-
-gulp.task('default', [ 'basejs', 'css',
-        'copy-templates', 'copy-vendor', 'copy-plugins', 'copy-data'],
+gulp.task('default', [ 'copy-vendor', 'copy-plugins', 'copy-data'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
