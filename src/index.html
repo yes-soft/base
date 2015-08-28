@@ -8,7 +8,20 @@
 
     <link rel="stylesheet" href="base/vendor/ace/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
-
+    <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
+    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
+    <link rel="stylesheet" href="base/vendor/angular.boostrap/css/datetimepicker.css"/>
+    <link rel="stylesheet" href="base/vendor/angular-toastr/angular-toastr.min.css"/>
+    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog.css"/>
+    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog-theme-default.css"/>
+    <link rel="stylesheet" href="base/vendor/ng-dialog/ngDialog-theme-plain.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace-part2.min.css" class="ace-main-stylesheet"/>
+    <![endif]-->
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="base/vendor/ace/assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <!-- inline styles related to this page -->
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
@@ -18,11 +31,11 @@
     <![endif]-->
 
     <link rel="stylesheet" href="base/vendor/ui-grid/ui-grid.css">
-    <link href="css/common.css" rel="stylesheet">
-    <link href="css/pages.css" rel="stylesheet">
+    <link href="base/css/common.css" rel="stylesheet">
+    <link href="base/css/pages.css" rel="stylesheet">
 
 </head>
-<body>
+<body class="no-skin">
 <div ui-view></div>
 
 <!--[if !IE]> -->
@@ -35,28 +48,12 @@
 
 <script type="text/javascript" src="./../components/yes-bundle/dist/yes.bundle.js"></script>
 <script type="text/javascript" src="./../components/yes-utils/dist/yes.utils.js"></script>
+<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.dependencies.js"></script>
 <script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/tv4.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/schema-form.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/bootstrap-decorator.js"></script>
+<script type="text/javascript" src="./plugins/base/directives/tree.js"></script>
 
 <script type="text/javascript">
-
-    angular.module('app.config', [
-        'ui.bootstrap',
-        'toastr',
-        'schemaForm',
-        'ui.grid.selection',
-        'ui.grid.resizeColumns',
-        'ui.grid.pagination',
-        'ui.grid.autoResize',
-        'ui.grid.exporter'
-    ]);
-
+    angular.module('app.config', []);
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
@@ -64,28 +61,28 @@
             var settings = {
                 version: "0.2.0",
                 host: 'self',
-                mock: false,
+                mock: true,
                 menuRoot: null,
                 debug: true,
-                menuApi: 'menu_desktop/self?count=9999',
-                apiPath: "api/desktop",
+                menuApi: 'base/menus',
+                apiPath: "api",
                 serverRoot: 'src',
                 pluginFolder: 'plugins',
                 language: navigator.language || navigator.userLanguage,
                 templates: {
-                    'layout': 'base/templates/layout.html',
-                    'login': 'base/templates/login.html',
-                    'dashboard': 'base/templates/dashboard.html',
-                    'list': 'base/templates/list.uigrid.html',
-                    'detail': 'base/templates/detail.html',
-                    'searchCommon': 'base/templates/search-common.html'
+                    'layout': 'plugins/base/templates/layout.html',
+                    'login': 'plugins/base/templates/login.html',
+                    'dashboard': 'plugins/base/templates/dashboard.html',
+                    'authority': 'plugins/base/templates/authority.html',
+                    'list': 'plugins/base/templates/list.uigrid.html',
+                    'detail': 'plugins/base/templates/detail.html',
+                    'searchCommon': 'plugins/base/templates/search-common.html'
                 },
                 pageSize: {
                     "default": 20,
                     "more": 10
                 }
             };
-
             settings.routers = {
                 'app': {
                     url: '',
@@ -115,6 +112,20 @@
                         'base/controllers/dashboard'
                     ]
                 },
+                'app.authority': {
+                    url: '/authority',
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.authority;
+                            },
+                            controller: "app.authority"
+                        }
+                    },
+                    dependencies: [
+                        'base/controllers/authority'
+                    ]
+                },
                 'app.list': {
                     url: '/:name/:page',
                     views: {
@@ -126,7 +137,7 @@
                         }
                     },
                     dependencies: [
-                        './../plugins/{$name}/config',
+                        '{$name}/config',
                         'base/controllers/list.wrap'
                     ]
                 },
