@@ -1,0 +1,14 @@
+<div ng-include="'./base/templates/breadcrumbs.html'"></div>
+权限配置
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-3">
+            <div ng-repeat="role in roles">角色列表</div>
+        </div>
+        <div class="col-xs-9">
+            <div>角色列表</div>
+            ---------
+            <div tree-view resource="menus"></div>
+        </div>
+    </div>
+</div>

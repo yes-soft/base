@@ -1,0 +1,479 @@
+.toggle-open,
+.dropdown-toggle,
+.clickable,
+.submenu a {
+  cursor: pointer;
+}
+.menu-div .nav-tabs .menu-icon {
+  font-size: 18px;
+}
+.grid {
+  min-height: 460px;
+}
+.scroll-y {
+  overflow-y: auto;
+}
+.right {
+  float: right;
+}
+.no-def-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.document-detail .main-title-div {
+  height: 45px;
+  width: 100%;
+  background: #438eb9;
+  line-height: 45px;
+  padding: 0 12px;
+}
+.document-detail .main-title-div label {
+  font-size: 20px;
+  color: #fff;
+}
+.document-detail .main-title-div button {
+  margin-top: 2px;
+}
+.document-detail .flow-title-div {
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  border-bottom: 1px dotted #e2e2e2;
+  padding: 0 12px;
+}
+.document-detail .flow-title-div label {
+  font-size: 20px;
+  color: #000;
+}
+.document-detail .flow-title-div button {
+  margin-top: 3px;
+}
+.document-detail .idea-top-div {
+  margin-top: 10px;
+}
+.document-detail .idea-top-div .suggestion {
+  height: 50px;
+  width: 100%;
+  padding: 0;
+}
+.document-detail .buttons {
+  margin-top: 10px;
+}
+.document-detail .buttons button {
+  margin-right: 5px;
+}
+.document-detail .item-div {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #000;
+}
+.document-detail .tr-div {
+  border-bottom: 1px solid #DDD;
+}
+.document-detail .tr-div > div {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-right: 1px solid #DDD;
+}
+.document-detail .tr-div > div:last-child {
+  border-right: 0px;
+}
+.document-detail .widget-body {
+  min-height: 400px;
+}
+.document-detail .btn.btn-sm.btn-info {
+  margin-right: 10px;
+}
+.document-detail .tab-detail-div {
+  margin-top: 10px;
+}
+.document-detail .tab-detail-div i {
+  margin: 0 4px;
+}
+.document-detail .ofIdea {
+  position: absolute;
+  z-index: 9999;
+  width: 500px;
+  background-color: #f2f2f2;
+  border: 3px solid #ddd;
+}
+.document-detail .ofIdea .clsdiv {
+  width: 100%;
+  float: left;
+}
+.document-detail .ofIdea .clsdiv span {
+  float: left;
+  font-size: 16px;
+  margin: 5px 0 0 8px;
+}
+.document-detail .ofIdea .clsdiv button {
+  border: 1px solid #abbac3;
+  margin: 5px;
+}
+.document-detail .ofIdea .clsdiv button i {
+  margin: 0 3px;
+}
+.document-detail .ofIdea .ofcontent {
+  position: relative;
+  width: 96%;
+  max-height: 300px;
+  margin: 2% 2%;
+  margin-top: 0px;
+  float: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+.document-detail .ofIdea .addFileDiv {
+  float: left;
+  width: 96%;
+  height: 30px;
+  margin: 2% 2%;
+}
+.document-detail .ofIdea .addFileDiv input {
+  height: 25px;
+  padding: 0 !important;
+  width: 390px;
+  margin-left: 2px;
+}
+.document-detail .ofIdea .addOneFile {
+  line-height: 25px;
+  float: right;
+  padding: 0 20px 0 20px;
+  background: #438EB8;
+  cursor: pointer;
+}
+.document-detail .ofIdea .ofli {
+  float: left;
+  width: 98%;
+  list-style: none;
+  line-height: 21px;
+  text-align: left;
+  padding: 1%;
+  cursor: pointer;
+  border-bottom: 1px solid #dddddd;
+}
+.document-detail .ofIdea .ofli .liclose {
+  float: right;
+  font-size: 30px;
+}
+.document-detail .ofIdea .ofli:nth-last-child(1) {
+  border-bottom: 0 !important;
+}
+.document-detail .ofIdea .ofli:hover {
+  background-color: #ddd;
+}
+.hide {
+  display: none;
+}
+.searchs-div {
+  margin-top: 10px;
+}
+.searchs-div input[readonly] {
+  background-color: #fff !important;
+}
+.searchs-div .btns {
+  text-align: right;
+  float: left;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+.sidebar .tab-content {
+  overflow-x: hidden;
+  border-width: 0 0 0 1px;
+  padding: 0;
+  background-color: #fff;
+  min-height: 460px;
+}
+.user-info {
+  line-height: 30px;
+}
+.tabbable.tabs-left .nav.nav-tabs .menu-text {
+  display: block;
+}
+.tabbable.tabs-left .nav.nav-tabs li {
+  text-align: center;
+}
+.hidden-ele {
+  visibility: hidden;
+}
+body {
+  background-color: #3975ab;
+}
+#sidebar-shortcuts {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#sidebar-shortcuts > .input-icon {
+  margin-top: 3px;
+}
+#sidebar-shortcuts > .input-icon ul li {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.menu-wrap {
+  overflow: hidden;
+}
+.menu-min .sidebar-shortcuts {
+  visibility: hidden;
+}
+.menu-min .sidebar-shortcuts .input-icon {
+  display: none;
+}
+body {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+.widget-toolbar.more:before {
+  border: 0;
+}
+.widget-toolbar.more a:hover {
+  transform: none;
+}
+.widget-box {
+  margin-top: 0;
+}
+.widget-body {
+  border: 0;
+}
+.header-color-dark + .widget-body {
+  border-color: #e5e5e5;
+}
+.page-content {
+  padding-top: 2px;
+}
+.modal-backdrop,
+.modal-backdrop.fade.in {
+  opacity: 0.01;
+}
+.searchs-div .btns {
+  margin-top: -1px;
+}
+.searchItem {
+  display: block;
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  min-width: 270px;
+}
+.searchItem .input-group-btn .glyphicon {
+  height: 17px;
+}
+.searchItem input {
+  width: 200px;
+}
+.searchItem .datetime .input-group-addon {
+  width: 32px;
+  padding: 0 2px;
+}
+.searchItem .datetime .input-group {
+  width: 180px;
+}
+.searchItem input.input {
+  width: 180px;
+  height: 30px;
+}
+.searchItem .date {
+  max-width: 180px;
+}
+.searchItem input[datepicker-popup] {
+  min-width: 136px;
+}
+.searchItem select {
+  min-width: 180px;
+}
+.searchItem label {
+  text-align: right;
+  display: block;
+  float: left;
+  line-height: 30px;
+  width: 86px;
+  vertical-align: middle;
+}
+.form-search .btns {
+  text-align: center;
+  float: left;
+  width: 300px;
+  margin-bottom: 10px;
+}
+.enable-filter .ui-grid-header-canvas {
+  height: 68px !important;
+}
+.widget-body .buttons-wrap {
+  padding: 10px;
+  border-bottom: 1px dotted #e2e2e2;
+}
+.widget-body .page-content {
+  margin: 20px 0 10px 10px;
+}
+.schema-form .col-xs-1,
+.schema-form .col-sm-1,
+.schema-form .col-md-1,
+.schema-form .col-lg-1,
+.schema-form .col-xs-2,
+.schema-form .col-sm-2,
+.schema-form .col-md-2,
+.schema-form .col-lg-2,
+.schema-form .col-xs-3,
+.schema-form .col-sm-3,
+.schema-form .col-md-3,
+.schema-form .col-lg-3,
+.schema-form .col-xs-4,
+.schema-form .col-sm-4,
+.schema-form .col-md-4,
+.schema-form .col-lg-4,
+.schema-form .col-xs-5,
+.schema-form .col-sm-5,
+.schema-form .col-md-5,
+.schema-form .col-lg-5,
+.schema-form .col-xs-6,
+.schema-form .col-sm-6,
+.schema-form .col-md-6,
+.schema-form .col-lg-6,
+.schema-form .col-xs-7,
+.schema-form .col-sm-7,
+.schema-form .col-md-7,
+.schema-form .col-lg-7,
+.schema-form .col-xs-8,
+.schema-form .col-sm-8,
+.schema-form .col-md-8,
+.schema-form .col-lg-8,
+.schema-form .col-xs-9,
+.schema-form .col-sm-9,
+.schema-form .col-md-9,
+.schema-form .col-lg-9,
+.schema-form .col-xs-10,
+.schema-form .col-sm-10,
+.schema-form .col-md-10,
+.schema-form .col-lg-10,
+.schema-form .col-xs-11,
+.schema-form .col-sm-11,
+.schema-form .col-md-11,
+.schema-form .col-lg-11,
+.schema-form .col-xs-12,
+.schema-form .col-sm-12,
+.schema-form .col-md-12,
+.schema-form .col-lg-12 {
+  padding-right: 0;
+  padding-left: 0;
+}
+.schema-form .padding-right-0 {
+  padding-left: 10px;
+}
+.schema-form .edit-body {
+  padding: 3px 30px;
+}
+.schema-form .form-group {
+  position: relative;
+  clear: both;
+  margin-bottom: 0;
+}
+.schema-form .form-group .form-control {
+  height: 30px;
+}
+.schema-form .form-group .control-label {
+  line-height: 1.9;
+}
+.schema-form .form-group .text-right {
+  padding: 0;
+}
+.schema-form .form-group .padding-right-0 {
+  padding-right: 0;
+}
+.schema-form .form-required {
+  color: #ff0000;
+}
+.schema-form fieldset,
+.schema-form .schema-form-section.clearfix {
+  border-bottom: 1px dotted #e2e2e2;
+}
+.schema-form .form-control-feedback {
+  right: -28px;
+}
+.schema-form .has-feedback select.form-control {
+  padding-right: 0;
+  min-width: 110px;
+}
+.schema-form .list-group-item .schema-form-fieldset legend {
+  float: left;
+  width: 20%;
+  display: none;
+}
+.schema-form .list-group-item .fieldset-item {
+  float: left;
+}
+.schema-form .json-textarea {
+  min-height: 60px;
+}
+.schema-form .form-list-group .help-block {
+  display: none;
+}
+.schema-form .form-list-group fieldset {
+  border-bottom: 0;
+}
+.schema-form .form-list-group h5 {
+  display: none;
+}
+.editing .form-group.has-success .control-label,
+.editing .form-group.has-success .help-inline {
+  color: inherit;
+}
+.editing .form-group.has-success input,
+.editing .form-group.has-success select,
+.editing .form-group.has-success textarea {
+  border-color: #d5d5d5;
+  color: #858585;
+}
+.editing .schema-form .form-control-feedback {
+  display: none;
+}
+.editing .has-success .control-label,
+.editing .has-success .radio,
+.editing .has-success .checkbox,
+.editing .has-success .radio-inline,
+.editing .has-success .checkbox-inline,
+.editing .has-success.radio label,
+.editing .has-success.checkbox label,
+.editing .has-success.radio-inline label,
+.editing .has-success.checkbox-inline label {
+  color: inherit;
+}
+.schema-form.scaffold .help-block {
+  display: none;
+}
+.schema-form.scaffold fieldset,
+.schema-form.scaffold .schema-form-section.clearfix {
+  border-bottom: 0;
+}
+.schema-form.scaffold .radio,
+.schema-form.scaffold .checkbox {
+  margin-top: 5px;
+}
+.help-block {
+  color: #aaa;
+  display: block;
+  clear: both;
+  line-height: 2.2;
+  min-height: 30px;
+  padding-right: 25px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.full-row {
+  width: 100%;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  border-width: 2px;
+}
+.form-control {
+  height: 30px;
+}
+.btn.btn-app.btn-sm {
+  font-size: 13px;
+}
+.nav.nav-tabs li {
+  cursor: pointer;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  width: 520px;
+}
