@@ -16,7 +16,7 @@ angular.module('app')
                     $location.search("return", null);
 
                 }, function (err) {
-                    toastr.error("ÓÃ»§Ãû»òÕßÃÜÂë²»ÕıÈ·£¡",{
+                    toastr.error("ç”¨æˆ·åæˆ–è€…å¯†ç ä¸æ­£ç¡®ï¼",{
                         timeOut:3000
                     });
                     utils.alert(err.message);
