@@ -48,29 +48,12 @@
 
 <script type="text/javascript" src="./../components/yes-bundle/dist/yes.bundle.js"></script>
 <script type="text/javascript" src="./../components/yes-utils/dist/yes.utils.js"></script>
+<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.dependencies.js"></script>
 <script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/tv4.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/schema-form.js"></script>
-
 <script type="text/javascript" src="./plugins/base/directives/tree.js"></script>
 
 <script type="text/javascript">
-
-    angular.module('app.config', [
-        'ui.bootstrap',
-        'toastr',
-        'schemaForm',
-        'ui.grid.selection',
-        'ui.grid.resizeColumns',
-        'ui.grid.pagination',
-        'ui.grid.autoResize',
-        'ui.grid.exporter'
-    ]);
-
+    angular.module('app.config', []);
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
@@ -100,7 +83,6 @@
                     "more": 10
                 }
             };
-
             settings.routers = {
                 'app': {
                     url: '',
