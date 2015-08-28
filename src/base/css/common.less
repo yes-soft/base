@@ -6,6 +6,14 @@
 
 }
 
+.menu-div {
+  .nav-tabs {
+    .menu-icon {
+      font-size: 18px;
+    }
+  }
+}
+
 .grid {
   min-height: 460px;
 }
@@ -24,6 +32,48 @@
 }
 
 .document-detail {
+  .main-title-div {
+    height: 45px;
+    width: 100%;
+    background: #438eb9;
+    line-height: 45px;
+    padding: 0 12px;
+    label {
+      font-size: 20px;
+      color: #fff;
+    }
+    button {
+      margin-top: 2px;
+    }
+  }
+  .flow-title-div {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-bottom: 1px dotted #e2e2e2;
+    padding: 0 12px;
+    label {
+      font-size: 20px;
+      color: #000;
+    }
+    button {
+      margin-top: 3px;
+    }
+  }
+  .idea-top-div {
+    margin-top: 10px;
+    .suggestion {
+      height: 50px;
+      width: 100%;
+      padding: 0;
+    }
+  }
+  .buttons {
+    margin-top: 10px;
+    button {
+      margin-right: 5px;
+    }
+  }
   .item-div {
     padding-top: 10px;
     padding-bottom: 5px;
@@ -32,13 +82,12 @@
   .tr-div {
     border-bottom: 1px solid #DDD;
     & > div {
-      min-height: 35.1042px;
       padding-top: 7px;
       padding-bottom: 7px;
       border-right: 1px solid #DDD;
     }
     & > div:last-child {
-      border-right: 0;
+      border-right: 0px;
     }
   }
   .widget-body {
@@ -51,6 +100,81 @@
     margin-top: 10px;
     i {
       margin: 0 4px;
+    }
+  }
+  .ofIdea {
+    position: absolute;
+    z-index: 9999;
+    width: 500px;
+    //display: none;
+    background-color: #f2f2f2;
+    border: 3px solid #ddd;
+    .clsdiv {
+      width: 100%;
+      float: left;
+      span {
+        float: left;
+        font-size: 16px;
+        margin: 5px 0 0 8px;
+      }
+      button {
+        border: 1px solid #abbac3;
+        margin: 5px;
+        i {
+          margin: 0 3px;
+        }
+      }
+    }
+    .ofcontent {
+      position: relative;
+      width: 96%;
+      max-height: 300px;
+      margin: 2% 2%;
+      margin-top: 0px;
+      float: left;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+    .addFileDiv {
+      float: left;
+      width: 96%;
+      height: 30px;
+      margin: 2% 2%;
+      input {
+        height: 25px;
+        padding: 0 !important;
+        width: 390px;
+        margin-left: 2px;
+      }
+    }
+    .addOneFile {
+      line-height: 25px;
+      float: right;
+      padding: 0 20px 0 20px;
+      background: #438EB8;
+      cursor: pointer;
+    }
+    .ofli {
+      float: left;
+      width: 98%;
+      list-style: none;
+      line-height: 21px;
+      text-align: left;
+      padding: 1%;
+      cursor: pointer;
+      border-bottom: 1px solid rgb(221, 221, 221);
+      .liclose {
+        float: right;
+        font-size: 30px;
+      }
+    }
+    .ofli:nth-last-child(1) {
+      border-bottom: 0 !important;
+    }
+    .ofli:hover {
+      background-color: #ddd;
     }
   }
 }

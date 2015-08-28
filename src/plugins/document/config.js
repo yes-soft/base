@@ -262,7 +262,8 @@ angular.module("app.config").constant("document.config", {
                     label: "标题"
                 },
                 {
-                    type: "date",
+                    type: "datetime",
+                    autoclose: true,
                     name: "yes_create_time$gte",
                     placeholder: "请选择开始时间",
                     name2: "yes_create_time$lte",
