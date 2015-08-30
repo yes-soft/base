@@ -24,20 +24,44 @@ gulp.task('copy-vendor', function () {
         .pipe(gulp.dest(distBase + "vendor"));
 });
 
+gulp.task('scripts', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/yes.bundle.js',
+            './components/yes-utils/dist/yes.utils.js',
+            './components/yes-ui/dist/yes.ui.dependencies.js',
+            './components/yes-ui/dist/yes.ui.js']
+    )
+        .pipe(concat('yes.app.js'))
+        .pipe(gulp.dest(distBase + scripts))
+        .pipe(uglify())
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest(distBase + scripts));
+
+});
+
+gulp.task('css', function () {
+    return gulp.src('./src/base/css/**/*.css')
+        .pipe(concat('main.css'))
+        .pipe(gulp.dest(distBase + 'css'));
+});
+
 gulp.task('copy-plugins', function () {
     return gulp.src('./src/plugins/**/*')
         .pipe(gulp.dest(dist + "plugins"));
 });
 
+gulp.task('copy-data', function () {
+    return gulp.src('./src/data/**/*')
+        .pipe(gulp.dest(dist + "data"));
+});
 
-gulp.task('default', [ 'copy-vendor', 'copy-plugins', 'copy-data'],
+gulp.task('default', ['scripts', 'css', 'copy-vendor', 'copy-plugins', 'copy-data'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
 
         var js = gulp.src([
-            'base/scripts/app.js',
-            'base/scripts/base.js'
+            'base/scripts/yes.app.js'
         ], {read: false, cwd: dist});
 
         var css = gulp.src([

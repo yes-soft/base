@@ -29,9 +29,9 @@
                         });
 
                         var depth = 0;
-                        var decorator = {
-                            example: {template: 'plugins/base/templates/tree-node.html', replace: true, builder: []}
-                        };
+                        //var decorator = {
+                        //    example: {template: 'plugins/base/templates/tree-node.html', replace: true, builder: []}
+                        //};
 
                        // var fg = sfBuilder.build({}, decorator);
 
@@ -41,9 +41,6 @@
                                 var name = '-----------------------'.substring(0, depth * 4) + node.name + node.type;
                                 var txt = document.createTextNode(name);
                                 var current = depth;
-
-
-                                //  div.appendChild(fg);
                                 div.appendChild(txt);
                                 df.appendChild(div);
                                 if (node.subMenus) {
