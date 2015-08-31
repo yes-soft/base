@@ -24,6 +24,22 @@ gulp.task('copy-vendor', function () {
         .pipe(gulp.dest(distBase + "vendor"));
 });
 
+gulp.task('require-js', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/vendor/require.js']
+    )
+        .pipe(concat('require.js'))
+        .pipe(gulp.dest(distBase + scripts));
+});
+
+gulp.task('jquery', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/vendor/jquery.min.js']
+    )
+        .pipe(concat('jquery.min.js'))
+        .pipe(gulp.dest(distBase + scripts));
+});
+
 gulp.task('scripts', function () {
     return gulp.src(
         ['./components/yes-bundle/dist/yes.bundle.js',
@@ -55,7 +71,7 @@ gulp.task('copy-data', function () {
         .pipe(gulp.dest(dist + "data"));
 });
 
-gulp.task('default', ['scripts', 'css', 'copy-vendor', 'copy-plugins', 'copy-data'],
+gulp.task('default', ['scripts', 'css', 'copy-vendor', 'copy-plugins', 'copy-data', 'require-js', 'jquery'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));

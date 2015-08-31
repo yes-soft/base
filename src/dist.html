@@ -21,27 +21,21 @@
     <![endif]-->
 
     <link rel="stylesheet" href="base/vendor/angular-ui-grid/ui-grid.min.css">
-
-    <!-- inject:css -->
-    <!-- endinject -->
-
+    <link href="base/css/main.css" rel="stylesheet">
 
 </head>
 <body class="no-skin">
 <div ui-view></div>
 
 <!--[if !IE]> -->
-<script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
+<script src="base/scripts/jquery.min.js"></script>
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-
-<!-- inject:js -->
-<!-- endinject -->
-
+<script type="text/javascript" src="base/scripts/yes.app.min.js"></script>
 <script type="text/javascript">
 
     angular.module('app.config', [
@@ -143,7 +137,7 @@
         }]);
 </script>
 
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/require.js"
+<script type="text/javascript" src="base/scripts/require.js"
         data-main="plugins/start.js"></script>
 
 </body>
