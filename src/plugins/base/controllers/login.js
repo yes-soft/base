@@ -1,6 +1,6 @@
 angular.module('app')
-    .controller('app.login', ['$scope', '$stateParams', '$location', '$resource', 'utils', 'settings',
-        function ($scope, $stateParams, $location, $resource, utils, settings) {
+    .controller('app.login', ['$scope', '$stateParams', '$location', 'utils', 'settings',
+        function ($scope, $stateParams, $location, utils, settings) {
 
             $scope.filter = {};
 

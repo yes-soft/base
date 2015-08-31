@@ -8,9 +8,11 @@
 
     <link rel="stylesheet" href="base/vendor/ace/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
-
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
+    <link href="base/css/common.css" rel="stylesheet">
+    <link href="base/css/pages.css" rel="stylesheet">
 
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
@@ -19,10 +21,6 @@
     <script src="base/vendor/ace/assets/js/html5shiv.min.js"></script>
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
-
-    <link rel="stylesheet" href="./../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
-    <link href="base/css/common.css" rel="stylesheet">
-    <link href="base/css/pages.css" rel="stylesheet">
 
 </head>
 <body class="no-skin">
@@ -36,11 +34,12 @@
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-<script type="text/javascript" src="./../components/yes-bundle/dist/yes.bundle.js"></script>
-<script type="text/javascript" src="./../components/yes-utils/dist/yes.utils.js"></script>
-<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.dependencies.js"></script>
-<script type="text/javascript" src="./../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="./plugins/base/directives/tree.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
+<script type="text/javascript" src="../components/yes-utils/dist/yes.utils.js"></script>
+<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.dependencies.js"></script>
+<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
+<script type="text/javascript" src="plugins/base/directives/tree.js"></script>
+<script type="text/javascript" src="plugins/base/controllers/login.js"></script>
 <script type="text/javascript">
 
     angular.module('app.config', [
@@ -142,7 +141,7 @@
         }]);
 </script>
 
-<script type="text/javascript" src="./../components/yes-bundle/dist/vendor/require.js"
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/require.js"
         data-main="plugins/start.js"></script>
 
 </body>
