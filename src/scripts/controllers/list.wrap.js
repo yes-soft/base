@@ -265,6 +265,9 @@ angular.module('app')
                 self.detailUid = entity.uid;
                 self.form = self.form || {};
                 self.form.model = entity;
+                if (self.form.model.json) {
+                    self.form.model.phoneNumbers = JSON.parse(self.form.model.json).phoneNumbers;
+                }
                 self.detailUrl = config.form.template;
                 utils.disableScroll();
                 self.events.trigger('detailLoad', entity);
