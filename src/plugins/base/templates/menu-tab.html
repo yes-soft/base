@@ -21,7 +21,7 @@
                                 <span class="menu-text">
                                    {{l2Menu.name}}
                                 </span>
-                                <b ng-if="l2Menu.subMenus.length" class="arrow fa fa-angle-down {{::l2Menu.icon}}"></b>
+                                <b ng-if="l2Menu.subMenus.length" class="arrow fa fa-angle-down {{::(!l2Menu.subMenus||l2Menu.subMenus.length==0)?l2Menu.icon:''}}"></b>
                             </a>
                             <b class="arrow"></b>
                             <ul ng-repeat="l3Menu in l2Menu.subMenus" class="submenu">
@@ -29,7 +29,7 @@
                                     <a ng-href="{{l3Menu.url}}">
                                         <i class="menu-icon fa fa-caret-right"></i>
                                         {{l3Menu.name}}
-                                        <b ng-if="l3Menu.subMenus.length" class="arrow fa fa-angle-down {{::l3Menu.icon}}"></b>
+                                        <b ng-if="l3Menu.subMenus.length" class="arrow fa fa-angle-down {{::(!l3Menu.subMenus||l3Menu.subMenus.length==0)?l3Menu.icon:''}}"></b>
                                     </a>
                                     <b class="arrow"></b>
                                     <ul class="submenu">
