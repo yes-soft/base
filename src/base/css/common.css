@@ -4,6 +4,47 @@
 .submenu a {
   cursor: pointer;
 }
+.document-selector {
+  min-height: 456px;
+}
+.document-selector .selector-body {
+  margin: 0 30px;
+}
+.document-selector .selector-body .boxes-div {
+  margin: 0 40px;
+}
+.document-selector .selector-body .option-span {
+  float: left;
+  min-width: 184px;
+  white-space: nowrap;
+}
+.document-selector .selector-body .gzsdw .option-span {
+  min-width: 245px !important;
+}
+.document-selector .checkbox-label input {
+  margin: 2px 0;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+}
+.document-selector .checkbox-label span {
+  margin-left: 20px;
+}
+.document-selector .util-box {
+  margin-bottom: 10px;
+}
+.document-selector .util-box .box-header {
+  margin: 5px 0;
+  height: 30px;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+}
+.document-selector .util-box .widget-toolbar {
+  line-height: 30px !important;
+}
+.document-selector .util-box .box-body {
+  margin-left: 20px;
+}
 .input-group > input {
   cursor: pointer!important;
 }
