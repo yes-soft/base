@@ -385,7 +385,6 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
 
         var invoke = function (fn, context) {
             if (angular.isFunction(fn)) {
-                console.log(fn.constructor.toString());
                 injector.invoke(fn, context);
             } else if (angular.isArray(fn)) {
                 angular.forEach(fn, function (f) {
@@ -432,7 +431,6 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
         var explainList = function (config, scope) {
             var context = {scope: scope, list: config.list};
             var resolves = oPath.get(config, 'list.resolves', []);
-            console.log("test 111 ",context);
             invoke(resolves, context);
             return config
         };

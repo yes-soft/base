@@ -1,8 +1,8 @@
-define(['base/test'],
-    function (test) {
+define(
+    function () {
         "use strict";
         angular.module("app.config").constant("base.config", {
-            _default: {
+            defaults: {
                 list: {
                     operations: {
                         "search": {
@@ -105,10 +105,9 @@ define(['base/test'],
                         }]
                     }],
                     resolves: function (utils) {
-
                         var context = this;
                         context.scope.events.on("listLoaded", function () {
-                            console.log(context.scope.entries);
+
                         });
                     }
                 },

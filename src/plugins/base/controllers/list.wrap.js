@@ -19,7 +19,6 @@ angular.module('app')
                 cancel: function () {
                     angular.forEach(self.form.model, function (raw, key) {
                         delete self.form.model[key];
-                        console.log(self.form.feedback);
                     });
                 },
                 del: function () {

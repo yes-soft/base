@@ -6,5 +6,3 @@ define(function () {
             }]);
 });
 
-console.log("load test ....");
-

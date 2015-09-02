@@ -17,12 +17,9 @@ define(['resolves'],
 
                     var settings = settingsProvider.getSettings();
 
-                    console.log("loaded routers...", settings.routers);
-
                     if (settings.routers) {
                         angular.forEach(settings.routers, function (route, name) {
-
-                            console.log("dependencies: ", route.dependencies);
+ 
                             if (route.dependencies) {
                                 route.resolve = resolves(route.dependencies);
                             }
