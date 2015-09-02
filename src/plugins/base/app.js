@@ -7,7 +7,7 @@ define(['resolves'],
                 '$provide', '$stateProvider', '$urlRouterProvider',
                 'settingsProvider',
                 function ($controllerProvider, $compileProvider, $filterProvider,
-                          $provide, $stateProvider, $urlRouterProvider,settingsProvider) {
+                          $provide, $stateProvider, $urlRouterProvider, settingsProvider) {
 
                     app.controller = $controllerProvider.register;
                     app.directive = $compileProvider.directive;
@@ -17,8 +17,12 @@ define(['resolves'],
 
                     var settings = settingsProvider.getSettings();
 
+                    console.log("loaded routers...", settings.routers);
+
                     if (settings.routers) {
                         angular.forEach(settings.routers, function (route, name) {
+
+                            console.log("dependencies: ", route.dependencies);
                             if (route.dependencies) {
                                 route.resolve = resolves(route.dependencies);
                             }

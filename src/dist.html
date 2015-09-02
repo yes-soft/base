@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="base/vendor/angular-ui-grid/ui-grid.min.css">
-    <link href="base/css/main.css" rel="stylesheet">
+
+    <!-- inject:css -->
+    <!-- endinject -->
 
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
@@ -21,20 +23,22 @@
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 <body class="no-skin">
 <div ui-view></div>
 
 <!--[if !IE]> -->
-<script src="base/scripts/jquery.min.js"></script>
+<script src="base/vendor/jquery/jquery.min.js"></script>
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-<script type="text/javascript" src="base/scripts/yes.app.min.js"></script>
-<script type="text/javascript" src="plugins/base/controllers/login.js"></script>
+<!-- inject:js -->
+<!-- endinject -->
+
 <script type="text/javascript">
 
     angular.module('app.config', [
@@ -91,7 +95,10 @@
                 'login': {
                     url: '/login',
                     templateUrl: settings.templates.login,
-                    controller: "app.login"
+                    controller: "app.login",
+                    dependencies: [
+                        'base/controllers/login'
+                    ]
                 },
                 'app.dashboard': {
                     url: '/dashboard',
@@ -118,13 +125,17 @@
                         }
                     },
                     dependencies: [
-                        './../plugins/{$name}/config',
+                        '{$name}/config',
                         'base/controllers/list.wrap'
                     ]
                 },
                 'app.detail': {
                     url: '/:name/:page/:action',
-                    templateUrl: settings.templates.detail
+                    templateUrl: settings.templates.detail,
+                    dependencies: [
+                        '{$name}/config',
+                        'base/controllers/detail'
+                    ]
                 }
             };
             settings.otherwise = '/dashboard';
@@ -137,7 +148,7 @@
         }]);
 </script>
 
-<script type="text/javascript" src="base/scripts/require.js"
+<script type="text/javascript" src="base/vendor/require.js"
         data-main="plugins/start.js"></script>
 
 </body>

@@ -6,8 +6,6 @@ define([], function () {
                 function ($ocLazyLoad, $rootScope, $stateParams) {
                     var list = [];
 
-                    var injector = angular.element('body').injector();
-
                     angular.forEach(dependencies, function (dep) {
                         for (var key in $stateParams) {
                             if ($stateParams.hasOwnProperty(key)) {
@@ -17,6 +15,7 @@ define([], function () {
                         list.push(dep);
                     });
 
+                    console.log(list);
                     return $ocLazyLoad.load(list).then(function (res) {
 
                     }, function (e) {
@@ -27,3 +26,5 @@ define([], function () {
         return definition;
     }
 });
+
+console.log('loaded resolves');

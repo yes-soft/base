@@ -3,7 +3,7 @@ angular.module('yes.ui',
         'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
         'ui.grid.exporter']);
 angular.module('yes.ui')
-    .directive('changeTab', function ($timeout) {
+    .directive('changeTab', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -15,7 +15,7 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
+    }])
     .directive('boxChangeShowHide', function () {
         return {
             restrict: 'A',
@@ -34,7 +34,7 @@ angular.module('yes.ui')
             }
         }
     })
-    .directive('onDomReady', function ($timeout) {
+    .directive('onDomReady', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -78,8 +78,8 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
-    .directive('onFinishRender', function ($timeout) {
+    }])
+    .directive('onFinishRender', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -90,8 +90,8 @@ angular.module('yes.ui')
                 }
             }
         }
-    })
-    .directive('onMenuRender', function ($timeout, $stateParams) {
+    }])
+    .directive('onMenuRender', ['$timeout', '$stateParams', function ($timeout, $stateParams) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -136,8 +136,8 @@ angular.module('yes.ui')
                 }
             }
         }
-    })
-    .directive('onSideBarRender', function ($timeout) {
+    }])
+    .directive('onSideBarRender', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -153,7 +153,7 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
+    }])
     .directive('includeReplace', function () {
         return {
             require: 'ngInclude',
@@ -164,7 +164,7 @@ angular.module('yes.ui')
             }
         };
     })
-    .directive('searchCommon', function (settings) {
+    .directive('searchCommon', ['settings', function (settings) {
         return {
             restrict: 'EA',
             templateUrl: settings.templates.searchCommon,
@@ -271,7 +271,7 @@ angular.module('yes.ui')
                 }
             ]
         };
-    });
+    }]);
 
 
 angular.module('yes.ui')
@@ -437,12 +437,15 @@ angular.module('yes.ui.list', ['ui.grid', ''])
         }
     });
 angular.module('yes.ui')
-    .directive('yesTreeView', function ($timeout) {
+    .directive('yesTreeView', function ($compile, $templateCache, $http) {
         return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
+            link: function (scope, element, attrs) {
+                $http.get("plugins/base/templates/tree-view.html", {cache: $templateCache})
+                    .success(function (html) {
+                        element.html('').append($compile(html)(scope));
+                    });
             }
-        }
+        };
     });
 angular.module('yes.ui')
     .directive('uploader', function ($timeout) {

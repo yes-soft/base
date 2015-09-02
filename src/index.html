@@ -35,9 +35,24 @@
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
+
+<!--framework bundles-->
 <script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
+
 <script type="text/javascript" src="../components/yes-utils/dist/yes.utils.js"></script>
-<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.dependencies.js"></script>
+
+<!--UI dependencies-->
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/tv4.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
+<script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
+
+<!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
 
 <script type="text/javascript">
@@ -97,7 +112,10 @@
                 'login': {
                     url: '/login',
                     templateUrl: settings.templates.login,
-                    controller: "app.login"
+                    controller: "app.login",
+                    dependencies: [
+                        'base/controllers/login'
+                    ]
                 },
                 'app.dashboard': {
                     url: '/dashboard',
@@ -124,13 +142,17 @@
                         }
                     },
                     dependencies: [
-                        './../plugins/{$name}/config',
+                        '{$name}/config',
                         'base/controllers/list.wrap'
                     ]
                 },
                 'app.detail': {
                     url: '/:name/:page/:action',
-                    templateUrl: settings.templates.detail
+                    templateUrl: settings.templates.detail,
+                    dependencies: [
+                        '{$name}/config',
+                        'base/controllers/detail'
+                    ]
                 }
             };
             settings.otherwise = '/dashboard';
