@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/toaster/angular-toastr.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
+
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
 
@@ -50,6 +55,7 @@
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
 <script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
 
 <!--UI dependencies-->
@@ -59,7 +65,9 @@
 
     angular.module('app.config', [
         'ui.bootstrap',
+        'ngDialog',
         'toastr',
+        'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
@@ -90,12 +98,15 @@
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
                     'detail': 'plugins/base/templates/detail.html',
-                    'searchCommon': 'plugins/base/templates/search-common.html'
+                    'searchCommon': 'plugins/base/templates/search-common.html',
+                    'dialog': 'plugins/base/templates/dialog-container.html',
+                    'import': 'plugins/base/templates/import.html',
+                    'uploader': 'plugins/base/templates/uploader-container.html'
                 },
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {
-                    "default": 20,
-                    "more": 10
+                    defaults: 20,
+                    more: 10
                 }
             };
 

@@ -44,6 +44,7 @@
     angular.module('app.config', [
         'ui.bootstrap',
         'toastr',
+        'ngDialog',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
@@ -77,8 +78,8 @@
                 },
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {
-                    "default": 20,
-                    "more": 10
+                    defaults: 20,
+                    more: 10
                 }
             };
 

@@ -44,7 +44,6 @@ define(
                     }
                 },
                 list: {
-                    wrap: "default",
                     headers: {
                         "name": {
                             displayName: "名称",
@@ -206,7 +205,6 @@ define(
                     edit: false
                 },
                 list: {
-                    wrap: "default",
                     headers: {
                         "updated": {
                             displayName: "操作时间",
