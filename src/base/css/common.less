@@ -5,6 +5,36 @@
   cursor: pointer;
 }
 
+.modal-dialog {
+  margin: 5px auto;
+}
+
+.tab-pack-left {
+  padding: 0 3px;
+  .widget-toolbar {
+    float: left;
+    padding: 0px;
+  }
+  .widget-body {
+    min-height: 500px !important;
+    border-bottom: 1px solid #DCE8F1 !important;
+    border-left: 1px solid #DCE8F1 !important;
+    border-right: 1px solid #DCE8F1 !important;
+  }
+}
+
+.btn-bottom {
+  height: 40px;
+  line-height: 40px;
+  margin: 0px;
+  padding: 0px;
+  .btn {
+    margin-top: 4px;
+    float: right;
+    padding: 3px 5px;
+  }
+}
+
 .document-selector {
   min-height: 456px;
   .selector-body {
@@ -24,6 +54,7 @@
     }
   }
   .checkbox-label {
+    cursor: pointer;
     input {
       margin: 2px 0;
       width: 18px;
@@ -51,9 +82,36 @@
   }
 }
 
-.input-group>input{
-  cursor: pointer!important;
+.sift-div {
+  width: 25px;
+  float: left;
+  font-family: Arial, "微软雅黑", "宋体";
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+  text-decoration: none;
+  text-align: center;
+  .characters-ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    & > li {
+      line-height: 16px;
+      color: #6fb3e0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    & > li:hover {
+      color: #fff;
+      background-color: #6fb3e0;
+    }
+  }
 }
+
+.input-group > input {
+  cursor: pointer !important;
+}
+
 .menu-div {
   .nav-tabs {
     .menu-icon {

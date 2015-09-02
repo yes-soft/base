@@ -4,6 +4,33 @@
 .submenu a {
   cursor: pointer;
 }
+.modal-dialog {
+  margin: 5px auto;
+}
+.tab-pack-left {
+  padding: 0 3px;
+}
+.tab-pack-left .widget-toolbar {
+  float: left;
+  padding: 0px;
+}
+.tab-pack-left .widget-body {
+  min-height: 500px !important;
+  border-bottom: 1px solid #DCE8F1 !important;
+  border-left: 1px solid #DCE8F1 !important;
+  border-right: 1px solid #DCE8F1 !important;
+}
+.btn-bottom {
+  height: 40px;
+  line-height: 40px;
+  margin: 0px;
+  padding: 0px;
+}
+.btn-bottom .btn {
+  margin-top: 4px;
+  float: right;
+  padding: 3px 5px;
+}
 .document-selector {
   min-height: 456px;
 }
@@ -20,6 +47,9 @@
 }
 .document-selector .selector-body .gzsdw .option-span {
   min-width: 245px !important;
+}
+.document-selector .checkbox-label {
+  cursor: pointer;
 }
 .document-selector .checkbox-label input {
   margin: 2px 0;
@@ -45,8 +75,33 @@
 .document-selector .util-box .box-body {
   margin-left: 20px;
 }
+.sift-div {
+  width: 25px;
+  float: left;
+  font-family: Arial, "微软雅黑", "宋体";
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+  text-decoration: none;
+  text-align: center;
+}
+.sift-div .characters-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sift-div .characters-ul > li {
+  line-height: 16px;
+  color: #6fb3e0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.sift-div .characters-ul > li:hover {
+  color: #fff;
+  background-color: #6fb3e0;
+}
 .input-group > input {
-  cursor: pointer!important;
+  cursor: pointer !important;
 }
 .menu-div .nav-tabs .menu-icon {
   font-size: 18px;
