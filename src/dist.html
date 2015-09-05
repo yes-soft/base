@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
-    <link rel="stylesheet" href="base/vendor/angular-ui-grid/ui-grid.min.css">
 
     <!-- inject:css -->
     <!-- endinject -->
@@ -45,6 +44,7 @@
         'ui.bootstrap',
         'toastr',
         'ngDialog',
+        'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
@@ -74,7 +74,10 @@
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
                     'detail': 'plugins/base/templates/detail.html',
-                    'searchCommon': 'plugins/base/templates/search-common.html'
+                    'searchCommon': 'plugins/base/templates/search-common.html',
+                    'dialog': 'plugins/base/templates/dialog-container.html',
+                    'import': 'plugins/base/templates/import.html',
+                    'uploader': 'plugins/base/templates/uploader-container.html'
                 },
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {

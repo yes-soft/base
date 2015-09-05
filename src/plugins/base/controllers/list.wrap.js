@@ -7,6 +7,8 @@ define(['base/services/mapper'], function (mapper) {
 
                 var self = $scope;
 
+                var detailId = $location.search()['uid'];
+
                 self.action = {
                     search: function () {
                         self.load();
@@ -150,6 +152,11 @@ define(['base/services/mapper'], function (mapper) {
                     self.form = config.form;
                     self.config = config;
                     self.load();
+
+                    if (detailId) {
+                        self.loadOne();
+                    }
+
                     self.events.trigger('listInit');
                 };
 
@@ -159,7 +166,7 @@ define(['base/services/mapper'], function (mapper) {
                         var body = res.body;
                         self.entries = body.items || [];
                         self.headers = config.list.headers || body.headers;
-                        
+
                         if (self.headers) {
                             var columnDefs = [];
                             angular.forEach(self.headers, function (name, key) {
@@ -214,6 +221,14 @@ define(['base/services/mapper'], function (mapper) {
                         if (self.form.debug && self.entries.length) {
                             self.detailLoad(self.entries[0]);
                         }
+                    });
+                };
+
+                self.loadOne = function () {
+                    var namespace = [$stateParams.name, $stateParams.page, detailId].join("/");
+                    utils.async("GET", namespace, self.filter).then(function (res) {
+                        var body = res.body;
+                        self.detailLoad(body);
                     });
                 };
 

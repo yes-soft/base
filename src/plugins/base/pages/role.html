@@ -1,0 +1,27 @@
+<div class="container" style="padding-top: 50px;">
+    <div ng-controller="app.page.role">
+        <div class="row">
+            <div class="col-xs-3">
+                <div>角色列表</div>
+                <div ng-repeat="role in roles" ng-class="{'current':role == currentRole}" class="clickable"
+                     ng-click="action.selectRole(role)">
+                    {{role.name}}
+                </div>
+            </div>
+            <div class="col-xs-9">
+                <div>
+                    <button ng-click="action.copyAuthority()">复制权限</button>
+                    <label> 当前角色:[ {{currentRole.name}} ]</label>
+
+                    <button ng-click="action.save()">保存</button>
+                </div>
+                <!--{{node.subMenus}}-->
+                <div yes-role-tree data-nodes="node.subMenus"></div>
+            </div>
+        </div>
+
+        <div>
+            保存结果: {{result}}
+        </div>
+    </div>
+</div>

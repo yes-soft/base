@@ -97,7 +97,7 @@
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/detail.html',
+                    'detail': 'plugins/base/templates/page.detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html',
                     'dialog': 'plugins/base/templates/dialog-container.html',
                     'import': 'plugins/base/templates/import.html',
@@ -157,12 +157,18 @@
                         'base/controllers/list.wrap'
                     ]
                 },
-                'app.detail': {
+                'app.pages': {
                     url: '/:name/:page/:action',
-                    templateUrl: settings.templates.detail,
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.custom;
+                            }
+                        }
+                    },
                     dependencies: [
                         '{$name}/config',
-                        'base/controllers/detail'
+                        'base/pages/{$action}'
                     ]
                 }
             };

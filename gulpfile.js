@@ -51,7 +51,8 @@ gulp.task('scripts', function () {
             './components/yes-bundle/dist/vendor/tv4.js',
             './components/yes-bundle/dist/vendor/ObjectPath.js',
             './components/yes-bundle/dist/vendor/schema-form.js',
-            './components/yes-bundle/dist/vendor/angular-file-upload.js',
+            './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
+            './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
             './components/yes-bundle/dist/vendor/ui.boostrap.datetimepicker.js',
             './components/yes-ui/dist/yes.ui.js']
     )
@@ -63,9 +64,22 @@ gulp.task('scripts', function () {
 
 });
 
-gulp.task('css', function () {
-    return gulp.src('./src/base/css/**/*.css')
+gulp.task('css-vendor', function () {
+    return gulp.src([])
         .pipe(concat('main.css'))
+        .pipe(gulp.dest(distBase + 'css'));
+});
+
+gulp.task('css', function () {
+    return gulp.src([
+        'components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css',
+        'components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css',
+        'components/yes-bundle/dist/vendor/toaster/angular-toastr.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css'
+    ])
+        .pipe(concat('vendor.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
 
@@ -74,12 +88,23 @@ gulp.task('copy-plugins', function () {
         .pipe(gulp.dest(dist + "plugins"));
 });
 
+gulp.task('copy-fonts', function () {
+    return gulp.src([
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.ttf',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.svg',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.woff',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.eot'
+    ])
+        .pipe(gulp.dest(distBase + "css"));
+});
+
 gulp.task('copy-data', function () {
     return gulp.src('./src/data/**/*')
         .pipe(gulp.dest(dist + "data"));
 });
 
-gulp.task('default', ['scripts', 'css', 'copy-vendor', 'copy-plugins', 'copy-data', 'require-js', 'jquery'],
+gulp.task('default', ['scripts', 'css', 'css-vendor', 'copy-fonts',
+        'copy-vendor', 'copy-plugins', 'copy-data', 'require-js', 'jquery'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
@@ -89,6 +114,7 @@ gulp.task('default', ['scripts', 'css', 'copy-vendor', 'copy-plugins', 'copy-dat
         ], {read: false, cwd: dist});
 
         var css = gulp.src([
+            'base/css/vendor.css',
             'base/css/main.css'
         ], {read: false, cwd: dist});
 
