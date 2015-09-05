@@ -7,6 +7,12 @@
            class="glyphicon glyphicon-chevron-right clickable"
            ng-class="{'glyphicon-chevron-down':node.collapsed}"></i>
 
+        <span>
+            <label class="clickable" ng-repeat="op in node.operations">
+                <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
+                {{::op.name}} </label>
+        </span>
+
         <div ng-show="node.collapsed" yes-role-tree data-nodes="node.subMenus">
         </div>
     </li>

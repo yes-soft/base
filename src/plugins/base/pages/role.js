@@ -1,11 +1,12 @@
 define(['base/directives/tree.view'], function () {
     "use strict";
     angular.module('app')
-        .controller('app.page.role', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'utils',
-            function ($scope, $stateParams, $timeout, $location, $http, utils) {
+        .controller('app.page.role', ['$scope', '$stateParams', 'ngDialog', '$location', '$http', 'utils',
+            function ($scope, $stateParams, ngDialog, $location, $http, utils) {
 
                 var self = $scope;
                 self.result = [];
+                self.title = "角色权限";
 
                 $http.get('data/menus.json?').success(function (data) {
                     var menus = utils.menus.initMenus(null, data.body.items);
@@ -51,7 +52,18 @@ define(['base/directives/tree.view'], function () {
                         self.loadRoleRight(role.uid);
                     },
                     copyAuthority: function () {
-
+                        ngDialog.open(
+                            {
+                                template: "plugins/base/pages/role.copy.html",
+                                controller: function ($scope) {
+                                    $scope.roles = self.roles;
+                                    $scope.copy = function () {
+                                        if ($scope.currentRole)
+                                            self.loadRoleRight($scope.currentRole);
+                                    }
+                                }
+                            }
+                        );
                     },
                     save: function () {
                         self.result = [];
