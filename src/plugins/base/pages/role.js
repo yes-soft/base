@@ -10,7 +10,7 @@ define(['base/directives/tree.view'], function () {
 
                 $http.get('data/menus.json?').success(function (data) {
                     var menus = utils.menus.initMenus(null, data.body.items);
-                    self.node = {"subMenus": menus};
+                    self.node = {"subMenus": menus, isRoot: true};
                 });
 
                 self.loadRoleRight = function (uid) {
