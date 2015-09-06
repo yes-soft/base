@@ -4,6 +4,9 @@
 .submenu a {
   cursor: pointer;
 }
+.tree-children {
+  padding-left: 20px;
+}
 .modal-dialog {
   margin: 5px auto;
 }
@@ -75,6 +78,24 @@
 .document-selector .util-box .box-body {
   margin-left: 20px;
 }
+.document-selector .top-div {
+  height: 43px;
+  width: 100%;
+}
+.document-selector .tree-div {
+  width: auto;
+  height: 442px;
+  overflow-y: auto;
+  border: 1px solid #DCE8F1;
+}
+.search-span {
+  width: 100%;
+}
+.search-span > input {
+  height: 29px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
 .sift-div {
   width: 25px;
   float: left;
@@ -91,7 +112,7 @@
   padding: 0;
 }
 .sift-div .characters-ul > li {
-  line-height: 16px;
+  line-height: 17px;
   color: #6fb3e0;
   font-size: 14px;
   cursor: pointer;
@@ -111,6 +132,9 @@
 }
 .scroll-y {
   overflow-y: auto;
+}
+.full-width {
+  width: 100%;
 }
 .right {
   float: right;

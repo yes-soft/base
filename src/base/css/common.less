@@ -5,6 +5,10 @@
   cursor: pointer;
 }
 
+.tree-children {
+  padding-left: 20px;
+}
+
 .modal-dialog {
   margin: 5px auto;
 }
@@ -80,6 +84,25 @@
       margin-left: 20px;
     }
   }
+  .top-div {
+    height: 43px;
+    width: 100%;
+  }
+  .tree-div {
+    width: auto;
+    height: 442px;
+    overflow-y: auto;
+    border: 1px solid #DCE8F1;
+  }
+}
+
+.search-span {
+  width: 100%;
+  & > input {
+    height: 29px;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
 }
 
 .sift-div {
@@ -96,7 +119,7 @@
     margin: 0;
     padding: 0;
     & > li {
-      line-height: 16px;
+      line-height: 17px;
       color: #6fb3e0;
       font-size: 14px;
       cursor: pointer;
@@ -126,6 +149,10 @@
 
 .scroll-y {
   overflow-y: auto;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .right {
