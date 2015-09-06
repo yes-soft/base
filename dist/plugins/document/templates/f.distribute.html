@@ -1,0 +1,76 @@
+<div class="document-detail document-selector">
+    <div class="flow-title-div">
+        <label><b>选择分发范围</b></label>
+        <button ng-click="close();" class="btn btn-sm btn-danger right">
+            <i class="ace-icon fa fa-times bigger-125"></i>
+        </button>
+    </div>
+    <div class="selector-body">
+
+        <div class="page-header position-relative" style="padding: 5px;">
+            <button class="btn btn-sm btn-info" type="button">
+                <i class="fa fa-check"></i> 提交
+            </button>
+            <font color="red">说明：蓝色字体表示已分发</font>
+        </div>
+
+        <div class="boxes-div">
+
+            <div class="util-box" ng-if="paper.form==shouwen || paper.form==deptshouwen">
+                <div class="box-header">
+                    办公室拟办意见
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0);" box-change-show-hide>
+                            <i class="fs-big ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {{paper.bgsopinion}},{{paper.bgsperson}},{{paper.bgsdate}}
+                </div>
+            </div>
+
+            <div class="util-box">
+                <div class="box-header">
+                    公司领导批示
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0);" box-change-show-hide>
+                            <i class="fs-big ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body" ng-if="paper.iscenter=='否'">
+                    {{paper.leaderop}}
+                </div>
+                <div class="box-body" ng-if="!(paper.iscenter=='否')">
+                    {{res.centerSW}}
+                </div>
+            </div>
+
+            <div class="util-box {{::item.name}}" ng-repeat="item in ::items">
+                <div class="box-header">
+                    <label class="checkbox-label">
+                        <input type="checkbox" ng-model="item.checked" ng-change="changeChildren(item);">
+                        <span>{{::item.label}}</span>
+                    </label>
+
+                    <div class="widget-toolbar">
+                        <a href="javascript:void(0);" box-change-show-hide>
+                            <i class="fs-big ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body clearfix">
+                    <span class="option-span" ng-repeat="it in ::item.list track by $index">
+                        <label class="checkbox-label ">
+                            <input type="checkbox" ng-model="it.checked">
+                            <span>{{::it.c_lname}}</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

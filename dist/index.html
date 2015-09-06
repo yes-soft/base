@@ -10,15 +10,11 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css">
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/toaster/angular-toastr.css"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
 
-    <link href="base/css/common.css" rel="stylesheet">
-    <link href="base/css/pages.css" rel="stylesheet">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="base/css/vendor.css">
+    <link rel="stylesheet" href="base/css/main.css">
+    <!-- endinject -->
 
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
@@ -28,53 +24,36 @@
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 <body class="no-skin">
 <div ui-view></div>
 
 <!--[if !IE]> -->
-<script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
+<script src="base/vendor/jquery/jquery.min.js"></script>
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-
-<!--framework bundles-->
-<script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
-
-<script type="text/javascript" src="../components/yes-utils/dist/yes.utils.js"></script>
-
-<!--UI dependencies-->
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/tv4.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
-<script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
-
-<!--UI dependencies-->
-<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
+<!-- inject:js -->
+<script src="base/scripts/yes.app.js"></script>
+<!-- endinject -->
 
 <script type="text/javascript">
 
     angular.module('app.config', [
         'ui.bootstrap',
-        'ngDialog',
         'toastr',
+        'ngDialog',
         'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter',
-        'ui.bootstrap.datetimepicker'
+        'ui.grid.exporter'
     ]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
@@ -97,7 +76,7 @@
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/page.detail.html',
+                    'detail': 'plugins/base/templates/detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html',
                     'dialog': 'plugins/base/templates/dialog-container.html',
                     'import': 'plugins/base/templates/import.html',
@@ -157,18 +136,12 @@
                         'base/controllers/list.wrap'
                     ]
                 },
-                'app.pages': {
+                'app.detail': {
                     url: '/:name/:page/:action',
-                    views: {
-                        "content": {
-                            templateUrl: function () {
-                                return settings.templates.custom;
-                            }
-                        }
-                    },
+                    templateUrl: settings.templates.detail,
                     dependencies: [
                         '{$name}/config',
-                        '{$name}/pages/{$action}'
+                        'base/controllers/detail'
                     ]
                 }
             };
@@ -176,13 +149,13 @@
 
             $ocLazyLoadProvider.config({
                 jsLoader: requirejs,
-                debug: false
+                debug: settings.debug
             });
             settingsProvider.setSettings(settings);
         }]);
 </script>
 
-<script type="text/javascript" src="../components/yes-bundle/dist/vendor/require.js"
+<script type="text/javascript" src="base/vendor/require.js"
         data-main="plugins/start.js"></script>
 
 </body>
