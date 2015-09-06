@@ -4,8 +4,45 @@
 .submenu a {
   cursor: pointer;
 }
+.tree .operate-span {
+  padding: 2px 4px;
+}
+.tree .operate-btn.fa-plus-circle {
+  font-size: 14px !important;
+  color: #06ca06;
+}
+.tree .operate-btn.fa-minus-circle {
+  font-size: 14px !important;
+  color: #c71313;
+}
+.tree-small .tree-branch .tree-branch-children {
+  margin: 0 0 0 17px !important;
+}
+.tree-small:before {
+  bottom: 12px !important;
+}
+.tree-small .tree-branch:before,
+.tree-small .tree-item:before {
+  top: 10px !important;
+  left: -12px !important;
+}
+.tree-small .tree-branch .tree-branch-children:before {
+  left: -12px !important;
+  bottom: 12px !important;
+}
+.tree-small .tree-item,
+.tree-small .tree-branch .tree-branch-header {
+  padding: 1px !important;
+}
+.tree-small div {
+  font-size: 12px !important;
+}
 .tree-children {
   padding-left: 20px;
+}
+.tree-item-name,
+.tree-branch-name {
+  white-space: nowrap !important;
 }
 .modal-dialog {
   margin: 5px auto;
