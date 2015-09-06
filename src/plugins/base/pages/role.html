@@ -3,27 +3,16 @@
         cursor: pointer;
     }
 
-    .page-content ul, li {
-        list-style-type: none;
-    }
-
-    .page-content ul, li {
-        margin: 0;
-    }
-
-    .page-content ul {
-        padding-left: 20px;
-    }
-
-    .page-content li {
-        border: 1px solid #ccc;
-    }
-
     .page-content .current {
         border: 1px solid #ccc;
     }
 
 </style>
+
+
+
+
+
 <div ng-controller="app.page.role">
     <div class="breadcrumbs" id="breadcrumbs">
         <ul class="breadcrumb">
@@ -38,10 +27,12 @@
         <div>
             <div class="row">
                 <div class="col-xs-3">
-                    <div>角色列表</div>
-                    <div ng-repeat="role in roles" ng-class="{'current':role == currentRole}" class="clickable"
-                         ng-click="action.selectRole(role)">
-                        {{role.name}}
+                    <div>角色列表
+                        <button ng-click="action.addRole()">添加角色</button>
+                    </div>
+                    <div ng-repeat="role in roles" ng-class="{'current':role == currentRole}" class="clickable">
+                        <span ng-click="action.selectRole(role)"> {{role.name}}</span>
+                        <i ng-click="action.removeRole(role)" class="glyphicon glyphicon-remove"></i>
                     </div>
                 </div>
                 <div class="col-xs-9">

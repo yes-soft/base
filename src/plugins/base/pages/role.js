@@ -68,6 +68,24 @@ define(['base/directives/tree.view'], function () {
                     save: function () {
                         self.result = [];
                         getResult(self.node.subMenus);
+                    },
+                    removeRole: function (role) {
+                        self.currentRole = null;  //TODO
+                        self.loadRoleRight(role.uid);
+                    },
+                    addRole: function () {
+                        ngDialog.open(
+                            {
+                                template: "plugins/base/pages/role.add.html",
+                                controller: function ($scope) {
+                                    //$scope.roles = self.roles;
+                                    //$scope.copy = function () {
+                                    //    if ($scope.currentRole)
+                                    //        self.loadRoleRight($scope.currentRole);
+                                    //}
+                                }
+                            }
+                        );
                     }
                 }
 

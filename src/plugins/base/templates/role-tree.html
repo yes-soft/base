@@ -1,5 +1,5 @@
 <ul>
-    <li ng-repeat="node in ::nodes">
+    <li class="tree-item" ng-repeat="node in ::nodes">
         <label class="clickable"> <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
             {{::node.name}} </label>
         <i ng-click="node.collapsed=!node.collapsed"
