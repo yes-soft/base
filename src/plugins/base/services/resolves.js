@@ -2,11 +2,9 @@ define([], function () {
     return function (dependencies) {
         var definition;
         definition = {
-            resolver: ['$ocLazyLoad', '$rootScope', '$stateParams',
-                function ($ocLazyLoad, $rootScope, $stateParams) {
+            resolver: ['$ocLazyLoad', '$rootScope', '$stateParams', 'settings',
+                function ($ocLazyLoad, $rootScope, $stateParams, settings) {
                     var list = [];
-
-                    var injector = angular.element('body').injector();
 
                     angular.forEach(dependencies, function (dep) {
                         for (var key in $stateParams) {
@@ -16,6 +14,15 @@ define([], function () {
                         }
                         list.push(dep);
                     });
+
+                    if ($stateParams.hasOwnProperty('name')
+                        && $stateParams.hasOwnProperty('page')
+                        && $stateParams.hasOwnProperty('action')) {
+                        settings.templates.custom = ['plugins',
+                                $stateParams.name,
+                                'pages',
+                                $stateParams.action].join('/') + '.html';
+                    }
 
                     return $ocLazyLoad.load(list).then(function (res) {
 

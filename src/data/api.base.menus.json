@@ -51,6 +51,22 @@
         "order": 100
       },
       {
+        "uid": "626173655f6163636f756e79",
+        "name": "新窗口打开",
+        "tip": "新窗口打开",
+        "color": "btn-primary",
+        "tag": "base_account",
+        "icon": "fa-users",
+        "url": "#/base/accounts?uid=1",
+        "state": true,
+        "parent": "202020206261736520202020",
+        "type": "menu",
+        "home": true,
+        "blank": false,
+        "expanded": false,
+        "order": 100
+      },
+      {
         "uid": "202061656163757465692020",
         "name": "账号管理（管理权限）",
         "tip": "账号管理（管理权限）",
@@ -121,7 +137,7 @@
         "color": "btn-primary",
         "tag": "base_role",
         "icon": "fa-check-square-o",
-        "url": "#/base/role",
+        "url": "#/base/custom/role",
         "state": true,
         "parent": "202020206261736520202020",
         "type": "menu",

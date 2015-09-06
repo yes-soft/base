@@ -1,8 +1,8 @@
-define(['base/test'],
-    function (test) {
+define(
+    function () {
         "use strict";
         angular.module("app.config").constant("base.config", {
-            _default: {
+            defaults: {
                 list: {
                     operations: {
                         "search": {
@@ -44,7 +44,6 @@ define(['base/test'],
                     }
                 },
                 list: {
-                    wrap: "default",
                     headers: {
                         "name": {
                             displayName: "名称",
@@ -105,10 +104,9 @@ define(['base/test'],
                         }]
                     }],
                     resolves: function (utils) {
-
                         var context = this;
                         context.scope.events.on("listLoaded", function () {
-                            console.log(context.scope.entries);
+
                         });
                     }
                 },
@@ -207,7 +205,6 @@ define(['base/test'],
                     edit: false
                 },
                 list: {
-                    wrap: "default",
                     headers: {
                         "updated": {
                             displayName: "操作时间",

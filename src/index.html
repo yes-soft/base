@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/toaster/angular-toastr.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
+
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
 
@@ -34,23 +40,41 @@
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
+
+<!--framework bundles-->
 <script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
+
 <script type="text/javascript" src="../components/yes-utils/dist/yes.utils.js"></script>
-<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.dependencies.js"></script>
+
+<!--UI dependencies-->
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/tv4.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ObjectPath.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
+<script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
+
+<!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="plugins/base/directives/tree.js"></script>
-<script type="text/javascript" src="plugins/base/controllers/login.js"></script>
+
 <script type="text/javascript">
 
     angular.module('app.config', [
         'ui.bootstrap',
+        'ngDialog',
         'toastr',
+        'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter'
+        'ui.grid.exporter',
+        'ui.bootstrap.datetimepicker'
     ]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
@@ -73,13 +97,16 @@
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/detail.html',
-                    'searchCommon': 'plugins/base/templates/search-common.html'
+                    'detail': 'plugins/base/templates/page.detail.html',
+                    'searchCommon': 'plugins/base/templates/search-common.html',
+                    'dialog': 'plugins/base/templates/dialog-container.html',
+                    'import': 'plugins/base/templates/import.html',
+                    'uploader': 'plugins/base/templates/uploader-container.html'
                 },
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {
-                    "default": 20,
-                    "more": 10
+                    defaults: 20,
+                    more: 10
                 }
             };
 
@@ -96,7 +123,10 @@
                 'login': {
                     url: '/login',
                     templateUrl: settings.templates.login,
-                    controller: "app.login"
+                    controller: "app.login",
+                    dependencies: [
+                        'base/controllers/login'
+                    ]
                 },
                 'app.dashboard': {
                     url: '/dashboard',
@@ -123,20 +153,30 @@
                         }
                     },
                     dependencies: [
-                        './../plugins/{$name}/config',
+                        '{$name}/config',
                         'base/controllers/list.wrap'
                     ]
                 },
-                'app.detail': {
+                'app.pages': {
                     url: '/:name/:page/:action',
-                    templateUrl: settings.templates.detail
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.custom;
+                            }
+                        }
+                    },
+                    dependencies: [
+                        '{$name}/config',
+                        'base/pages/{$action}'
+                    ]
                 }
             };
             settings.otherwise = '/dashboard';
 
             $ocLazyLoadProvider.config({
                 jsLoader: requirejs,
-                debug: settings.debug
+                debug: false
             });
             settingsProvider.setSettings(settings);
         }]);

@@ -15,7 +15,7 @@
 }
 .tab-pack-left .widget-toolbar {
   float: left;
-  padding: 0px;
+  padding: 0;
 }
 .tab-pack-left .widget-body {
   min-height: 500px !important;
@@ -26,8 +26,8 @@
 .btn-bottom {
   height: 40px;
   line-height: 40px;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 .btn-bottom .btn {
   margin-top: 4px;
@@ -200,7 +200,7 @@
   height: 35px;
 }
 .document-detail .tr-div > div:last-child {
-  border-right: 0px;
+  border-right: 0;
 }
 .document-detail .widget-body {
   min-height: 400px;
@@ -242,7 +242,7 @@
   width: 96%;
   max-height: 300px;
   margin: 2% 2%;
-  margin-top: 0px;
+  margin-top: 0;
   float: left;
   overflow-x: hidden;
   overflow-y: auto;

@@ -3,7 +3,7 @@ angular.module('yes.ui',
         'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
         'ui.grid.exporter']);
 angular.module('yes.ui')
-    .directive('changeTab', function ($timeout) {
+    .directive('changeTab', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -15,7 +15,7 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
+    }])
     .directive('boxChangeShowHide', function () {
         return {
             restrict: 'A',
@@ -34,7 +34,7 @@ angular.module('yes.ui')
             }
         }
     })
-    .directive('onDomReady', function ($timeout) {
+    .directive('onDomReady', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -78,8 +78,8 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
-    .directive('onFinishRender', function ($timeout) {
+    }])
+    .directive('onFinishRender', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -90,8 +90,8 @@ angular.module('yes.ui')
                 }
             }
         }
-    })
-    .directive('onMenuRender', function ($timeout, $stateParams) {
+    }])
+    .directive('onMenuRender', ['$timeout', '$stateParams', function ($timeout, $stateParams) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -136,8 +136,8 @@ angular.module('yes.ui')
                 }
             }
         }
-    })
-    .directive('onSideBarRender', function ($timeout) {
+    }])
+    .directive('onSideBarRender', ['$timeout', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -153,7 +153,7 @@ angular.module('yes.ui')
                 });
             }
         }
-    })
+    }])
     .directive('includeReplace', function () {
         return {
             require: 'ngInclude',
@@ -164,7 +164,7 @@ angular.module('yes.ui')
             }
         };
     })
-    .directive('searchCommon', function (settings) {
+    .directive('searchCommon', ['settings', function (settings) {
         return {
             restrict: 'EA',
             templateUrl: settings.templates.searchCommon,
@@ -271,7 +271,7 @@ angular.module('yes.ui')
                 }
             ]
         };
-    });
+    }]);
 
 
 angular.module('yes.ui')
@@ -390,6 +390,49 @@ angular.module('yes.ui').config(
             );
         }
     ]);
+(function () {
+    'use strict';
+    angular.module('yes.ui')
+        .directive('importUploader', ['$location', 'utils', 'settings', 'FileUploader',
+            function ($location, utils, settings, FileUploader) {
+                return {
+                    restrict: 'EA',
+                    templateUrl: settings.templates.import,
+                    replace: true,
+                    scope: {
+                        options: "="
+                    },
+                    controller: ['$scope', '$attrs', '$element',
+                        function ($scope, $attrs, $element) {
+                            var options = $scope.options || {};
+
+                            $scope.title = options.title;
+
+                            var url = options.url || "/upload";
+                            url = utils.getAbsUrl(url);
+
+                            var uploader = $scope.uploader = new FileUploader({
+                                url: url
+                            });
+
+
+                            uploader.filters.push({
+                                name: 'customFilter',
+                                fn: function (item, options) {
+                                    return this.queue.length < 10;
+                                }
+                            });
+
+                            uploader.onSuccessItem = function (item, res, status, headers) {
+                                $scope.message = res.message;
+                                if (angular.isFunction(options.resolve)) {
+                                    options.resolve.apply();
+                                }
+                            };
+                        }]
+                };
+            }]);
+})();
 angular.module('yes.ui.list', ['ui.grid', ''])
     .directive('yesList', function ($timeout) {
         return {
@@ -436,19 +479,41 @@ angular.module('yes.ui.list', ['ui.grid', ''])
             }
         }
     });
-angular.module('yes.ui')
-    .directive('yesTreeView', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
-            }
-        }
-    });
-angular.module('yes.ui')
-    .directive('uploader', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
-            }
-        }
-    });
+
+(function () {
+    'use strict';
+    angular.module('yes.ui')
+        .directive('uploaderContainer', ['$location', 'utils', 'settings',
+            function ($location, utils, settings) {
+                return {
+                    restrict: 'EA',
+                    templateUrl: settings.templates.uploader, //'base/templates/uploader-container.html',
+                    replace: true,
+                    scope: {
+                        options: "="
+                    },
+                    controller: ['$scope', '$attrs', '$element',
+                        function ($scope, $attrs, $element) {
+                            var options = $scope.options;
+
+                            var url = options.url || "/upload";
+                            url = utils.getAbsUrl(url);
+
+                            var uploader = $scope.uploader = new FileUploader({
+                                url: url
+                            });
+
+                            uploader.filters.push({
+                                name: 'customFilter',
+                                fn: function (item /*{File|FileLikeObject}*/, options) {
+                                    return this.queue.length < 10;
+                                }
+                            });
+
+                            if (angular.isFunction(options.resolve)) {
+                                options.resolve.apply(uploader);
+                            }
+                        }]
+                };
+            }]);
+})();
