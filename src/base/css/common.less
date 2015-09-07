@@ -1,3 +1,44 @@
+.person_girl {
+  background-image: url(./../../plugins/document/images/woman.gif);
+  background-position: left 50%;
+}
+
+.person_man {
+  background-image: url(./../../plugins/document/images/man.gif);
+  background-position: left 50%;
+}
+
+.person_dept {
+  background-image: url(./../../plugins/document/images/dept.gif);
+  background-position: left 50%;
+}
+
+.people-row:hover {
+  background-color: #F0F7FC;
+}
+
+.people-row {
+  border-bottom: 1px solid #CCCCCC;
+  color: #333333;
+  text-decoration: none;
+  text-indent: 20px;
+  height: 27px;
+  padding: 3px 5px 0px 0px;
+  cursor: pointer;
+  font-size: 14px;
+  background-repeat: no-repeat;
+  & > i {
+    float: right;
+    margin-top: 3px;
+  }
+  & > i.fa-minus {
+    color: #FAFA0B;
+  }
+  & > i.fa-plus {
+    color: #0B0D9B;
+  }
+}
+
 .toggle-open,
 .dropdown-toggle,
 .clickable,
@@ -6,6 +47,9 @@
 }
 
 .tree {
+  .checked {
+    background-color: rgb(240, 247, 252);
+  }
   .operate-span {
     padding: 2px 4px;
   }
@@ -17,6 +61,10 @@
     font-size: 14px !important;
     color: rgb(199, 19, 19);
   }
+}
+
+.tree .tree-branch {
+  cursor: auto !important;
 }
 
 .tree-small .tree-branch .tree-branch-children {
