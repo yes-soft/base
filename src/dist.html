@@ -39,19 +39,25 @@
 <!-- endinject -->
 
 <script type="text/javascript">
-
+    var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
         'ui.bootstrap',
-        'toastr',
         'ngDialog',
+        'toastr',
+        'angularMoment',
         'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter'
-    ]);
+        'ui.grid.exporter',
+        'ui.bootstrap.datetimepicker'
+    ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
+        function ($log, $timeout, $rootScope, amMoment, i18nService) {
+            i18nService.setCurrentLang(language);
+            amMoment.changeLocale(language);
+        }]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
@@ -67,13 +73,13 @@
                 apiPath: "api",
                 serverRoot: 'src',
                 pluginFolder: 'plugins',
-                language: navigator.language || navigator.userLanguage,
+                language: language,
                 templates: {
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/detail.html',
+                    'detail': 'plugins/base/templates/page.detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html',
                     'dialog': 'plugins/base/templates/dialog-container.html',
                     'import': 'plugins/base/templates/import.html',
@@ -133,12 +139,18 @@
                         'base/controllers/list.wrap'
                     ]
                 },
-                'app.detail': {
+                'app.pages': {
                     url: '/:name/:page/:action',
-                    templateUrl: settings.templates.detail,
+                    views: {
+                        "content": {
+                            templateUrl: function () {
+                                return settings.templates.custom;
+                            }
+                        }
+                    },
                     dependencies: [
                         '{$name}/config',
-                        'base/controllers/detail'
+                        '{$name}/pages/{$action}'
                     ]
                 }
             };
@@ -146,7 +158,7 @@
 
             $ocLazyLoadProvider.config({
                 jsLoader: requirejs,
-                debug: settings.debug
+                debug: false
             });
             settingsProvider.setSettings(settings);
         }]);

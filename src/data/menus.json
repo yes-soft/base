@@ -178,22 +178,6 @@
         "order": 100
       },
       {
-        "uid": "202061656163757465692020",
-        "name": "账号管理（管理权限）",
-        "tip": "账号管理（管理权限）",
-        "color": "",
-        "tag": "base_account_edit",
-        "icon": "fa-user",
-        "url": "#",
-        "state": true,
-        "parent": "202020206261736520202020",
-        "type": "function",
-        "home": false,
-        "blank": false,
-        "expanded": false,
-        "order": 100
-      },
-      {
         "uid": "20206165636e695f766e2020",
         "name": "日志配置",
         "tip": "日志配置",
@@ -301,22 +285,6 @@
         "parent": "202020206261736520202020",
         "type": "menu",
         "home": true,
-        "blank": false,
-        "expanded": false,
-        "order": 200
-      },
-      {
-        "uid": "2020206165726c5f64742020",
-        "name": "角色权限（管理权限）",
-        "tip": "角色权限（管理权限）",
-        "color": "",
-        "tag": "base_role_edit",
-        "icon": "fa-user",
-        "url": "#",
-        "state": true,
-        "parent": "202020206261736520202020",
-        "type": "function",
-        "home": false,
         "blank": false,
         "expanded": false,
         "order": 200

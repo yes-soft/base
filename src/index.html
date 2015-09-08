@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2-bootstrap.css"/>
 
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
@@ -40,7 +42,6 @@
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-
 <!--framework bundles-->
 <script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
 
@@ -56,17 +57,20 @@
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/select2/select2.js"></script>
+
 <script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
 
 <!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
 
 <script type="text/javascript">
-
+    var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
         'toastr',
+        'angularMoment',
         'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
@@ -75,7 +79,11 @@
         'ui.grid.autoResize',
         'ui.grid.exporter',
         'ui.bootstrap.datetimepicker'
-    ]);
+    ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
+        function ($log, $timeout, $rootScope, amMoment, i18nService) {
+            i18nService.setCurrentLang(language);
+            amMoment.changeLocale(language);
+        }]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
@@ -91,7 +99,7 @@
                 apiPath: "api",
                 serverRoot: 'src',
                 pluginFolder: 'plugins',
-                language: navigator.language || navigator.userLanguage,
+                language: language,
                 templates: {
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',

@@ -13,13 +13,11 @@
         <span ng-if="::!node.subMenus.length" class="tree-item-name" title="{{::node.name}}">
             <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
             <span class="tree-label">{{::node.name}}</span>
+                <label class="clickable" ng-repeat="op in node.operations">
+                    <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
+                    {{::op.name}} </label>
         </span>
 
-        <!--<span>-->
-        <!--<label class="clickable" ng-repeat="op in node.operations">-->
-        <!--<input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>-->
-        <!--{{::op.name}} </label>-->
-        <!--</span>-->
 
         <div ng-if="::node.subMenus.length" class="tree-branch-header"
              title="{{::node.name}}">
@@ -28,6 +26,10 @@
                    ng-click="node.collapsed=!node.collapsed;"></i>
                     <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
                 <span class="tree-label">{{::node.name}}</span>
+
+                       <label class="clickable" ng-repeat="op in node.operations">
+                           <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
+                           {{::op.name}} </label>
             </span>
         </div>
 

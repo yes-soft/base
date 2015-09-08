@@ -125,6 +125,8 @@ define(['base/services/mapper'], function (mapper) {
                                 self.load();
                                 self.events.trigger("closeDetail");
                                 self.events.trigger("entrySaved");
+                            }, function (error) {
+                                // toastr.error(error.message);  TODO
                             });
 
                         } else {
@@ -259,7 +261,7 @@ define(['base/services/mapper'], function (mapper) {
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
-                    //useExternalPagination: true,
+                    useExternalPagination: true,
                     //useExternalSorting: true,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
