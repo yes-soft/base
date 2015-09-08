@@ -41,13 +41,13 @@
 <script src="base/scripts/yes.app.js"></script>
 <!-- endinject -->
 
-
 <script type="text/javascript">
-
+    var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
         'toastr',
+        'angularMoment',
         'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
@@ -56,7 +56,11 @@
         'ui.grid.autoResize',
         'ui.grid.exporter',
         'ui.bootstrap.datetimepicker'
-    ]);
+    ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
+        function ($log, $timeout, $rootScope, amMoment, i18nService) {
+            i18nService.setCurrentLang(language);
+            amMoment.changeLocale(language);
+        }]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
@@ -72,7 +76,7 @@
                 apiPath: "api",
                 serverRoot: 'src',
                 pluginFolder: 'plugins',
-                language: navigator.language || navigator.userLanguage,
+                language: language,
                 templates: {
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',

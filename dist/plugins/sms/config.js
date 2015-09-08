@@ -3,9 +3,37 @@ angular
     .module("app.config")
     .constant("sms.config", {
         appointment: {
-            title: "短信预约",
+            title: "发送请求",
             operation: {
-                'del': true
+                'del': true,
+                'cancel': {
+                    name: "撤销预约",
+                    action: function (utils, toastr) {
+                        var context = this;
+                        var rows = context.scope.action.bulk();
+                        if (rows.length) {
+                            angular.forEach(rows, function (row) {
+                                var json = JSON.parse(row.json)
+                                json["type"] = '100';
+                                if (json.transId == '')
+                                    json.transId = row.transactionId;
+                                utils.async(
+                                    'post',
+                                    '../public/sms/command', json).then(
+                                    function (res) {
+                                        context.scope.load();
+                                        toastr.success("撤销成功");
+                                    },
+                                    function (error) {
+                                        toastr.error(error.message);
+                                    });
+                            });
+                        } else {
+                            toastr.warning("请选择要撤销预约的短信");
+                        }
+
+                    }
+                }
             },
             list: {
                 headers: {
@@ -13,35 +41,39 @@ angular
                         displayName: "应用名称",
                         width: 80
                     },
+                    "transactionId": {
+                        displayName: "事务编号",
+                        width: 70
+                    },
                     "json": {
-                        displayName: "请求内容",
+                        displayName: "短信内容",
                         minWidth: 180
+                    },
+                    "submited": {
+                        displayName: "数据提交时间",
+                        minWidth: 100
+                    },
+                    "appointment": {
+                        displayName: "预约发送时间",
+                        minWidth: 100
                     },
                     "status": {
                         displayName: "状态",
-                        width: 70
+                        width: 70,
+                        visible: false
+                    },
+                    "statusLabel": {
+                        displayName: "状态",
+                        width: 100
+                    },
+                    "memo": {
+                        displayName: "备注",
+                        width: 140
                     },
                     "apip": {
                         displayName: "调用IP",
                         width: 80,
                         visible: false
-                    },
-                    "appointment": {
-                        displayName: "预约时间",
-                        width: 140
-                    },
-                    "submited": {
-                        displayName: "提交时间",
-                        width: 140
-                    },
-                    "transactionId": {
-                        displayName: "事务编号",
-                        width: 70,
-                        visible: false
-                    },
-                    "memo": {
-                        displayName: "备注信息",
-                        width: 100
                     }
                 },
                 filters: [
@@ -49,51 +81,61 @@ angular
                         type: "select",
                         name: "apid$eq",
                         label: "应用名称",
-                        titleMap: []
-                }, {
+                        titleMap: [],
+                        width: 200
+                    }, {
+                        type: "input",
+                        name: "transactionId$eq",
+                        label: "事务编号"
+                    }, {
+                        type: "input",
+                        name: "phone$match",
+                        label: "手机号码"
+                    }, {
+                        type: "input",
+                        name: "message$match",
+                        label: "短信内容"
+                    }, {
                         type: "datetime",
                         autoclose: true,
                         name: "appointment$gte",
-                        label: "预约时间起"
-                }, {
+                        label: "发送时间起"
+                    }, {
                         type: "datetime",
                         name: "appointment$lte",
-                        label: "预约时间止"
-                },
+                        label: "发送时间止"
+                    },
                     {
                         type: 'datetime',
                         name: 'submited$gte',
-                        label: "提交时间起"
-                   }, {
+                        label: "申请时间起"
+                    }, {
                         type: "datetime",
                         name: "submited$lte",
-                        label: "提交时间止"
-                   }, {
+                        label: "申请时间止"
+                    }, {
                         type: "select",
                         name: "status$eq",
                         label: "状态",
                         titleMap: [
                             {
-                                value: "10",
-                                name: "创建"
-        	           }, {
-                                value: "20",
-                                name: "已提交到队列"
-        	           }, {
-                                value: "30",
-                                name: "已提交到运营商"
-        	           }, {
-                                value: "40",
-                                name: "发送失败"
-        	           }, {
-                                value: "50",
-                                name: "发送成功"
-        	           }, {
-                                value: "60",
-                                name: "60"
-        	           }]
-                }],
-                resolves: function (utils, oPath) {
+                                value: '0',
+                                name: "待提交到队列"
+                            },
+                            {
+                                value: '1',
+                                name: '提交到队列成功'
+                            },
+                            {
+                                value: '2',
+                                name: '提交到队列失败'
+                            },
+                            {
+                                value: '3',
+                                name: '申请已撤销'
+                            }]
+                    }],
+                resolves: [function (utils, oPath) {
                     var context = this;
                     var config = oPath.find(context, ['list',
                         'filters', '[name:apid$eq]'], {});
@@ -103,26 +145,45 @@ angular
                                 .map(function (entry) {
                                     return {
                                         value: entry.aid,
-                                        name: entry.name
+                                        name: entry.aid
                                     };
                                 });
                         });
-                }
+                }, function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on(
+                            'listLoaded',
+                            function () {
+                                var names = {
+                                    0: "待提交到队列",
+                                    1: '提交到队列成功',
+                                    2: '提交到队列失败',
+                                    3: '申请已撤销'
+
+                                };
+                                angular.forEach(context.scope.entries, function (entry) {
+                                    entry.statusLabel = names[entry.status];
+                                });
+
+                            });
+
+                }]
             },
             form: {
                 schema: {
                     "type": "object",
                     "properties": [{
                         "key": "apid",
-                        "title": "应用编号",
+                        "title": "应用名称",
                         "type": "string"
                     }, {
                         "key": "appointment",
-                        "title": "预约时间",
+                        "title": "预约发送时间",
                         "type": "datetime"
                     }, {
                         "key": "submited",
-                        "title": "提交时间",
+                        "title": "数据提交时间",
                         "type": "datetime"
                     }, {
                         "key": "json",
@@ -130,8 +191,8 @@ angular
                         "type": "string"
                     }, {
                         "key": "status",
-                        "title": "请求状态",
-                        "type": "boolean"
+                        "title": "状态",
+                        "type": "number"
                     }, {
                         "key": "apip",
                         "title": "调用IP",
@@ -139,6 +200,10 @@ angular
                     }, {
                         "key": "memo",
                         "title": "备注信息",
+                        "type": "string"
+                    }, {
+                        "key": "phoneNumbers",
+                        "title": "预约的手机号码",
                         "type": "string"
                     }, {
                         "key": "transactionId",
@@ -149,22 +214,56 @@ angular
                 form: [{
                     type: "group",
                     title: "基本信息",
-                    items: ['apid', 'apip', {
-                        key: 'appointment',
-                        type: 'datetimepicker'
+                    items: ['apid', "phoneNumbers",
+                        {
+                            key: 'appointment',
+                            type: 'datetimepicker'
                     }, {
-                        key: 'json',
-                        type: 'textarea',
-                        placeholder: "请求内容"
+                            key: 'json',
+                            type: 'textarea',
+                            placeholder: "请求内容"
                     }, {
-                        key: 'memo',
-                        type: 'textarea',
-                        placeholder: "备注信息"
+                            key: 'memo',
+                            type: 'textarea',
+                            placeholder: "备注信息"
                     }]
                 }, {
                     type: "group",
                     title: "其他信息",
-                    items: ['status', 'transactionId']
+                    items: [{
+                        key: 'status',
+                        type: 'select',
+                        readonly: true,
+                        titleMap: [
+                            {
+                                value: 0,
+                                name: "待提交到队列"
+                            },
+                            {
+                                value: 1,
+                                name: '提交到队列成功'
+                            },
+                            {
+                                value: 2,
+                                name: '提交到队列失败'
+                            },
+                            {
+                                value: 3,
+                                name: '申请已撤销'
+                            }]
+                            }, {
+                        key: 'transactionId',
+                        readonly: true
+                    }]
+                }],
+                resolves: [function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on('beforeSave', function () {
+                            angular.forEach(context.scope.entries, function (entry) {
+                                delete entry.statusLabel;
+                            });
+                        });
                 }]
             }
         },
@@ -172,8 +271,8 @@ angular
             title: "应用配置",
             operation: {
                 'add': true,
-                'del': true,
-                'import': {
+                'del': true
+                /*'import': {
                     "name": "导入",
                     "action": function action(utils) {
                         var context = this;
@@ -194,69 +293,90 @@ angular
                         window.open(url, '_blank');
 
                     }
-                }
+                }*/
             },
             list: {
-
                 headers: {
+                    name: {
+                        'displayName': "应用名称",
+                        width: 90
+                    },
                     "apiId": {
                         'displayName': "接口名称",
                         'width': 80
                     },
-                    name: {
-                        'displayName': "名称",
-                        width: 90
+                    "password": {
+                        'displayName': "应用密码",
+                        'width': 100
                     },
                     "url": {
-                        'displayName': "接收Url",
-                        'width': 100
+                        'displayName': "回调地址",
+                        'width': 280
                     },
                     "storageDay": {
                         'displayName': "保存天数",
-                        'width': 80
-                    },
-                    "state": {
-                        'displayName': "状态",
                         'width': 70
-                    },
-                    "code": {
-                        'displayName': "是否加密",
-                        'width': 80
-                    },
-                    "type": {
-                        'displayName': "应用类型",
-                        'width': 80,
-                        visible: false
-                    },
-                    "password": {
-                        'displayName': "密码",
-                        type: "password",
-                        width: 100
                     },
                     "policyId": {
                         'displayName': "发送策略",
-                        width: 70
+                        'width': 70
                     },
-                    "reply": {
+                    "replyLabel": {
                         'displayName': "是否接受回复",
-                        width: 100
+                        'width': 100
                     },
-                    "local": {
+                    "localLabel": {
                         'displayName': "仅内部人员",
-                        width: 100
-                    },
-                    "extNumber": {
-                        'displayName': "尾号",
-                        'width': 60
+                        'width': 80
                     },
                     "ipAddress": {
                         'displayName': "IP地址",
                         'minWidth': 100
                     },
+                    "stateLabel": {
+                        'displayName': "状态",
+                        'width': 70
+                    },
+                    "reply": {
+                        'displayName': "是否接受回复",
+                        'width': 100,
+                        visible: false
+                    },
+                    "state": {
+                        'displayName': "状态",
+                        'width': 70,
+                        visible: false
+                    },
+
+                    "code": {
+                        'displayName': "是否加密",
+                        'width': 80,
+                        "visible": false
+                    },
+                    "type": {
+                        'displayName': "应用类型",
+                        'width': 80,
+                        'visible': false
+                    },
+
+
+
+                    "local": {
+                        'displayName': "仅内部人员",
+                        'width': 100,
+                        visible: false
+                    },
+
+                    "extNumber": {
+                        'displayName': "尾号",
+                        'width': 60,
+                        'visible': false
+                    },
+
                     "aid": {
                         'displayName': "编号",
                         'width': 80,
-                        visible: false
+                        'visible': false
                     }
                 },
                 filters: [{
@@ -266,34 +386,55 @@ angular
                 }, {
                     type: "input",
                     name: "name$match",
-                    label: "名称"
+                    label: "应用名称"
                 }, {
                     type: "select",
                     name: "state$eq",
                     label: "状态",
                     titleMap: [{
                         value: "1",
-                        name: "true"
+                        name: "已启用"
                     }, {
                         value: "0",
-                        name: "false"
+                        name: "未启用"
                     }]
                 }],
-                resolves: function (utils, oPath) {
-                    var context = this;
-                    var config = oPath.find(context, ['list',
-                        'filters', '[name:apiId$eq]'], {});
-                    utils.async('get', '/sms/api?count=100', null).then(
-                        function (res) {
-                            config.titleMap = res.body.items
-                                .map(function (entry) {
-                                    return {
-                                        value: entry.aid,
-                                        name: entry.name
+                resolves: [
+                    function (utils, oPath) {
+                        var context = this;
+                        var config = oPath.find(context, ['list', 'filters', '[name:apiId$eq]'], {});
+                        utils.async('get', '/sms/api?count=100', null).then(
+                            function (res) {
+                                config.titleMap = res.body.items
+                                    .map(function (entry) {
+                                        return {
+                                            value: entry.name,
+                                            name: entry.name
+                                        };
+                                    });
+                            });
+                    },
+                    function (utils) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                                'listLoaded',
+                                function () {
+                                    var names = {
+                                        "true": "已启用",
+                                        "false": "未启用"
                                     };
+                                    var reply = {
+                                        "true": '是',
+                                        "false": '否'
+                                    };
+                                    angular.forEach(context.scope.entries, function (entry) {
+                                        entry.stateLabel = names[entry.state];
+                                        entry.replyLabel = reply[entry.reply];
+                                        entry.localLabel = reply[entry.local]
+                                    });
                                 });
-                        });
-                }
+                    }]
             },
             form: {
                 schema: {
@@ -380,21 +521,17 @@ angular
                         "title": "主要信息",
                         "items": [
                             {
-                                key: "aid",
-                                placeholder: '请填写应用编号'
+                                key: "aid"
                             }, {
-                                key: "name",
-                                placeholder: '请填写应用名称'
+                                key: "name"
 
                             }, {
                                 key: "apiId",
                                 type: "select",
-                                placeholder: '请选择接口',
                                 titleMap: []
                             }, {
                                 key: "password",
-                                type: "password",
-                                placeholder: '请输入密码'
+                                type: "password"
                             }, {
                                 key: "url",
                                 placeholder: 'http://'
@@ -419,21 +556,35 @@ angular
                     }],
                 model: {},
                 resolves: [function (utils, oPath) {
-                    var context = this;
-                    var config = oPath.find(context, ['form', '[title:主要信息]', 'items',
+                        var context = this;
+                        var config = oPath.find(context, ['form', '[title:主要信息]', 'items',
                         '[key:apiId]'], {});
 
-                    utils.async('get', 'sms/api', null).then(
-                        function (res) {
-                            config.titleMap = res.body.items
-                                .map(function (entry) {
-                                    return {
-                                        value: entry.aid,
-                                        name: entry.name
-                                    };
+                        utils.async('get', 'sms/api', null).then(
+                            function (res) {
+                                config.titleMap = res.body.items
+                                    .map(function (entry) {
+                                        return {
+                                            value: entry.aid,
+                                            name: entry.name
+                                        };
+                                    });
+                            });
+                },
+                             function (utils) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                                'beforeSave',
+                                function () {
+
+                                    angular.forEach(context.scope.entries, function (entry) {
+                                        delete entry.stateLabel;
+                                        delete entry.replyLabel;
+                                        delete entry.localLabel;
+                                    });
                                 });
-                        });
-                }]
+                    }]
             }
         },
         api: {
@@ -452,7 +603,6 @@ angular
                         displayName: "名称",
                         minWidth: 200
                     }
-
                 },
                 filters: [{
                     type: "input",
@@ -495,7 +645,8 @@ angular
                                 },
                                 "seq": {
                                     "type": "number",
-                                    "title": "顺序"
+                                    "title": "顺序",
+                                    "minimum": 0
                                 }
                             }
                         }
@@ -508,57 +659,40 @@ angular
                 }, {
                     "type": "list",
                     "title": "配置详情",
-                    "items": ['values']
+                    "items": [
+                        {
+                            "add":"添加",
+                            "key": "values"
+                        }
+                    ]
                 }],
                 resolves: [
                     function (utils, oPath) {
                         var context = this;
-                        context.scope.events
-                            .on(
-                                'detailLoad',
-                                function (entity) {
-                                    if (entity && entity.uid) {
-                                        utils
-                                            .async(
-                                                'get',
-                                                '/sms/apigateway/?apiId$eq=' + entity.uid,
-                                                null)
-                                            .then(
-                                                function (res) {
-                                                    var model = oPath
-                                                        .get(
-                                                            context,
-                                                            'scope.form.model', {});
-                                                    model.values = res.body.items;
-                                                });
-                                    }
+                        context.scope.events.on('detailLoad', function (entity) {
+                            if (entity && entity.uid) {
+                                utils.async('get', '/sms/apigateway/?apiId$eq=' + entity.uid, null).then(function (res) {
+                                    var model = oPath.get(context, 'scope.form.model', {});
+                                    model.values = res.body.items;
                                 });
-                        context.scope.events
-                            .on(
-                                'beforeSave',
-                                function (form) {
-                                    var values = form.model.values;
-                                    var api = form.model;
-                                    delete api.values;
-                                    form.model = {
-                                        "values": values,
-                                        "api": api
-                                    };
-                                });
+                            }
+                        });
+                        context.scope.events.on('beforeSave', function (form) {
+                            var values = form.model.values;
+                            var api = form.model;
+                            delete api.values;
+                            form.model = {
+                                "values": values,
+                                "api": api
+                            };
+                        });
                     },
                     function (utils, oPath) {
                         var context = this;
-                        utils
-                            .async('get', '/sms/gateway/',
-                                null)
-                            .then(
-                                function (res) {
-                                    var model = oPath
-                                        .get(
-                                            context,
-                                            'scope.form.model', {});
-                                    model.values = res.body.items;
-                                });
+                        utils.async('get', '/sms/gateway/', null).then(function (res) {
+                            var model = oPath.get(context, 'scope.form.model', {});
+                            model.values = res.body.items;
+                        });
                     }]
             }
         },
@@ -574,10 +708,15 @@ angular
                         width: 100
                     },
                     name: {
-                        displayName: "名称",
+                        displayName: "网关名称",
                         width: 100
                     },
                     state: {
+                        displayName: "状态",
+                        width: 100,
+                        visible: false
+                    },
+                    stateLabel: {
                         displayName: "状态",
                         width: 100
                     },
@@ -590,9 +729,6 @@ angular
                         width: 200,
                         visible: false
                     },
-
-
-
                     implClass: {
                         displayName: "实现类名",
                         minWidth: 200
@@ -602,47 +738,61 @@ angular
                         type: "select",
                         name: "gid$eq",
                         label: "网关编号"
-                }, {
+                	}, {
                         type: "input",
                         name: "name$match",
-                        label: "名称"
-                },
-                    {
+                        label: "网关名称"
+                	}, {
                         type: "select",
                         name: "state$eq",
                         label: "状态",
                         titleMap: [{
                             value: true,
                             name: "已启用"
-                    }, {
+                        }, {
                             value: false,
                             name: "已停用"
-                    }]
-                }, {
+                        }]
+                    }, {
                         type: "datetime",
                         name: "lastUse$gte",
                         label: "最后使用起"
-                }, {
+                    }, {
                         type: "datetime",
                         name: "lastUse$lte",
                         label: "最后使用止"
-                }],
-                resolves: function (utils, oPath) {
-                    var context = this;
-                    var config = oPath.find(context, ['list',
-                        'filters', '[name:gid$eq]'], {});
-
-                    utils.async('get', 'sms/gateway', null).then(
-                        function (res) {
-                            config.titleMap = res.body.items
-                                .map(function (entry) {
-                                    return {
-                                        value: entry.gid,
-                                        name: entry.gid
+                    }],
+                resolves: [function (utils, oPath) {
+                        var context = this;
+                        var config = oPath.find(context, ['list', 'filters', '[name:gid$eq]'], {});
+                        utils.async('get', 'sms/gateway', null).then(
+                            function (res) {
+                                config.titleMap = res.body.items
+                                    .map(function (entry) {
+                                        return {
+                                            value: entry.gid,
+                                            name: entry.gid
+                                        };
+                                    });
+                            });
+                },
+                    function (utils) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                                'listLoaded',
+                                function () {
+                                    var names = {
+                                        true: "已启用",
+                                        false: "未启用"
                                     };
-                                });
-                        });
-                }
+                                    angular.forEach(context.scope.entries, function (entry) {
+                                        entry.stateLabel = names[entry.state];
+                                    });
+                                }
+                            );
+
+                    }]
             },
             form: {
                 schema: {
@@ -653,7 +803,7 @@ angular
                         "type": "string"
                     }, {
                         "key": "name",
-                        "title": "名称",
+                        "title": "网关名称",
                         "type": "string",
                         required: true
                     }, {
@@ -686,7 +836,21 @@ angular
                     type: "group",
                     title: "其他信息",
                     items: ['state']
-                }]
+                }],
+                resolves: [function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on(
+                            'beforeSave',
+                            function () {
+
+                                angular.forEach(context.scope.entries, function (entry) {
+                                    delete entry.stateLabel;
+                                });
+                            }
+                        );
+
+                    }]
             }
         },
         smstestapp: {
@@ -712,8 +876,7 @@ angular
                                         toastr.error("发送失败");
                                     });
                             });
-                        }
-                        else{
+                        } else {
                             toastr.warning("请选择要发送的短信");
                         }
 
@@ -724,31 +887,31 @@ angular
                 wrap: "default",
                 headers: {
                     groups: {
-                        displayName: "群组列表",
+                        displayName: "群组名称",
                         width: 100
                     },
                     people: {
-                        displayName: "人员列表",
+                        displayName: "人员姓名",
                         width: 100
                     },
                     mobileNumbers: {
-                        displayName: "手机列表",
+                        displayName: "手机号码",
                         width: 150
-                    },
-                    appointment: {
-                        displayName: "预约时间",
-                        width: 120
                     },
                     content: {
                         displayName: "短信内容",
                         minWidth: 200
                     },
+                    appointment: {
+                        displayName: "预约时间",
+                        width: 140
+                    },
+                    "submissionTime": {
+                        displayName: "提交时间",
+                        width: 140
+                    },
                     report: {
                         displayName: "短信报告",
-                        width: 100
-                    },
-                    sendStatus: {
-                        displayName: "发送状态",
                         width: 100
                     },
                     transitionId: {
@@ -757,96 +920,96 @@ angular
                         visible: false
                     }
                 },
+
                 filters: [{
                         type: "input",
                         name: "groups$eq",
-                        label: "群组"
+                        label: "群组名称"
                 },
                     {
                         type: "input",
                         name: "people$eq",
-                        label: "人员"
-                }, {
+                        label: "人员姓名"
+                    }, {
                         type: "input",
                         name: "mobileNumbers$match",
                         label: "手机号码"
-                }, {
+                    }, {
+                        type: "input",
+                        name: "content$match",
+                        label: "短信内容"
+                    }, {
                         type: "datetime",
                         name: "appointment$gte",
                         label: "预约时间起"
-                }, {
+                    }, {
                         type: "datetime",
                         name: "appointment$lte",
                         label: "预约时间止"
-                }, {
-                        type: "select",
-                        name: "sendStatus$eq",
-                        label: "发送状态",
-                        titleMap: [
-                            {
-                                value: true,
-                                name: "已发送"
-                        }
-                        , {
-                                value: false,
-                                name: "未发送"
-                        }
-                    ]
-                }]
+                    }, {
+                        type: "datetime",
+                        name: "submissionTime$gte",
+                        label: "提交时间起"
+                          },
+                    {
+                        type: "datetime",
+                        name: "submissionTime$lte",
+                        label: "提交时间止"
+                         }]
             },
             form: {
                 schema: {
-                    "type": "object",
-                    "properties": [{
-                        "key": "transitionId",
-                        "title": "发送编号",
-                        "type": "string"
-                    }, {
-                        "key": "mobileNumbers",
-                        "title": "手机列表",
-                        "type": "string"
-                    }, {
-                        "key": "sendStatus",
-                        "title": "发送状态",
-                        "type": "boolean"
-                    }, {
-                        "key": "people",
-                        "title": "人员列表",
-                        "type": "string"
-                    }, {
-                        "key": "groups",
-                        "title": "群组列表",
-                        "type": "string"
-                    }, {
-                        "key": "appointment",
-                        "title": "预约时间",
-                        "type": "datetime"
-                    }, {
-                        "key": "content",
-                        "title": "短信内容",
-                        "type": "string",
-                        "required": true
-                    }]
+                    type: "object",
+                    properties: {
+                        transitionId: {
+                            title: "事务编号",
+                            type: "string"
+                        },
+                        mobileNumbers: {
+
+                            title: "手机号码",
+                            type: "string"
+                        },
+                        people: {
+                            title: "人员列表",
+                            type: "string"
+                        },
+                        groups: {
+                            title: "群组列表",
+                            type: "string"
+                        },
+                        "appointment": {
+                            "type": "datetime",
+                            "title": "预约时间"
+                        },
+                        content: {
+                            title: "短信内容",
+                            type: "string",
+                            required: true
+                        }
+                    }
                 },
                 form: [{
                     type: "group",
                     title: "基本信息",
                     items: [{
                         key: 'transitionId',
-                        placeholder: "请填写发送编号"
-                    }, 'mobileNumbers', 'people', 'groups', {
+                        readonly: true
+                    }, {
+                        key: 'mobileNumbers',
+                        type: "textarea"
+                    }, 'people', 'groups', {
                         key: 'appointment',
-                        type: 'datetimepicker'
+                        type: 'datetimepicker',
+                        "description": "不选择则为即时发送"
+
                     }, {
                         key: 'content',
                         type: 'textarea',
                         placeholder: "请填写短信内容"
                     }]
-                }, {
-                    type: "group",
-                    title: "其他信息",
-                    items: ['sendStatus']
-                }]
+                }],
+                resoleves: []
             }
         },
         smsinfo: {
@@ -875,24 +1038,54 @@ angular
                         displayName: "应用名称",
                         width: 70
                     },
+                    "gatewayId": {
+                        displayName: "网关名称",
+                        width: 95
+                    },
+                    "transactionId": {
+                        displayName: "事务编号",
+                        width: 70
+                    },
+                    "groupId": {
+                        displayName: "群组名称",
+                        width: 70
+                    },
+                    "phone": {
+                        displayName: "手机号码",
+                        width: 100
+                    },
+                    "content": {
+                        displayName: "短信内容",
+                        minWidth: 170
+                    },
+                    "type": {
+                        displayName: "短信类型",
+                        width: 70
+                    },
+                    "fetchDateTime": {
+                        displayName: "获取回执的时间",
+                        width: 130
+                    },
+                    "appointmentTime": {
+                        displayName: "预约发送时间",
+                        width: 100
+                    },
+                    "statusLabel": {
+                        displayName: "状态",
+                        width: 60
+                    },
+                    "apiId": {
+                        displayName: "接口编号",
+                        width: 90
+                    },
+
                     "resendTimes": {
                         displayName: "重新发送次数",
                         width: 100
                     },
-                    "apiId": {
-                        displayName: "接口编号",
-                        width: 90,
-                        visible: false
-                    },
-                    "phone": {
-                        displayName: "手机号码",
-                        width: 100,
-                        visible: true
-                    },
-                    "transactionId": {
-                        displayName: "事务编号",
-                        width: 70,
-                        visible: false
+                    "fetchTimes": {
+                        displayName: "已尝试次数",
+                        width: 90
                     },
                     "memo": {
                         displayName: "扩展信息",
@@ -902,15 +1095,6 @@ angular
                     "status": {
                         displayName: "状态",
                         width: 60,
-                        visible: true
-                    },
-                    "fetchDateTime": {
-                        displayName: "获取回执的时间",
-                        width: 130
-                    },
-                    "type": {
-                        displayName: "短信类型",
-                        width: 70,
                         visible: false
                     },
                     "implClass": {
@@ -923,34 +1107,18 @@ angular
                         width: 70,
                         visible: false
                     },
-                    "content": {
-                        displayName: "消息内容",
-                        minWidth: 170,
-                        visible: true
-                    },
-                    "groupId": {
-                        displayName: "群组编号",
+                    "spMsgId": {
+                        displayName: "服务商",
                         width: 70,
                         visible: false
                     },
-                    "spMsgId": {
-                        displayName: "服务商",
-                        width: 70
-                    },
-                    "appointmentTime": {
-                        displayName: "预约时间",
-                        width: 100,
-                        visible: true
-                    },
+
                     "submissionTime": {
                         displayName: "提交时间",
                         width: 100,
-                        visible: true
+                        visible: false
                     },
-                    "fetchTimes": {
-                        displayName: "已尝试次数",
-                        width: 90
-                    },
+
                     "personId": {
                         displayName: "人员编号",
                         width: 70,
@@ -965,62 +1133,72 @@ angular
                         displayName: "发送尾号",
                         width: 70,
                         visible: false
-                    },
-                    "gatewayId": {
-                        displayName: "网关编号",
-                        width: 95,
-                        visible: true
                     }
                 },
                 filters: [{
-                    type: "select",
-                    name: "apid$eq",
-                    label: "应用名称"
-                }, {
-                    type: "input",
-                    name: "phone",
-                    label: "手机号码"
-                }, {
-                    type: "select",
-                    name: "status$eq",
-                    label: "状态",
-                    titleMap: [
-                        {
-                            value: "10",
-                            name: "创建"
-        	           }, {
-                            value: "20",
-                            name: "已提交到队列"
-        	           }, {
-                            value: "30",
-                            name: "已提交到运营商"
-        	           }, {
-                            value: "40",
-                            name: "发送失败"
-        	           }, {
-                            value: "50",
-                            name: "发送成功"
-        	           }, {
-                            value: "60",
-                            name: "60"
-        	           }]
-                }, {
-                    type: "datetime",
-                    name: "appointment$gte",
-                    label: "预约时间起"
-                }, {
-                    type: "datetime",
-                    name: "appointment$lte",
-                    label: "预约时间止"
-                }, {
-                    type: "datetime",
-                    name: "submissionTime$gte",
-                    label: "提交时间起"
-                }, {
-                    type: "datetime",
-                    name: "submissionTime$lte",
-                    label: "提交时间止"
-                }],
+                        type: "select",
+                        name: "apid$eq",
+                        label: "应用名称"
+                    },
+                    {
+                        type: "select",
+                        name: "getewayname$eq",
+                        label: "网关名称"
+                    },
+                    {
+                        type: "input",
+                        name: "transactionId$eq",
+                        label: "事务编号"
+                    },
+                    {
+                        type: "input",
+                        name: "groups$match",
+                        label: "群组名称"
+                    },
+
+                    {
+                        type: "input",
+                        name: "phone$eq",
+                        label: "手机号码"
+                    },
+                    {
+                        type: "input",
+                        name: "content$match",
+                        label: "短信内容"
+                    },
+                    {
+                        type: "datetime",
+                        name: "appointment$gte",
+                        label: "预约时间起"
+                    }, {
+                        type: "datetime",
+                        name: "appointment$lte",
+                        label: "预约时间止"
+                    }, {
+                        type: "select",
+                        name: "status$eq",
+                        label: "状态",
+                        titleMap: [
+                            {
+                                value: "10",
+                                name: "创建"
+                            }, {
+                                value: "20",
+                                name: "已提交到队列"
+                            }, {
+                                value: "30",
+                                name: "已提交到运营商"
+                            }, {
+                                value: "40",
+                                name: "提交失败"
+                            }, {
+                                value: "50",
+                                name: "接收成功"
+                            }, {
+                                value: '60',
+                                name: "接收失败"
+                            }]
+                    }],
                 resolves: [
                     function (utils, oPath) {
                         var context = this;
@@ -1035,6 +1213,24 @@ angular
                                         .map(function (entry) {
                                             return {
                                                 value: entry.aid,
+                                                name: entry.aid
+                                            };
+                                        });
+                                });
+                    },
+                    function (utils, oPath) {
+                        var context = this;
+                        var config = oPath.find(context, [
+                            'list', 'filters',
+                            '[name:getewayname$eq]'], {});
+                        utils
+                            .async('get', '/sms/gateway?count=1000', null)
+                            .then(
+                                function (res) {
+                                    config.titleMap = res.body.items
+                                        .map(function (entry) {
+                                            return {
+                                                value: entry.name,
                                                 name: entry.name
                                             };
                                         });
@@ -1054,6 +1250,26 @@ angular
                                         };
                                     });
                             });
+                    },
+                    function (utils) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                                'listLoaded',
+                                function () {
+                                    var names = {
+                                        10: "创建",
+                                        20: "已提交到队列",
+                                        30: "已提交到运营商",
+                                        40: "提交失败",
+                                        50: "接收成功",
+                                        60: "接收失败"
+                                    };
+                                    angular.forEach(context.scope.entries, function (entry) {
+                                        entry.statusLabel = names[entry.status];
+                                    });
+                                });
+
                     }]
             },
             form: {
@@ -1145,14 +1361,27 @@ angular
                         "type": "string"
                     }]
                 },
-                form: ['*']
+                form: ['*'],
+                resolves: [function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on(
+                            'beforeSave',
+                            function () {
+
+                                angular.forEach(context.scope.entries, function (entry) {
+                                    delete entry.statusLabel;
+                                });
+                            });
+
+                    }]
             }
         },
         smsqueue: {
-            title: "短信队列",
+            title: "发送队列",
             operation: {
-                del: true,
-                'export': {
+                del: true
+                /*'export': {
                     "name": "导出",
                     "action": function action(utils) {
                         var context = this;
@@ -1160,7 +1389,7 @@ angular
                         var url = utils.getAbsUrl('sms/smsqueue/export?' + utils.serialize(filter));
                         window.open(url, '_blank');
                     }
-                }
+                }*/
             },
             list: {
                 headers: {
@@ -1168,72 +1397,77 @@ angular
                         displayName: "应用名称",
                         width: 70
                     },
-                    "resendTimes": {
-                        displayName: "重新发送次数",
-                        width: 100
+                    "gatewayId": {
+                        displayName: "网关名称",
+                        width: 90
                     },
-                    "phone": {
-                        displayName: "手机号码",
-                        width: 100
-                    },
-                    "status": {
-                        displayName: "状态",
-                        width: 60,
-                        visible: true
-                    },
-                    "fetchDateTime": {
-                        displayName: "获取回执的时间",
-                        width: 130
-                    },
-                    "type": {
-                        displayName: "短信类型",
+                    "transactionId": {
+                        displayName: "事务编号",
                         width: 70
-                    },
-                    "content": {
-                        displayName: "消息内容",
-                        minWidth: 150,
-                        visible: true
                     },
                     "groupId": {
                         displayName: "群组名称",
                         width: 80
                     },
-
-                    "spMsgId": {
-                        displayName: "服务商",
-                        width: 80
+                    "phone": {
+                        displayName: "手机号码",
+                        width: 120
+                    },
+                    "content": {
+                        displayName: "短信内容",
+                        minWidth: 150
                     },
                     "appointmentTime": {
-                        displayName: "预约时间",
-                        width: 100,
-                        visible: true
+                        displayName: "预约发送时间",
+                        width: 150
                     },
                     "submissionTime": {
-                        displayName: "提交时间",
+                        displayName: "数据提交时间",
+                        width: 150
+                    },
+                    "statusLabel": {
+                        displayName: "状态",
+                        width: 80
+                    },
+                    "resendTimes": {
+                        displayName: "重新发送次数",
                         width: 100,
-                        visible: true
+                        visible: false
                     },
 
+                    "status": {
+                        displayName: "状态",
+                        width: 60,
+                        visible: false
+                    },
+                    "fetchDateTime": {
+                        displayName: "获取回执的时间",
+                        width: 130,
+                        visible: false
+                    },
+                    "type": {
+                        displayName: "短信类型",
+                        width: 70,
+                        visible: false
+                    },
+                    "spMsgId": {
+                        displayName: "服务商",
+                        width: 80,
+                        visible: false
+                    },
                     "fetchTimes": {
                         displayName: "已尝试次数",
-                        width: 85
+                        width: 85,
+                        visible: false
                     },
                     "personId": {
                         displayName: "人员编号",
-                        width: 70
-                    },
-                    "gatewayId": {
-                        displayName: "网关编号",
-                        width: 90
+                        width: 70,
+                        visible: false
                     },
                     "apiId": {
                         displayName: "接口编号",
                         width: 80,
-                        visible: false
-                    },
-                    "transactionId": {
-                        displayName: "事务编号",
-                        width: 70,
                         visible: false
                     },
                     "memo": {
@@ -1261,19 +1495,57 @@ angular
                         width: 80,
                         visible: false
                     }
-
                 },
                 filters: [
                     {
                         type: "select",
                         name: "apid$eq",
                         label: "应用名称"
-                },
+                    },
+                    {
+                        type: "select",
+                        name: "getewayname$eq",
+                        label: "网关名称"
+                    },
+                    {
+                        type: "input",
+                        name: "transactionId$eq",
+                        label: "事务编号"
+                    },
+                    {
+                        type: "input",
+                        name: "groups$match",
+                        label: "群组名称"
+                    },
+
                     {
                         type: "input",
                         name: "phone$eq",
                         label: "手机号码"
-                },
+                    },
+                    {
+                        type: "input",
+                        name: "content$match",
+                        label: "短信内容"
+                    },
+                    {
+                        type: "datetime",
+                        name: "appointment$gte",
+                        label: "预约时间起"
+                    }, {
+                        type: "datetime",
+                        name: "appointment$lte",
+                        label: "预约时间止"
+                    },
+                    {
+                        type: "datetime",
+                        name: "submissionTime$gte",
+                        label: "提交时间起"
+                    }, {
+                        type: "datetime",
+                        name: "submissionTime$lte",
+                        label: "提交时间止"
+                    },
                     {
                         type: "select",
                         name: "status$eq",
@@ -1282,39 +1554,23 @@ angular
                             {
                                 value: "10",
                                 name: "创建"
-        	           }, {
+                            }, {
                                 value: "20",
                                 name: "已提交到队列"
-        	           }, {
+                            }, {
                                 value: "30",
                                 name: "已提交到运营商"
-        	           }, {
+                            }, {
                                 value: "40",
-                                name: "发送失败"
-        	           }, {
+                                name: "提交失败"
+                            }, {
                                 value: "50",
-                                name: "发送成功"
-        	           }, {
-                                value: "60",
-                                name: "60"
-        	           }]
-                }, {
-                        type: "datetime",
-                        name: "appointment$gte",
-                        label: "预约时间起"
-                }, {
-                        type: "datetime",
-                        name: "appointment$lte",
-                        label: "预约时间止"
-                }, {
-                        type: "datetime",
-                        name: "submissionTime$gte",
-                        label: "提交时间起"
-                }, {
-                        type: "datetime",
-                        name: "submissionTime$lte",
-                        label: "提交时间止"
-                }],
+                                name: "接收成功"
+                            }, {
+                                value: '60',
+                                name: "接收失败"
+                            }]
+                    }],
                 resolves: [
                     function (utils, oPath) {
                         var context = this;
@@ -1328,7 +1584,25 @@ angular
                                     config.titleMap = res.body.items
                                         .map(function (entry) {
                                             return {
-                                                value: entry.aid,
+                                                value: entry.name,
+                                                name: entry.name
+                                            };
+                                        });
+                                });
+                    },
+                       function (utils, oPath) {
+                        var context = this;
+                        var config = oPath.find(context, [
+                            'list', 'filters',
+                            '[name:getewayname$eq]'], {});
+                        utils
+                            .async('get', '/sms/gateway?count=1000', null)
+                            .then(
+                                function (res) {
+                                    config.titleMap = res.body.items
+                                        .map(function (entry) {
+                                            return {
+                                                value: entry.name,
                                                 name: entry.name
                                             };
                                         });
@@ -1348,98 +1622,153 @@ angular
                                         };
                                     });
                             });
+                    },
+                    function (utils) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                                'listLoaded',
+                                function () {
+                                    var names = {
+                                        10: "创建",
+                                        20: "已提交到队列",
+                                        30: "已提交到运营商",
+                                        40: "提交失败",
+                                        50: "接收成功",
+                                        60: "接收失败"
+                                    };
+                                    angular.forEach(context.scope.entries, function (entry) {
+                                        entry.statusLabel = names[entry.status];
+                                    });
+                                });
+
                     }]
             },
             form: {
                 schema: {
                     "type": "object",
                     "properties": [{
-                        "key": "resendTimes",
-                        "title": "重新发送次数",
-                        "type": "string"
+                            "key": "resendTimes",
+                            "title": "重新发送次数",
+                            "type": "string"
                     }, {
-                        "key": "apiId",
-                        "title": "接口编号",
-                        "type": "string"
+                            "key": "apiId",
+                            "title": "接口名称",
+                            "type": "string"
                     }, {
-                        "key": "phone",
-                        "title": "手机号码",
-                        "type": "string"
+                            "key": "phone",
+                            "title": "手机号码",
+                            "type": "string"
                     }, {
-                        "key": "transactionId",
-                        "title": "事务编号",
-                        "type": "string"
+                            "key": "transactionId",
+                            "title": "事务编号",
+                            "type": "string"
                     }, {
-                        "key": "memo",
-                        "title": "扩展信息",
-                        "type": "string"
+                            "key": "memo",
+                            "title": "扩展信息",
+                            "type": "string"
                     }, {
-                        "key": "status",
-                        "title": "状态",
-                        "type": "string"
+                            "key": "status",
+                            "title": "状态",
+                            "type": "string"
+                    },
+                        {
+                            "key": "statusLabel",
+                            "title": "状态",
+                            "type": "string"
+                    },
+                        {
+                            "key": "fetchDateTime",
+                            "title": "获取回执的时间",
+                            "type": "string"
                     }, {
-                        "key": "fetchDateTime",
-                        "title": "获取回执的时间",
-                        "type": "string"
+                            "key": "type",
+                            "title": "短信类型",
+                            "type": "string"
                     }, {
-                        "key": "type",
-                        "title": "短信类型",
-                        "type": "string"
+                            "key": "implClass",
+                            "title": "实现接口",
+                            "type": "string"
                     }, {
-                        "key": "implClass",
-                        "title": "实现接口",
-                        "type": "string"
+                            "key": "feedback",
+                            "title": "反馈",
+                            "type": "string"
                     }, {
-                        "key": "feedback",
-                        "title": "反馈",
-                        "type": "string"
+                            "key": "content",
+                            "title": "消息内容",
+                            "type": "string"
                     }, {
-                        "key": "content",
-                        "title": "消息内容",
-                        "type": "string"
+                            "key": "groupId",
+                            "title": "群组名称",
+                            "type": "string"
                     }, {
-                        "key": "groupId",
-                        "title": "群组编号",
-                        "type": "string"
+                            "key": "spMsgId",
+                            "title": "服务商",
+                            "type": "string"
                     }, {
-                        "key": "spMsgId",
-                        "title": "服务商编号",
-                        "type": "string"
+                            "key": "appointmentTime",
+                            "title": "预约时间",
+                            "type": "string"
                     }, {
-                        "key": "appointmentTime",
-                        "title": "预约时间",
-                        "type": "string"
+                            "key": "apid",
+                            "title": "应用名称",
+                            "type": "string"
                     }, {
-                        "key": "apid",
-                        "title": "应用编号",
-                        "type": "string"
+                            "key": "submissionTime",
+                            "title": "提交时间",
+                            "type": "string"
                     }, {
-                        "key": "submissionTime",
-                        "title": "提交时间",
-                        "type": "string"
+                            "key": "fetchTimes",
+                            "title": "已尝试次数",
+                            "type": "string"
                     }, {
-                        "key": "fetchTimes",
-                        "title": "已尝试次数",
-                        "type": "string"
+                            "key": "personId",
+                            "title": "人员编号",
+                            "type": "string"
                     }, {
-                        "key": "personId",
-                        "title": "人员编号",
-                        "type": "string"
+                            "key": "smsId",
+                            "title": "记录编号",
+                            "type": "string"
                     }, {
-                        "key": "smsId",
-                        "title": "记录编号",
-                        "type": "string"
+                            "key": "extNo",
+                            "title": "发送尾号",
+                            "type": "string"
                     }, {
-                        "key": "extNo",
-                        "title": "发送尾号",
-                        "type": "string"
-                    }, {
-                        "key": "gatewayId",
-                        "title": "网关编号",
-                        "type": "string"
+                            "key": "gatewayId",
+                            "title": "网关名称",
+                            "type": "string"
                     }]
                 },
-                form: ["*"]
+                form: [{
+                    "type": "group",
+                    "items": [
+                        'apid', 'gatewayId', {
+                            key: "transactionId",
+                            readonly: true
+                        }, "groupId", "phone", "content", "appointmentTime"
+                        , "submissionTime", "statusLabel", "resendTimes", "fetchDateTime", {
+                            key: "type",
+                            type: "select",
+                            titleMap: [{
+                                value: '1',
+                                name: "短信"
+                                }, {
+                                value: '2',
+                                name: "彩信"
+                                }]
+                            }, "spMsgId", "fetchTimes", "personId", "gatewayId", "apiId", "memo", "implClass"
+                        , "feedback", "smsId", "extNo"
+                    ]
+                }],
+                resolves: [function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on('beforeSave', function () {
+                            angular.forEach(context.scope.entries, function (entry) {
+                                delete entry.statusLabel;
+                            });
+                        });
+                }]
             }
         },
         person: {
@@ -1449,12 +1778,19 @@ angular
                 'add': true,
                 'import': {
                     "name": "导入",
-                    "action": function action(utils) {
+                    "action": function action(utils, toastr) {
                         var context = this;
                         utils.dialogUpload({
                             url: 'sms/person/upload',
                             resolve: function () {
-                                context.scope.load();
+                            	context.scope.load();
+                            	var subContext = this;
+                            	var res = subContext.res;
+                            	if(confirm(res.body)){
+                            		utils.async('get', '/sms/person/cover', null).then(function (res) {
+                                    	toastr.warning(res.message);
+                                    });
+                            	}
                             }
                         });
                     }
@@ -1473,11 +1809,11 @@ angular
                 headers: {
                     "pid": {
                         displayName: "员工号",
-                        width: 70
+                        width: 90
                     },
                     "name": {
                         displayName: "姓名",
-                        width: 70
+                        width: 90
                     },
                     "phone": {
                         displayName: "手机号码",
@@ -1485,25 +1821,28 @@ angular
                     },
                     "email": {
                         displayName: "邮箱",
-                        minWidth: 120
+                        width: 150
                     },
                     "company": {
                         displayName: "所属公司",
-                        minWidth: 100
+                        minWidth: 130
                     },
                     "departmentName": {
                         displayName: "所属部门",
-                        minWidth: 100
+                        width: 120
                     },
                     "filingDate": {
                         displayName: "备案时间",
                         visible: false
                     },
-
                     "filing": {
                         displayName: "运营商已备案",
-                        width: 50,
+                        width: 100,
                         visible: false
+                    },
+                    "filingLabel": {
+                        displayName: "运营商已备案",
+                        width: 100
                     },
                     "isInternal": {
                         displayName: "是否内部人员",
@@ -1511,56 +1850,86 @@ angular
                     },
                     "enabled": {
                         displayName: "状态",
+                        width: 90,
+                        visible: false
+                    },
+                    "enabledLabel": {
+                        displayName: "状态",
                         width: 90
                     }
                 },
                 filters: [{
-                        type: "input",
-                        name: "pid$eq",
-                        label: "员工号"
-                },
-                    {
-                        type: "input",
-                        name: "name$match",
-                        label: "姓名"
+                    type: "input",
+                    name: "pid$eq",
+                    label: "员工号"
                 }, {
-                        type: "input",
-                        name: "phone$eq",
-                        label: "手机号码"
+                    type: "input",
+                    name: "name$match",
+                    label: "姓名"
                 }, {
-                        type: "input",
-                        name: "departmentName$match",
-                        label: "所属部门"
-                },
-                    {
-                        type: "select",
-                        name: "enabled$eq",
-                        label: "状态",
-                        titleMap: [
-                            {
-                                value: "1",
-                                name: "已启用"
-                            }, {
-                                value: "0",
-                                name: "未启用"
-                            }
-                        ]
-                         }],
+                    type: "input",
+                    name: "phone$eq",
+                    label: "手机号码"
+                }, {
+                    type: "input",
+                    name: "departmentName$match",
+                    label: "所属部门"
+                }, {
+                    type: "select",
+                    name: "filing$eq",
+                    label: "运营商备案",
+                    titleMap: [{
+                        value: "1",
+                        name: "已备案"
+                    }, {
+                        value: "0",
+                        name: "未备案"
+                    }]
+                 }, {
+                    type: "select",
+                    name: "enabled$eq",
+                    label: "状态",
+                    titleMap: [{
+                        value: "1",
+                        name: "已启用"
+                    }, {
+                        value: "0",
+                        name: "未启用"
+                    }]
+                }],
                 resolves: [function (utils, oPath) {
                     var context = this;
                     var config = oPath.find(context, ['list',
-          'filters', '[name:pid$eq]'], {});
+                    'filters', '[name:pid$eq]'], {});
                     utils.async('get', '/sms/group', null).then(
                         function (res) {
-                            config.titleMap = res.body.items
-                                .map(function (entry) {
-                                    return {
-                                        value: entry.name,
-                                        name: entry.pid
-                                    };
-                                });
+                            config.titleMap = res.body.items.map(function (entry) {
+                                return {
+                                    value: entry.name,
+                                    name: entry.pid
+                                };
+                            });
+                        }
+                    );
+                },
+                function (utils) {
+                    var context = this;
+                    context.scope.events.on('listLoaded', function () {
+                        var names = {
+                            "true": "已启用",
+                            "false": "未启用"
+                        };
+                        var filings = {
+                            "true": "已备案",
+                            "false": "未备案"
+                        };
+                        angular.forEach(context.scope.entries, function (entry) {
+                            entry.enabledLabel = names[entry.enabled];
+                            entry.filingLabel = filings[entry.filing]
                         });
-       }]
+                    });
+
+                }]
             },
             form: {
                 schema: {
@@ -1568,7 +1937,7 @@ angular
                     properties: {
                         pid: {
                             type: "string",
-                            title: "人员编号",
+                            title: "员工号",
                             required: "true"
                         },
                         name: {
@@ -1622,36 +1991,65 @@ angular
                     items: [
                         {
                             key: "pid",
-                            placeholder: "请填写人员编号"
+                            placeholder: "请填写员工号"
                         }, {
                             key: "phone",
-                            placeholder: "请填写手机号码"
+                            placeholder: "请填写电话号码"
                         }, {
                             key: "name",
                             placeholder: "请填写人员名称"
-                        },
-                        {
+                        }, {
                             key: "filingDate",
                             type: "datetimepicker"
                         }, {
                             key: "email",
                             type: "email"
-                           }, "company", "departmentId", "departmentName"
+                        }, {
+                            key: "company",
+                            type: "select",
+                            titleMap: [{
+                                value: "福建中烟工业有限责任公司",
+                                name: "福建中烟工业有限责任公司"
+                            }, {
+                                value: "龙岩烟草工业有限责任公司",
+                                name: "龙岩烟草工业有限责任公司"
+                            }, {
+                                value: "厦门烟草工业有限责任公司",
+                                name: "厦门烟草工业有限责任公司"
+                            }, {
+                                value: "龙岩金叶复烤有限责任公司",
+                                name: "龙岩金叶复烤有限责任公司"
+                            }, {
+                                value: "福建金闽再造烟叶发展有限责任公司",
+                                name: "福建金闽再造烟叶发展有限责任公司"
+                            }, {
+                                value: "福建鑫叶投资管理集团有限公司",
+                                name: "福建鑫叶投资管理集团有限公司"
+                            }]
+                        }, "departmentId", "departmentName"
                     ]
                 }, {
                     type: "group",
                     title: "其他信息",
                     items: ["filing", "isInternal", "enabled"]
                 }],
+                resoleves: [function (utils) {
+                    var context = this;
+                    context.scope.events.on('beforeSave', function () {
+                            angular.forEach(context.scope.entries, function (entry) {
+                                delete entry.enabledLabel;
+                                delete entry.filingLabel;
+                            });
+                        });
+                    }],
                 model: {}
             }
         },
         group: {
             title: "群组管理",
             operation: {
-                del: true,
-                add: true,
-                'import': {
+                add: true
+                /*'import': {
                     "name": "导入",
                     "action": function action(utils) {
                         var context = this;
@@ -1662,18 +2060,16 @@ angular
                             }
                         });
                     }
-                },
-                'export': {
+                },*/
+                /*'export': {
                     "name": "导出",
                     "action": function action(utils) {
                         var context = this;
                         var filter = context.scope.filter;
                         var url = utils.getAbsUrl('sms/group/export?' + utils.serialize(filter));
                         window.open(url, '_blank');
-
                     }
-                }
-
+                }*/
             },
             list: {
                 headers: {
@@ -1686,7 +2082,7 @@ angular
                         width: 150
                     },
                     "pid": {
-                        displayName: "成员编号",
+                        displayName: "成员名称",
                         minWidth: 150
                     },
                     "memo": {
@@ -1720,7 +2116,8 @@ angular
                         },
                         pid: {
                             type: "string",
-                            title: "成员名称"
+                            required: true,
+                            title: "成员"
                         },
                         memo: {
                             type: "string",
@@ -1765,11 +2162,11 @@ angular
             list: {
                 headers: {
                     pid: {
-                        displayName: "规则名称",
+                        displayName: "规则编号",
                         width: 100
                     },
                     name: {
-                        displayName: "应用名称",
+                        displayName: "规则名称",
                         width: 100
                     },
                     seq: {
@@ -1804,28 +2201,13 @@ angular
                 },
                 filters: [{
                     type: "input",
-                    label: "规则名称",
+                    label: "规则编号",
                     name: "pid$eq"
                 }, {
                     type: "input",
-                    label: "应用名称",
+                    label: "规则名称",
                     name: "name$match"
-                }],
-                resolves: function (utils, oPath) {
-                    var context = this;
-                    var config = oPath.find(context, ['list',
-                        'filters', '[name$match]'], {});
-                    utils.async('get', 'sms/ap?count=1000', null).then(
-                        function (res) {
-                            config.titleMap = res.body.items
-                                .map(function (entry) {
-                                    return {
-                                        value: entry.name,
-                                        name: entry.name
-                                    };
-                                });
-                        });
-                }
+                }]
             },
             form: {
                 schema: {
@@ -1833,18 +2215,19 @@ angular
                     properties: {
                         name: {
                             type: "string",
-                            title: "名称",
+                            title: "规则名称",
                             required: true
                         },
                         pid: {
                             type: "string",
-                            title: "发送规则编号",
+                            title: "规则编号",
                             required: true
                         },
                         seq: {
                             type: "integer",
                             title: "顺序",
-                            required: true
+                            required: true,
+                            minimum: 0
                         },
                         dateF: {
                             type: "string",
@@ -1885,30 +2268,30 @@ angular
                     title: "基本配置",
                     items: [{
                             key: "name",
-                            placeholder: "请输入名称",
+                            placeholder: "请输入名称"
                     }, {
                             key: "pid",
                             placeholder: "请输入编号"
                     },
-                    "match", {
+                        "match", {
                             key: "dateF",
                             type: "datetimepicker"
-                    }, {
+                        }, {
                             key: "dateT",
                             type: "datetimepicker"
-                    }, {
+                        }, {
                             key: "timeF",
                             type: "datetimepicker"
-                    }, {
+                        }, {
                             key: "timeT",
                             type: "datetimepicker"
-                    }, {
+                        }, {
                             key: "appointmentDate",
                             type: "datetimepicker"
-                    }, {
+                        }, {
                             key: "appointmentTime",
                             type: "datetimepicker"
-                    }]
+                        }]
                 }, {
                     type: "group",
                     title: "其他配置",

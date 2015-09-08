@@ -64,20 +64,22 @@ gulp.task('scripts', function () {
 
 });
 
-gulp.task('css-vendor', function () {
-    return gulp.src([])
+gulp.task('css', function () {
+    return gulp.src([
+        'src/base/css/**/*.css'
+    ])
         .pipe(concat('main.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('css', function () {
+gulp.task('css-vendor', function () {
     return gulp.src([
         'components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css',
-        'components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css',
         'components/yes-bundle/dist/vendor/toaster/angular-toastr.css',
         'components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css',
         'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css',
-        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css'
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css',
+        'components/yes-bundle/dist/vendor/datetimepicker.css'
     ])
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest(distBase + 'css'));

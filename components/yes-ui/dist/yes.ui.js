@@ -400,10 +400,26 @@
             }
         ]);
 
+
     angular.module('yes.ui').config(
         ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
             function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
 
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'list',
+                    "plugins/base/templates/forms/list.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'list',
+                    "plugins/base/templates/forms/list.html"
+                );
+            }
+        ]);
+
+    angular.module('yes.ui').config(
+        ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+            function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
 
                 var datetimepicker = function (name, schema, options) {
                     if (schema.type === 'string' && (schema.format === 'date' || schema.format === 'date-time')) {

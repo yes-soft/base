@@ -119,7 +119,7 @@ define(['base/services/mapper'], function (mapper) {
                                 }
                             }
 
-                            self.events.trigger("beforeSave");
+                            self.events.trigger("beforeSave", self.form);
                             //TODO show loading;
                             utils.async(method, namespace, self.form.model).then(function (res) {
                                 self.load();

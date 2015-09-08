@@ -4,6 +4,9 @@
 .submenu a {
   cursor: pointer;
 }
+.tree-children {
+  padding-left: 20px;
+}
 .modal-dialog {
   margin: 5px auto;
 }
@@ -12,7 +15,7 @@
 }
 .tab-pack-left .widget-toolbar {
   float: left;
-  padding: 0px;
+  padding: 0;
 }
 .tab-pack-left .widget-body {
   min-height: 500px !important;
@@ -23,8 +26,8 @@
 .btn-bottom {
   height: 40px;
   line-height: 40px;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 .btn-bottom .btn {
   margin-top: 4px;
@@ -75,6 +78,24 @@
 .document-selector .util-box .box-body {
   margin-left: 20px;
 }
+.document-selector .top-div {
+  height: 43px;
+  width: 100%;
+}
+.document-selector .tree-div {
+  width: auto;
+  height: 442px;
+  overflow-y: auto;
+  border: 1px solid #DCE8F1;
+}
+.search-span {
+  width: 100%;
+}
+.search-span > input {
+  height: 29px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
 .sift-div {
   width: 25px;
   float: left;
@@ -91,7 +112,7 @@
   padding: 0;
 }
 .sift-div .characters-ul > li {
-  line-height: 16px;
+  line-height: 17px;
   color: #6fb3e0;
   font-size: 14px;
   cursor: pointer;
@@ -111,6 +132,9 @@
 }
 .scroll-y {
   overflow-y: auto;
+}
+.full-width {
+  width: 100%;
 }
 .right {
   float: right;
@@ -176,7 +200,7 @@
   height: 35px;
 }
 .document-detail .tr-div > div:last-child {
-  border-right: 0px;
+  border-right: 0;
 }
 .document-detail .widget-body {
   min-height: 400px;
@@ -218,7 +242,7 @@
   width: 96%;
   max-height: 300px;
   margin: 2% 2%;
-  margin-top: 0px;
+  margin-top: 0;
   float: left;
   overflow-x: hidden;
   overflow-y: auto;
