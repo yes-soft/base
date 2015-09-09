@@ -1,12 +1,12 @@
-'use strict';
-
 (function () {
+    'use strict';
     angular.module('app')
-        .directive('uploaderContainer', ['$location', 'utils', '$log',
-            function ($location, utils, $log) {
+        .directive('yesUploader', ['$location', 'utils', '$log', 'FileUploader',
+            function ($location, utils, $log, FileUploader) {
+
                 return {
                     restrict: 'EA',
-                    templateUrl: 'base/templates/uploader-container.html',
+                    templateUrl: 'plugins/base/templates/uploader.html',
                     replace: true,
                     scope: {
                         options: "="

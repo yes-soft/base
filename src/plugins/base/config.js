@@ -29,7 +29,6 @@ define([],
                 title: "账号管理",
                 operation: {
                     add: true,
-                    del: true,
                     role: {
                         "name": "导入",
                         "action": function action(utils) {
@@ -59,11 +58,19 @@ define([],
                         "lastLogin": {
                             displayName: "最后登入时间",
                             width: 130,
-                            cellFilter: 'now'
+                            cellFilter: "time:'YYYY年MM月DD日'"
                         },
                         "enable": {
                             displayName: "已启用",
-                            width: 70
+                            width: 70,
+                            filter: function (columns, rootScope) {
+                                rootScope.enableValues = {
+                                    'true': "启用",
+                                    'false': "禁用"
+                                };
+                                this.cellFilter = "dict:'enableValues'";
+                                columns.push(this);
+                            }
                         },
                         "parent": {
                             displayName: "主账号",
@@ -106,6 +113,11 @@ define([],
                     },
                     filters: [{
                         type: "select",
+                        refresh: function (utils, search) {
+                            //utils.async().then(function () {
+                            //
+                            //});
+                        },
                         name: "type$eq",
                         label: "帐号类型",
                         titleMap: [{
@@ -124,16 +136,6 @@ define([],
                     }
                 },
                 form: {
-                    operation: {
-                        publish: {
-                            name: "发布",
-                            action: function (utils, toastr) {
-                                //utils.async().then(function(res){
-                                //    toastr.success(res.message);
-                                //});
-                            }
-                        }
-                    },
                     schema: {
                         type: "object",
                         properties: {

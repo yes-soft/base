@@ -1,5 +1,5 @@
 'use strict';
-angular.module('yes.utils', ['yes.auth', 'yes.settings', 'oc.lazyLoad']);
+angular.module('yes.utils', ['yes.auth', 'yes.settings','oc.lazyLoad']);
 angular.module('yes.utils').provider('utils', ['settingsProvider',
     function (settingsProvider) {
         var self = this;
@@ -392,11 +392,10 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
 
         var explainOperations = function (config, scope) {
 
-            var ops = oPath.get(config, 'operation', []);
-            if (!ops)
-                return config;
+            var ops = oPath.get(config, 'operation', {});
 
             var operations = [];
+
             var defaults = {
                 add: {
                     'name': '新建',
@@ -407,6 +406,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                     'action': scope.action.del
                 }
             };
+
             var context = {scope: scope};
 
             angular.forEach(ops, function (op, key) {
@@ -425,26 +425,27 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
         };
 
         var explainFormOperations = function (config, scope) {
-            var ops = oPath.get(config, 'operation', []);
-            if (!ops)
-                return config;
+            var ops = oPath.get(config, 'operation', {});
 
             var operations = [];
             var defaults = {
                 save: {
                     'name': '保存',
                     'action': scope.action.save,
-                    'type': 'submit'
+                    'type': 'submit',
+                    'icon': 'fa-save'
                 },
                 cancel: {
                     'name': '重置',
                     'action': scope.action.cancel,
-                    'type': 'button'
+                    'type': 'button',
+                    'icon': 'fa-undo'
                 },
                 close: {
                     'name': '返回',
                     'action': scope.action.close,
-                    'type': 'button'
+                    'type': 'button',
+                    'icon': 'fa-close'
                 }
             };
             var context = {scope: scope};
@@ -457,7 +458,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
 
             angular.forEach(ops, function (op, key) {
                 if (op) {
-                    var entry = defaults[key] || {'name': op.name, action: op.action};
+                    var entry = defaults[key] || {'name': op.name, action: op.action, icon: op.icon};
                     if (angular.isFunction(op.action)) {
                         entry.action = function () {
                             injector.invoke(op.action, context);

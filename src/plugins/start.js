@@ -3,10 +3,11 @@ require.config({
     paths: {
         'app': 'base/app',
         'resolves': 'base/services/resolves',
-        'forms': 'base/directives/forms'
+        'forms': 'base/directives/forms',
+        'uploader': 'base/directives/uploader'
     },
     shim: {
-        'app': ['resolves', 'forms']
+        'app': ['resolves', 'forms', 'uploader']
     }
 });
 

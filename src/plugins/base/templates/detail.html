@@ -25,12 +25,12 @@
 
                 <!--<button type="button" name="yes_temp_show_task" ng-click="action.close();"-->
                 <!--class="btn btn-sm btn-info"-->
-                <!--title=""><i class="ace-icon fa fa-times bigger-130"></i> 返回-->
+                <!--title=""><i class="ace-icon fa fa-times bigger-110"></i> 返回-->
                 <!--</button>-->
 
-                <button ng-repeat="op in config.form.operations" class="btn btn-sm" type="button" style="margin-right: 5px;"
+                <button ng-repeat="op in config.form.operations" class="btn btn-sm btn-info" type="button" style="margin-right: 5px;"
                         ng-click="op.action();">
-                    <i class="ace-icon fa fa-pencil-square-o bigger-110"></i> {{op.name}}
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name}}
                 </button>
 
             </div>

@@ -1,4 +1,4 @@
-define(
+define([],
     function () {
         "use strict";
         angular.module("app.config").constant("base.config", {
@@ -29,7 +29,6 @@ define(
                 title: "账号管理",
                 operation: {
                     add: true,
-                    del: true,
                     role: {
                         "name": "导入",
                         "action": function action(utils) {
@@ -47,7 +46,10 @@ define(
                     headers: {
                         "name": {
                             displayName: "名称",
-                            minWidth: 100
+                            minWidth: 100,
+                            filter: function () {
+
+                            }
                         },
                         "mail": {
                             displayName: "电子邮箱",
@@ -55,11 +57,20 @@ define(
                         },
                         "lastLogin": {
                             displayName: "最后登入时间",
-                            width: 130
+                            width: 130,
+                            cellFilter: "time:'YYYY年MM月DD日'"
                         },
                         "enable": {
                             displayName: "已启用",
-                            width: 70
+                            width: 70,
+                            filter: function (columns, rootScope) {
+                                rootScope.enableValues = {
+                                    'true': "启用",
+                                    'false': "禁用"
+                                };
+                                this.cellFilter = "dict:'enableValues'";
+                                columns.push(this);
+                            }
                         },
                         "parent": {
                             displayName: "主账号",
@@ -75,7 +86,16 @@ define(
                         },
                         "type": {
                             displayName: "类型",
-                            width: 70
+                            width: 70,
+                            filter: function (columns, rootScope) {
+                                rootScope.typeValues = {
+                                    'admin': '管理员',
+                                    'user': '用户',
+                                    'seller': '卖家'
+                                };
+                                this.cellFilter = "dict:'typeValues'";
+                                columns.push(this);
+                            }
                         },
                         "password": {
                             displayName: "密码",
@@ -93,6 +113,11 @@ define(
                     },
                     filters: [{
                         type: "select",
+                        refresh: function (utils, search) {
+                            //utils.async().then(function () {
+                            //
+                            //});
+                        },
                         name: "type$eq",
                         label: "帐号类型",
                         titleMap: [{
@@ -159,6 +184,10 @@ define(
                             mobile: {
                                 title: "手机号码",
                                 type: "string"
+                            },
+                            picture: {
+                                title: "头像",
+                                type: "string"
                             }
                         }
                     },
@@ -176,7 +205,7 @@ define(
                             type: "datetimepicker"
                         }, "parent", "matrixNo", {
                             key: "type",
-                            type: "select",
+                            type: "select2",
                             titleMap: [{
                                 value: "admin",
                                 name: "admin"
@@ -187,7 +216,10 @@ define(
                         }, {
                             key: "password",
                             type: "password"
-                        }, "mobile"]
+                        }, "mobile", {
+                            key: "picture",
+                            type: "uploader"
+                        }]
                     }, {
                         type: "group",
                         title: "其他信息",

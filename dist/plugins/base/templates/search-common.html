@@ -5,7 +5,7 @@
         <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入...'}}">
 
-        <select ui-select2="{ allowClear: true}"  ng-if="::search.type=='select'" ng-model="filter[search.name]"
+        <select ui-select2="{ allowClear: true}" style="min-width: 180px;" ng-if="::search.type=='select'" ng-model="filter[search.name]"
                 ng-change="selectChange(search)">
             <option value="">请选择</option>
             <option value="{{option.value}}" ng-repeat="option in search.titleMap">{{option.name}}</option>

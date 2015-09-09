@@ -1,12 +1,12 @@
 define(['base/services/mapper'], function (mapper) {
     "use strict";
     angular.module('app')
-        .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location',
+        .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
             '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr',
-            function ($scope, $stateParams, $timeout, $location, $log, $http, utils, interpreter, settings, toastr) {
+            function ($scope, $stateParams, $timeout, $location, $rootScope,
+                      $log, $http, utils, interpreter, settings, toastr) {
 
                 var self = $scope;
-
                 var detailId = $location.search()['uid'];
 
                 self.action = {
@@ -172,20 +172,11 @@ define(['base/services/mapper'], function (mapper) {
                         if (self.headers) {
                             var columnDefs = [];
                             angular.forEach(self.headers, function (name, key) {
-
                                 var col = angular.isObject(name) ? name : {name: key, displayName: name};
-
                                 col.name = key;
 
-                                if (key == "json") {
-                                    col.displayName = "预约的手机号码";
-                                    col.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"phoneNumbers" }}</div>';
-                                    columnDefs.push(col);
-
-                                    var col2 = {name: key + "2", displayName: name};
-                                    col2.displayName = "预约的短信内容";
-                                    col2.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"message" }}</div>';
-                                    columnDefs.push(col2);
+                                if (col.filter && angular.isFunction(col.filter)) {
+                                    col.filter.apply(col, [columnDefs, $rootScope]);
                                 } else {
                                     columnDefs.push(col);
                                 }
@@ -211,7 +202,6 @@ define(['base/services/mapper'], function (mapper) {
                                 setTimeout(function () {
                                     angular.element(window).trigger('resize');
                                 }, 500);
-
                             }
 
                         }

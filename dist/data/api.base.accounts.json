@@ -29,6 +29,7 @@
         "createdAt": "2014-02-04T04:42:53.290Z",
         "activeCode": "NJluHK-6c",
         "roles": [],
+        "enable":true,
         "gender": 0
       },
       {
@@ -43,6 +44,7 @@
         "createdAt": "2013-02-04T04:42:53.290Z",
         "activeCode": "VkbdSKWpc",
         "roles": [],
+        "enable":false,
         "gender": 0
       },
       {

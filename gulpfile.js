@@ -54,6 +54,8 @@ gulp.task('scripts', function () {
             './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
             './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
             './components/yes-bundle/dist/vendor/ui.bootstrap.datetimepicker.js',
+            './components/yes-bundle/dist/vendor/select2/select2.js',
+            './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
             './components/yes-ui/dist/yes.ui.js']
     )
         .pipe(concat('yes.app.js'))
@@ -79,7 +81,8 @@ gulp.task('css-vendor', function () {
         'components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css',
         'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css',
         'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css',
-        'components/yes-bundle/dist/vendor/datetimepicker.css'
+        'components/yes-bundle/dist/vendor/datetimepicker.css',
+        'components/yes-bundle/dist/vendor/select2/select2.css'
     ])
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest(distBase + 'css'));
