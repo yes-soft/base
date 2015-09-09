@@ -2,10 +2,11 @@ require.config({
     baseUrl: 'plugins',
     paths: {
         'app': 'base/app',
-        'resolves': 'base/services/resolves'
+        'resolves': 'base/services/resolves',
+        'forms': 'base/directives/forms'
     },
     shim: {
-        'app': ['resolves']
+        'app': ['resolves', 'forms']
     }
 });
 

@@ -1,4 +1,4 @@
-define(
+define([],
     function () {
         "use strict";
         angular.module("app.config").constant("base.config", {
@@ -47,7 +47,10 @@ define(
                     headers: {
                         "name": {
                             displayName: "名称",
-                            minWidth: 100
+                            minWidth: 100,
+                            filter: function () {
+
+                            }
                         },
                         "mail": {
                             displayName: "电子邮箱",
@@ -55,7 +58,8 @@ define(
                         },
                         "lastLogin": {
                             displayName: "最后登入时间",
-                            width: 130
+                            width: 130,
+                            cellFilter: 'now'
                         },
                         "enable": {
                             displayName: "已启用",
@@ -75,7 +79,16 @@ define(
                         },
                         "type": {
                             displayName: "类型",
-                            width: 70
+                            width: 70,
+                            filter: function (columns, rootScope) {
+                                rootScope.typeValues = {
+                                    'admin': '管理员',
+                                    'user': '用户',
+                                    'seller': '卖家'
+                                };
+                                this.cellFilter = "dict:'typeValues'";
+                                columns.push(this);
+                            }
                         },
                         "password": {
                             displayName: "密码",
@@ -111,6 +124,16 @@ define(
                     }
                 },
                 form: {
+                    operation: {
+                        publish: {
+                            name: "发布",
+                            action: function (utils, toastr) {
+                                //utils.async().then(function(res){
+                                //    toastr.success(res.message);
+                                //});
+                            }
+                        }
+                    },
                     schema: {
                         type: "object",
                         properties: {
@@ -159,6 +182,10 @@ define(
                             mobile: {
                                 title: "手机号码",
                                 type: "string"
+                            },
+                            picture: {
+                                title: "头像",
+                                type: "string"
                             }
                         }
                     },
@@ -176,7 +203,7 @@ define(
                             type: "datetimepicker"
                         }, "parent", "matrixNo", {
                             key: "type",
-                            type: "select",
+                            type: "select2",
                             titleMap: [{
                                 value: "admin",
                                 name: "admin"
@@ -187,7 +214,10 @@ define(
                         }, {
                             key: "password",
                             type: "password"
-                        }, "mobile"]
+                        }, "mobile", {
+                            key: "picture",
+                            type: "uploader"
+                        }]
                     }, {
                         type: "group",
                         title: "其他信息",

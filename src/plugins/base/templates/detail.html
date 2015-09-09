@@ -14,18 +14,25 @@
               ng-submit="action.save(edit$form)">
             <div class="buttons-wrap">
 
-                <button type="submit" name="yes_temp_show_task" class="btn btn-sm btn-info"
-                        title=""><i class="fa fa-save bigger-110"></i> 保存
+
+                <!--<button type="submit" name="yes_temp_show_task" class="btn btn-sm btn-info"-->
+                <!--title=""><i class="fa fa-save bigger-110"></i> 保存-->
+                <!--</button>-->
+
+                <!--<button type="button" name="yes_temp_show_task" class="btn btn-sm btn-info"-->
+                <!--title="" ng-click="action.cancel()"><i class="ace-icon fa fa-undo bigger-110"></i> 重置-->
+                <!--</button>-->
+
+                <!--<button type="button" name="yes_temp_show_task" ng-click="action.close();"-->
+                <!--class="btn btn-sm btn-info"-->
+                <!--title=""><i class="ace-icon fa fa-times bigger-130"></i> 返回-->
+                <!--</button>-->
+
+                <button ng-repeat="op in config.form.operations" class="btn btn-sm" type="button" style="margin-right: 5px;"
+                        ng-click="op.action();">
+                    <i class="ace-icon fa fa-pencil-square-o bigger-110"></i> {{op.name}}
                 </button>
 
-                <button type="button" name="yes_temp_show_task" class="btn btn-sm btn-info"
-                        title="" ng-click="action.cancel()"><i class="ace-icon fa fa-undo bigger-110"></i> 重置
-                </button>
-
-                <button type="button" name="yes_temp_show_task" ng-click="action.close();"
-                        class="btn btn-sm btn-info"
-                        title=""><i class="ace-icon fa fa-times bigger-130"></i> 返回
-                </button>
             </div>
 
             <div class="col-sm-12 edit-body">

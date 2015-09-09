@@ -1,5 +1,5 @@
 'use strict';
-angular.module('yes.utils', ['yes.auth', 'yes.settings','oc.lazyLoad']);
+angular.module('yes.utils', ['yes.auth', 'yes.settings', 'oc.lazyLoad']);
 angular.module('yes.utils').provider('utils', ['settingsProvider',
     function (settingsProvider) {
         var self = this;
@@ -424,6 +424,53 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
             return config;
         };
 
+        var explainFormOperations = function (config, scope) {
+            var ops = oPath.get(config, 'operation', []);
+            if (!ops)
+                return config;
+
+            var operations = [];
+            var defaults = {
+                save: {
+                    'name': '保存',
+                    'action': scope.action.save,
+                    'type': 'submit'
+                },
+                cancel: {
+                    'name': '重置',
+                    'action': scope.action.cancel,
+                    'type': 'button'
+                },
+                close: {
+                    'name': '返回',
+                    'action': scope.action.close,
+                    'type': 'button'
+                }
+            };
+            var context = {scope: scope};
+
+            angular.forEach(defaults, function (value, key) {
+                if (!ops.hasOwnProperty(key) || ops[key]) {
+                    ops[key] = true;
+                }
+            });
+
+            angular.forEach(ops, function (op, key) {
+                if (op) {
+                    var entry = defaults[key] || {'name': op.name, action: op.action};
+                    if (angular.isFunction(op.action)) {
+                        entry.action = function () {
+                            injector.invoke(op.action, context);
+                        };
+                    }
+                    entry.type = entry.type || 'button';
+                    operations.push(entry);
+                }
+            });
+            config.operations = operations;
+            return config;
+        };
+
         var explainList = function (config, scope) {
             var context = {scope: scope, list: config.list};
             var resolves = oPath.get(config, 'list.resolves', []);
@@ -518,11 +565,12 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
 
                 config = explainOperations(config, scope);
 
+                config.form = explainOperations(config.form, scope);
                 //validateAuthority(config.form.operations);
                 //validateAuthority(config.list.operations);
 
                 config = explainList(config, scope);
-                config.form = explainForm(config.form, scope);
+                config.form = explainFormOperations(config.form, scope);
                 return config
             }
         };

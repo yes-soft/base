@@ -65,9 +65,15 @@ define(['base/directives/tree.view'], function () {
                             }
                         );
                     },
-                    save: function () {
+                    save: function (arg) {
+
                         self.result = [];
                         getResult(self.node.subMenus);
+
+                        //var data = {};
+                        //data.result = result;
+                        //data.abc = arg;
+                        //utils.async('put', 'path', data).then();
                     },
                     removeRole: function (role) {
                         self.currentRole = null;  //TODO

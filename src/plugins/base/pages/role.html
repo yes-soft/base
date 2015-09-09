@@ -23,6 +23,8 @@
     <div class="page-content list-scope">
         <div>
             <div class="row">
+                <button ng-click="action.save(1)">发布</button>
+                <button ng-click="action.save(2)">保存</button>
                 <div class="col-xs-3">
                     <div>角色列表
                         <button ng-click="action.addRole()">添加角色</button>
@@ -43,6 +45,8 @@
                     <div yes-role-tree data-nodes="node.subMenus" data-root="true"></div>
                 </div>
             </div>
+            {{result}}
+
 
         </div>
     </div>
