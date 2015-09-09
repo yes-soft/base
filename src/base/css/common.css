@@ -1,27 +1,3 @@
-.people-row:hover {
-  background-color: #F0F7FC;
-}
-.people-row {
-  border-bottom: 1px solid #CCCCCC;
-  color: #333333;
-  text-decoration: none;
-  text-indent: 20px;
-  height: 27px;
-  padding: 3px 5px 0px 0px;
-  cursor: pointer;
-  font-size: 14px;
-  background-repeat: no-repeat;
-}
-.people-row > i {
-  float: right;
-  margin-top: 3px;
-}
-.people-row > i.fa-minus {
-  color: #FAFA0B;
-}
-.people-row > i.fa-plus {
-  color: #0B0D9B;
-}
 .toggle-open,
 .dropdown-toggle,
 .clickable,
@@ -150,10 +126,59 @@
   width: 100%;
 }
 .document-selector .tree-div {
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif !important;
   width: auto;
   height: 442px;
   overflow-y: auto;
   border: 1px solid #DCE8F1;
+}
+.document-selector .tree-div .person_girl {
+  background-image: url(../../plugins/document/images/woman.gif);
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_man {
+  background-image: url(../../plugins/document/images/man.gif);
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_dept {
+  background-image: url(../../plugins/document/images/dept.gif);
+  background-position: left 50%;
+}
+.document-selector .tree-div .people-row:hover {
+  background-color: #F0F7FC;
+}
+.document-selector .tree-div .people-row {
+  border-bottom: 1px solid #CCCCCC;
+  color: #333333;
+  text-decoration: none;
+  text-indent: 20px;
+  height: 27px;
+  padding: 3px 5px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  background-repeat: no-repeat;
+}
+.document-selector .tree-div .people-row > i {
+  float: right;
+  margin-top: 3px;
+}
+.document-selector .tree-div .people-row > i.fa-minus {
+  color: #FAFA0B;
+}
+.document-selector .tree-div .people-row > i.fa-plus {
+  color: #0B0D9B;
+}
+.document-selector .page-div {
+  width: 100%;
+  text-align: center;
+}
+.document-selector .page-div .curePage {
+  font-size: 15px;
+}
+.document-selector .page-div .page-icon {
+  font-size: 20px;
+  padding: 0 6px;
+  cursor: pointer;
 }
 .search-span {
   width: 100%;
