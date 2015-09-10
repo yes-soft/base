@@ -146,17 +146,14 @@
     overflow-y: auto;
     border: 1px solid #DCE8F1;
     .person_girl {
-      background-image: url(./../../plugins/document/images/woman.gif);
       background-position: left 50%;
     }
 
     .person_man {
-      background-image: url(./../../plugins/document/images/man.gif);
       background-position: left 50%;
     }
 
     .person_dept {
-      background-image: url(./../../plugins/document/images/dept.gif);
       background-position: left 50%;
     }
 
@@ -175,6 +172,7 @@
       font-size: 14px;
       background-repeat: no-repeat;
       & > i {
+        text-indent: 5px;
         float: right;
         margin-top: 3px;
       }
@@ -183,6 +181,14 @@
       }
       & > i.fa-plus {
         color: #0B0D9B;
+      }
+      & > .right {
+        text-indent: 0px;
+        display: block;
+        width: 170px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }
