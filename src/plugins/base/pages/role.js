@@ -10,7 +10,7 @@ define(['base/directives/tree.view'], function () {
 
                 $http.get('data/menus.json?').success(function (data) {
                     var menus = utils.menus.initMenus(null, data.body.items);
-                    self.node = {"subMenus": menus};
+                    self.node = {"subMenus": menus, isRoot: true};
                 });
 
                 self.loadRoleRight = function (uid) {
@@ -65,9 +65,33 @@ define(['base/directives/tree.view'], function () {
                             }
                         );
                     },
-                    save: function () {
+                    save: function (arg) {
+
                         self.result = [];
                         getResult(self.node.subMenus);
+
+                        //var data = {};
+                        //data.result = result;
+                        //data.abc = arg;
+                        //utils.async('put', 'path', data).then();
+                    },
+                    removeRole: function (role) {
+                        self.currentRole = null;  //TODO
+                        self.loadRoleRight(role.uid);
+                    },
+                    addRole: function () {
+                        ngDialog.open(
+                            {
+                                template: "plugins/base/pages/role.add.html",
+                                controller: function ($scope) {
+                                    //$scope.roles = self.roles;
+                                    //$scope.copy = function () {
+                                    //    if ($scope.currentRole)
+                                    //        self.loadRoleRight($scope.currentRole);
+                                    //}
+                                }
+                            }
+                        );
                     }
                 }
 

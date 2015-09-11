@@ -11,15 +11,16 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css">
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/toaster/angular-toastr.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css"/>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/datetimepicker.css"/>
 
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
-
+    <link href="base/css/yes.ui.css" rel="stylesheet">
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
@@ -40,7 +41,6 @@
 <script src="base/vendor/ie8/jquery.1.11.1.min.js"></script>
 <![endif]-->
 
-
 <!--framework bundles-->
 <script type="text/javascript" src="../components/yes-bundle/dist/yes.bundle.js"></script>
 
@@ -56,17 +56,20 @@
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/schema-form.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/angular-file-upload.min.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
+<script type="text/javascript" src="../components/yes-bundle/dist/vendor/select2/select2.js"></script>
+
 <script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
 
 <!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
 
 <script type="text/javascript">
-
+    var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
         'toastr',
+        'angularMoment',
         'angularFileUpload',
         'schemaForm',
         'ui.grid.selection',
@@ -75,7 +78,11 @@
         'ui.grid.autoResize',
         'ui.grid.exporter',
         'ui.bootstrap.datetimepicker'
-    ]);
+    ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
+        function ($log, $timeout, $rootScope, amMoment, i18nService) {
+            i18nService.setCurrentLang(language);
+            amMoment.changeLocale(language);
+        }]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
@@ -91,13 +98,13 @@
                 apiPath: "api",
                 serverRoot: 'src',
                 pluginFolder: 'plugins',
-                language: navigator.language || navigator.userLanguage,
+                language: language,
                 templates: {
                     'layout': 'plugins/base/templates/layout.html',
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/page.detail.html',
+                    'detail': 'plugins/base/templates/detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html',
                     'dialog': 'plugins/base/templates/dialog-container.html',
                     'import': 'plugins/base/templates/import.html',
@@ -109,7 +116,6 @@
                     more: 10
                 }
             };
-
             settings.routers = {
                 'app': {
                     url: '',
@@ -168,7 +174,7 @@
                     },
                     dependencies: [
                         '{$name}/config',
-                        'base/pages/{$action}'
+                        '{$name}/pages/{$action}'
                     ]
                 }
             };

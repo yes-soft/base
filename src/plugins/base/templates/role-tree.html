@@ -1,19 +1,40 @@
-<ul>
-    <li ng-repeat="node in ::nodes">
-        <label class="clickable"> <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
-            {{::node.name}} </label>
-        <i ng-click="node.collapsed=!node.collapsed"
-           ng-if="node.subMenus.length"
-           class="glyphicon glyphicon-chevron-right clickable"
-           ng-class="{'glyphicon-chevron-down':node.collapsed}"></i>
+<ul class="{{::root?'tree tree-selectable':'tree-branch-children'}}" ng-hide="hide">
+    <li ng-class="{'tree-selected':node.selected}"
+        class="{{::node.subMenus.length?'tree-branch':'tree-item'}}{{item.collapsed?'':' tree-open'}}"
+        ng-repeat="node in ::nodes">
 
-        <span>
-            <label class="clickable" ng-repeat="op in node.operations">
-                <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
-                {{::op.name}} </label>
+        <!--<label class="clickable"> <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>-->
+        <!--{{::node.name}} </label>-->
+        <!--<i ng-click="node.collapsed=!node.collapsed"-->
+        <!--ng-if="node.subMenus.length"-->
+        <!--class="glyphicon glyphicon-chevron-right clickable"-->
+        <!--ng-class="{'glyphicon-chevron-down':node.collapsed}"></i>-->
+
+        <span ng-if="::!node.subMenus.length" class="tree-item-name" title="{{::node.name}}">
+            <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
+            <span class="tree-label">{{::node.name}}</span>
+                <label class="clickable" ng-repeat="op in node.operations">
+                    <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
+                    {{::op.name}} </label>
         </span>
 
-        <div ng-show="node.collapsed" yes-role-tree data-nodes="node.subMenus">
+
+        <div ng-if="::node.subMenus.length" class="tree-branch-header"
+             title="{{::node.name}}">
+            <span class="tree-branch-name">
+                <i class="icon-folder ace-icon {{node.collapsed?'tree-plus':'tree-minus'}}"
+                   ng-click="node.collapsed=!node.collapsed;"></i>
+                    <input type="checkbox" ng-change="selectChanged(node)" ng-model="node.selected"/>
+                <span class="tree-label">{{::node.name}}</span>
+
+                       <label class="clickable" ng-repeat="op in node.operations">
+                           <input type="checkbox" ng-change="selectChanged(op)" ng-model="op.selected"/>
+                           {{::op.name}} </label>
+            </span>
+        </div>
+
+        <div ng-if="node.subMenus.length" hide="node.collapsed" yes-role-tree data-nodes="node.subMenus"
+             data-root="false">
         </div>
     </li>
 </ul>

@@ -24,7 +24,9 @@
             return {
                 restrict: 'EA',
                 scope: {
-                    nodes: "="
+                    nodes: "=",
+                    root: "=",
+                    hide: "="
                 },
                 //templateUrl: 'plugins/base/templates/role-tree.html',
                 //replace: true,

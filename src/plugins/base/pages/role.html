@@ -3,27 +3,13 @@
         cursor: pointer;
     }
 
-    .page-content ul, li {
-        list-style-type: none;
-    }
-
-    .page-content ul, li {
-        margin: 0;
-    }
-
-    .page-content ul {
-        padding-left: 20px;
-    }
-
-    .page-content li {
-        border: 1px solid #ccc;
-    }
-
     .page-content .current {
         border: 1px solid #ccc;
     }
 
 </style>
+
+
 <div ng-controller="app.page.role">
     <div class="breadcrumbs" id="breadcrumbs">
         <ul class="breadcrumb">
@@ -37,11 +23,15 @@
     <div class="page-content list-scope">
         <div>
             <div class="row">
+                <button ng-click="action.save(1)">发布</button>
+                <button ng-click="action.save(2)">保存</button>
                 <div class="col-xs-3">
-                    <div>角色列表</div>
-                    <div ng-repeat="role in roles" ng-class="{'current':role == currentRole}" class="clickable"
-                         ng-click="action.selectRole(role)">
-                        {{role.name}}
+                    <div>角色列表
+                        <button ng-click="action.addRole()">添加角色</button>
+                    </div>
+                    <div ng-repeat="role in roles" ng-class="{'current':role == currentRole}" class="clickable">
+                        <span ng-click="action.selectRole(role)"> {{role.name}}</span>
+                        <i ng-click="action.removeRole(role)" class="glyphicon glyphicon-remove"></i>
                     </div>
                 </div>
                 <div class="col-xs-9">
@@ -52,13 +42,12 @@
                         <button ng-click="action.save()">保存</button>
                     </div>
                     <!--{{node.subMenus}}-->
-                    <div yes-role-tree data-nodes="node.subMenus"></div>
+                    <div yes-role-tree data-nodes="node.subMenus" data-root="true"></div>
                 </div>
             </div>
+            {{result}}
 
-            <div>
-                保存结果: {{result}}
-            </div>
+
         </div>
     </div>
 </div>
