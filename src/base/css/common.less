@@ -5,8 +5,59 @@
   cursor: pointer;
 }
 
+.tree {
+  .checked {
+    background-color: rgb(240, 247, 252);
+  }
+  .operate-span {
+    padding: 2px 4px;
+  }
+  .operate-btn.fa-plus-circle {
+    font-size: 14px !important;
+    color: rgb(6, 202, 6);
+  }
+  .operate-btn.fa-minus-circle {
+    font-size: 14px !important;
+    color: rgb(199, 19, 19);
+  }
+}
+
+.tree .tree-branch {
+  cursor: auto !important;
+}
+
+.tree-small .tree-branch .tree-branch-children {
+  margin: 0 0 0 17px !important;
+}
+
+.tree-small:before {
+  bottom: 12px !important;
+}
+
+.tree-small .tree-branch:before, .tree-small .tree-item:before {
+  top: 10px !important;
+  left: -12px !important;
+}
+
+.tree-small .tree-branch .tree-branch-children:before {
+  left: -12px !important;
+  bottom: 12px !important;
+}
+
+.tree-small .tree-item, .tree-small .tree-branch .tree-branch-header {
+  padding: 1px !important;
+}
+
+.tree-small div {
+  font-size: 12px !important;
+}
+
 .tree-children {
   padding-left: 20px;
+}
+
+.tree-item-name, .tree-branch-name {
+  white-space: nowrap !important;
 }
 
 .modal-dialog {
@@ -89,10 +140,69 @@
     width: 100%;
   }
   .tree-div {
+    font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif !important;
     width: auto;
     height: 442px;
     overflow-y: auto;
     border: 1px solid #DCE8F1;
+    .person_girl {
+      background-position: left 50%;
+    }
+
+    .person_man {
+      background-position: left 50%;
+    }
+
+    .person_dept {
+      background-position: left 50%;
+    }
+
+    .people-row:hover {
+      background-color: #F0F7FC;
+    }
+
+    .people-row {
+      border-bottom: 1px solid #CCCCCC;
+      color: #333333;
+      text-decoration: none;
+      text-indent: 20px;
+      height: 27px;
+      padding: 3px 5px 0 0;
+      cursor: pointer;
+      font-size: 14px;
+      background-repeat: no-repeat;
+      & > i {
+        text-indent: 5px;
+        float: right;
+        margin-top: 3px;
+      }
+      & > i.fa-minus {
+        color: #FAFA0B;
+      }
+      & > i.fa-plus {
+        color: #0B0D9B;
+      }
+      & > .right {
+        text-indent: 0px;
+        display: block;
+        width: 170px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .page-div {
+    width: 100%;
+    text-align: center;
+    .curePage {
+      font-size: 15px;
+    }
+    .page-icon {
+      font-size: 20px;
+      padding: 0 6px;
+      cursor: pointer;
+    }
   }
 }
 

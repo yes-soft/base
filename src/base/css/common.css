@@ -4,8 +4,51 @@
 .submenu a {
   cursor: pointer;
 }
+.tree .checked {
+  background-color: #f0f7fc;
+}
+.tree .operate-span {
+  padding: 2px 4px;
+}
+.tree .operate-btn.fa-plus-circle {
+  font-size: 14px !important;
+  color: #06ca06;
+}
+.tree .operate-btn.fa-minus-circle {
+  font-size: 14px !important;
+  color: #c71313;
+}
+.tree .tree-branch {
+  cursor: auto !important;
+}
+.tree-small .tree-branch .tree-branch-children {
+  margin: 0 0 0 17px !important;
+}
+.tree-small:before {
+  bottom: 12px !important;
+}
+.tree-small .tree-branch:before,
+.tree-small .tree-item:before {
+  top: 10px !important;
+  left: -12px !important;
+}
+.tree-small .tree-branch .tree-branch-children:before {
+  left: -12px !important;
+  bottom: 12px !important;
+}
+.tree-small .tree-item,
+.tree-small .tree-branch .tree-branch-header {
+  padding: 1px !important;
+}
+.tree-small div {
+  font-size: 12px !important;
+}
 .tree-children {
   padding-left: 20px;
+}
+.tree-item-name,
+.tree-branch-name {
+  white-space: nowrap !important;
 }
 .modal-dialog {
   margin: 5px auto;
@@ -83,10 +126,65 @@
   width: 100%;
 }
 .document-selector .tree-div {
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif !important;
   width: auto;
   height: 442px;
   overflow-y: auto;
   border: 1px solid #DCE8F1;
+}
+.document-selector .tree-div .person_girl {
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_man {
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_dept {
+  background-position: left 50%;
+}
+.document-selector .tree-div .people-row:hover {
+  background-color: #F0F7FC;
+}
+.document-selector .tree-div .people-row {
+  border-bottom: 1px solid #CCCCCC;
+  color: #333333;
+  text-decoration: none;
+  text-indent: 20px;
+  height: 27px;
+  padding: 3px 5px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  background-repeat: no-repeat;
+}
+.document-selector .tree-div .people-row > i {
+  text-indent: 5px;
+  float: right;
+  margin-top: 3px;
+}
+.document-selector .tree-div .people-row > i.fa-minus {
+  color: #FAFA0B;
+}
+.document-selector .tree-div .people-row > i.fa-plus {
+  color: #0B0D9B;
+}
+.document-selector .tree-div .people-row > .right {
+  text-indent: 0px;
+  display: block;
+  width: 170px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.document-selector .page-div {
+  width: 100%;
+  text-align: center;
+}
+.document-selector .page-div .curePage {
+  font-size: 15px;
+}
+.document-selector .page-div .page-icon {
+  font-size: 20px;
+  padding: 0 6px;
+  cursor: pointer;
 }
 .search-span {
   width: 100%;
