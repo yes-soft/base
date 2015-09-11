@@ -243,7 +243,11 @@ define([],
                         title: "其他信息",
                         items: ["master", "enable"]
                     }],
-                    model: {}
+                    resolves: [
+                        function () {
+                            console.log("test ......");
+                        }
+                    ]
                 }
 
             },
