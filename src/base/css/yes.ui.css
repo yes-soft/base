@@ -1,0 +1,59 @@
+.yes-uploader {
+  position: relative;
+  border: 2px dotted #A5A5C7;
+  width: 100%;
+  color: #92AAB0;
+  vertical-align: middle;
+  padding: 5px 5px 20px 5px;
+  margin-bottom: 10px;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.yes-uploader .click {
+  cursor: pointer;
+}
+.yes-uploader div.or {
+  font-size: 50%;
+  font-weight: bold;
+  color: #C0C0C0;
+  padding: 10px;
+}
+.yes-uploader div.browser span {
+  cursor: pointer;
+}
+.yes-uploader div.browser input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  border: solid transparent;
+  border-width: 0 0 100px 200px;
+  opacity: .0;
+  filter: alpha(opacity=0);
+  -o-transform: translate(250px, -50px) scale(1);
+  -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr;
+  cursor: pointer;
+}
+.yes-uploader div.browser label.btn {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 120px;
+}
+.yes-uploader div.browser .file-name {
+  max-width: 120px;
+  overflow: hidden;
+}
+.yes-uploader ul,
+.yes-uploader li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
+}
