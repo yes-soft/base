@@ -18,6 +18,7 @@ define([],
                         reject: {
                             name: "退回",
                             action: function action() {
+
                             }
                         },
                         save: true
@@ -136,6 +137,18 @@ define([],
                     }
                 },
                 form: {
+                    operation: {
+                        publish: {
+                            name: '发布',
+                            icon:'fa fa-remove',
+                            type:'submit',
+                            action: function (utils) {
+                                utils.async('post', 'xy/api', {}).then(function () {
+                                    console.log('done');
+                                });
+                            }
+                        }
+                    },
                     schema: {
                         type: "object",
                         properties: {

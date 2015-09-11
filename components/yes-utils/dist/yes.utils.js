@@ -1,5 +1,5 @@
 'use strict';
-angular.module('yes.utils', ['yes.auth', 'yes.settings','oc.lazyLoad']);
+angular.module('yes.utils', ['yes.auth', 'yes.settings', 'oc.lazyLoad']);
 angular.module('yes.utils').provider('utils', ['settingsProvider',
     function (settingsProvider) {
         var self = this;
@@ -458,10 +458,19 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
 
             angular.forEach(ops, function (op, key) {
                 if (op) {
-                    var entry = defaults[key] || {'name': op.name, action: op.action, icon: op.icon};
+
+                    var entry = defaults[key] || {'name': op.name, action: op.action, icon: op.icon, type: op.type};
+
                     if (angular.isFunction(op.action)) {
-                        entry.action = function () {
-                            injector.invoke(op.action, context);
+                        entry.action = function (form) {
+                            if (op.type == "submit" && angular.isDefined(form)) {
+                                scope.$broadcast('schemaFormValidate');
+                                if (form.$valid) {
+                                    injector.invoke(op.action, context);
+                                }
+                            } else {
+                                injector.invoke(op.action, context);
+                            }
                         };
                     }
                     entry.type = entry.type || 'button';
@@ -498,6 +507,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
         var explainForm = function (config, scope) {
 
             var properties = oPath.get(config, 'schema.properties', {});
+
             if (angular.isArray(properties)) {
                 config.schema.properties = utils.array2Object(properties, 'key');
             }
@@ -571,6 +581,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                 //validateAuthority(config.list.operations);
 
                 config = explainList(config, scope);
+                config.form = explainForm(config.form, scope);
                 config.form = explainFormOperations(config.form, scope);
                 return config
             }

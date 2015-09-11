@@ -6,10 +6,11 @@
             <div ng-include="detailUrl"></div>
         </div>
 
-        <div yes-uploader></div>
-
-        <div search-common operations="config.operations" filters-conf="config.list.filters" filter="filter"
-             on-search="load();"></div>
+        <div data-search-common
+             data-operations="config.operations"
+             data-filters-conf="config.list.filters"
+             data-filter="filter"
+             data-on-search="load();"></div>
 
         <div class="list-wrap">
             <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">

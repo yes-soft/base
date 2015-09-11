@@ -13,26 +13,34 @@
                     },
                     controller: ['$scope', '$attrs', '$element',
                         function ($scope, $attrs, $element) {
-                            var options = $scope.options;
 
-                            var url = options.url || "/upload";
+                            var url = "/upload";
                             url = utils.getAbsUrl(url);
 
-
                             var uploader = $scope.uploader = new FileUploader({
-                                url: url
+                                url: url,
+                                autoUpload: true
                             });
 
-                            uploader.filters.push({
-                                name: 'customFilter',
-                                fn: function (item /*{File|FileLikeObject}*/, options) {
-                                    return this.queue.length < 10;
-                                }
-                            });
+                            uploader.onSuccessItem = function (item, res, status, headers) {
+                                $scope.message = res.message;
+                                $scope.attachmentId = res.attachmentId;
+                                //if (angular.isFunction(options.resolve)) {
+                                //    options.resolve.apply();
+                                //}
+                            };
 
-                            if (angular.isFunction(options.resolve)) {
-                                options.resolve.apply(uploader);
-                            }
+                            //
+                            //uploader.filters.push({
+                            //    name: 'customFilter',
+                            //    fn: function (item /*{File|FileLikeObject}*/, options) {
+                            //        return this.queue.length < 10;
+                            //    }
+                            //});
+                            //
+                            //if (angular.isFunction(options.resolve)) {
+                            //    options.resolve.apply(uploader);
+                            //}
 
                         }]
                 };

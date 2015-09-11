@@ -7,6 +7,7 @@ define([], function () {
                 title: "发送请求",
                 operation: {
                     'del': true,
+                    'add':true,
                     'cancel': {
                         name: "撤销预约",
                         action: function (utils, toastr) {
@@ -161,14 +162,11 @@ define([], function () {
                                     1: '提交到队列成功',
                                     2: '提交到队列失败',
                                     3: '申请已撤销'
-
                                 };
                                 angular.forEach(context.scope.entries, function (entry) {
                                     entry.statusLabel = names[entry.status];
                                 });
-
                             });
-
                     }]
                 },
                 form: {

@@ -18,6 +18,7 @@ define([],
                         reject: {
                             name: "退回",
                             action: function action() {
+
                             }
                         },
                         save: true
@@ -136,6 +137,23 @@ define([],
                     }
                 },
                 form: {
+                    operation: {
+                        publish: {
+                            name: '发布',
+                            icon: 'fa fa-remove',
+                            type: 'submit',
+                            action: function (utils, toastr) {
+                                var context = this;
+                                var data = context.scope.form.model;
+                                data.cmd = 'publish';
+                                utils.async('post', 'xy/api', data).then(function (res) {
+                                    toastr.success(res.message);
+                                }, function (res) {
+                                    toastr.error(res.message);
+                                });
+                            }
+                        }
+                    },
                     schema: {
                         type: "object",
                         properties: {

@@ -2,7 +2,7 @@
 
 <div class="page-content">
     <script type="text/ng-template" id="menu_icon">
-        <a ng-if="cmenu.subMenus.length<1 && (cmenu.home || cmenu.isdefault=='True')" href="{{::cmenu.url}}"
+        <a ng-if="!cmenu.subMenus && (cmenu.home || cmenu.isdefault=='True')" href="{{::cmenu.url}}"
            class="btn btn-app btn-sm menu-btn {{::cmenu.color}}" title="{{::cmenu.name}}">
             <i class="ace-icon bigger-200 fa {{::cmenu.icon}}"></i>
             {{::cmenu.name}}
