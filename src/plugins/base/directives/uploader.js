@@ -11,24 +11,25 @@
                     scope: {
                         options: "="
                     },
-                    controller: ['$scope', '$attrs', '$element',
-                        function ($scope, $attrs, $element) {
+                    controller: ['$scope', '$attrs', '$element', 'utils', 'settings',
+                        function ($scope, $attrs, $element, utils, settings) {
 
-                            var url = "/upload";
+                            var url = settings.uploadUrl;
                             url = utils.getAbsUrl(url);
-
                             var uploader = $scope.uploader = new FileUploader({
                                 url: url,
                                 autoUpload: true
                             });
-
-                            uploader.onSuccessItem = function (item, res, status, headers) {
-                                $scope.message = res.message;
-                                $scope.attachmentId = res.attachmentId;
-                                //if (angular.isFunction(options.resolve)) {
-                                //    options.resolve.apply();
-                                //}
-                            };
+                            utils.async("GET", settings.getUuid).then(function (attId) {
+                                $scope.attachmentId = attId;
+                                uploader.formData = [{'attachmentId': $scope.attachmentId}];
+                                uploader.onSuccessItem = function (item, res, status, headers) {
+                                    $scope.message = res.message;
+                                    //if (angular.isFunction(options.resolve)) {
+                                    //    options.resolve.apply();
+                                    //}
+                                };
+                            });
 
                             //
                             //uploader.filters.push({
