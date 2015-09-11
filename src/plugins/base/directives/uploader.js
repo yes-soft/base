@@ -6,6 +6,7 @@
 
                 return {
                     restrict: 'EA',
+                    require:"ngModel",
                     templateUrl: 'plugins/base/templates/uploader.html',
                     replace: true,
                     scope: {
@@ -13,17 +14,18 @@
                     },
                     controller: ['$scope', '$attrs', '$element', 'utils', 'settings',
                         function ($scope, $attrs, $element, utils, settings) {
-
                             var url = settings.uploadUrl;
                             url = utils.getAbsUrl(url);
                             var uploader = $scope.uploader = new FileUploader({
                                 url: url,
                                 autoUpload: true
                             });
+                            $scope.apiPath = settings.apiPath;
                             utils.async("GET", settings.getUuid).then(function (attId) {
-                                $scope.attachmentId = attId;
-                                uploader.formData = [{'attachmentId': $scope.attachmentId}];
+                                $scope.model = attId;
+                                uploader.formData = [{'attachmentId': $scope.model}];
                                 uploader.onSuccessItem = function (item, res, status, headers) {
+                                	item.uid = res.body.data[0].uid;
                                     $scope.message = res.message;
                                     //if (angular.isFunction(options.resolve)) {
                                     //    options.resolve.apply();

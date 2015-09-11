@@ -13,7 +13,7 @@
             <span class="glyphicon glyphicon-trash click" ng-click="item.remove()"></span>
         </li>
         <li ng-repeat="item in uploader.queue">
-            <span class="file-name" title="{{item.file.name}}">{{ item.file.name }}</span>
+            <a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}"><span class="file-name" title="{{item.file.name}}">{{ item.file.name }}</span></a>
             <span ng-show="uploader.isHTML5">
             <div class="progress-bar" role="progressbar"
                  ng-style="{ 'width': item.progress + '%' }"></div></span>
