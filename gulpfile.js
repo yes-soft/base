@@ -53,10 +53,11 @@ gulp.task('scripts', function () {
             './components/yes-bundle/dist/vendor/schema-form.js',
             './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
             './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
-            './components/yes-bundle/dist/vendor/ui.bootstrap.datetimepicker.js',
+            './components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js',
             './components/yes-bundle/dist/vendor/select2/select2.js',
             './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
-            './components/yes-ui/dist/yes.ui.js']
+            './components/yes-ui/dist/yes.ui.js'
+        ]
     )
         .pipe(concat('yes.app.js'))
         .pipe(gulp.dest(distBase + scripts))

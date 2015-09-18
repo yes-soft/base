@@ -1,0 +1,56 @@
+/* This file contains variable declarations (do not remove this line) */
+/*-- VARIABLES (DO NOT REMOVE THESE COMMENTS) --*/
+/**
+* @section Grid styles
+*/
+/**
+* @section Header styles
+*/
+/** @description Colors for header gradient */
+/**
+* @section Grid body styles
+*/
+/** @description Colors used for row alternation */
+/**
+* @section Sort arrow colors
+*/
+/**
+* @section Scrollbar styles
+*/
+/**
+* @section font library path
+*/
+/*-- END VARIABLES (DO NOT REMOVE THESE COMMENTS) --*/
+.ui-grid-cell {
+  overflow: hidden;
+  float: left;
+  background-color: inherit;
+  border-right: 1px solid;
+  border-color: #d4d4d4;
+  box-sizing: border-box;
+}
+.ui-grid-cell:last-child {
+  border-right: 0;
+}
+.ui-grid-cell-contents {
+  padding: 5px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 100%;
+}
+.ui-grid-cell-contents-hidden {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  display: none;
+}
+.ui-grid-row .ui-grid-cell.ui-grid-row-header-cell {
+  background-color: #f0f0ee;
+  border-bottom: solid 1px #d4d4d4;
+}

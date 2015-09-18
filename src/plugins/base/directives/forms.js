@@ -42,10 +42,26 @@
                         "plugins/base/templates/forms/gallery.html"
                     );
                     schemaFormDecoratorsProvider.createDirective(
-                        'uploader',
+                        'gallery',
                         "plugins/base/templates/forms/gallery.html"
                     );
                 }
             ]);
+
+    angular.module('yes.ui').config(
+        ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+            function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
+                );
+            }
+        ]);
 
 })(angular);
