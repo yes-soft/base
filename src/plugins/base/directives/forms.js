@@ -20,16 +20,6 @@
         ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
             function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
 
-                var uploader = function(name, schema, options) {
-                    if (schema.type === 'string' && schema.format == 'uploader') {
-                        var f = schemaFormProvider.stdFormObj(name, schema, options);
-                        f.key  = options.path;
-                        f.type = 'uploader';
-                        options.lookup[sfPathProvider.stringify(options.path)] = f;
-                        return f;
-                    }
-                };
-
                 schemaFormDecoratorsProvider.addMapping(
                     'bootstrapDecorator',
                     'uploader',
@@ -38,6 +28,38 @@
                 schemaFormDecoratorsProvider.createDirective(
                     'uploader',
                     "plugins/base/templates/forms/uploader.html"
+                );
+            }
+        ]);
+    
+    angular.module('yes.ui').config(
+            ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+                function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
+
+                    schemaFormDecoratorsProvider.addMapping(
+                        'bootstrapDecorator',
+                        'gallery',
+                        "plugins/base/templates/forms/gallery.html"
+                    );
+                    schemaFormDecoratorsProvider.createDirective(
+                        'gallery',
+                        "plugins/base/templates/forms/gallery.html"
+                    );
+                }
+            ]);
+
+    angular.module('yes.ui').config(
+        ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+            function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
                 );
             }
         ]);

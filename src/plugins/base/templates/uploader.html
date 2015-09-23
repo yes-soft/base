@@ -9,18 +9,28 @@
     <input type="hidden" value="{{attachmentId}}">
     <ul>
         <li ng-repeat="item in items">
-            <span>{{ item.file.name }}</span>
-            <span class="glyphicon glyphicon-trash click" ng-click="item.remove()"></span>
+        	<a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}">
+        		<span class="file-name" title="{{::item.fileName}}">{{::item.fileName}}</span>
+        	</a>
+            <span ng-show="uploader.isHTML5">
+	            <div class="progress-bar" role="progressbar"
+	                 ng-style="{ 'width': item.progress + '%' }"></div>
+            </span>
+            <span><i class="glyphicon glyphicon-ok"></i></span>
+            <span class="glyphicon glyphicon-trash click" ng-click="remove(item);"></span>
+            <a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}">
         </li>
         <li ng-repeat="item in uploader.queue">
-            <a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}"><span class="file-name" title="{{item.file.name}}">{{ item.file.name }}</span></a>
+            <a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}">
+            	<span class="file-name" title="{{item.file.name}}">{{ item.file.name }}</span>
+            </a>
             <span ng-show="uploader.isHTML5">
             <div class="progress-bar" role="progressbar"
                  ng-style="{ 'width': item.progress + '%' }"></div></span>
             <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
             <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
             <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-            <span class="glyphicon glyphicon-trash click" ng-click="item.remove()"></span>
+            <span class="glyphicon glyphicon-trash click" ng-click="remove(item);item.remove();"></span>
         </li>
     </ul>
 

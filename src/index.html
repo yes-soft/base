@@ -31,7 +31,8 @@
 
 </head>
 <body class="no-skin">
-<div ui-view></div>
+<div ui-view>
+</div>
 
 <!--[if !IE]> -->
 <script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
@@ -62,6 +63,10 @@
 
 <!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
+<script type="text/javascript" src="../components/tinymce-dist/tinymce.min.js"></script>
+<script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>
+
+
 
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
@@ -84,7 +89,7 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
 
@@ -110,8 +115,10 @@
                     'import': 'plugins/base/templates/import.html',
                     'uploader': 'plugins/base/templates/uploader-container.html'
                 },
+                getByAttIdUrl: "/base/attachment/getByAttId",
                 uploadUrl: "/base/attachment/upload",
                 getUuid: "/base/attachment/getUuid",
+                delByUid: "/base/attachment/",
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {
                     defaults: 20,

@@ -4,10 +4,11 @@ require.config({
         'app': 'base/app',
         'resolves': 'base/services/resolves',
         'forms': 'base/directives/forms',
-        'uploader': 'base/directives/uploader'
+        'uploader': 'base/directives/uploader',
+        'gallery': 'base/directives/gallery'
     },
     shim: {
-        'app': ['resolves', 'forms', 'uploader']
+        'app': ['resolves', 'forms', 'uploader', 'gallery']
     }
 });
 

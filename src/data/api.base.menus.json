@@ -41,7 +41,7 @@
         "color": "btn-primary",
         "tag": "base_account",
         "icon": "fa-users",
-        "url": "#/base/accounts",
+        "url": "#/base/account",
         "state": true,
         "parent": "202020206261736520202020",
         "type": "menu",
