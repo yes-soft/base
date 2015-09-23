@@ -1,0 +1,33 @@
+{
+  "name": "yes-ui",
+  "authors": [
+    "vellengs <vellengs@qq.com>"
+  ],
+  "main": [
+    "dist/yes.ui.js"
+  ],
+  "description": "yes utils are utilities of yes base",
+  "license": "MIT",
+  "homepage": "http://www.yes-soft.cn",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "yes-bundle": "*"
+  },
+  "_release": "3c9c090396",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "3c9c090396488d85fa8794258ce83a7965fd1cff"
+  },
+  "_source": "git://github.com/yes-soft/yes-ui.git",
+  "_target": "*",
+  "_originalSource": "yes-ui"
+}

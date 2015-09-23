@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Builder example</title>
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap/css/bootstrap-theme.min.css">
+</head>
+<body ng-app="app">
+
+<div tree-view></div>
+
+<script src="../components/yes-bundle/dist/yes.bundle.js" charset="utf-8"></script>
+<script src="../components/yes-utils/dist/yes.utils.js" charset="utf-8"></script>
+<script src="../dist/yes.ui.dependencies.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+
+    angular.module('app', ['yes.utils'])
+            .run(function ($templateCache) {
+                // $templateCache.put('demo.html', '<h1>scaffold {{world}}</h1>');
+            })
+            .directive('treeView', function ($compile, $http, utils) {
+                return {
+                    link: function (scope, element, attrs) {
+
+                        $http.get("./../src/templates/tree-view.html", {cache: $templateCache})
+                                .success(function (html) {
+                                    var treeViewHtml = "";
+
+
+                                    element.html('').append($compile(treeViewHtml)(scope));
+                                });
+
+
+                        scope.$watch('menus', function (source) {
+                            if (source) {
+                                render(source);
+                            }
+                        });
+
+
+                        var render = function (source) {
+//                            walk(source);
+//                            element[0].appendChild(df);
+//                            $compile(element.children())(scope);
+                        };
+
+                        var depth = 0;
+                        var walk = function (tree) {
+                            angular.forEach(tree, function (node) {
+                                var div = document.createElement("div");
+                                var name = '-----------------------'.substring(0, depth * 4) + node.name + node.type;
+                                var txt = document.createTextNode(name);
+                                var current = depth;
+                                div.appendChild(txt);
+                                df.appendChild(div);
+                                if (node.subMenus) {
+                                    depth++;
+                                    walk(node.subMenus);
+                                }
+                                depth = current;
+                            });
+                        };
+
+                    }
+                };
+            })
+            .controller('demo', function ($http, $scope, $timeout, utils) {
+                $http.get('data/menus.json').success(function (data) {
+                    var menus = utils.menus.initMenus(null, data.body.items);
+                    $scope.node = {"subMenus": menus};
+                });
+            });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "yes-ui",
+  "version": "0.1.1",
+  "authors": [
+    "vellengs <vellengs@qq.com>"
+  ],
+  "main": [
+    "dist/yes.ui.js"
+  ],
+  "description": "yes utils are utilities of yes base",
+  "license": "MIT",
+  "homepage": "http://www.yes-soft.cn",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "yes-bundle": "*"
+  }
+}
