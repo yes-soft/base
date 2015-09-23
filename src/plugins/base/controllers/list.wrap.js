@@ -21,7 +21,16 @@ define(['base/services/mapper'], function (mapper) {
                     },
                     cancel: function () {
                         angular.forEach(self.form.model, function (raw, key) {
-                            delete self.form.model[key];
+                            if (self.detailUid) {
+                                var namespace = [$stateParams.name, $stateParams.page, self.detailUid].join("/");
+                                utils.async('get', namespace).then(function (res) {
+                                    self.detailLoad(res.body);
+                                });
+                            } else if (!angular.isArray(self.form.model[key])) {
+                                delete self.form.model[key];
+                            } else {
+                                self.form.model[key] = [];
+                            }
                         });
                     },
                     del: function () {
