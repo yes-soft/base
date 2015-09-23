@@ -89,7 +89,11 @@
                 pageSize: {
                     defaults: 20,
                     more: 10
-                }
+                },
+                getByAttIdUrl: "/base/attachment/getByAttId",
+                uploadUrl: "/base/attachment/upload",
+                getUuid: "/base/attachment/getUuid",
+                delByUid: "/base/attachment/"
             };
 
             settings.routers = {
@@ -163,6 +167,13 @@
             settingsProvider.setSettings(settings);
         }]);
 </script>
+
+<link rel="stylesheet" href="plugins/base/vendor/datepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/daterangepicker.min.css"/>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/daterangepicker.min.js"></script>
 
 <script type="text/javascript" src="base/vendor/require.js"
         data-main="plugins/start.js"></script>
