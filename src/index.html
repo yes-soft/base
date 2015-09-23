@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/datetimepicker.css"/>
+    <!--<link rel="stylesheet" href="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/css/datetimepicker.css"/>-->
 
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
@@ -59,7 +59,7 @@
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js"></script>
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/select2/select2.js"></script>
 
-<script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/ui.boostrap.datetimepicker.js"></script>
+<!--<script src="../components/yes-bundle/dist/vendor/angular-bootstrap-datetimepicker/js/datetimepicker.js"></script>-->
 
 <!--UI dependencies-->
 <script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
@@ -81,8 +81,7 @@
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter',
-        'ui.bootstrap.datetimepicker'
+        'ui.grid.exporter'
     ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $rootScope, amMoment, i18nService) {
             i18nService.setCurrentLang(language);
@@ -115,15 +114,15 @@
                     'import': 'plugins/base/templates/import.html',
                     'uploader': 'plugins/base/templates/uploader-container.html'
                 },
-                getByAttIdUrl: "/base/attachment/getByAttId",
-                uploadUrl: "/base/attachment/upload",
-                getUuid: "/base/attachment/getUuid",
-                delByUid: "/base/attachment/",
                 headers: {'Content-Type': 'application/json'},
                 pageSize: {
                     defaults: 20,
                     more: 10
-                }
+                },
+                getByAttIdUrl: "/base/attachment/getByAttId",
+                uploadUrl: "/base/attachment/upload",
+                getUuid: "/base/attachment/getUuid",
+                delByUid: "/base/attachment/"
             };
             settings.routers = {
                 'app': {
@@ -196,6 +195,13 @@
             settingsProvider.setSettings(settings);
         }]);
 </script>
+
+<link rel="stylesheet" href="plugins/base/vendor/datepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/daterangepicker.min.css"/>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/daterangepicker.min.js"></script>
 
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/require.js"
         data-main="plugins/start.js"></script>
