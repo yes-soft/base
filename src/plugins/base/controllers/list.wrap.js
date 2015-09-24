@@ -242,7 +242,7 @@ define(['base/services/mapper'], function (mapper) {
                     self.form = self.form || {};
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
-                    utils.disableScroll();
+                    //utils.disableScroll();
                     self.events.trigger('detailLoad', entity);
                 };
 
