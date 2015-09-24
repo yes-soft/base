@@ -2,6 +2,10 @@
 <div class="page-content list-scope">
     <div class="wrapper-md">
 
+        <div class="widget-box ui-sortable-handle fullscreen scroll-y" ng-show="detailUrl">
+            <div ng-include="detailUrl"></div>
+        </div>
+
         <div data-search-common
              data-operations="config.operations"
              data-filters-conf="config.list.filters"
