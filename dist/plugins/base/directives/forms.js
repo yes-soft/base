@@ -13,22 +13,6 @@
                     'select2',
                     "plugins/base/templates/forms/select2.html"
                 );
-            }
-        ]);
-
-    angular.module('yes.ui').config(
-        ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
-            function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
-
-                var uploader = function(name, schema, options) {
-                    if (schema.type === 'string' && schema.format == 'uploader') {
-                        var f = schemaFormProvider.stdFormObj(name, schema, options);
-                        f.key  = options.path;
-                        f.type = 'uploader';
-                        options.lookup[sfPathProvider.stringify(options.path)] = f;
-                        return f;
-                    }
-                };
 
                 schemaFormDecoratorsProvider.addMapping(
                     'bootstrapDecorator',
@@ -39,6 +23,57 @@
                     'uploader',
                     "plugins/base/templates/forms/uploader.html"
                 );
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'gallery',
+                    "plugins/base/templates/forms/gallery.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'gallery',
+                    "plugins/base/templates/forms/gallery.html"
+                );
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'editor',
+                    "plugins/base/templates/forms/editor.html"
+                );
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'datePicker',
+                    "plugins/base/templates/forms/datePicker.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'datePicker',
+                    "plugins/base/templates/forms/datePicker.html"
+                );
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'dateTimePicker',
+                    "plugins/base/templates/forms/dateTimePicker.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'dateTimePicker',
+                    "plugins/base/templates/forms/dateTimePicker.html"
+                );
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'dateRangePicker',
+                    "plugins/base/templates/forms/dateRangePicker.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'dateRangePicker',
+                    "plugins/base/templates/forms/dateRangePicker.html"
+                );
+
             }
         ]);
 

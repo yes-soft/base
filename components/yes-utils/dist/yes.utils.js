@@ -1,5 +1,5 @@
 'use strict';
-angular.module('yes.utils', ['yes.auth', 'yes.settings', 'oc.lazyLoad']);
+angular.module('yes.utils', ['yes.auth', 'yes.settings','oc.lazyLoad']);
 angular.module('yes.utils').provider('utils', ['settingsProvider',
     function (settingsProvider) {
         var self = this;
@@ -91,11 +91,18 @@ angular.module('yes.utils').config(["utilsProvider",
 
             var deferred = $q.defer();
 
+            var getSeparator = function(url){ 
+                return url.indexOf('?')>-1?"&":"?";
+            };
+
             if (!uri)
                 deferred.reject({"message": "Uri is empty!"});
             else {
+
                 if (options.data && options.method.toLowerCase() == "get") {
-                    options.url = options.url + "?" + options.data;
+                    options.url = options.url + getSeparator(options.url) + options.data + "&r_=" + Math.random() * 10000;
+                } else if (options.method.toLowerCase() == "get") {
+                    options.url += getSeparator(options.url) + "r_=" + Math.random() * 10000;
                 }
 
                 $http(options).success(function (res) {
@@ -107,7 +114,10 @@ angular.module('yes.utils').config(["utilsProvider",
                         deferred.reject({"message": "服务器异常"});
                     }
                 }).error(function (error) {
-                    deferred.reject({"message": "无法连接到服务器"});
+                    var message = "服务器异常";
+                    if (error)
+                        message = error.message || message;
+                    deferred.reject({"message": message});
                 });
                 return deferred.promise;
             }
@@ -507,7 +517,6 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
         var explainForm = function (config, scope) {
 
             var properties = oPath.get(config, 'schema.properties', {});
-
             if (angular.isArray(properties)) {
                 config.schema.properties = utils.array2Object(properties, 'key');
             }
@@ -570,7 +579,6 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                 overrideProperties(config.form, defaultSettings.form);
                 overrideProperties(config.list, defaultSettings.list);
 
-
                 config.list.template = getFullTemplatePath(config.list.template);
                 config.form.template = getFullTemplatePath(config.form.template);
 
@@ -583,6 +591,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                 config = explainList(config, scope);
                 config.form = explainForm(config.form, scope);
                 config.form = explainFormOperations(config.form, scope);
+
                 return config
             }
         };

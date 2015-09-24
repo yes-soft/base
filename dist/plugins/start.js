@@ -4,10 +4,12 @@ require.config({
         'app': 'base/app',
         'resolves': 'base/services/resolves',
         'forms': 'base/directives/forms',
-        'uploader': 'base/directives/uploader'
+        'uploader': 'base/directives/uploader',
+        'gallery': 'base/directives/gallery',
+        'datePicker': 'base/directives/datePicker'
     },
     shim: {
-        'app': ['resolves', 'forms', 'uploader']
+        'app': ['resolves', 'forms', 'uploader', 'gallery','datePicker']
     }
 });
 

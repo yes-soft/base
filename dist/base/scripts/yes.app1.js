@@ -54073,7 +54073,7 @@ if (!Array.prototype.indexOf) {
 })();
 
 'use strict';
-angular.module('yes.utils', ['yes.auth', 'yes.settings','oc.lazyLoad']);
+angular.module('yes.utils', ['yes.auth', 'yes.settings', 'oc.lazyLoad']);
 angular.module('yes.utils').provider('utils', ['settingsProvider',
     function (settingsProvider) {
         var self = this;
@@ -54164,21 +54164,23 @@ angular.module('yes.utils').config(["utilsProvider",
                 options.data = this.serialize(entry);
 
             var deferred = $q.defer();
-
-            var getSeparator = function(url){ 
-                return url.indexOf('?')>-1?"&":"?";
-            };
+            
+            var getSplitor = function(url){
+            	var splitor = url.indexOf('?')>-1?"&":"?";
+            	return splitor;
+            }
 
             if (!uri)
                 deferred.reject({"message": "Uri is empty!"});
             else {
-
+                /*if (options.data && options.method.toLowerCase() == "get") {
+                    options.url = options.url + "?" + options.data;
+                }*/
                 if (options.data && options.method.toLowerCase() == "get") {
-                    options.url = options.url + getSeparator(options.url) + options.data + "&r_=" + Math.random() * 10000;
+                    options.url = options.url + getSplitor(options.url) + options.data + "&r_=" + Math.random() * 10000;
                 } else if (options.method.toLowerCase() == "get") {
-                    options.url += getSeparator(options.url) + "r_=" + Math.random() * 10000;
+                    options.url += getSplitor(options.url) + "r_=" + Math.random() * 10000;
                 }
-
                 $http(options).success(function (res) {
                     if (res.error == 0 || !res.error) {
                         deferred.resolve(res);
@@ -54188,7 +54190,7 @@ angular.module('yes.utils').config(["utilsProvider",
                         deferred.reject({"message": "服务器异常"});
                     }
                 }).error(function (error) {
-                    var message = "服务器异常";
+                	var message = "服务器异常";
                     if (error)
                         message = error.message || message;
                     deferred.reject({"message": message});
@@ -54591,6 +54593,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
         var explainForm = function (config, scope) {
 
             var properties = oPath.get(config, 'schema.properties', {});
+
             if (angular.isArray(properties)) {
                 config.schema.properties = utils.array2Object(properties, 'key');
             }
@@ -54653,6 +54656,7 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                 overrideProperties(config.form, defaultSettings.form);
                 overrideProperties(config.list, defaultSettings.list);
 
+
                 config.list.template = getFullTemplatePath(config.list.template);
                 config.form.template = getFullTemplatePath(config.form.template);
 
@@ -54665,7 +54669,6 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                 config = explainList(config, scope);
                 config.form = explainForm(config.form, scope);
                 config.form = explainFormOperations(config.form, scope);
-
                 return config
             }
         };
@@ -76657,7 +76660,7 @@ module.filter('px', function() {
    *  @description constants available in i18n module
    */
   module.constant('i18nConstants', {
-    MISSING: '[MISSING]',
+    MISSING: '总',
     UPDATE_EVENT: '$uiI18n',
 
     LOCALE_DIRECTIVE_ALIAS: 'uiI18n',
@@ -76978,10 +76981,10 @@ module.filter('px', function() {
           importerTitle: '导入文件',
           exporterAllAsCsv: '导出全部数据到CSV',
           exporterVisibleAsCsv: '导出可见数据到CSV',
-          exporterSelectedAsCsv: '导出已选数据到CSV',
-          exporterAllAsPdf: '导出全部数据到PDF',
-          exporterVisibleAsPdf: '导出可见数据到PDF',
-          exporterSelectedAsPdf: '导出已选数据到PDF'
+          exporterSelectedAsCsv: '导出已选数据到CSV'
+          //exporterAllAsPdf: '导出全部数据到PDF',
+          //exporterVisibleAsPdf: '导出可见数据到PDF',
+          //exporterSelectedAsPdf: '导出已选数据到PDF'
         },
         importer: {
           noHeaders: '无法获取列名，确定文件包含表头？',
@@ -80579,8 +80582,8 @@ module.filter('px', function() {
                        ( this.grid.api.selection && this.grid.api.selection.getSelectedRows().length > 0 );
               },
               order: 202
-            },
-            {
+            }
+            /*{
               title: i18nService.getSafeText('gridMenu.exporterAllAsPdf'),
               action: function ($event) {
                 this.grid.api.exporter.pdfExport( uiGridExporterConstants.ALL, uiGridExporterConstants.ALL );
@@ -80610,7 +80613,7 @@ module.filter('px', function() {
                        ( this.grid.api.selection && this.grid.api.selection.getSelectedRows().length > 0 );
               },
               order: 205
-            }
+            }*/
           ]);
         },
 
@@ -92015,8 +92018,16 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
       return (pos ? separator : '') + letter.toLowerCase();
     });
   };
+  var formId = 0;
 
   var builders = {
+    sfField: function(args) {
+      args.fieldFrag.firstChild.setAttribute('sf-field', formId);
+
+      // We use a lookup table for easy access to our form.
+      args.lookup['f' + formId] = args.form;
+      formId++;
+    },
     ngModel: function(args) {
       if (!args.form.key) {
         return;
@@ -92055,7 +92066,7 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
           n.setAttribute('ng-model', modelValue);
         } else if (conf === 'replaceAll') {
           var attributes = n.attributes;
-          for (var j = 0; attributes.length; j++) {
+          for (var j = 0; j < attributes.length; j++) {
             if (attributes[j].value && attributes[j].value.indexOf('$$value') !== -1) {
               attributes[j].value = attributes[j].value.replace(/\$\$value\$\$/g, modelValue);
             }
@@ -92098,6 +92109,60 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
           }
         }
       }
+    },
+    condition: function(args) {
+      // Do we have a condition? Then we slap on an ng-if on all children,
+      // but be nice to existing ng-if.
+      if (args.form.condition) {
+        var evalExpr = 'evalExpr(' + args.path +
+                       '.contidion, { model: model, "arrayIndex": $index})';
+        if (args.form.key) {
+          var strKey = sfPathProvider.stringify(args.form.key);
+          evalExpr = 'evalExpr(' + args.path + '.condition,{ model: model, "arrayIndex": $index, ' +
+                     '"modelValue": model' + (strKey[0] === '[' ? '' : '.') + strKey + '})';
+        }
+
+        var children = args.fieldFrag.children || args.fieldFrag.childNodes;
+        for (var i = 0; i < children.length; i++) {
+          var child = children[i];
+          var ngIf = child.getAttribute('ng-if');
+          child.setAttribute(
+            'ng-if',
+            ngIf ?
+            '(' + ngIf +
+            ') || (' + evalExpr + ')'
+            : evalExpr
+          );
+        }
+      }
+    },
+    array: function(args) {
+      var items = args.fieldFrag.querySelector('[schema-form-array-items]');
+      if (items) {
+        state = angular.copy(args.state);
+        state.keyRedaction = state.keyRedaction || 0;
+        state.keyRedaction += args.form.key.length + 1;
+
+        // Special case, an array with just one item in it that is not an object.
+        // So then we just override the modelValue
+        if (args.form.schema && args.form.schema.items &&
+            args.form.schema.items.type &&
+            args.form.schema.items.type.indexOf('object') === -1 &&
+            args.form.schema.items.type.indexOf('array') === -1) {
+          var strKey = sfPathProvider.stringify(args.form.key).replace(/"/g, '&quot;') + '[$index]';
+          state.modelValue = 'modelArray[$index]';
+        } else {
+          state.modelName = 'item';
+        }
+
+        // Flag to the builder that where in an array.
+        // This is needed for compatabiliy if a "old" add-on is used that
+        // hasn't been transitioned to the new builder.
+        state.arrayCompatFlag = true;
+
+        var childFrag = args.build(args.form.items, args.path + '.items', state);
+        items.appendChild(childFrag);
+      }
     }
   };
   this.builders = builders;
@@ -92119,8 +92184,9 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
       }
     };
 
-    var build = function(items, decorator, templateFn, slots, path, state) {
+    var build = function(items, decorator, templateFn, slots, path, state, lookup) {
       state = state || {};
+      lookup = lookup || Object.create(null);
       path = path || 'schemaForm.form';
       var container = document.createDocumentFragment();
       items.reduce(function(frag, f, index) {
@@ -92134,17 +92200,25 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
         if (!field.replace) {
           // Backwards compatability build
           var n = document.createElement(snakeCase(decorator.__name, '-'));
-          n.setAttribute('form', path + '[' + index + ']');
+          if (state.arrayCompatFlag) {
+            n.setAttribute('form','copyWithIndex($index)');
+          } else {
+            n.setAttribute('form', path + '[' + index + ']');
+          }
+
           (checkForSlot(f, slots) || frag).appendChild(n);
 
         } else {
           var tmpl;
 
+          // Reset arrayCompatFlag, it's only valid for direct children of the array.
+          state.arrayCompatFlag = false;
+
           // TODO: Create a couple fo testcases, small and large and
           //       measure optmization. A good start is probably a cache of DOM nodes for a particular
           //       template that can be cloned instead of using innerHTML
           var div = document.createElement('div');
-          var template = templateFn(field.template) || templateFn([decorator['default'].template]);
+          var template = templateFn(f, field) || templateFn(f, decorator['default']);
           div.innerHTML = template;
 
           // Move node to a document fragment, we don't want the div.
@@ -92153,28 +92227,29 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
             tmpl.appendChild(div.childNodes[0]);
           }
 
-
-          tmpl.firstChild.setAttribute('sf-field',path + '[' + index + ']');
-
           // Possible builder, often a noop
           var args = {
             fieldFrag: tmpl,
             form: f,
+            lookup: lookup,
             state: state,
             path: path + '[' + index + ']',
 
             // Recursive build fn
             build: function(items, path, state) {
-              return build(items, decorator, templateFn, slots, path, state);
+              return build(items, decorator, templateFn, slots, path, state, lookup);
             },
 
           };
 
+          // Let the form definiton override builders if it wants to.
+          var builderFn = f.builder || field.builder;
+
           // Builders are either a function or a list of functions.
-          if (typeof field.builder === 'function') {
-            field.builder(args);
+          if (typeof builderFn === 'function') {
+            builderFn(args);
           } else {
-            field.builder.forEach(function(fn) { fn(args); });
+            builderFn.forEach(function(fn) { fn(args); });
           }
 
           // Append
@@ -92187,17 +92262,20 @@ angular.module('schemaForm').provider('sfBuilder', ['sfPathProvider', function(s
     };
 
     return {
-        /**
-         * Builds a form from a canonical form definition
-         */
-        build: function(form, decorator, slots) {
-          return build(form, decorator, function(url) {
-            return $templateCache.get(url);
-          }, slots);
+      /**
+       * Builds a form from a canonical form definition
+       */
+      build: function(form, decorator, slots, lookup) {
+        return build(form, decorator, function(form, field) {
+          if (form.type === 'template') {
+            return form.template;
+          }
+          return $templateCache.get(field.template);
+        }, slots, undefined, undefined, lookup);
 
-        },
-        builder: builders,
-        internalBuild: build
+      },
+      builder: builders,
+      internalBuild: build
     };
   }];
 
@@ -92832,7 +92910,7 @@ angular.module('schemaForm').provider('schemaForm',
         return type[0];
     }
     return type;
-  };
+  }
 
   //Creates an default titleMap list from an enum, i.e. a list of strings.
   var enumToTitleMap = function(enm) {
@@ -92897,7 +92975,7 @@ angular.module('schemaForm').provider('schemaForm',
     if (schema.description) { f.description = schema.description; }
     if (options.required === true || schema.required === true) { f.required = true; }
     if (schema.maxLength) { f.maxlength = schema.maxLength; }
-    if (schema.minLength) { f.minlength = schema.maxLength; }
+    if (schema.minLength) { f.minlength = schema.minLength; }
     if (schema.readOnly || schema.readonly) { f.readonly  = true; }
     if (schema.minimum) { f.minimum = schema.minimum + (schema.exclusiveMinimum ? 1 : 0); }
     if (schema.maximum) { f.maximum = schema.maximum - (schema.exclusiveMaximum ? 1 : 0); }
@@ -93119,7 +93197,7 @@ angular.module('schemaForm').provider('schemaForm',
 
     var service = {};
 
-    service.merge = function(schema, form, ignore, options, readonly) {
+    service.merge = function(schema, form, ignore, options, readonly, asyncTemplates) {
       form  = form || ['*'];
       options = options || {};
 
@@ -93190,13 +93268,13 @@ angular.module('schemaForm').provider('schemaForm',
 
         //if it's a type with items, merge 'em!
         if (obj.items) {
-          obj.items = service.merge(schema, obj.items, ignore, options, obj.readonly);
+          obj.items = service.merge(schema, obj.items, ignore, options, obj.readonly, asyncTemplates);
         }
 
         //if its has tabs, merge them also!
         if (obj.tabs) {
           angular.forEach(obj.tabs, function(tab) {
-            tab.items = service.merge(schema, tab.items, ignore, options, obj.readonly);
+            tab.items = service.merge(schema, tab.items, ignore, options, obj.readonly, asyncTemplates);
           });
         }
 
@@ -93204,6 +93282,13 @@ angular.module('schemaForm').provider('schemaForm',
         // Since have to ternary state we need a default
         if (obj.type === 'checkbox' && angular.isUndefined(obj.schema['default'])) {
           obj.schema['default'] = false;
+        }
+        
+        // Special case: template type with tempplateUrl that's needs to be loaded before rendering
+        // TODO: this is not a clean solution. Maybe something cleaner can be made when $ref support
+        // is introduced since we need to go async then anyway
+        if (asyncTemplates && obj.type === 'template' && !obj.template && obj.templateUrl) {
+          asyncTemplates.push(obj);
         }
 
         return obj;
@@ -93351,6 +93436,7 @@ angular.module('schemaForm').factory('sfValidator', [function() {
 
 /**
  * Directive that handles the model arrays
+ * DEPRECATED with the new builder use the sfNewArray instead.
  */
 angular.module('schemaForm').directive('sfArray', ['sfSelect', 'schemaForm', 'sfValidator', 'sfPath',
   function(sfSelect, schemaForm, sfValidator, sfPath) {
@@ -93384,6 +93470,10 @@ angular.module('schemaForm').directive('sfArray', ['sfSelect', 'schemaForm', 'sf
         // It's the (first) array part of the key, '[]' that needs a number
         // corresponding to an index of the form.
         var once = scope.$watch(attrs.sfArray, function(form) {
+          if (!form) {
+            return;
+          }
+
 
           // An array model always needs a key so we know what part of the model
           // to look at. This makes us a bit incompatible with JSON Form, on the
@@ -93393,7 +93483,8 @@ angular.module('schemaForm').directive('sfArray', ['sfSelect', 'schemaForm', 'sf
           // We only modify the same array instance but someone might change the array from
           // the outside so let's watch for that. We use an ordinary watch since the only case
           // we're really interested in is if its a new instance.
-          scope.$watch('model' + sfPath.normalize(form.key), function(value) {
+          var key = sfPath.normalize(form.key);
+          scope.$watch('model' + (key[0] !== '[' ? '.' : '') + key, function(value) {
             list = scope.modelArray = value;
           });
 
@@ -93645,9 +93736,9 @@ angular.module('schemaForm').directive('sfField',
         replace: false,
         transclude: false,
         scope: true,
-        require: '?^sfSchema',
+        require: '^sfSchema',
         link: {
-          pre: function(scope) {
+          pre: function(scope, element, attrs, sfSchema) {
             //The ngModelController is used in some templates and
             //is needed for error messages,
             scope.$on('schemaFormPropagateNgModelController', function(event, ngModel) {
@@ -93656,11 +93747,10 @@ angular.module('schemaForm').directive('sfField',
               scope.ngModel = ngModel;
             });
 
-            //make sure to overwrite form here so that we don't inherit it by accident
-            scope.form = null;
+            // Fetch our form.
+            scope.form = sfSchema.lookup['f' + attrs.sfField];
           },
           post: function(scope, element, attrs, sfSchema) {
-
             //Keep error prone logic from the template
             scope.showTitle = function() {
               return scope.form && scope.form.notitle !== true && scope.form.title;
@@ -93776,100 +93866,89 @@ angular.module('schemaForm').directive('sfField',
               );
             };
 
-            // Rebind our part of the form to the scope.
-            var once = scope.$watch(attrs.sfField, function(form) {
-              if (form) {
-                // Workaround for 'updateOn' error from ngModelOptions
-                // see https://github.com/Textalk/angular-schema-form/issues/255
-                // and https://github.com/Textalk/angular-schema-form/issues/206
-                form.ngModelOptions = form.ngModelOptions || {};
-                scope.form  = form;
+            var form = scope.form;
 
+            // Where there is a key there is probably a ngModel
+            if (form.key) {
+              // It looks better with dot notation.
+              scope.$on(
+                'schemaForm.error.' + form.key.join('.'),
+                function(event, error, validationMessage, validity) {
+                  if (validationMessage === true || validationMessage === false) {
+                    validity = validationMessage;
+                    validationMessage = undefined;
+                  }
 
-                // Where there is a key there is probably a ngModel
-                if (form.key) {
-                  // It looks better with dot notation.
-                  scope.$on(
-                    'schemaForm.error.' + form.key.join('.'),
-                    function(event, error, validationMessage, validity) {
-                      if (validationMessage === true || validationMessage === false) {
-                        validity = validationMessage;
-                        validationMessage = undefined;
-                      }
-
-                      if (scope.ngModel && error) {
-                        if (scope.ngModel.$setDirty) {
-                          scope.ngModel.$setDirty();
-                        } else {
-                          // FIXME: Check that this actually works on 1.2
-                          scope.ngModel.$dirty = true;
-                          scope.ngModel.$pristine = false;
-                        }
-
-                        // Set the new validation message if one is supplied
-                        // Does not work when validationMessage is just a string.
-                        if (validationMessage) {
-                          if (!form.validationMessage) {
-                            form.validationMessage = {};
-                          }
-                          form.validationMessage[error] = validationMessage;
-                        }
-
-                        scope.ngModel.$setValidity(error, validity === true);
-
-                        if (validity === true) {
-                          // Setting or removing a validity can change the field to believe its valid
-                          // but its not. So lets trigger its validation as well.
-                          scope.$broadcast('schemaFormValidate');
-                        }
-                      }
-                  });
-
-                  // Clean up the model when the corresponding form field is $destroy-ed.
-                  // Default behavior can be supplied as a globalOption, and behavior can be overridden in the form definition.
-                  scope.$on('$destroy', function() {
-                    // If the entire schema form is destroyed we don't touch the model
-                    if (!scope.externalDestructionInProgress) {
-                      var destroyStrategy = form.destroyStrategy ||
-                                            (scope.options && scope.options.destroyStrategy) || 'remove';
-                      // No key no model, and we might have strategy 'retain'
-                      if (form.key && destroyStrategy !== 'retain') {
-
-                        // Get the object that has the property we wan't to clear.
-                        var obj = scope.model;
-                        if (form.key.length > 1) {
-                          obj = sfSelect(form.key.slice(0, form.key.length - 1), obj);
-                        }
-
-                        // We can get undefined here if the form hasn't been filled out entirely
-                        if (obj === undefined) {
-                          return;
-                        }
-
-                        // Type can also be a list in JSON Schema
-                        var type = (form.schema && form.schema.type) || '';
-
-                        // Empty means '',{} and [] for appropriate types and undefined for the rest
-                        //console.log('destroy', destroyStrategy, form.key, type, obj);
-                        if (destroyStrategy === 'empty' && type.indexOf('string') !== -1) {
-                          obj[form.key.slice(-1)] = '';
-                        } else if (destroyStrategy === 'empty' && type.indexOf('object') !== -1) {
-                          obj[form.key.slice(-1)] = {};
-                        } else if (destroyStrategy === 'empty' && type.indexOf('array') !== -1) {
-                          obj[form.key.slice(-1)] = [];
-                        } else if (destroyStrategy === 'null') {
-                          obj[form.key.slice(-1)] = null;
-                        } else {
-                          delete obj[form.key.slice(-1)];
-                        }
-                      }
+                  if (scope.ngModel && error) {
+                    if (scope.ngModel.$setDirty) {
+                      scope.ngModel.$setDirty();
+                    } else {
+                      // FIXME: Check that this actually works on 1.2
+                      scope.ngModel.$dirty = true;
+                      scope.ngModel.$pristine = false;
                     }
-                  });
-                }
 
-                once();
-              }
-            });
+                    // Set the new validation message if one is supplied
+                    // Does not work when validationMessage is just a string.
+                    if (validationMessage) {
+                      if (!form.validationMessage) {
+                        form.validationMessage = {};
+                      }
+                      form.validationMessage[error] = validationMessage;
+                    }
+
+                    scope.ngModel.$setValidity(error, validity === true);
+
+                    if (validity === true) {
+                      // Setting or removing a validity can change the field to believe its valid
+                      // but its not. So lets trigger its validation as well.
+                      scope.$broadcast('schemaFormValidate');
+                    }
+                  }
+              });
+
+              // Clean up the model when the corresponding form field is $destroy-ed.
+              // Default behavior can be supplied as a globalOption, and behavior can be overridden
+              // in the form definition.
+              scope.$on('$destroy', function() {
+                // If the entire schema form is destroyed we don't touch the model
+                if (!scope.externalDestructionInProgress) {
+                  var destroyStrategy = form.destroyStrategy ||
+                                        (scope.options && scope.options.destroyStrategy) || 'remove';
+                  // No key no model, and we might have strategy 'retain'
+                  if (form.key && destroyStrategy !== 'retain') {
+
+                    // Get the object that has the property we wan't to clear.
+                    var obj = scope.model;
+                    if (form.key.length > 1) {
+                      obj = sfSelect(form.key.slice(0, form.key.length - 1), obj);
+                    }
+
+                    // We can get undefined here if the form hasn't been filled out entirely
+                    if (obj === undefined) {
+                      return;
+                    }
+
+                    // Type can also be a list in JSON Schema
+                    var type = (form.schema && form.schema.type) || '';
+
+                    // Empty means '',{} and [] for appropriate types and undefined for the rest
+                    //console.log('destroy', destroyStrategy, form.key, type, obj);
+                    if (destroyStrategy === 'empty' && type.indexOf('string') !== -1) {
+                      obj[form.key.slice(-1)] = '';
+                    } else if (destroyStrategy === 'empty' && type.indexOf('object') !== -1) {
+                      obj[form.key.slice(-1)] = {};
+                    } else if (destroyStrategy === 'empty' && type.indexOf('array') !== -1) {
+                      obj[form.key.slice(-1)] = [];
+                    } else if (destroyStrategy === 'null') {
+                      obj[form.key.slice(-1)] = null;
+                    } else {
+                      delete obj[form.key.slice(-1)];
+                    }
+                  }
+                }
+              });
+            }
           }
         }
       };
@@ -93878,17 +93957,17 @@ angular.module('schemaForm').directive('sfField',
 
 angular.module('schemaForm').directive('sfMessage',
 ['$injector', 'sfErrorMessage', function($injector, sfErrorMessage) {
+
+  //Inject sanitizer if it exists
+  var $sanitize = $injector.has('$sanitize') ?
+                  $injector.get('$sanitize') : function(html) { return html; };
+
   return {
     scope: false,
     restrict: 'EA',
     link: function(scope, element, attrs) {
 
-      //Inject sanitizer if it exists
-      var $sanitize = $injector.has('$sanitize') ?
-                      $injector.get('$sanitize') : function(html) { return html; };
-
       var message = '';
-
       if (attrs.sfMessage) {
         scope.$watch(attrs.sfMessage, function(msg) {
           if (msg) {
@@ -93906,8 +93985,6 @@ angular.module('schemaForm').directive('sfMessage',
         if (valid && !scope.hasError()) {
           element.html(message);
         } else {
-
-
           var errors = [];
           angular.forEach(((scope.ngModel && scope.ngModel.$error) || {}), function(status, code) {
             if (status) {
@@ -93925,6 +94002,7 @@ angular.module('schemaForm').directive('sfMessage',
           // We only show one error.
           // TODO: Make that optional
           var error = errors[0];
+
           if (error) {
             element.html(sfErrorMessage.interpolate(
               error,
@@ -93938,6 +94016,8 @@ angular.module('schemaForm').directive('sfMessage',
           }
         }
       };
+
+      // Update once.
       update();
 
       scope.$watchCollection('ngModel.$error', function() {
@@ -93950,6 +94030,242 @@ angular.module('schemaForm').directive('sfMessage',
   };
 }]);
 
+/**
+ * Directive that handles the model arrays
+ */
+angular.module('schemaForm').directive('sfNewArray', ['sfSelect', 'sfPath', 'schemaForm',
+function(sel, sfPath, schemaForm) {
+  return {
+    scope: false,
+    link: function(scope, element, attrs) {
+      scope.min = 0;
+
+      scope.modelArray = scope.$eval(attrs.sfNewArray);
+
+      // We need to have a ngModel to hook into validation. It doesn't really play well with
+      // arrays though so we both need to trigger validation and onChange.
+      // So we watch the value as well. But watching an array can be tricky. We wan't to know
+      // when it changes so we can validate,
+      var watchFn =  function() {
+        //scope.modelArray = modelArray;
+        scope.modelArray = scope.$eval(attrs.sfNewArray);
+        // validateField method is exported by schema-validate
+        if (scope.validateField) {
+          scope.validateField();
+        }
+      };
+
+      var onChangeFn =  function() {
+        if (scope.form && scope.form.onChange) {
+          if (angular.isFunction(scope.form.onChange)) {
+            scope.form.onChange(scope.modelArray, scope.form);
+          } else {
+            scope.evalExpr(scope.form.onChange, {'modelValue': scope.modelArray, form: scope.form});
+          }
+        }
+      };
+
+      // We need the form definition to make a decision on how we should listen.
+      var once = scope.$watch('form', function(form) {
+        if (!form) {
+          return;
+        }
+
+        // Always start with one empty form unless configured otherwise.
+        // Special case: don't do it if form has a titleMap
+        if (!form.titleMap && form.startEmpty !== true && (!scope.modelArray || scope.modelArray.length === 0)) {
+          scope.appendToArray();
+        }
+
+        // If we have "uniqueItems" set to true, we must deep watch for changes.
+        if (scope.form && scope.form.schema && scope.form.schema.uniqueItems === true) {
+          scope.$watch(attrs.sfNewArray, watchFn, true);
+
+          // We still need to trigger onChange though.
+          scope.$watch([attrs.sfNewArray, attrs.sfNewArray + '.length'], onChangeFn);
+
+        } else {
+          // Otherwise we like to check if the instance of the array has changed, or if something
+          // has been added/removed.
+          if (scope.$watchGroup) {
+            scope.$watchGroup([attrs.sfNewArray, attrs.sfNewArray + '.length'], function() {
+              watchFn();
+              onChangeFn();
+            });
+          } else {
+            // Angular 1.2 support
+            scope.$watch(attrs.sfNewArray, function() {
+              watchFn();
+              onChangeFn();
+            });
+            scope.$watch(attrs.sfNewArray + '.length', function() {
+              watchFn();
+              onChangeFn();
+            });
+          }
+        }
+
+        // Title Map handling
+        // If form has a titleMap configured we'd like to enable looping over
+        // titleMap instead of modelArray, this is used for intance in
+        // checkboxes. So instead of variable number of things we like to create
+        // a array value from a subset of values in the titleMap.
+        // The problem here is that ng-model on a checkbox doesn't really map to
+        // a list of values. This is here to fix that.
+        if (form.titleMap && form.titleMap.length > 0) {
+          scope.titleMapValues = [];
+
+          // We watch the model for changes and the titleMapValues to reflect
+          // the modelArray
+          var updateTitleMapValues = function(arr) {
+            scope.titleMapValues = [];
+            arr = arr || [];
+
+            form.titleMap.forEach(function(item) {
+              scope.titleMapValues.push(arr.indexOf(item.value) !== -1);
+            });
+          };
+          //Catch default values
+          updateTitleMapValues(scope.modelArray);
+
+          // TODO: Refactor and see if we can get rid of this watch by piggy backing on the
+          // validation watch.
+          scope.$watchCollection('modelArray', updateTitleMapValues);
+
+          //To get two way binding we also watch our titleMapValues
+          scope.$watchCollection('titleMapValues', function(vals, old) {
+            if (vals && vals !== old) {
+              var arr = scope.modelArray;
+
+              // Apparently the fastest way to clear an array, readable too.
+              // http://jsperf.com/array-destroy/32
+              while (arr.length > 0) {
+                arr.pop();
+              }
+              form.titleMap.forEach(function(item, index) {
+                if (vals[index]) {
+                  arr.push(item.value);
+                }
+              });
+
+              // Time to validate the rebuilt array.
+              // validateField method is exported by schema-validate
+              if (scope.validateField) {
+                scope.validateField();
+              }
+            }
+          });
+        }
+
+        once();
+      });
+
+      scope.appendToArray = function() {
+        var empty;
+
+        // Create and set an array if needed.
+        var model = scope.modelArray;
+        if (!model) {
+          var selection = sfPath.parse(attrs.sfNewArray);
+          model = [];
+          sel(selection, scope, model);
+          scope.modelArray = model;
+        }
+
+        // Same old add empty things to the array hack :(
+        if (scope.form && scope.form.schema && scope.form.schema.items) {
+
+          var items = scope.form.schema.items;
+          if (items.type && items.type.indexOf('object') !== -1) {
+            empty = {};
+
+            // Check for possible defaults
+            if (!scope.options || scope.options.setSchemaDefaults !== false) {
+              empty = angular.isDefined(items['default']) ? items['default'] : empty;
+
+              // Check for defaults further down in the schema.
+              // If the default instance sets the new array item to something falsy, i.e. null
+              // then there is no need to go further down.
+              if (empty) {
+                schemaForm.traverseSchema(items, function(prop, path) {
+                  if (angular.isDefined(prop['default'])) {
+                    sel(path, empty, prop['default']);
+                  }
+                });
+              }
+            }
+
+          } else if (items.type && items.type.indexOf('array') !== -1) {
+            empty = [];
+            if (!scope.options || scope.options.setSchemaDefaults !== false) {
+              empty = items['default'] || empty;
+            }
+          } else {
+            // No type? could still have defaults.
+            if (!scope.options || scope.options.setSchemaDefaults !== false) {
+              empty = items['default'] || empty;
+            }
+          }
+        }
+        model.push(empty);
+
+        return model;
+      };
+
+      scope.deleteFromArray = function(index) {
+        var model = scope.modelArray;
+        if (model) {
+          model.splice(index, 1);
+        }
+        return model;
+      };
+
+      // For backwards compatability, i.e. when a bootstrap-decorator tag is used
+      // as child to the array.
+      var setIndex = function(index) {
+        return function(form) {
+          if (form.key) {
+            form.key[form.key.indexOf('')] = index;
+          }
+        };
+      };
+      var formDefCache = {};
+      scope.copyWithIndex = function(index) {
+        var form = scope.form;
+        if (!formDefCache[index]) {
+
+          // To be more compatible with JSON Form we support an array of items
+          // in the form definition of "array" (the schema just a value).
+          // for the subforms code to work this means we wrap everything in a
+          // section. Unless there is just one.
+          var subForm = form.items[0];
+          if (form.items.length > 1) {
+            subForm = {
+              type: 'section',
+              items: form.items.map(function(item) {
+                item.ngModelOptions = form.ngModelOptions;
+                if (angular.isUndefined(item.readonly)) {
+                  item.readonly = form.readonly;
+                }
+                return item;
+              })
+            };
+          }
+
+          if (subForm) {
+            var copy = angular.copy(subForm);
+            copy.arrayIndex = index;
+            schemaForm.traverseForm(copy, setIndex(index));
+            formDefCache[index] = copy;
+          }
+        }
+        return formDefCache[index];
+      };
+
+    }
+  };
+}]);
+
 /*
 FIXME: real documentation
 <form sf-form="form"  sf-schema="schema" sf-decorator="foobar"></form>
@@ -93957,8 +94273,8 @@ FIXME: real documentation
 
 angular.module('schemaForm')
        .directive('sfSchema',
-['$compile', 'schemaForm', 'schemaFormDecorators', 'sfSelect', 'sfPath', 'sfBuilder',
-  function($compile,  schemaForm,  schemaFormDecorators, sfSelect, sfPath, sfBuilder) {
+['$compile', '$http', '$templateCache', '$q','schemaForm', 'schemaFormDecorators', 'sfSelect', 'sfPath', 'sfBuilder',
+  function($compile, $http, $templateCache, $q, schemaForm,  schemaFormDecorators, sfSelect, sfPath, sfBuilder) {
 
     return {
       scope: {
@@ -93970,6 +94286,15 @@ angular.module('schemaForm')
       controller: ['$scope', function($scope) {
         this.evalInParentScope = function(expr, locals) {
           return $scope.$parent.$eval(expr, locals);
+        };
+
+        // Set up form lookup map
+        var that  = this;
+        $scope.lookup = function(lookup) {
+          if (lookup) {
+            that.lookup = lookup;
+          }
+          return that.lookup;
         };
       }],
       replace: false,
@@ -94008,8 +94333,27 @@ angular.module('schemaForm')
 
         // Common renderer function, can either be triggered by a watch or by an event.
         var render = function(schema, form) {
-          var merged = schemaForm.merge(schema, form, ignore, scope.options);
+          var asyncTemplates = [];
+          var merged = schemaForm.merge(schema, form, ignore, scope.options, undefined, asyncTemplates);
 
+          if (asyncTemplates.length > 0) {
+            // Pre load all async templates and put them on the form for the builder to use.
+            $q.all(asyncTemplates.map(function(form) {
+              return $http.get(form.templateUrl, {cache: $templateCache}).then(function(res) {
+                                  form.template = res.data;
+                                });
+            })).then(function() {
+              internalRender(schema, form, merged);
+            });
+
+          } else {
+            internalRender(schema, form, merged);
+          }
+
+
+        };
+
+        var internalRender = function(schema, form, merged) {
           // Create a new form and destroy the old one.
           // Not doing keeps old form elements hanging around after
           // they have been removed from the DOM
@@ -94038,10 +94382,10 @@ angular.module('schemaForm')
 
           // if sfUseDecorator is undefined the default decorator is used.
           var decorator = schemaFormDecorators.decorator(attrs.sfUseDecorator);
-
           // Use the builder to build it and append the result
-          element[0].appendChild( sfBuilder.build(merged, decorator, slots) );
-
+          var lookup = Object.create(null);
+          scope.lookup(lookup); // give the new lookup to the controller.
+          element[0].appendChild(sfBuilder.build(merged, decorator, slots, lookup));
           //compile only children
           $compile(element.children())(childScope);
 
@@ -94060,12 +94404,14 @@ angular.module('schemaForm')
           scope.$emit('sf-render-finished', element);
         };
 
+        var defaultForm = ['*'];
+
         //Since we are dependant on up to three
         //attributes we'll do a common watch
         scope.$watch(function() {
 
           var schema = scope.schema;
-          var form   = scope.initialForm || ['*'];
+          var form   = scope.initialForm || defaultForm;
 
           //The check for schema.type is to ensure that schema is not {}
           if (form && schema && schema.type &&
@@ -94097,6 +94443,18 @@ angular.module('schemaForm')
           // let it be.
           scope.externalDestructionInProgress = true;
         });
+
+        /**
+         * Evaluate an expression, i.e. scope.$eval
+         * but do it in parent scope
+         *
+         * @param {String} expression
+         * @param {Object} locals (optional)
+         * @return {Any} the result of the expression
+         */
+        scope.evalExpr = function(expression, locals) {
+          return scope.$parent.$eval(expression, locals);
+        };
       }
     };
   }
@@ -94113,139 +94471,141 @@ angular.module('schemaForm').directive('schemaValidate', ['sfValidator', '$parse
       priority: 500,
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
-
         // We need the ngModelController on several places,
         // most notably for errors.
         // So we emit it up to the decorator directive so it can put it on scope.
         scope.$emit('schemaFormPropagateNgModelController', ngModel);
 
         var error = null;
+        var form = scope.$eval(attrs.schemaValidate);
 
-        // When using the new builder we might not have form just yet
-        var once = scope.$watch(attrs.schemaValidate, function(form) {
+        if (form.copyValueTo) {
+          ngModel.$viewChangeListeners.push(function() {
+            var paths = form.copyValueTo;
+            angular.forEach(paths, function(path) {
+              sfSelect(path, scope.model, ngModel.$modelValue);
+            });
+          });
+        }
+
+        // Validate against the schema.
+
+        var validate = function(viewValue) {
+          //Still might be undefined
           if (!form) {
-            return;
+            return viewValue;
           }
 
-          if (form.copyValueTo) {
-            ngModel.$viewChangeListeners.push(function() {
-              var paths = form.copyValueTo;
-              angular.forEach(paths, function(path) {
-                sfSelect(path, scope.model, ngModel.$modelValue);
-              });
+          // Omit TV4 validation
+          if (scope.options && scope.options.tv4Validation === false) {
+            return viewValue;
+          }
+
+          var result =  sfValidator.validate(form, viewValue);
+
+          // Since we might have different tv4 errors we must clear all
+          // errors that start with tv4-
+          Object.keys(ngModel.$error)
+              .filter(function(k) { return k.indexOf('tv4-') === 0; })
+              .forEach(function(k) { ngModel.$setValidity(k, true); });
+
+          if (!result.valid) {
+            // it is invalid, return undefined (no model update)
+            ngModel.$setValidity('tv4-' + result.error.code, false);
+            error = result.error;
+
+            // In Angular 1.3+ return the viewValue, otherwise we inadvertenly
+            // will trigger a 'parse' error.
+            // we will stop the model value from updating with our own $validator
+            // later.
+            if (ngModel.$validators) {
+              return viewValue;
+            }
+            // Angular 1.2 on the other hand lacks $validators and don't add a 'parse' error.
+            return undefined;
+          }
+          return viewValue;
+        };
+
+        // Custom validators, parsers, formatters etc
+        if (typeof form.ngModel === 'function') {
+          form.ngModel(ngModel);
+        }
+
+        ['$parsers', '$viewChangeListeners', '$formatters'].forEach(function(attr) {
+          if (form[attr] && ngModel[attr]) {
+            form[attr].forEach(function(fn) {
+              ngModel[attr].push(fn);
             });
           }
-
-          // Validate against the schema.
-
-          var validate = function(viewValue) {
-            //Still might be undefined
-            if (!form) {
-              return viewValue;
-            }
-
-            // Omit TV4 validation
-            if (scope.options && scope.options.tv4Validation === false) {
-              return viewValue;
-            }
-
-            var result =  sfValidator.validate(form, viewValue);
-
-
-            // Since we might have different tv4 errors we must clear all
-            // errors that start with tv4-
-            Object.keys(ngModel.$error)
-                .filter(function(k) { return k.indexOf('tv4-') === 0; })
-                .forEach(function(k) { ngModel.$setValidity(k, true); });
-
-            if (!result.valid) {
-              // it is invalid, return undefined (no model update)
-              ngModel.$setValidity('tv4-' + result.error.code, false);
-              error = result.error;
-
-              // In Angular 1.3+ return the viewValue, otherwise we inadvertenly
-              // will trigger a 'parse' error.
-              // we will stop the model value from updating with our own $validator
-              // later.
-              if (ngModel.$validators) {
-                return viewValue;
-              }
-              // Angular 1.2 on the other hand lacks $validators and don't add a 'parse' error.
-              return undefined;
-            }
-            return viewValue;
-          };
-
-          // Custom validators, parsers, formatters etc
-          if (typeof form.ngModel === 'function') {
-            form.ngModel(ngModel);
-          }
-
-          ['$parsers', '$viewChangeListeners', '$formatters'].forEach(function(attr) {
-            if (form[attr] && ngModel[attr]) {
-              form[attr].forEach(function(fn) {
-                ngModel[attr].push(fn);
-              });
-            }
-          });
-
-          ['$validators', '$asyncValidators'].forEach(function(attr) {
-            // Check if our version of angular has validators, i.e. 1.3+
-            if (form[attr] && ngModel[attr]) {
-              angular.forEach(form[attr], function(fn, name) {
-                ngModel[attr][name] = fn;
-              });
-            }
-          });
-
-          // Get in last of the parses so the parsed value has the correct type.
-          // We don't use $validators since we like to set different errors depending tv4 error codes
-          ngModel.$parsers.push(validate);
-
-          // But we do use one custom validator in the case of Angular 1.3 to stop the model from
-          // updating if we've found an error.
-          if (ngModel.$validators) {
-            ngModel.$validators.schemaForm = function() {
-              // Any error and we're out of here!
-              return !Object.keys(ngModel.$error).some(function(e) { return e !== 'schemaForm'});
-            }
-          }
-
-          // Listen to an event so we can validate the input on request
-          scope.$on('schemaFormValidate', function() {
-
-            // We set the viewValue to trigger parsers,
-            // since modelValue might be empty and validating just that
-            // might change an existing error to a "required" error message.
-            if (ngModel.$setDirty) {
-
-              // Angular 1.3+
-              ngModel.$setDirty();
-              ngModel.$setViewValue(ngModel.$viewValue);
-              ngModel.$commitViewValue();
-
-              // In Angular 1.3 setting undefined as a viewValue does not trigger parsers
-              // so we need to do a special required check. Fortunately we have $isEmpty
-              if (form.required && ngModel.$isEmpty(ngModel.$modelValue)) {
-                ngModel.$setValidity('tv4-302', false);
-              }
-
-            } else {
-              // Angular 1.2
-              // In angular 1.2 setting a viewValue of undefined will trigger the parser.
-              // hence required works.
-              ngModel.$setViewValue(ngModel.$viewValue);
-            }
-
-          });
-
-          scope.schemaError = function() {
-            return error;
-          };
-
-          // Just watch once.
-          once();
         });
+
+        ['$validators', '$asyncValidators'].forEach(function(attr) {
+          // Check if our version of angular has validators, i.e. 1.3+
+          if (form[attr] && ngModel[attr]) {
+            angular.forEach(form[attr], function(fn, name) {
+              ngModel[attr][name] = fn;
+            });
+          }
+        });
+
+        // Get in last of the parses so the parsed value has the correct type.
+        // We don't use $validators since we like to set different errors depending tv4 error codes
+        ngModel.$parsers.push(validate);
+
+        // But we do use one custom validator in the case of Angular 1.3 to stop the model from
+        // updating if we've found an error.
+        if (ngModel.$validators) {
+          ngModel.$validators.schemaForm = function() {
+            // Any error and we're out of here!
+            return !Object.keys(ngModel.$error).some(function(e) { return e !== 'schemaForm';});
+          };
+        }
+
+        var schema = form.schema;
+
+        // A bit ugly but useful.
+        scope.validateField =  function() {
+
+          // Special case: arrays
+          // TODO: Can this be generalized in a way that works consistently?
+          // Just setting the viewValue isn't enough to trigger validation
+          // since it's the same value. This will be better when we drop
+          // 1.2 support.
+          if (schema && schema.type.indexOf('array') !== -1) {
+            validate(ngModel.$modelValue);
+          }
+
+          // We set the viewValue to trigger parsers,
+          // since modelValue might be empty and validating just that
+          // might change an existing error to a "required" error message.
+          if (ngModel.$setDirty) {
+
+            // Angular 1.3+
+            ngModel.$setDirty();
+            ngModel.$setViewValue(ngModel.$viewValue);
+            ngModel.$commitViewValue();
+
+            // In Angular 1.3 setting undefined as a viewValue does not trigger parsers
+            // so we need to do a special required check. Fortunately we have $isEmpty
+            if (form.required && ngModel.$isEmpty(ngModel.$modelValue)) {
+              ngModel.$setValidity('tv4-302', false);
+            }
+
+          } else {
+            // Angular 1.2
+            // In angular 1.2 setting a viewValue of undefined will trigger the parser.
+            // hence required works.
+            ngModel.$setViewValue(ngModel.$viewValue);
+          }
+        };
+
+        // Listen to an event so we can validate the input on request
+        scope.$on('schemaFormValidate', scope.validateField);
+
+        scope.schemaError = function() {
+          return error;
+        };
       }
     };
   }]);
@@ -95070,6 +95430,416 @@ return schemaForm;
 
 !function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):"object"==typeof exports?exports["angular-file-upload"]=t():e["angular-file-upload"]=t()}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={exports:{},id:r,loaded:!1};return e[r].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=r(n(2)),o=r(n(3)),s=r(n(4)),a=r(n(5)),u=r(n(6)),l=r(n(7)),c=r(n(1)),f=r(n(8)),p=r(n(9)),d=r(n(10)),v=r(n(11)),h=r(n(12));angular.module(i.name,[]).value("fileUploaderOptions",o).factory("FileUploader",s).factory("FileLikeObject",a).factory("FileItem",u).factory("FileDirective",l).factory("FileSelect",c).factory("FileDrop",f).factory("FileOver",p).directive("nvFileSelect",d).directive("nvFileDrop",v).directive("nvFileOver",h).run(["FileUploader","FileLikeObject","FileItem","FileDirective","FileSelect","FileDrop","FileOver",function(e,t,n,r,i,o,s){e.FileLikeObject=t,e.FileItem=n,e.FileDirective=r,e.FileSelect=i,e.FileDrop=o,e.FileOver=s}])},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function u(e,t,n){var r=Object.getOwnPropertyDescriptor(e,t);if(void 0===r){var i=Object.getPrototypeOf(e);return null===i?void 0:u(i,t,n)}if("value"in r&&r.writable)return r.value;var o=r.get;return void 0===o?void 0:o.call(n)},s=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(e.__proto__=t)},a=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")};r(n(2));e.exports=function(e){var t=function(e){function t(e){a(this,t),this.events={$destroy:"destroy",change:"onChange"},this.prop="select",o(Object.getPrototypeOf(t.prototype),"constructor",this).call(this,e),this.uploader.isHTML5||this.element.removeAttr("multiple"),this.element.prop("value",null)}return s(t,e),i(t,{getOptions:{value:function(){}},getFilters:{value:function(){}},isEmptyAfterSelection:{value:function(){return!!this.element.attr("multiple")}},onChange:{value:function(){var e=this.uploader.isHTML5?this.element[0].files:this.element[0],t=this.getOptions(),n=this.getFilters();this.uploader.isHTML5||this.destroy(),this.uploader.addToQueue(e,t,n),this.isEmptyAfterSelection()&&this.element.prop("value",null)}}}),t}(e);return t},e.exports.$inject=["FileDirective"]},function(e,t){e.exports={name:"angularFileUpload"}},function(e,t){"use strict";e.exports={url:"/",alias:"file",headers:{},queue:[],progress:0,autoUpload:!1,removeAfterUpload:!1,method:"POST",filters:[],formData:[],queueLimit:Number.MAX_VALUE,withCredentials:!1}},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},s=(r(n(2)),angular.copy),a=angular.extend,u=angular.forEach,l=angular.isObject,c=angular.isNumber,f=angular.isDefined,p=angular.isArray,d=angular.element;e.exports=function(e,t,n,r,v,h){var m=r.File,_=r.FormData,g=function(){function r(t){o(this,r);var n=s(e);a(this,n,t,{isUploading:!1,_nextIndex:0,_failFilterIndex:-1,_directives:{select:[],drop:[],over:[]}}),this.filters.unshift({name:"queueLimit",fn:this._queueLimitFilter}),this.filters.unshift({name:"folder",fn:this._folderFilter})}return i(r,{addToQueue:{value:function(e,t,n){var r=this,i=this.isArrayLikeObject(e)?e:[e],o=this._getFilters(n),s=this.queue.length,a=[];u(i,function(e){var n=new v(e);if(r._isValidFile(n,o,t)){var i=new h(r,e,t);a.push(i),r.queue.push(i),r._onAfterAddingFile(i)}else{var s=o[r._failFilterIndex];r._onWhenAddingFileFailed(n,s,t)}}),this.queue.length!==s&&(this._onAfterAddingAll(a),this.progress=this._getTotalProgress()),this._render(),this.autoUpload&&this.uploadAll()}},removeFromQueue:{value:function(e){var t=this.getIndexOfItem(e),n=this.queue[t];n.isUploading&&n.cancel(),this.queue.splice(t,1),n._destroy(),this.progress=this._getTotalProgress()}},clearQueue:{value:function(){for(;this.queue.length;)this.queue[0].remove();this.progress=0}},uploadItem:{value:function(e){var t=this.getIndexOfItem(e),n=this.queue[t],r=this.isHTML5?"_xhrTransport":"_iframeTransport";n._prepareToUploading(),this.isUploading||(this.isUploading=!0,this[r](n))}},cancelItem:{value:function(e){var t=this.getIndexOfItem(e),n=this.queue[t],r=this.isHTML5?"_xhr":"_form";n&&n.isUploading&&n[r].abort()}},uploadAll:{value:function(){var e=this.getNotUploadedItems().filter(function(e){return!e.isUploading});e.length&&(u(e,function(e){return e._prepareToUploading()}),e[0].upload())}},cancelAll:{value:function(){var e=this.getNotUploadedItems();u(e,function(e){return e.cancel()})}},isFile:{value:function(e){return this.constructor.isFile(e)}},isFileLikeObject:{value:function(e){return this.constructor.isFileLikeObject(e)}},isArrayLikeObject:{value:function(e){return this.constructor.isArrayLikeObject(e)}},getIndexOfItem:{value:function(e){return c(e)?e:this.queue.indexOf(e)}},getNotUploadedItems:{value:function(){return this.queue.filter(function(e){return!e.isUploaded})}},getReadyItems:{value:function(){return this.queue.filter(function(e){return e.isReady&&!e.isUploading}).sort(function(e,t){return e.index-t.index})}},destroy:{value:function(){var e=this;u(this._directives,function(t){u(e._directives[t],function(e){e.destroy()})})}},onAfterAddingAll:{value:function(e){}},onAfterAddingFile:{value:function(e){}},onWhenAddingFileFailed:{value:function(e,t,n){}},onBeforeUploadItem:{value:function(e){}},onProgressItem:{value:function(e,t){}},onProgressAll:{value:function(e){}},onSuccessItem:{value:function(e,t,n,r){}},onErrorItem:{value:function(e,t,n,r){}},onCancelItem:{value:function(e,t,n,r){}},onCompleteItem:{value:function(e,t,n,r){}},onCompleteAll:{value:function(){}},_getTotalProgress:{value:function(e){if(this.removeAfterUpload)return e||0;var t=this.getNotUploadedItems().length,n=t?this.queue.length-t:this.queue.length,r=100/this.queue.length,i=(e||0)*r/100;return Math.round(n*r+i)}},_getFilters:{value:function(e){if(!e)return this.filters;if(p(e))return e;var t=e.match(/[^\s,]+/g);return this.filters.filter(function(e){return-1!==t.indexOf(e.name)})}},_render:{value:function(){t.$$phase||t.$apply()}},_folderFilter:{value:function(e){return!(!e.size&&!e.type)}},_queueLimitFilter:{value:function(){return this.queue.length<this.queueLimit}},_isValidFile:{value:function(e,t,n){var r=this;return this._failFilterIndex=-1,t.length?t.every(function(t){return r._failFilterIndex++,t.fn.call(r,e,n)}):!0}},_isSuccessCode:{value:function(e){return e>=200&&300>e||304===e}},_transformResponse:{value:function(e,t){var r=this._headersGetter(t);return u(n.defaults.transformResponse,function(t){e=t(e,r)}),e}},_parseHeaders:{value:function(e){var t,n,r,i={};return e?(u(e.split("\n"),function(e){r=e.indexOf(":"),t=e.slice(0,r).trim().toLowerCase(),n=e.slice(r+1).trim(),t&&(i[t]=i[t]?i[t]+", "+n:n)}),i):i}},_headersGetter:{value:function(e){return function(t){return t?e[t.toLowerCase()]||null:e}}},_xhrTransport:{value:function(e){var t=this,n=e._xhr=new XMLHttpRequest,r=new _;if(this._onBeforeUploadItem(e),u(e.formData,function(e){u(e,function(e,t){r.append(t,e)})}),"number"!=typeof e._file.size)throw new TypeError("The file specified is no longer valid");r.append(e.alias,e._file,e.file.name),n.upload.onprogress=function(n){var r=Math.round(n.lengthComputable?100*n.loaded/n.total:0);t._onProgressItem(e,r)},n.onload=function(){var r=t._parseHeaders(n.getAllResponseHeaders()),i=t._transformResponse(n.response,r),o=t._isSuccessCode(n.status)?"Success":"Error",s="_on"+o+"Item";t[s](e,i,n.status,r),t._onCompleteItem(e,i,n.status,r)},n.onerror=function(){var r=t._parseHeaders(n.getAllResponseHeaders()),i=t._transformResponse(n.response,r);t._onErrorItem(e,i,n.status,r),t._onCompleteItem(e,i,n.status,r)},n.onabort=function(){var r=t._parseHeaders(n.getAllResponseHeaders()),i=t._transformResponse(n.response,r);t._onCancelItem(e,i,n.status,r),t._onCompleteItem(e,i,n.status,r)},n.open(e.method,e.url,!0),n.withCredentials=e.withCredentials,u(e.headers,function(e,t){n.setRequestHeader(t,e)}),n.send(r),this._render()}},_iframeTransport:{value:function(e){var t=this,n=d('<form style="display: none;" />'),r=d('<iframe name="iframeTransport'+Date.now()+'">'),i=e._input;e._form&&e._form.replaceWith(i),e._form=n,this._onBeforeUploadItem(e),i.prop("name",e.alias),u(e.formData,function(e){u(e,function(e,t){var r=d('<input type="hidden" name="'+t+'" />');r.val(e),n.append(r)})}),n.prop({action:e.url,method:"POST",target:r.prop("name"),enctype:"multipart/form-data",encoding:"multipart/form-data"}),r.bind("load",function(){var n="",i=200;try{n=r[0].contentDocument.body.innerHTML}catch(o){i=500}var s={response:n,status:i,dummy:!0},a={},u=t._transformResponse(s.response,a);t._onSuccessItem(e,u,s.status,a),t._onCompleteItem(e,u,s.status,a)}),n.abort=function(){var o,s={status:0,dummy:!0},a={};r.unbind("load").prop("src","javascript:false;"),n.replaceWith(i),t._onCancelItem(e,o,s.status,a),t._onCompleteItem(e,o,s.status,a)},i.after(n),n.append(i).append(r),n[0].submit(),this._render()}},_onWhenAddingFileFailed:{value:function(e,t,n){this.onWhenAddingFileFailed(e,t,n)}},_onAfterAddingFile:{value:function(e){this.onAfterAddingFile(e)}},_onAfterAddingAll:{value:function(e){this.onAfterAddingAll(e)}},_onBeforeUploadItem:{value:function(e){e._onBeforeUpload(),this.onBeforeUploadItem(e)}},_onProgressItem:{value:function(e,t){var n=this._getTotalProgress(t);this.progress=n,e._onProgress(t),this.onProgressItem(e,t),this.onProgressAll(n),this._render()}},_onSuccessItem:{value:function(e,t,n,r){e._onSuccess(t,n,r),this.onSuccessItem(e,t,n,r)}},_onErrorItem:{value:function(e,t,n,r){e._onError(t,n,r),this.onErrorItem(e,t,n,r)}},_onCancelItem:{value:function(e,t,n,r){e._onCancel(t,n,r),this.onCancelItem(e,t,n,r)}},_onCompleteItem:{value:function(e,t,n,r){e._onComplete(t,n,r),this.onCompleteItem(e,t,n,r);var i=this.getReadyItems()[0];return this.isUploading=!1,f(i)?void i.upload():(this.onCompleteAll(),this.progress=this._getTotalProgress(),void this._render())}}},{isFile:{value:function(e){return m&&e instanceof m}},isFileLikeObject:{value:function(e){return e instanceof v}},isArrayLikeObject:{value:function(e){return l(e)&&"length"in e}},inherit:{value:function(e,t){e.prototype=Object.create(t.prototype),e.prototype.constructor=e,e.super_=t}}}),r}();return g.prototype.isHTML5=!(!m||!_),g.isHTML5=g.prototype.isHTML5,g},e.exports.$inject=["fileUploaderOptions","$rootScope","$http","$window","FileLikeObject","FileItem"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},s=(r(n(2)),angular.copy),a=angular.isElement,u=angular.isString;e.exports=function(){var e=function(){function e(t){o(this,e);var n=a(t),r=n?t.value:t,i=u(r)?"FakePath":"Object",s="_createFrom"+i;this[s](r)}return i(e,{_createFromFakePath:{value:function(e){this.lastModifiedDate=null,this.size=null,this.type="like/"+e.slice(e.lastIndexOf(".")+1).toLowerCase(),this.name=e.slice(e.lastIndexOf("/")+e.lastIndexOf("\\")+2)}},_createFromObject:{value:function(e){this.lastModifiedDate=s(e.lastModifiedDate),this.size=e.size,this.type=e.type,this.name=e.name}}}),e}();return e},e.exports.$inject=[]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},s=(r(n(2)),angular.copy),a=angular.extend,u=angular.element,l=angular.isElement;e.exports=function(e,t){var n=function(){function n(e,r,i){o(this,n);var c=l(r),f=c?u(r):null,p=c?null:r;a(this,{url:e.url,alias:e.alias,headers:s(e.headers),formData:s(e.formData),removeAfterUpload:e.removeAfterUpload,withCredentials:e.withCredentials,method:e.method},i,{uploader:e,file:new t(r),isReady:!1,isUploading:!1,isUploaded:!1,isSuccess:!1,isCancel:!1,isError:!1,progress:0,index:null,_file:p,_input:f}),f&&this._replaceNode(f)}return i(n,{upload:{value:function(){try{this.uploader.uploadItem(this)}catch(e){this.uploader._onCompleteItem(this,"",0,[]),this.uploader._onErrorItem(this,"",0,[])}}},cancel:{value:function(){this.uploader.cancelItem(this)}},remove:{value:function(){this.uploader.removeFromQueue(this)}},onBeforeUpload:{value:function(){}},onProgress:{value:function(e){}},onSuccess:{value:function(e,t,n){}},onError:{value:function(e,t,n){}},onCancel:{value:function(e,t,n){}},onComplete:{value:function(e,t,n){}},_onBeforeUpload:{value:function(){this.isReady=!0,this.isUploading=!0,this.isUploaded=!1,this.isSuccess=!1,this.isCancel=!1,this.isError=!1,this.progress=0,this.onBeforeUpload()}},_onProgress:{value:function(e){this.progress=e,this.onProgress(e)}},_onSuccess:{value:function(e,t,n){this.isReady=!1,this.isUploading=!1,this.isUploaded=!0,this.isSuccess=!0,this.isCancel=!1,this.isError=!1,this.progress=100,this.index=null,this.onSuccess(e,t,n)}},_onError:{value:function(e,t,n){this.isReady=!1,this.isUploading=!1,this.isUploaded=!0,this.isSuccess=!1,this.isCancel=!1,this.isError=!0,this.progress=0,this.index=null,this.onError(e,t,n)}},_onCancel:{value:function(e,t,n){this.isReady=!1,this.isUploading=!1,this.isUploaded=!1,this.isSuccess=!1,this.isCancel=!0,this.isError=!1,this.progress=0,this.index=null,this.onCancel(e,t,n)}},_onComplete:{value:function(e,t,n){this.onComplete(e,t,n),this.removeAfterUpload&&this.remove()}},_destroy:{value:function(){this._input&&this._input.remove(),this._form&&this._form.remove(),delete this._form,delete this._input}},_prepareToUploading:{value:function(){this.index=this.index||++this.uploader._nextIndex,this.isReady=!0}},_replaceNode:{value:function(t){var n=e(t.clone())(t.scope());n.prop("value",null),t.css("display","none"),t.after(n)}}}),n}();return n},e.exports.$inject=["$compile","FileLikeObject"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},s=(r(n(2)),angular.extend);e.exports=function(){var e=function(){function e(t){o(this,e),s(this,t),this.uploader._directives[this.prop].push(this),this._saveLinks(),this.bind()}return i(e,{bind:{value:function(){for(var e in this.events){var t=this.events[e];this.element.bind(e,this[t])}}},unbind:{value:function(){for(var e in this.events)this.element.unbind(e,this.events[e])}},destroy:{value:function(){var e=this.uploader._directives[this.prop].indexOf(this);this.uploader._directives[this.prop].splice(e,1),this.unbind()}},_saveLinks:{value:function(){for(var e in this.events){var t=this.events[e];this[t]=this[t].bind(this)}}}}),e}();return e.prototype.events={},e},e.exports.$inject=[]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function l(e,t,n){var r=Object.getOwnPropertyDescriptor(e,t);if(void 0===r){var i=Object.getPrototypeOf(e);return null===i?void 0:l(i,t,n)}if("value"in r&&r.writable)return r.value;var o=r.get;return void 0===o?void 0:o.call(n)},s=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(e.__proto__=t)},a=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},u=(r(n(2)),angular.forEach);e.exports=function(e){var t=function(e){function t(e){a(this,t),this.events={$destroy:"destroy",drop:"onDrop",dragover:"onDragOver",dragleave:"onDragLeave"},this.prop="drop",o(Object.getPrototypeOf(t.prototype),"constructor",this).call(this,e)}return s(t,e),i(t,{getOptions:{value:function(){}},getFilters:{value:function(){}},onDrop:{value:function(e){var t=this._getTransfer(e);if(t){var n=this.getOptions(),r=this.getFilters();this._preventAndStop(e),u(this.uploader._directives.over,this._removeOverClass,this),this.uploader.addToQueue(t.files,n,r)}}},onDragOver:{value:function(e){var t=this._getTransfer(e);this._haveFiles(t.types)&&(t.dropEffect="copy",this._preventAndStop(e),u(this.uploader._directives.over,this._addOverClass,this))}},onDragLeave:{value:function(e){e.currentTarget!==this.element[0]&&(this._preventAndStop(e),u(this.uploader._directives.over,this._removeOverClass,this))}},_getTransfer:{value:function(e){return e.dataTransfer?e.dataTransfer:e.originalEvent.dataTransfer}},_preventAndStop:{value:function(e){e.preventDefault(),e.stopPropagation()}},_haveFiles:{value:function(e){return e?e.indexOf?-1!==e.indexOf("Files"):e.contains?e.contains("Files"):!1:!1}},_addOverClass:{value:function(e){e.addOverClass()}},_removeOverClass:{value:function(e){e.removeOverClass()}}}),t}(e);return t},e.exports.$inject=["FileDirective"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e},i=function(){function e(e,t){for(var n in t){var r=t[n];r.configurable=!0,r.value&&(r.writable=!0)}Object.defineProperties(e,t)}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o=function u(e,t,n){var r=Object.getOwnPropertyDescriptor(e,t);if(void 0===r){var i=Object.getPrototypeOf(e);return null===i?void 0:u(i,t,n)}if("value"in r&&r.writable)return r.value;var o=r.get;return void 0===o?void 0:o.call(n)},s=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(e.__proto__=t)},a=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")};r(n(2));e.exports=function(e){var t=function(e){function t(e){a(this,t),this.events={$destroy:"destroy"},this.prop="over",this.overClass="nv-file-over",o(Object.getPrototypeOf(t.prototype),"constructor",this).call(this,e)}return s(t,e),i(t,{addOverClass:{value:function(){this.element.addClass(this.getOverClass())}},removeOverClass:{value:function(){this.element.removeClass(this.getOverClass())}},getOverClass:{value:function(){return this.overClass}}}),t}(e);return t},e.exports.$inject=["FileDirective"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e};r(n(2));e.exports=function(e,t,n){return{link:function(r,i,o){var s=r.$eval(o.uploader);if(!(s instanceof t))throw new TypeError('"Uploader" must be an instance of FileUploader');var a=new n({uploader:s,element:i});a.getOptions=e(o.options).bind(a,r),a.getFilters=function(){return o.filters}}}},e.exports.$inject=["$parse","FileUploader","FileSelect"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e};r(n(2));e.exports=function(e,t,n){return{link:function(r,i,o){var s=r.$eval(o.uploader);if(!(s instanceof t))throw new TypeError('"Uploader" must be an instance of FileUploader');if(s.isHTML5){var a=new n({uploader:s,element:i});a.getOptions=e(o.options).bind(a,r),a.getFilters=function(){return o.filters}}}}},e.exports.$inject=["$parse","FileUploader","FileDrop"]},function(e,t,n){"use strict";var r=function(e){return e&&e.__esModule?e["default"]:e};r(n(2));e.exports=function(e,t){return{link:function(n,r,i){var o=n.$eval(i.uploader);if(!(o instanceof e))throw new TypeError('"Uploader" must be an instance of FileUploader');var s=new t({uploader:o,element:r});s.getOverClass=function(){return i.overClass||s.overClass}}}},e.exports.$inject=["FileUploader","FileOver"]}])});
 //# sourceMappingURL=angular-file-upload.min.js.map
+/*globals define, jQuery, module, require */
+/*jslint vars:true */
+
+/**
+ * @license angular-bootstrap-datetimepicker  version: 0.3.13
+ * Copyright 2013-2015 Knight Rider Consulting, Inc. http://www.knightrider.com
+ * License: MIT
+ */
+
+/**
+ *
+ *    @author        Dale "Ducky" Lotts
+ *    @since        2013-Jul-8
+ */
+
+(function (factory) {
+  'use strict';
+  /* istanbul ignore if */
+  if (typeof define === 'function' && /* istanbul ignore next */ define.amd) {
+    define(['angular', 'moment'], factory); // AMD
+    /* istanbul ignore next */
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require('angular'), require('moment')); // CommonJS
+  } else {
+    factory(window.angular, window.moment); // Browser global
+  }
+}(function (angular, moment) {
+  'use strict';
+  angular.module('ui.bootstrap.datetimepicker', [])
+    .constant('dateTimePickerConfig', {
+      dropdownSelector: null,
+      minuteStep: 5,
+      minView: 'minute',
+      startView: 'day'
+    })
+    .directive('datetimepicker', ['$log', 'dateTimePickerConfig', function datetimepickerDirective($log, defaultConfig) {
+
+      function DateObject() {
+
+        var tempDate = new Date();
+        var localOffset = tempDate.getTimezoneOffset() * 60000;
+        this.utcDateValue = tempDate.getTime();
+        this.selectable = true;
+
+        this.localDateValue = function () {
+          return this.utcDateValue + localOffset;
+        };
+
+        var validProperties = ['utcDateValue', 'localDateValue', 'display', 'active', 'selectable', 'past', 'future'];
+
+        for (var prop in arguments[0]) {
+          /* istanbul ignore else */
+          //noinspection JSUnfilteredForInLoop
+          if (validProperties.indexOf(prop) >= 0) {
+            //noinspection JSUnfilteredForInLoop
+            this[prop] = arguments[0][prop];
+          }
+        }
+      }
+
+      var validateConfiguration = function validateConfiguration(configuration) {
+        var validOptions = ['startView', 'minView', 'minuteStep', 'dropdownSelector'];
+
+        for (var prop in configuration) {
+          //noinspection JSUnfilteredForInLoop
+          if (validOptions.indexOf(prop) < 0) {
+            throw ('invalid option: ' + prop);
+          }
+        }
+
+        // Order of the elements in the validViews array is significant.
+        var validViews = ['minute', 'hour', 'day', 'month', 'year'];
+
+        if (validViews.indexOf(configuration.startView) < 0) {
+          throw ('invalid startView value: ' + configuration.startView);
+        }
+
+        if (validViews.indexOf(configuration.minView) < 0) {
+          throw ('invalid minView value: ' + configuration.minView);
+        }
+
+        if (validViews.indexOf(configuration.minView) > validViews.indexOf(configuration.startView)) {
+          throw ('startView must be greater than minView');
+        }
+
+        if (!angular.isNumber(configuration.minuteStep)) {
+          throw ('minuteStep must be numeric');
+        }
+        if (configuration.minuteStep <= 0 || configuration.minuteStep >= 60) {
+          throw ('minuteStep must be greater than zero and less than 60');
+        }
+        if (configuration.dropdownSelector !== null && !angular.isString(configuration.dropdownSelector)) {
+          throw ('dropdownSelector must be a string');
+        }
+
+        /* istanbul ignore next */
+        if (configuration.dropdownSelector !== null && ((typeof jQuery === 'undefined') || (typeof jQuery().dropdown !== 'function'))) {
+          $log.error('Please DO NOT specify the dropdownSelector option unless you are using jQuery AND Bootstrap.js. ' +
+          'Please include jQuery AND Bootstrap.js, or write code to close the dropdown in the on-set-time callback. \n\n' +
+          'The dropdownSelector configuration option is being removed because it will not function properly.');
+          delete configuration.dropdownSelector;
+        }
+      };
+
+      return {
+        restrict: 'E',
+        require: 'ngModel',
+        template: '<div class="datetimepicker table-responsive">' +
+        '<table class="table table-striped  {{ data.currentView }}-view">' +
+        '   <thead>' +
+        '       <tr>' +
+        '           <th class="left" data-ng-click="changeView(data.currentView, data.leftDate, $event)" data-ng-show="data.leftDate.selectable"><i class="glyphicon glyphicon-arrow-left"/></th>' +
+        '           <th class="switch" colspan="5" data-ng-show="data.previousViewDate.selectable" data-ng-click="changeView(data.previousView, data.previousViewDate, $event)">{{ data.previousViewDate.display }}</th>' +
+        '           <th class="right" data-ng-click="changeView(data.currentView, data.rightDate, $event)" data-ng-show="data.rightDate.selectable"><i class="glyphicon glyphicon-arrow-right"/></th>' +
+        '       </tr>' +
+        '       <tr>' +
+        '           <th class="dow" data-ng-repeat="day in data.dayNames" >{{ day }}</th>' +
+        '       </tr>' +
+        '   </thead>' +
+        '   <tbody>' +
+        '       <tr data-ng-if="data.currentView !== \'day\'" >' +
+        '           <td colspan="7" >' +
+        '              <span    class="{{ data.currentView }}" ' +
+        '                       data-ng-repeat="dateObject in data.dates"  ' +
+        '                       data-ng-class="{active: dateObject.active, past: dateObject.past, future: dateObject.future, disabled: !dateObject.selectable}" ' +
+        '                       data-ng-click="changeView(data.nextView, dateObject, $event)">{{ dateObject.display }}</span> ' +
+        '           </td>' +
+        '       </tr>' +
+        '       <tr data-ng-if="data.currentView === \'day\'" data-ng-repeat="week in data.weeks">' +
+        '           <td data-ng-repeat="dateObject in week.dates" ' +
+        '               data-ng-click="changeView(data.nextView, dateObject, $event)"' +
+        '               class="day" ' +
+        '               data-ng-class="{active: dateObject.active, past: dateObject.past, future: dateObject.future, disabled: !dateObject.selectable}" >{{ dateObject.display }}</td>' +
+        '       </tr>' +
+        '   </tbody>' +
+        '</table></div>',
+        scope: {
+          onSetTime: '&',
+          beforeRender: '&'
+        },
+        replace: true,
+        link: function link(scope, element, attrs, ngModelController) {
+
+          var directiveConfig = {};
+
+          if (attrs.datetimepickerConfig) {
+            directiveConfig = scope.$parent.$eval(attrs.datetimepickerConfig);
+          }
+
+          var configuration = {};
+
+          angular.extend(configuration, defaultConfig, directiveConfig);
+
+          validateConfiguration(configuration);
+
+          var startOfDecade = function startOfDecade(unixDate) {
+            var startYear = (parseInt(moment.utc(unixDate).year() / 10, 10) * 10);
+            return moment.utc(unixDate).year(startYear).startOf('year');
+          };
+
+          var dataFactory = {
+            year: function year(unixDate) {
+              var selectedDate = moment.utc(unixDate).startOf('year');
+              // View starts one year before the decade starts and ends one year after the decade ends
+              // i.e. passing in a date of 1/1/2013 will give a range of 2009 to 2020
+              // Truncate the last digit from the current year and subtract 1 to get the start of the decade
+              var startDecade = (parseInt(selectedDate.year() / 10, 10) * 10);
+              var startDate = moment.utc(startOfDecade(unixDate)).subtract(1, 'year').startOf('year');
+
+              var activeYear = ngModelController.$modelValue ? moment(ngModelController.$modelValue).year() : 0;
+
+              var result = {
+                'currentView': 'year',
+                'nextView': configuration.minView === 'year' ? 'setTime' : 'month',
+                'previousViewDate': new DateObject({
+                  utcDateValue: null,
+                  display: startDecade + '-' + (startDecade + 9)
+                }),
+                'leftDate': new DateObject({utcDateValue: moment.utc(startDate).subtract(9, 'year').valueOf()}),
+                'rightDate': new DateObject({utcDateValue: moment.utc(startDate).add(11, 'year').valueOf()}),
+                'dates': []
+              };
+
+              for (var i = 0; i < 12; i += 1) {
+                var yearMoment = moment.utc(startDate).add(i, 'years');
+                var dateValue = {
+                  'utcDateValue': yearMoment.valueOf(),
+                  'display': yearMoment.format('YYYY'),
+                  'past': yearMoment.year() < startDecade,
+                  'future': yearMoment.year() > startDecade + 9,
+                  'active': yearMoment.year() === activeYear
+                };
+
+                result.dates.push(new DateObject(dateValue));
+              }
+
+              return result;
+            },
+
+            month: function month(unixDate) {
+
+              var startDate = moment.utc(unixDate).startOf('year');
+              var previousViewDate = startOfDecade(unixDate);
+              var activeDate = ngModelController.$modelValue ? moment(ngModelController.$modelValue).format('YYYY-MMM') : 0;
+
+              var result = {
+                'previousView': 'year',
+                'currentView': 'month',
+                'nextView': configuration.minView === 'month' ? 'setTime' : 'day',
+                'previousViewDate': new DateObject({
+                  utcDateValue: previousViewDate.valueOf(),
+                  display: startDate.format('YYYY')
+                }),
+                'leftDate': new DateObject({utcDateValue: moment.utc(startDate).subtract(1, 'year').valueOf()}),
+                'rightDate': new DateObject({utcDateValue: moment.utc(startDate).add(1, 'year').valueOf()}),
+                'dates': []
+              };
+
+              for (var i = 0; i < 12; i += 1) {
+                var monthMoment = moment.utc(startDate).add(i, 'months');
+                var dateValue = {
+                  'utcDateValue': monthMoment.valueOf(),
+                  'display': monthMoment.format('MMM'),
+                  'active': monthMoment.format('YYYY-MMM') === activeDate
+                };
+
+                result.dates.push(new DateObject(dateValue));
+              }
+
+              return result;
+            },
+
+            day: function day(unixDate) {
+
+              var selectedDate = moment.utc(unixDate);
+              var startOfMonth = moment.utc(selectedDate).startOf('month');
+              var previousViewDate = moment.utc(selectedDate).startOf('year');
+              var endOfMonth = moment.utc(selectedDate).endOf('month');
+
+              var startDate = moment.utc(startOfMonth).subtract(Math.abs(startOfMonth.weekday()), 'days');
+
+              var activeDate = ngModelController.$modelValue ? moment(ngModelController.$modelValue).format('YYYY-MMM-DD') : '';
+
+              var result = {
+                'previousView': 'month',
+                'currentView': 'day',
+                'nextView': configuration.minView === 'day' ? 'setTime' : 'hour',
+                'previousViewDate': new DateObject({
+                  utcDateValue: previousViewDate.valueOf(),
+                  display: startOfMonth.format('YYYY-MMM')
+                }),
+                'leftDate': new DateObject({utcDateValue: moment.utc(startOfMonth).subtract(1, 'months').valueOf()}),
+                'rightDate': new DateObject({utcDateValue: moment.utc(startOfMonth).add(1, 'months').valueOf()}),
+                'dayNames': [],
+                'weeks': []
+              };
+
+
+              for (var dayNumber = 0; dayNumber < 7; dayNumber += 1) {
+                result.dayNames.push(moment.utc().weekday(dayNumber).format('dd'));
+              }
+
+              for (var i = 0; i < 6; i += 1) {
+                var week = {dates: []};
+                for (var j = 0; j < 7; j += 1) {
+                  var monthMoment = moment.utc(startDate).add((i * 7) + j, 'days');
+                  var dateValue = {
+                    'utcDateValue': monthMoment.valueOf(),
+                    'display': monthMoment.format('D'),
+                    'active': monthMoment.format('YYYY-MMM-DD') === activeDate,
+                    'past': monthMoment.isBefore(startOfMonth),
+                    'future': monthMoment.isAfter(endOfMonth)
+                  };
+                  week.dates.push(new DateObject(dateValue));
+                }
+                result.weeks.push(week);
+              }
+
+              return result;
+            },
+
+            hour: function hour(unixDate) {
+              var selectedDate = moment.utc(unixDate).startOf('day');
+              var previousViewDate = moment.utc(selectedDate).startOf('month');
+
+              var activeFormat = ngModelController.$modelValue ? moment(ngModelController.$modelValue).format('YYYY-MM-DD H') : '';
+
+              var result = {
+                'previousView': 'day',
+                'currentView': 'hour',
+                'nextView': configuration.minView === 'hour' ? 'setTime' : 'minute',
+                'previousViewDate': new DateObject({
+                  utcDateValue: previousViewDate.valueOf(),
+                  display: selectedDate.format('ll')
+                }),
+                'leftDate': new DateObject({utcDateValue: moment.utc(selectedDate).subtract(1, 'days').valueOf()}),
+                'rightDate': new DateObject({utcDateValue: moment.utc(selectedDate).add(1, 'days').valueOf()}),
+                'dates': []
+              };
+
+              for (var i = 0; i < 24; i += 1) {
+                var hourMoment = moment.utc(selectedDate).add(i, 'hours');
+                var dateValue = {
+                  'utcDateValue': hourMoment.valueOf(),
+                  'display': hourMoment.format('LT'),
+                  'active': hourMoment.format('YYYY-MM-DD H') === activeFormat
+                };
+
+                result.dates.push(new DateObject(dateValue));
+              }
+
+              return result;
+            },
+
+            minute: function minute(unixDate) {
+              var selectedDate = moment.utc(unixDate).startOf('hour');
+              var previousViewDate = moment.utc(selectedDate).startOf('day');
+              var activeFormat = ngModelController.$modelValue ? moment(ngModelController.$modelValue).format('YYYY-MM-DD H:mm') : '';
+
+              var result = {
+                'previousView': 'hour',
+                'currentView': 'minute',
+                'nextView': 'setTime',
+                'previousViewDate': new DateObject({
+                  utcDateValue: previousViewDate.valueOf(),
+                  display: selectedDate.format('lll')
+                }),
+                'leftDate': new DateObject({utcDateValue: moment.utc(selectedDate).subtract(1, 'hours').valueOf()}),
+                'rightDate': new DateObject({utcDateValue: moment.utc(selectedDate).add(1, 'hours').valueOf()}),
+                'dates': []
+              };
+
+              var limit = 60 / configuration.minuteStep;
+
+              for (var i = 0; i < limit; i += 1) {
+                var hourMoment = moment.utc(selectedDate).add(i * configuration.minuteStep, 'minute');
+                var dateValue = {
+                  'utcDateValue': hourMoment.valueOf(),
+                  'display': hourMoment.format('LT'),
+                  'active': hourMoment.format('YYYY-MM-DD H:mm') === activeFormat
+                };
+
+                result.dates.push(new DateObject(dateValue));
+              }
+
+              return result;
+            },
+
+            setTime: function setTime(unixDate) {
+              var tempDate = new Date(unixDate);
+              var newDate = new Date(tempDate.getTime() + (tempDate.getTimezoneOffset() * 60000));
+
+              var oldDate = ngModelController.$modelValue;
+              ngModelController.$setViewValue(newDate);
+
+              if (configuration.dropdownSelector) {
+                jQuery(configuration.dropdownSelector).dropdown('toggle');
+              }
+
+              scope.onSetTime({newDate: newDate, oldDate: oldDate});
+
+              return dataFactory[configuration.startView](unixDate);
+            }
+          };
+
+          var getUTCTime = function getUTCTime(modelValue) {
+            var tempDate = (modelValue ? moment(modelValue).toDate() : new Date());
+            return tempDate.getTime() - (tempDate.getTimezoneOffset() * 60000);
+          };
+
+          scope.changeView = function changeView(viewName, dateObject, event) {
+            if (event) {
+              event.stopPropagation();
+              event.preventDefault();
+            }
+
+            if (viewName && (dateObject.utcDateValue > -Infinity) && dateObject.selectable && dataFactory[viewName]) {
+              var result = dataFactory[viewName](dateObject.utcDateValue);
+
+              var weekDates = [];
+              if (result.weeks) {
+                for (var i = 0; i < result.weeks.length; i += 1) {
+                  var week = result.weeks[i];
+                  for (var j = 0; j < week.dates.length; j += 1) {
+                    var weekDate = week.dates[j];
+                    weekDates.push(weekDate);
+                  }
+                }
+              }
+
+              scope.beforeRender({
+                $view: result.currentView,
+                $dates: result.dates || weekDates,
+                $leftDate: result.leftDate,
+                $upDate: result.previousViewDate,
+                $rightDate: result.rightDate
+              });
+
+              scope.data = result;
+            }
+          };
+
+          ngModelController.$render = function $render() {
+            scope.changeView(configuration.startView, new DateObject({utcDateValue: getUTCTime(ngModelController.$viewValue)}));
+          };
+        }
+      };
+    }]);
+}));
+
 /*
 Copyright 2012 Igor Vaynberg
 
@@ -98536,7 +99306,7 @@ the specific language governing permissions and limitations under the Apache Lic
 
 (function (angular) {
     angular.module('yes.ui',
-        ['ui.bootstrap', 'toastr', 'schemaForm', 'ui.grid.selection',
+        ['ui.bootstrap', 'toastr', 'schemaForm','angularFileUpload', 'ui.grid.selection',
             'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
             'ui.grid.exporter']);
 })(angular);
@@ -98649,7 +99419,7 @@ the specific language governing permissions and limitations under the Apache Lic
                                     var $self = angular.element(this);
                                     if ($self.hasClass("last-menu")) {
                                         $self.parents('li').siblings().removeClass("active");
-                                        element.find('.last-menu').not(this).removeClass('active');
+                                        $('.last-menu').not(this).removeClass('active');
                                     }
 
                                     if ($self.children().children().hasClass('last-menu')) {
@@ -98657,20 +99427,16 @@ the specific language governing permissions and limitations under the Apache Lic
                                     } else {
                                         if ($self.hasClass("last-menu")) {
                                             $self.addClass("active").siblings().removeClass('active');
-
-                                            var $active = element.find('.active');
-                                            if ($active.parent().parent().prevAll().hasClass("open")) {
-                                                $active.parent().parent().prevAll().removeClass("open");
+                                            if($('.active').parent().parent().prevAll().hasClass("open")){
+                                            	$('.active').parent().parent().prevAll().removeClass("open");
                                             }
-                                            if ($active.parent().parent().nextAll().hasClass("open")) {
-                                                $active.parent().parent().nextAll().removeClass("open");
+                                            if($('.active').parent().parent().nextAll().hasClass("open")){
+                                            	$('.active').parent().parent().nextAll().removeClass("open");
                                             }
-
                                         } else {
-                                            var $lastMenu = element.find('.last-menu');
                                             $self.addClass("active").siblings().removeClass('active');
-                                            $lastMenu.removeClass('active');
-                                            $lastMenu.parent().parent().removeClass('open');
+                                            $('.last-menu').removeClass('active');
+                                            $('.last-menu').parent().parent().removeClass('open');
                                         }
                                     }
 
@@ -98858,10 +99624,7 @@ the specific language governing permissions and limitations under the Apache Lic
                             });
 
                             uploader.onSuccessItem = function (item, res, status, headers) {
-                                if (angular.isArray(res.message))
-                                    $scope.message = res.message.split("<br>");
-                                else
-                                    $scope.message = res.message;
+                                $scope.message = res.message;
                                 if (angular.isFunction(options.resolve)) {
                                     var context = {'scope': $scope};
                                     context.res = res;
@@ -98967,6 +99730,35 @@ the specific language governing permissions and limitations under the Apache Lic
             }
         ]);
 
+    angular.module('yes.ui').config(
+        ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+            function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
+
+                var datetimepicker = function (name, schema, options) {
+                    if (schema.type === 'string' && (schema.format === 'date' || schema.format === 'date-time')) {
+                        var f = schemaFormProvider.stdFormObj(name, schema, options);
+                        f.key = options.path;
+                        f.type = 'datetimepicker';
+                        options.lookup[sfPathProvider.stringify(options.path)] = f;
+                        return f;
+                    }
+                };
+
+                schemaFormProvider.defaults.string.unshift(datetimepicker);
+
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'datetimepicker',
+                    "plugins/base/templates/forms/datetimepicker.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'datetimepicker',
+                    "plugins/base/templates/forms/datetimepicker.html"
+                );
+            }
+        ]);
+
 })(angular);
 (function (angular) {
     'use strict';
@@ -99002,7 +99794,7 @@ the specific language governing permissions and limitations under the Apache Lic
                             });
 
                             uploader.onSuccessItem = function (item, res, status, headers) {
-                                $scope.message = res.message;
+                                $scope.message = res.message.split("<br>");
                                 if (angular.isFunction(options.resolve)) {
                                     var context = {'scope': $scope};
                                     context.res = res;
@@ -99045,127 +99837,6 @@ the specific language governing permissions and limitations under the Apache Lic
                 }
             }
         });
-})(angular);
-(function (angular) {
-    angular.module('yes.ui')
-        .directive('yesPagination', ['$location', '$timeout', 'i18nService', 'settings',
-            function ($location, $timeout, i18nService, settings) {
-                return {
-                    restrict: 'EA',
-                    templateUrl: 'plugins/base/templates/pagination.html',
-                    replace: true,
-                    scope: {
-                        options: '=yesPagination'
-                    },
-                    link: function (scope, element, attrs) {
-
-                        var self = angular.extend(scope.options, {
-                            currentPage: 1,
-                            totalItems: 0,
-                            getPage: function () {
-                                return self.currentPage || 1;
-                            },
-                            getTotalPages: function () {
-                                return (self.totalItems === 0) ? 1 : Math.ceil(self.totalItems / self.pageSize);
-                            },
-                            nextPage: function () {
-                                if (self.totalItems > 0) {
-                                    self.currentPage = Math.min(
-                                        self.currentPage + 1,
-                                        self.getTotalPages()
-                                    );
-                                } else {
-                                    self.currentPage++;
-                                }
-                            },
-                            previousPage: function () {
-                                self.currentPage = Math.max(self.currentPage - 1, 1);
-                            },
-                            seek: function (page) {
-                                if (page == "...") {
-
-                                } else if (!angular.isNumber(page) || page < 1) {
-
-                                } else {
-                                    self.currentPage = Math.min(page, self.getTotalPages());
-                                }
-                            }
-                        });
-
-                        self.pagesLength = self.pagesLength || 10;
-
-                        scope.pagination = self;
-
-                        var renderNumbers = function () {
-                            self.numbers = [];
-                            var i = 0;
-                            var totalPages = self.getTotalPages();
-
-                            if (self.currentPage > totalPages)
-                                self.currentPage = totalPages;
-                            if (totalPages <= self.pagesLength) {
-                                for (i = 1; i <= totalPages; i++) {
-                                    self.numbers.push(i);
-                                }
-                            } else {
-                                var offset = Math.ceil((self.pagesLength - 1) / 2);
-
-                                if (self.currentPage <= offset) {
-                                    for (i = 1; i <= offset + 1; i++) {
-                                        self.numbers.push(i);
-                                    }
-                                    self.numbers.push('...');
-                                    self.numbers.push(totalPages);
-                                } else if (self.currentPage > totalPages - offset) {
-                                    self.numbers.push(1);
-                                    self.numbers.push('...');
-                                    for (i = offset + 1; i >= 1; i--) {
-                                        self.numbers.push(totalPages - i);
-                                    }
-                                    self.numbers.push(totalPages);
-                                } else {
-                                    self.numbers.push(1);
-                                    self.numbers.push('...');
-                                    for (i = Math.ceil(offset / 2); i >= 1; i--) {
-                                        self.numbers.push(self.currentPage - i);
-                                    }
-                                    self.numbers.push(self.currentPage);
-                                    for (i = 1; i <= offset / 2; i++) {
-                                        self.numbers.push(self.currentPage + i);
-                                    }
-                                    self.numbers.push('...');
-                                    self.numbers.push(totalPages);
-                                }
-                            }
-                        };
-
-                        scope.$watch('pagination.currentPage', renderNumbers);
-                        scope.$watch('pagination.totalItems', renderNumbers);
-                        scope.$watch('pagination.pageSize', renderNumbers);
-
-                        self.cantPageForward = function () {
-                            if (self.totalItems > 0) {
-                                return self.currentPage >= self.getTotalPages();
-                            } else {
-                                return self.data.length < 1;
-                            }
-                        };
-
-                        self.cantPageToLast = function () {
-                            if (self.totalItems > 0) {
-                                return $scope.cantPageForward();
-                            } else {
-                                return true;
-                            }
-                        };
-
-                        self.cantPageBackward = function () {
-                            return self.currentPage <= 1;
-                        };
-
-                    }
-                };
-            }]);
 })(angular);
 (function(angular,jQuery){
 

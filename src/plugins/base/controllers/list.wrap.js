@@ -256,7 +256,7 @@ define(['base/services/mapper'], function (mapper) {
                     data: 'entries',
                     enableGridMenu: true,
                     exporterMenuCsv: true,
-                    exporterMenuPDF: false,
+                    exporterMenuPdf: false,
                     enablePaginationControls: true,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,

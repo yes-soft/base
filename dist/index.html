@@ -41,6 +41,9 @@
 <script src="base/scripts/yes.app.js"></script>
 <!-- endinject -->
 
+<script type="text/javascript" src="../components/tinymce-dist/tinymce.min.js"></script>
+<script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>
+
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
@@ -54,15 +57,14 @@
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter',
-        'ui.bootstrap.datetimepicker'
+        'ui.grid.exporter'
     ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $rootScope, amMoment, i18nService) {
             i18nService.setCurrentLang(language);
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce']);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
 
@@ -92,7 +94,11 @@
                 pageSize: {
                     defaults: 20,
                     more: 10
-                }
+                },
+                getByAttIdUrl: "/base/attachment/getByAttId",
+                uploadUrl: "/base/attachment/upload",
+                getUuid: "/base/attachment/getUuid",
+                delByUid: "/base/attachment/"
             };
 
             settings.routers = {
@@ -166,6 +172,13 @@
             settingsProvider.setSettings(settings);
         }]);
 </script>
+
+<link rel="stylesheet" href="plugins/base/vendor/datepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet" href="plugins/base/vendor/daterangepicker.min.css"/>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/daterangepicker.min.js"></script>
 
 <script type="text/javascript" src="base/vendor/require.js"
         data-main="plugins/start.js"></script>

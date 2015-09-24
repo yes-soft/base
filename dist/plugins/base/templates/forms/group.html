@@ -1,4 +1,4 @@
-<div class="schema-form-section {{form.htmlClass}}">
+<div class="schema-form-section clearfix {{form.htmlClass}}">
     <div class="header smaller lighter collapsed">
         <label ng-class="{'sr-only': !showTitle() }">{{ form.title }}</label>
         <div class="widget-toolbar">
@@ -8,6 +8,6 @@
         </div>
     </div>
     <div class="col-xs-12" collapse="isCollapsed">
-        <sf-decorator class="col-xs-12 col-sm-6 col-md-4" ng-class="{'full-row':item.type=='textarea'}" ng-repeat="item in form.items" form="item"></sf-decorator>
+        <sf-decorator class="col-xs-12 {{!item.singleLine?'col-sm-6 col-md-4':''}}" ng-repeat="item in form.items" form="item"></sf-decorator>
     </div>
 </div>
