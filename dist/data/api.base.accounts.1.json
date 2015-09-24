@@ -1,0 +1,18 @@
+{
+  "errors": null,
+  "message": true,
+  "body": {
+    "type": "admin",
+    "email": "admin@admin.com",
+    "password": "admin",
+    "displayName": "超级管理员",
+    "username": "admin",
+    "lastLogin": "2015-02-07T04:42:53.290Z",
+    "active": true,
+    "uid": "55c41a2758081cc0c5e3d31f",
+    "createdAt": "2015-02-05T04:42:53.290Z",
+    "activeCode": "4JOBY-aq",
+    "roles": [],
+    "gender": 0
+  }
+}

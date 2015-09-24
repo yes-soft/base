@@ -1,0 +1,37 @@
+<div class="form-group" ng-class="{'has-error': hasError()}">
+
+    <div class="col-xs-12 col-sm-12 clearfix">
+        <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+
+            <label class="control-label {{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}"
+                   for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
+            <span ng-if="form.required" class="form-required">*</span>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
+
+            <p class="input-group">
+                <input ng-show="form.key"
+                       id="{{form.key.slice(-1)[0]}}"
+                       ng-model="$$value$$"
+                       type="text"
+                       class="form-control" readonly
+                       close-text="关闭"
+                       clear-text="清除"
+                       current-text="今天"
+                       datepicker-popup="yyyy-MM-dd"
+                       format="form.format"
+                       pick-a-date
+                       schema-validate="form"
+                       is-open="form.opened"
+                       min-date="form.minDate"
+                       max-date="form.maxDate"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-sm date-btn" ng-click="form.open($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="help-block" sf-message="form.description"></div>
+</div>
