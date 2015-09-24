@@ -20,11 +20,12 @@
                             if ($scope.pickerType) {
                                 type = $scope.pickerType;
                             }
+                            console.log("lang:",settings.language);
                             if (type == "date") {
                                 $(element).datepicker({
                                     autoclose: true,
                                     todayHighlight: true,
-                                    language: 'zh-CN'
+                                    language: settings.language
                                 }).next().on("click", function () {
                                     $(this).prev().focus();
                                 });
@@ -34,7 +35,7 @@
                                     todayBtn: true,
                                     todayHighlight: true,
                                     format: 'yyyy-mm-dd hh:ii',
-                                    language: 'zh-CN'
+                                    language: settings.language
                                     //pickerPosition:'bottom-left',
                                 }).next().on("click", function () {
                                     $(this).prev().focus();
@@ -47,7 +48,7 @@
                                 var from = $scope.$parent[changeInScope][$scope.nameFrom];
                                 var to = $scope.$parent[changeInScope][$scope.nameTo];
                                 var date = $(element).daterangepicker({
-                                    language: 'zh-CN',
+                                    language: settings.language,
                                     startDate: new moment(from),
                                     endDate: new moment(to),
                                     format: 'YYYY-MM-DD',

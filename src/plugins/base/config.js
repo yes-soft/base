@@ -259,33 +259,6 @@ angular
                 },
                 form: [
                     {
-                        "type": "list",
-                        "title": "配置详情",
-                        "items": [
-                            {
-                                key: "tname",
-                                placeholder: "请输入名称"
-                            },
-                            {
-                                key: "match"
-                            },
-                            {
-                                key: 'lastLogin4',
-                                type: "datePicker"
-                            },
-                            {
-                                key: 'lastLogin5',
-                                type: "dateTimePicker"
-                            },
-                            {
-                                key: 'lastLogin6',
-                                from: 'lastLogin6_start',
-                                to: 'lastLogin6_end',
-                                type: "dateRangePicker"
-                            }
-                        ]
-                    },
-                    {
                         type: "group",
                         title: "主要信息",
                         items: [
@@ -349,6 +322,33 @@ angular
                         type: "group",
                         title: "其他信息",
                         items: ['master', 'enable']
+                    },
+                    {
+                        "type": "list",
+                        "title": "配置详情",
+                        "items": [
+                            {
+                                key: "tname",
+                                placeholder: "请输入名称"
+                            },
+                            {
+                                key: "match"
+                            },
+                            {
+                                key: 'lastLogin4',
+                                type: "datePicker"
+                            },
+                            {
+                                key: 'lastLogin5',
+                                type: "dateTimePicker"
+                            },
+                            {
+                                key: 'lastLogin6',
+                                from: 'lastLogin6_start',
+                                to: 'lastLogin6_end',
+                                type: "dateRangePicker"
+                            }
+                        ]
                     }
                 ]/*,
                  resolves: [

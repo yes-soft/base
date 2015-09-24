@@ -1,6 +1,6 @@
 angular.module('app')
-    .controller('app.layout', ['$scope', '$stateParams', '$location', 'settings', 'utils',
-        function ($scope, $stateParams, $location, settings, utils) {
+    .controller('app.layout', ['$scope', '$stateParams', '$location', 'settings', 'utils','ngDialog','toastr',
+        function ($scope, $stateParams, $location, settings, utils, ngDialog, toastr) {
 
 
             utils.async("GET", settings.menuApi, {}).then(function (res) {
@@ -49,13 +49,33 @@ angular.module('app')
             };
 
             $scope.displayName = localStorage.getItem("displayName");
+            var logout = function () {
+            	utils.async("GET", "logout").then(function (res) {
+            		localStorage.removeItem("displayName");
+            		location.reload();
+            	}, function (error) {
+            		location.reload();
+            	});
+            };
             $scope.action = {
-                logout: function () {
-                    utils.async("GET", "logout").then(function (res) {
-                        localStorage.removeItem("displayName");
-                        location.reload();
-                    }, function (error) {
-                        location.reload();
+            	logout:logout,
+                updatePassword: function(){
+                	ngDialog.open({
+                        template: "plugins/base/pages/updatePassword.html",
+                        controller: function ($scope) {                                  
+                            $scope.save = function(form){                                     	
+                                utils.async("post", "setpassword", $scope.model).then(function (res) {
+                                	ngDialog.closeAll();
+                            		toastr.success("密码修改成功,3秒后自动退出...");
+                            		setTimeout(function(){
+                            			logout();
+                            		}, 2000);
+                            	},
+                            	function (error) {
+                            		toastr.error(error.message);
+                            	});
+                            }
+                        }
                     });
                 }
             };
