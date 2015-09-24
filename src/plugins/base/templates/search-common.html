@@ -5,41 +5,41 @@
         <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入...'}}">
 
-        <select ui-select2="{ allowClear: true}" style="min-width: 180px;" ng-if="::search.type=='select'" ng-model="filter[search.name]"
+        <select ng-if="::search.type=='select'" ui-select2="{ allowClear: true}" style="min-width: 180px;" ng-model="filter[search.name]"
                 ng-change="selectChange(search)">
             <option value="">请选择</option>
             <option value="{{option.value}}" ng-repeat="option in search.titleMap">{{option.name}}</option>
         </select>
 
-        <div ng-if="::search.type=='date'" class="input-group date">
-            <input ng-model="filter[search.name]" ng-change="dateChange(search.name);"
-                   ng-click="openDate($event,search);" type="text"
-                   placeholder="{{::search.placeholder?search.placeholder:'请选择...'}}" class="form-control" readonly
-                   close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd"
-                   is-open="search.opened"/>
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-sm date-btn" ng-click="openDate($event,search);"><i
-                        class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-        </div>
-
-
-        <div ng-if="::search.type=='datetime'" class="input-group datetime">
-            <div class="dropdown">
-                <a data-target="#" data-toggle="dropdown" role="button" class="dropdown-toggle" aria-expanded="false">
-                    <div class="input-group">
-                        <input type="text" value="{{filter[search.name] | date:'yyyy-MM-dd HH:mm:ss'}}"  class="form-control" readonly >
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
-                </a>
-                <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
-                    <datetimepicker data-ng-model="filter[search.name]"
-                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" ></datetimepicker>
-
-                </ul>
+        <div ng-if="::search.type=='datePicker'" class="input-group">
+            <div class="input-group">
+                <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"
+                       ng-model="filter[search.name]" type="text" picker-type="'date'" options="search.options">
+                <span class="input-group-addon">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </span>
             </div>
         </div>
 
+        <div ng-if="::search.type=='dateTimePicker'" class="input-group">
+            <div class="input-group">
+                <input date-picker readonly class="form-control"
+                       ng-model="filter[search.name]" type="text" picker-type="'datetime'" options="search.options">
+                <span class="input-group-addon">
+                    <i class="fa fa-clock-o bigger-110"></i>
+                </span>
+            </div>
+        </div>
+
+        <div ng-if="::search.type=='dateRangePicker'" class="input-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </span>
+                <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control" name-from="search.from" name-to="search.to"
+                       ng-model="filter[search.name]" type="text" picker-type="'daterange'" options="search.options" change-in-scope="'filter'">
+            </div>
+        </div>
 
         <input ng-if="::search.type=='department'" ng-model="filter[search.name]" class="department"
                type="text" placeholder="{{::search.placeholder?search.placeholder:'请选择...'}}">

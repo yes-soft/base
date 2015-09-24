@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Builder example</title>
+    <link type="text/css" rel="stylesheet" href="../components/yes-bundle/dist/vendor/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css">
+</head>
+<body ng-app="app">
+
+<div ng-controller="scaffold"></div>
+<div style="margin: 20px;">
+    <select ui-select2="{ allowClear: true}" ng-model="select2" style="width:180px;">
+        <option value="one">First</option>
+        <option value="two">Dfsss</option>
+        <option value="three">Third</option>
+    </select>
+</div>
+
+<script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
+<script src="../components/yes-bundle/dist/vendor/select2/select2.js" charset="utf-8"></script>
+<script src="../components/yes-bundle/dist/yes.bundle.min.js" charset="utf-8"></script>
+<script src="../components/yes-utils/dist/yes.utils.js" charset="utf-8"></script>
+<script src="../dist/yes.ui.js" charset="utf-8"></script>
+
+<script src="../src/directives/yes.select2.js" charset="utf-8"></script>
+<!--<script src="../dist/yes.ui.js" charset="utf-8"></script>-->
+<script type="text/javascript">
+
+    angular.module('app', ['yes.utils', 'yes.ui'])
+            .run(function ($templateCache) {
+
+            })
+            .controller('scaffold', function () {
+
+            });
+</script>
+</body>
+</html>
