@@ -241,7 +241,7 @@ define(['base/services/mapper'], function (mapper) {
                     self.detailUid = entity.uid;
                     self.form = self.form || {};
                     self.form.model = entity;
-                    $rootScope.detailUrl = config.form.template;
+                    self.detailUrl = config.form.template;
                     //utils.disableScroll();
                     self.events.trigger('detailLoad', entity);
                 };

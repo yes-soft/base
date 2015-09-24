@@ -42,6 +42,10 @@
 <!-- inject:js -->
 <!-- endinject -->
 
+<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
+<script type="text/javascript" src="../components/tinymce-dist/tinymce.min.js"></script>
+<script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>
+
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
     angular.module('app.config', [
@@ -55,8 +59,7 @@
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter',
-        'ui.bootstrap.datetimepicker'
+        'ui.grid.exporter'
     ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $rootScope, amMoment, i18nService) {
             i18nService.setCurrentLang(language);
