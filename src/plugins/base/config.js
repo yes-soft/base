@@ -242,31 +242,49 @@ angular
                             "type": "string",
                             "title": "内容匹配"
                         },
-                        "dateFT": {
-                            "type": "string",
-                            "title": "日期匹配"
+                        lastLogin4: {
+                            title: "最后登入时间",
+                            type: "string"
                         },
-                        "appointmentDate": {
-                            "type": "string",
-                            "title": "预约日期"
+                        lastLogin5: {
+                            title: "最终时刻",
+                            type: "string"
                         },
-                        "appointmentTime": {
-                            "type": "string",
-                            "title": "预约时间"
-                        },
-                        "timeFT": {
-                            "type": "string",
-                            "title": "时间匹配起"
-                        },
-                        "seq": {
-                            "type": "number",
-                            "title": "顺序",
-                            "minimum": 0,
-                            "required": true
+                        lastLogin6: {
+                            title: "预言范围",
+                            type: "string"
                         }
+
                     }
                 },
                 form: [
+                    {
+                        "type": "list",
+                        "title": "配置详情",
+                        "items": [
+                            {
+                                key: "tname",
+                                placeholder: "请输入名称"
+                            },
+                            {
+                                key: "match"
+                            },
+                            {
+                                key: 'lastLogin4',
+                                type: "datePicker"
+                            },
+                            {
+                                key: 'lastLogin5',
+                                type: "dateTimePicker"
+                            },
+                            {
+                                key: 'lastLogin6',
+                                from: 'lastLogin6_start',
+                                to: 'lastLogin6_end',
+                                type: "dateRangePicker"
+                            }
+                        ]
+                    },
                     {
                         type: "group",
                         title: "主要信息",
@@ -277,7 +295,9 @@ angular
                             }, {
                                 key: 'name',
                                 placeholder: "请输入名称"
-                            }, 'mail', {
+                            },
+                            'mail',
+                            {
                                 key: 'lastLogin',
                                 type: "datePicker"
                             }, {
@@ -288,7 +308,10 @@ angular
                                 from: 'lastLogin3_start',
                                 to: 'lastLogin3_end',
                                 type: "dateRangePicker"
-                            }, 'parent', 'matrixNo', {
+                            },
+                            'parent',
+                            'matrixNo',
+                            {
                                 key: 'type',
                                 type: "select",
                                 titleMap: [{
@@ -298,10 +321,12 @@ angular
                                     value: "user",
                                     name: "user"
                                 }]
-                            }, {
+                            },
+                            {
                                 key: "password",
                                 type: "password"
-                            }, 'mobile',
+                            },
+                            'mobile',
                             {
                                 key: "picture",
                                 type: "uploader",
@@ -309,7 +334,8 @@ angular
                                     multiple: 10,
                                     maxMB: 10
                                 }
-                            }, {
+                            },
+                            {
                                 key: "photos",
                                 type: "gallery",
                                 singleLine: true,
@@ -318,37 +344,13 @@ angular
                                 }
                             }
                         ]
-                    }, {
+                    },
+                    {
                         type: "group",
                         title: "其他信息",
                         items: ['master', 'enable']
-                    }, {
-                        "type": "list",
-                        "title": "配置详情",
-                        "items": [
-                            {
-                                key: "tname",
-                                placeholder: "请输入名称"
-                            }, {
-                                key: "match"
-                            }, {
-                                key: 'dateFT',
-                                from: 'dateF',
-                                to: 'dateT',
-                                type: "dateRangePicker"
-                            }, {
-                                key: "appointmentTime",
-                                type: "dateTimePicker"
-                            }, {
-                                key: 'timeFT',
-                                from: 'timeF',
-                                to: 'timeT',
-                                type: "dateRangePicker"
-                            }, {
-                                key: "seq"
-                            }
-                        ]
-                    }]/*,
+                    }
+                ]/*,
                  resolves: [
                  function (utils, oPath) {
                  var context = this;
