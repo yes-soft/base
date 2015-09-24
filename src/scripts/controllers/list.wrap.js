@@ -79,10 +79,7 @@ angular.module('app')
 
                         self.scaffold = true;
 
-                        self.form.model = {
-                            "type": "object",
-                            "properties": []
-                        };
+                        self.form.model = {"type": "object", "properties": []};
 
                         angular.forEach(self.headers, function (raw, key) {
                             var entry = {};
@@ -175,8 +172,7 @@ angular.module('app')
 
             self.events = utils.createEvents();
 
-            var config = explain.configuration(self),
-                pageSize = config.list.pageSize;
+            var config = explain.configuration(self), pageSize = config.list.pageSize;
 
             self.init = function () {
                 self.entries = [];
@@ -229,8 +225,8 @@ angular.module('app')
                         });
                         self.gridOptions.columnDefs = columnDefs;
 
-                        if (body.count > self.paginationOptions.pageSize) {
-                            $scope.height = ((self.paginationOptions.pageSize * 30) + 90);
+                        if(body.count>self.paginationOptions.pageSize){
+                            $scope.height=((self.paginationOptions.pageSize * 30) + 90);
                             self.gridOptions.minRowsToShow = self.paginationOptions.pageSize;
 
                             setTimeout(function () {

@@ -438,7 +438,7 @@ angular
                                                 .get(
                                                 context,
                                                 'scope.form.model', {});
-                                            model['values[]'] = res.body.items;
+                                            model['values'] = res.body.items;
                                         });
                                 }
                             });

@@ -15,7 +15,20 @@ angular
                     },
                     "json": {
                         displayName: "请求内容",
-                        width: 180
+                        width: 180,
+                        filter: function (columns, rootScope) {
+                            var col = this;
+                            col.displayName = "预约的手机号码";
+                            col.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"phoneNumbers" }}</div>';
+                            columns.push(col);
+                            var col2 = {
+                                name:"json2",
+                                displayName: name
+                            };
+                            col2.displayName = "预约的短信内容";
+                            col2.cellTemplate = '<div class="ui-grid-cell-contents" title="{{row.entity.json }}">{{ row.entity.json | jsonParse:"message" }}</div>';
+                            columns.push(col2);
+                        }
                     },
                     "status": {
                         displayName: "状态",
@@ -193,6 +206,24 @@ angular
                     type: "input",
                     name: "aid$eq",
                     label: "编号"
+                }],
+                resolves: [function (utils) {
+                    var context = this;
+                    context.scope.events
+                        .on(
+                        'listLoad',
+                        function () {
+
+                            var names = {
+                                10: "xxx",
+                                20: "xxx"
+                            };
+
+                            angular.forEach(scope.entries, function (entry) {
+                                entry.status = names[entry.status];
+                            })
+                        });
+
                 }]
             },
             form: {
@@ -440,6 +471,15 @@ angular
                                             model['values'] = res.body.items;
                                         });
                                 }
+                            });
+                    },
+                    function (utils, oPath) {
+                        var context = this;
+                        context.scope.events
+                            .on(
+                            'beforeSave',
+                            function (form) {
+                                form.model = {"test": "hi"};
                             });
                     },
                     function (utils, oPath) {
@@ -1278,7 +1318,7 @@ angular
                         {
                             key: "filingDate",
                             type: "datetimepicker"
-                        },
+                        }
 
                     ]
                 }, {

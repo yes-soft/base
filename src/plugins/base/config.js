@@ -101,7 +101,15 @@ angular.module("app.config").constant("base.config", {
                     value: "user",
                     name: "用户"
                 }]
-            }]
+            }],
+            resolves: function () {
+                var context = this;
+                context.scope.events.on("listLoaded", function () {
+                    angular.forEach(context.scope.entries,function(entry){
+                       entry['type'] = "吞吞吐吐";
+                    })
+                });
+            }
         },
         form: {
             schema: {

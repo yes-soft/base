@@ -30,7 +30,7 @@ angular.module("app.config").constant("base.config", {
             del: true,
             role: {
                 "name": "导入",
-                "action": function action(utils) {
+                "action":  function(utils) {
                     utils.dialogUpload({
                         url: '/upload',
                         resolve: function () {
