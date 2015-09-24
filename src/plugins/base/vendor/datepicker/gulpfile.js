@@ -18,7 +18,7 @@ gulp.task('scripts', function () {
             'daterangepicker.min.js'
         ]
     )
-        .pipe(concat('data.package.js'))
+        .pipe(concat('date.package.js'))
         .pipe(uglify())
         .pipe(rename({extname: '.min.js'}))
         .pipe(gulp.dest(""));
