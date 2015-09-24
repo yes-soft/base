@@ -1,0 +1,33 @@
+{
+  "errors": null,
+  "message": true,
+  "body": {
+    "items": [
+      {
+        "roleId": "0001",
+        "menuId": "2020206165726c5f64742020"
+      },
+      {
+        "roleId": "0001",
+        "menuId": "20206d5f6f6667706c632020"
+      },
+      {
+        "roleId": "0001",
+        "menuId": "2020626173655f726f6c6520"
+      },
+      {
+        "roleId": "0001",
+        "menuId": "2020206d5f6f666761692020"
+      },
+      {
+        "roleId": "0001",
+        "menuId": "20206d5f6f6667706c632020"
+      }
+    ],
+    "count": 142,
+    "headers": {
+      "uid": "编号",
+      "parent": "父级编号"
+    }
+  }
+}

@@ -1,0 +1,103 @@
+<div class="widget-box ui-sortable-handle fullscreen scroll-y">
+    <div class="document-detail" ng-controller="app.page.test">
+        <div class="widget-header widget-header-flat">
+            <h5 class="widget-title">详情的标题</h5>
+
+            <div class="widget-toolbar">
+                <a data-action="close" ng-click="action.close()">
+                    <i class="ace-icon fa fa-times bigger-130"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="widget-body">
+            <form name="edit$form" class="schema-form" role="form" ng-submit="action.save()">
+                <div class="buttons-wrap">
+
+                    <button class="btn btn-sm btn-info" type="submit" style="margin-right: 5px;">
+                        <i class="ace-icon fa fa-save bigger-110"></i> 保存
+                    </button>
+
+                </div>
+
+                <div class="col-sm-12 edit-body">
+                    <div class="schema-form-section">
+                        <div class="header smaller lighter collapsed">
+                            <label>分组标题1</label>
+
+                            <div class="widget-toolbar">
+                                <a href="#" data-action="collapse" ng-click="isCollapsed1 = !isCollapsed1">
+                                    <i class="ace-icon fa fa-chevron-up"
+                                       ng-class="{'fa-chevron-down':!isCollapsed1}"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" collapse="isCollapsed1">
+
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 clearfix">
+                                        <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+                                            <label>名称</label>
+                                            <span class="form-required">*</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
+                                            <input type="text" placeholder="爱甜不腻" ng-model="model.name">
+                                        </div>
+                                    </div>
+
+                                    <div class="help-block clearfix text-right">请填写你的名字</div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 clearfix">
+                                        <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+                                            <label>名称</label>
+                                            <span class="form-required">*</span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
+                                            <input type="text" placeholder="爱甜不腻" ng-model="model.type">
+                                        </div>
+                                    </div>
+
+                                    <div class="help-block clearfix text-right">请填写你的名字</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                colunms 3
+                            </div>
+
+                            <!--<sf-decorator class="col-xs-12 col-sm-6 col-md-4" ng-class="{'full-row':item.type=='textarea'}" ng-repeat="item in form.items" form="item"></sf-decorator>-->
+                        </div>
+                    </div>
+
+                    <div class="schema-form-section">
+                        <div class="header smaller lighter collapsed">
+                            <label>选项值</label>
+
+                            <div class="widget-toolbar">
+                                <a href="#" data-action="collapse" ng-click="isCollapsed = !isCollapsed">
+                                    <i class="ace-icon fa fa-chevron-up"
+                                       ng-class="{'fa-chevron-down':!isCollapsed}"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" collapse="isCollapsed">
+
+                            <table>
+                                <tr></tr>
+                            </table>
+
+                            <!--<sf-decorator class="col-xs-12 col-sm-6 col-md-4" ng-class="{'full-row':item.type=='textarea'}" ng-repeat="item in form.items" form="item"></sf-decorator>-->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
