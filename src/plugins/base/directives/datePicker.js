@@ -25,7 +25,6 @@
                                     autoclose: true,
                                     todayHighlight: true,
                                     language: 'zh-CN'
-                                    //pickerPosition:'bottom-left',
                                 }).next().on("click", function () {
                                     $(this).prev().focus();
                                 });
@@ -36,6 +35,7 @@
                                     todayHighlight: true,
                                     format: 'yyyy-mm-dd hh:ii',
                                     language: 'zh-CN'
+                                    //pickerPosition:'bottom-left',
                                 }).next().on("click", function () {
                                     $(this).prev().focus();
                                 });

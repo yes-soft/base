@@ -389,6 +389,9 @@
 .hide {
   display: none;
 }
+.input-group > input {
+  background: #fff !important;
+}
 .searchs-div {
   margin-top: 10px;
 }
