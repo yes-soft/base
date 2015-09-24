@@ -1,0 +1,13 @@
+<div class="form-group has-feedback {{form.htmlClass}} schema-form-textarea"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true &&  hasSuccess()}">
+    <div class="col-xs-12 col-sm-12 clearfix">
+        <div class="col-xs-12 col-sm-2 col-md-1 text-right">
+            <label class="{{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}" for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
+            <span ng-if="form.required" class="form-required">*</span>
+        </div>
+
+        <div class="col-xs-12 col-sm-10 col-md-11 padding-right-0">
+            <textarea ui-tinymce ng-model="$$value$$"></textarea>
+        </div>
+    </div>
+</div>
