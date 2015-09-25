@@ -1,12 +1,17 @@
 angular.module('app')
-    .controller('app.login', ['$scope', '$stateParams', '$location', 'utils', 'settings',
-        function ($scope, $stateParams, $location, utils, settings) {
-
+    .controller('app.login', ['$scope', '$stateParams', '$location', 'utils', 'settings','toastr',
+        function ($scope, $stateParams, $location, utils, settings ,toastr) {
             $scope.filter = {};
-
             $scope.login = function () {
+                if($scope.filter.username == null || $scope.filter.username == ""){
+                    toastr.warning("用户名不能为空!");
+                    return;
+                }
+                if($scope.filter.password == null || $scope.filter.password == ""){
+                    toastr.warning("密码不能为空!");
+                    return;
+                }
                 utils.async("POST", settings.apiPath + "/login", $scope.filter).then(function (res) {
-                    //  console.log(res);
                     localStorage.setItem("displayName", res.body.displayName || res.body.name);
                     localStorage.setItem("username", $scope.filter.username);
                     localStorage.setItem("password", $scope.filter.password);
@@ -14,9 +19,8 @@ angular.module('app')
                     if (hash)
                         location.hash = hash;
                     $location.search("return", null);
-
                 }, function (err) {
-                    utils.alert(err.message);
+                    toastr.warning(err.message);
                 });
             };
         }
