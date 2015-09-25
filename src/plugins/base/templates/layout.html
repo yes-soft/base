@@ -16,7 +16,7 @@
                 <a href="#" class="navbar-brand">
                     <small>
                         <i class="fa fa-leaf"></i>
-                        福建中烟办公协同平台
+                        {{'福建中烟办公协同平台' | translate}}
                     </small>
                 </a>
             </div>
@@ -38,13 +38,13 @@
 							<li class="user-to">
                                 <a href="javascript:;" ng-click="action.updatePassword()">
                                     <i class="ace-icon fa fa-edit"></i>
-                                    	修改密码
+                                    	{{'修改密码' | translate}}
                                 </a>
                             </li>
                             <li class="user-to">
                                 <a href="javascript:;" ng-click="action.logout()">
                                     <i class="ace-icon fa fa-power-off"></i>
-                                   	 退出登录
+                                   	 {{'退出登录' | translate}}
                                 </a>
                             </li>
                         </ul>
@@ -62,7 +62,7 @@
                 <span class="input-icon">
                 <input type="text" ng-model="select" typeahead-on-select="onSelect($item, $model, $label)"
                        typeahead="menu.name for menu in getMenus($viewValue) "
-                       placeholder="搜索...">
+                       placeholder="{{'搜索' | translate}}...">
                 <i class="ace-icon fa fa-search nav-search-icon"></i>
             </span>
             </div>

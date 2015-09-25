@@ -32,7 +32,7 @@
 
 </head>
 <body class="no-skin">
-<div ui-view> </div>
+<div ui-view></div>
 
 <!--[if !IE]> -->
 <script src="../components/yes-bundle/dist/vendor/jquery.min.js"></script>
@@ -66,8 +66,13 @@
 <script type="text/javascript" src="../components/tinymce-dist/tinymce.min.js"></script>
 <script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>
 
+<script type="text/javascript" src="../components/angular-translate/angular-translate.min.js"></script>
+<script type="text/javascript"
+        src="../components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
+    language = "en";
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
@@ -86,7 +91,16 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate']);
+
+    angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
+            function ($translateProvider, $translatePartialLoaderProvider) {
+        $translateProvider.useLoader('$translatePartialLoader', {
+            urlTemplate: 'plugins/{part}/i18n/{lang}.json'
+        });
+        $translatePartialLoaderProvider.addPart('base');
+        $translateProvider.preferredLanguage(language);
+    }]);
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
 
