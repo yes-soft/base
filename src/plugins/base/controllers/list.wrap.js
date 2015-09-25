@@ -304,7 +304,6 @@ define(['base/services/mapper'], function (mapper) {
                     self.form.model = {};
                     utils.resetScroll();
                 });
-
                 self.init();
             }
         ]);

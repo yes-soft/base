@@ -11,6 +11,7 @@ angular.module('app')
                     toastr.warning("ÃÜÂë²»ÄÜÎª¿Õ!");
                     return;
                 }
+
                 utils.async("POST", settings.apiPath + "/login", $scope.filter).then(function (res) {
                     localStorage.setItem("displayName", res.body.displayName || res.body.name);
                     localStorage.setItem("username", $scope.filter.username);
