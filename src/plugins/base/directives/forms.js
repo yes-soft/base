@@ -74,6 +74,17 @@
                     "plugins/base/templates/forms/dateRangePicker.html"
                 );
 
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'label',
+                    "plugins/base/templates/forms/label.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'label',
+                    "plugins/base/templates/forms/label.html"
+                );
+
             }
         ]);
 

@@ -264,7 +264,8 @@ angular
                         items: [
                             {
                                 key: 'aid',
-                                placeholder: "请输入帐号"
+                                placeholder: "请输入帐号",
+                                type:'label'
                             }, {
                                 key: 'name',
                                 placeholder: "请输入名称"
@@ -272,7 +273,7 @@ angular
                             'mail',
                             {
                                 key: 'lastLogin',
-                                type: "datePicker"
+                                type: "label"
                             }, {
                                 key: 'lastLogin2',
                                 type: "dateTimePicker"
@@ -302,7 +303,7 @@ angular
                             'mobile',
                             {
                                 key: "picture",
-                                type: "uploader",
+                                type: "label",
                                 options: {
                                     multiple: 10,
                                     maxMB: 10
