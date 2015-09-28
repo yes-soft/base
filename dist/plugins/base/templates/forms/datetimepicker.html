@@ -3,15 +3,16 @@
     <div class="col-xs-12 col-sm-12 clearfix">
         <div class="col-xs-12 col-sm-4 col-md-3  text-right">
 
-            <label class="control-label {{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}"
+            <label class="control-label {{form.labelHtmlClass}}"
+                   ng-class="{'sr-only': !showTitle(),'required':form.required}"
                    for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
-            <span ng-if="form.required" class="form-required">*</span>
 
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9  padding-right-0">
             <div class="input-group">
                 <input date-picker readonly class="form-control"
-                       ng-model="$$value$$" id="{{form.key.slice(-1)[0]}}" type="text" picker-type="'datetime'" options="form.options">
+                       ng-model="$$value$$" id="{{form.key.slice(-1)[0]}}" type="text" picker-type="'datetime'"
+                       options="form.options">
                 <span class="input-group-addon">
                     <i class="fa fa-clock-o bigger-110"></i>
                 </span>
@@ -19,5 +20,5 @@
         </div>
     </div>
 
-    <div class="help-block" sf-message="form.description"></div>
+    <div class="help-block clearfix text-right" sf-message="form.description"></div>
 </div>
