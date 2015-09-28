@@ -2,9 +2,9 @@ define(['base/services/mapper'], function (mapper) {
     "use strict";
     angular.module('app')
         .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
-            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr',
+            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr', '$translate',
             function ($scope, $stateParams, $timeout, $location, $rootScope,
-                      $log, $http, utils, interpreter, settings, toastr) {
+                      $log, $http, utils, interpreter, settings, toastr, $translate) {
 
                 var self = $scope;
                 var detailId = $location.search()['uid'];
@@ -162,6 +162,26 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.form = config.form;
                     self.config = config;
+                    self.headers = config.list.headers;// || body.headers;
+
+                    var names = [];
+                    angular.forEach(self.headers, function (name, key) {
+                        if (angular.isObject(name)) {
+                            name.original = name.displayName;
+                            name.name = key;
+                            names.push(name.original);
+                        } else {
+                            self.headers[key] = {"displayName": name, "name": key, "original": name};
+                            names.push(name);
+                        }
+                    });
+
+                    $translate(names).then(function (translations) {
+                        angular.forEach(self.headers, function (name, key) {
+                            name.displayName = translations[name.original];
+                        });
+                    });
+
                     self.load();
 
                     if (detailId) {
@@ -171,25 +191,21 @@ define(['base/services/mapper'], function (mapper) {
                     self.events.trigger('listInit');
                 };
 
+
                 self.load = function () {
                     var namespace = [$stateParams.name, $stateParams.page].join("/");
                     utils.async("GET", namespace, self.filter).then(function (res) {
                         var body = res.body;
                         self.entries = body.items || [];
-                        self.headers = config.list.headers || body.headers;
 
                         if (self.headers) {
                             var columnDefs = [];
                             angular.forEach(self.headers, function (name, key) {
-                                var col = angular.isObject(name) ? name : {name: key, displayName: name};
-                                col.name = key;
-
-                                if (col.filter && angular.isFunction(col.filter)) {
-                                    col.filter.apply(col, [columnDefs, $rootScope]);
+                                if (name.filter && angular.isFunction(name.filter)) {
+                                    name.filter.apply(name, [columnDefs, $rootScope]);
                                 } else {
-                                    columnDefs.push(col);
+                                    columnDefs.push(name);
                                 }
-
                             });
                             self.gridOptions.columnDefs = columnDefs;
 

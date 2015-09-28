@@ -2,7 +2,7 @@
      ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true &&  hasSuccess()}">
     <div class="col-xs-12 col-sm-12 clearfix">
         <div class="col-xs-12 col-sm-2 col-md-1 text-right">
-            <label class="{{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}" for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
+            <label class="{{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}" for="{{form.key.slice(-1)[0]}}">{{form.title | translate}}</label>
             <span ng-if="form.required" class="form-required">*</span>
         </div>
 

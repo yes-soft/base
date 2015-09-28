@@ -65,7 +65,7 @@ angular
             }
         },
         account: {
-            title: "账号管理",
+            title: "帐号管理",
             operation: {
                 add: true,
                 del: true
@@ -90,7 +90,7 @@ angular
                         width: 70
                     },
                     "parent": {
-                        displayName: "主账号",
+                        displayName: "主帐号",
                         width: 100
                     },
                     "matrixNo": {
@@ -98,7 +98,7 @@ angular
                         width: 100
                     },
                     "aid": {
-                        displayName: "账号",
+                        displayName: "帐号",
                         width: 70
                     },
                     "type": {
@@ -111,7 +111,7 @@ angular
                         visible: false
                     },
                     "master": {
-                        displayName: "是否主账号",
+                        displayName: "是否主帐号",
                         width: 120
                     },
                     "mobile": {
@@ -195,7 +195,7 @@ angular
                             type: "boolean"
                         },
                         parent: {
-                            title: "主账号",
+                            title: "主帐号",
                             type: "string"
                         },
                         matrixNo: {
@@ -203,7 +203,7 @@ angular
                             type: "string"
                         },
                         aid: {
-                            title: "账号",
+                            title: "帐号",
                             type: "string",
                             required: true
                         },
@@ -218,7 +218,7 @@ angular
                             required: true
                         },
                         master: {
-                            title: "是否主账号",
+                            title: "是否主帐号",
                             type: "boolean"
                         },
                         mobile: {
@@ -476,7 +476,7 @@ angular
                         width: 150
                     },
                     "rid": {
-                        displayName: "主账号",
+                        displayName: "主帐号",
                         width: 150
                     },
                     "name": {

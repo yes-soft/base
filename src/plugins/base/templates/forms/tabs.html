@@ -4,7 +4,7 @@
         ng-disabled="form.readonly"
         ng-click="$event.preventDefault() || (selected.tab = $index)"
         ng-class="{active: selected.tab === $index}">
-        <a href="#">{{ tab.title }}</a>
+        <a href="#">{{ tab.title | translate}}</a>
     </li>
   </ul>
 

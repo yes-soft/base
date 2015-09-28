@@ -10,6 +10,6 @@
           ng-disabled="form.readonly"
           ng-if="form.type !== 'submit'">
       <span ng-if="form.icon" class="{{form.icon}}"></span>
-      {{form.title}}
+      {{form.title | translate}}
   </button>
 </div>

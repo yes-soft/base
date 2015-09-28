@@ -4,7 +4,7 @@
         <div class="col-xs-12 col-sm-4 col-md-3 text-right">
 
             <label class="control-label {{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}"
-                   for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
+                   for="{{form.key.slice(-1)[0]}}">{{form.title | translate}}</label>
             <span ng-if="form.required" class="form-required">*</span>
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
@@ -13,7 +13,7 @@
                    type="{{form.type}}"
                    step="any"
                    sf-changed="form"
-                   placeholder="{{form.placeholder}}"
+                   placeholder="{{form.placeholder | translate}}"
                    class="form-control {{form.fieldHtmlClass}}"
                    id="{{form.key.slice(-1)[0]}}"
                    ng-model-options="form.ngModelOptions"
@@ -32,7 +32,7 @@
                        type="{{form.type}}"
                        step="any"
                        sf-changed="form"
-                       placeholder="{{form.placeholder}}"
+                       placeholder="{{form.placeholder | translate}}"
                        class="form-control {{form.fieldHtmlClass}}"
                        id="{{form.key.slice(-1)[0]}}"
                        ng-model-options="form.ngModelOptions"
