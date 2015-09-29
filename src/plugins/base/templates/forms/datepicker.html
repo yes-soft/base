@@ -5,7 +5,8 @@
 
             <label class="control-label {{form.labelHtmlClass}}"
                    ng-class="{'sr-only': !showTitle(),'required':form.required}"
-                   for="{{form.key.slice(-1)[0]}}">{{form.title}}</label>
+                   for="{{form.key.slice(-1)[0]}}">{{form.title | translate
+                }}</label>
             <span ng-if="form.required" class="form-required">*</span>
 
         </div>

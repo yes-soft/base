@@ -68,6 +68,16 @@
         }]);
 
     angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce']);
+
+    angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
+        function ($translateProvider, $translatePartialLoaderProvider) {
+            $translateProvider.useLoader('$translatePartialLoader', {
+                urlTemplate: 'plugins/{part}/i18n/{lang}.json'
+            });
+            $translatePartialLoaderProvider.addPart('base');
+            $translateProvider.preferredLanguage(language);
+        }]);
+
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {
 
@@ -176,9 +186,7 @@
         }]);
 </script>
 
-<script type="text/javascript" src="plugins/base/vendor/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="plugins/base/vendor/bootstrap-datetimepicker.min.js"></script>
-<script type="text/javascript" src="plugins/base/vendor/daterangepicker.min.js"></script>
+<script type="text/javascript" src="plugins/base/vendor/datepicker/date.package.min.js"></script>
 
 <script type="text/javascript" src="base/vendor/require.js"
         data-main="plugins/start.js"></script>

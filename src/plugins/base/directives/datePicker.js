@@ -20,7 +20,6 @@
                             if ($scope.pickerType) {
                                 type = $scope.pickerType;
                             }
-                            console.log("lang:",settings.language);
                             if (type == "date") {
                                 $(element).datepicker({
                                     autoclose: true,

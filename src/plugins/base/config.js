@@ -65,7 +65,7 @@ angular
             }
         },
         account: {
-            title: "账号管理",
+            title: "帐号管理",
             operation: {
                 add: true,
                 del: true
@@ -90,7 +90,7 @@ angular
                         width: 70
                     },
                     "parent": {
-                        displayName: "主账号",
+                        displayName: "主帐号",
                         width: 100
                     },
                     "matrixNo": {
@@ -98,7 +98,7 @@ angular
                         width: 100
                     },
                     "aid": {
-                        displayName: "账号",
+                        displayName: "帐号",
                         width: 70
                     },
                     "type": {
@@ -111,7 +111,7 @@ angular
                         visible: false
                     },
                     "master": {
-                        displayName: "是否主账号",
+                        displayName: "是否主帐号",
                         width: 120
                     },
                     "mobile": {
@@ -195,7 +195,7 @@ angular
                             type: "boolean"
                         },
                         parent: {
-                            title: "主账号",
+                            title: "主帐号",
                             type: "string"
                         },
                         matrixNo: {
@@ -203,7 +203,7 @@ angular
                             type: "string"
                         },
                         aid: {
-                            title: "账号",
+                            title: "帐号",
                             type: "string",
                             required: true
                         },
@@ -218,7 +218,7 @@ angular
                             required: true
                         },
                         master: {
-                            title: "是否主账号",
+                            title: "是否主帐号",
                             type: "boolean"
                         },
                         mobile: {
@@ -231,6 +231,10 @@ angular
                         },
                         photos: {
                             title: "图片夹",
+                            type: "string"
+                        },
+                        groupId: {
+                            title: "所属群组",
                             type: "string"
                         },
                         "tname": {
@@ -264,8 +268,7 @@ angular
                         items: [
                             {
                                 key: 'aid',
-                                placeholder: "请输入帐号",
-                                type:'label'
+                                placeholder: "请输入帐号"
                             }, {
                                 key: 'name',
                                 placeholder: "请输入名称"
@@ -273,7 +276,7 @@ angular
                             'mail',
                             {
                                 key: 'lastLogin',
-                                type: "label"
+                                type: "datePicker"
                             }, {
                                 key: 'lastLogin2',
                                 type: "dateTimePicker"
@@ -303,7 +306,7 @@ angular
                             'mobile',
                             {
                                 key: "picture",
-                                type: "label",
+                                type: " uplo",
                                 options: {
                                     multiple: 10,
                                     maxMB: 10
@@ -316,6 +319,11 @@ angular
                                 options: {
                                     multiple: 10
                                 }
+                            },
+                            {
+                                key: "groupId",
+                                type: "select2",
+                                ngModelOptions: {}
                             }
                         ]
                     },
@@ -407,10 +415,10 @@ angular
                     "remote": {
                         displayName: "远程记录",
                         width: 80,
-                        filter: function(columns, rootScope){
+                        filter: function (columns, rootScope) {
                             rootScope.remoteValues = {
-                                "true":"是",
-                                "false":"否"
+                                "true": "是",
+                                "false": "否"
                             };
                             this.cellFilter = "dict:'remoteValues'";
                             columns.push(this);
@@ -420,10 +428,10 @@ angular
                     "user": {
                         displayName: "操作用户",
                         width: 80,
-                        filter: function(columns, rootScope){
+                        filter: function (columns, rootScope) {
                             rootScope.userValues = {
-                                "admin":"管理员",
-                                "user":"用户"
+                                "admin": "管理员",
+                                "user": "用户"
                             };
                             this.cellFilter = "dict:'userValues'";
                             columns.push(this);
@@ -493,7 +501,7 @@ angular
                         width: 150
                     },
                     "rid": {
-                        displayName: "主账号",
+                        displayName: "主帐号",
                         width: 150
                     },
                     "name": {
@@ -788,10 +796,10 @@ angular
                     "enable": {
                         displayName: "已启动",
                         width: 70,
-                        filter: function(columns, rootScope){
+                        filter: function (columns, rootScope) {
                             rootScope.enableValues = {
-                                "true":"已启动",
-                                "false":"未启动"
+                                "true": "已启动",
+                                "false": "未启动"
                             }
                             this.cellFilter = "dict:'enableValues'";
                             columns.push(this);
@@ -1038,13 +1046,13 @@ angular
                     action: function (utils, toastr) {
                         var context = this;
                         var rows = context.scope.action.bulk();
-                        if(rows.length > 1){
+                        if (rows.length > 1) {
                             toastr.warning("最多只能为一家企业添加帐号");
                             return;
                         }
-                        if(rows.length == 0){
+                        if (rows.length == 0) {
                             toastr.warning("请选择要添加帐号的企业");
-                        }else{
+                        } else {
                             angular.forEach(rows, function (row) {
                                 toastr.warning(row.id + row.uid);
                             });
@@ -1237,13 +1245,13 @@ angular
                     action: function (utils, toastr, ngDialog) {
                         var context = this;
                         var rows = context.scope.action.bulk();
-                        if(rows.length > 1){
+                        if (rows.length > 1) {
                             toastr.warning("最多只能为一家企业创建管理员帐号");
                             return;
                         }
-                        if(rows.length == 0){
+                        if (rows.length == 0) {
                             toastr.warning("请选择要添加帐号的企业");
-                        }else{
+                        } else {
                             ngDialog.open({
                                 template: "plugins/base/pages/account.add.html",
                                 controller: function ($scope) {
@@ -1254,7 +1262,7 @@ angular
                                         }
                                     );
                                     $scope.uid = rows[0]["uid"];
-                                    $scope.save = function(form){
+                                    $scope.save = function (form) {
                                         $scope.model.matrixNo = rows[0]["id"];
                                         utils.async("post", "/base/account", $scope.model).then(
                                             function (res) {
@@ -1456,8 +1464,8 @@ angular
                 resolves: [function (utils, oPath) {
                     var context = this;
                     context.scope.events.on('detailLoad', function (entity) {
-                        utils.async('get', '/base/enterprise', null) .then(function (res) {
-                            var model = oPath.find(context,["form",'[title:基本信息]','items','[key:from]'],{});
+                        utils.async('get', '/base/enterprise', null).then(function (res) {
+                            var model = oPath.find(context, ["form", '[title:基本信息]', 'items', '[key:from]'], {});
                             model.titleMap = res.body.items.map(function (entry) {
                                 return {
                                     value: entry.id,
@@ -1467,7 +1475,7 @@ angular
                         });
                         if (entity && entity.id) {
                             utils.async('get', '/base/enterprisers/getFromByTo?to=' + entity.id, null).then(function (res) {
-                                var model = oPath.find(context,["form",'[title:基本信息]','items','[key:from]'],{});
+                                var model = oPath.find(context, ["form", '[title:基本信息]', 'items', '[key:from]'], {});
                                 model.value = res.body.items;
                             });
                         }

@@ -15,7 +15,7 @@
 
                 <button ng-repeat="op in config.form.operations" class="btn btn-sm btn-info" type="{{op.type}}" style="margin-right: 5px;"
                         ng-click="op.action(edit$form);">
-                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name}}
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
                 </button>
 
             </div>

@@ -1,8 +1,8 @@
-<div class="schema-form-section clearfix {{form.htmlClass}}">
+<div class="schema-form-section col-xs-12 clearfix {{form.htmlClass}}">
     <div class="header smaller lighter collapsed">
-        <label ng-class="{'sr-only': !showTitle() }">{{ form.title }}</label>
+        <label ng-class="{'sr-only': !showTitle() }">{{form.title | translate}}</label>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse" ng-click="isCollapsed = !isCollapsed">
+            <a data-action="collapse" ng-click="isCollapsed = !isCollapsed">
                 <i class="ace-icon fa fa-chevron-up" ng-class="{'fa-chevron-down':!isCollapsed}"></i>
             </a>
         </div>

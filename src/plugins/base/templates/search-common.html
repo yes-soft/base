@@ -4,12 +4,12 @@
             <label>{{::search.label}} :&nbsp;&nbsp;</label>
 
             <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
-                   type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入...'}}">
+                   type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
 
             <select ng-if="::search.type=='select'" ui-select2="{ allowClear: true}" style="min-width: 180px;"
                     ng-model="filter[search.name]"
                     ng-change="selectChange(search)">
-                <option value="">请选择</option>
+                <option value="">{{'请选择' | translate}}</option>
                 <option value="{{option.value}}" ng-repeat="option in search.titleMap">{{option.name}}</option>
             </select>
 
@@ -46,21 +46,20 @@
             </div>
 
             <input ng-if="::search.type=='department'" ng-model="filter[search.name]" class="department"
-                   type="text" placeholder="{{::search.placeholder?search.placeholder:'请选择...'}}">
+                   type="text" placeholder="{{::search.placeholder?search.placeholder:'请选择' | translate}}">
 
         </div>
         <div class="btns">
             <button class="btn btn-sm btn-info" type="submit">
-                <i class="glyphicon glyphicon-search "></i> 搜索
+                <i class="glyphicon glyphicon-search "></i> {{'搜索' | translate}}
             </button>
 
             <button class="btn btn-sm" type="button" ng-click="$parent.action.reset();">
-                <i class="ace-icon fa fa-undo bigger-110"></i>重置
+                <i class="ace-icon fa fa-undo bigger-110"></i>{{'重置' | translate}}
             </button>
-
             <button ng-repeat="op in operations" style="margin-right: 3px;" class="btn btn-sm" type="button"
                     ng-click="op.action();">
-                <i class="ace-icon fa fa-pencil-square-o bigger-110"></i> {{op.name}}
+                <i class="ace-icon fa fa-pencil-square-o bigger-110"></i> {{op.name | translate}}
             </button>
         </div>
     </form>
