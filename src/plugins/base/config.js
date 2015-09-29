@@ -233,6 +233,10 @@ angular
                             title: "图片夹",
                             type: "string"
                         },
+                        groupId: {
+                            title: "所属群组",
+                            type: "string"
+                        },
                         "tname": {
                             "type": "string",
                             "title": "名称",
@@ -302,7 +306,7 @@ angular
                             'mobile',
                             {
                                 key: "picture",
-                                type: "uploader",
+                                type: " uplo",
                                 options: {
                                     multiple: 10,
                                     maxMB: 10
@@ -315,6 +319,11 @@ angular
                                 options: {
                                     multiple: 10
                                 }
+                            },
+                            {
+                                key: "groupId",
+                                type: "select2",
+                                ngModelOptions: {}
                             }
                         ]
                     },
@@ -400,23 +409,40 @@ angular
                         width: 160
                     },
                     "remoteIp": {
-                        displayName: "远程Ip",
+                        displayName: "远程IP",
                         width: 100
                     },
                     "remote": {
                         displayName: "远程记录",
-                        width: 80
+                        width: 80,
+                        filter: function (columns, rootScope) {
+                            rootScope.remoteValues = {
+                                "true": "是",
+                                "false": "否"
+                            };
+                            this.cellFilter = "dict:'remoteValues'";
+                            columns.push(this);
+                        }
+
                     },
                     "user": {
                         displayName: "操作用户",
-                        width: 80
+                        width: 80,
+                        filter: function (columns, rootScope) {
+                            rootScope.userValues = {
+                                "admin": "管理员",
+                                "user": "用户"
+                            };
+                            this.cellFilter = "dict:'userValues'";
+                            columns.push(this);
+                        }
                     },
                     "info": {
                         displayName: "事件信息",
                         minWidth: 200
                     },
                     "localIp": {
-                        displayName: "本地Ip",
+                        displayName: "本地IP",
                         width: 120
                     }
                 },
@@ -442,22 +468,21 @@ angular
                 }, {
                     type: "input",
                     name: "remoteIp$match",
-                    label: "远程Ip"
+                    label: "远程IP"
                 }, {
                     type: "input",
                     name: "localIp$match",
                     label: "本地IP"
                 }, {
-                    type: "datetime",
+                    type: "dateTimePicker",
                     name: "updated$gte",
                     label: "操作时间起"
                 }, {
-                    type: "datetime",
+                    type: "dateTimePicker",
                     name: "updated$lte",
                     label: "操作时间止"
                 }]
-            },
-            form: {}
+            }
         },
         role: {
             title: "角色权限",
@@ -593,7 +618,7 @@ angular
                     name: "errorCount$eq",
                     label: "失败次数"
                 }, {
-                    type: "datetime",
+                    type: "dateTimePicker",
                     name: "lastScheduler$gte",
                     label: "最后调度"
                 }]
@@ -682,7 +707,7 @@ angular
                     properties: {
                         icon: {
                             type: "string",
-                            title: "图标",
+                            title: "图标"
                         },
                         home: {
                             type: "boolean",
@@ -770,7 +795,15 @@ angular
                     },
                     "enable": {
                         displayName: "已启动",
-                        width: 70
+                        width: 70,
+                        filter: function (columns, rootScope) {
+                            rootScope.enableValues = {
+                                "true": "已启动",
+                                "false": "未启动"
+                            }
+                            this.cellFilter = "dict:'enableValues'";
+                            columns.push(this);
+                        }
                     },
                     "type": {
                         displayName: "类型",
@@ -829,11 +862,11 @@ angular
                         name: "未启动"
                     }]
                 }, {
-                    type: "datetime",
+                    type: "dateTimePicker",
                     name: "lastScheduler$gte",
                     label: "最后调度起"
                 }, {
-                    type: "datetime",
+                    type: "dateTimePicker",
                     name: "lastScheduler$lte",
                     label: "最后调度止"
                 }, {
@@ -907,7 +940,7 @@ angular
                         items: ['name', 'moduleId',
                             'storageDay', 'type', {
                                 key: "lastScheduler",
-                                type: "datetimepicker"
+                                type: "dateTimePicker"
                             }, 'category', 'config',
                             'lastState', 'ipAddress',
                             'storage']
@@ -1001,6 +1034,463 @@ angular
                     title: "其他配置",
                     items: ['enable']
                 }]
+            }
+        },
+        enterprise: {
+            title: "运营商",
+            operation: {
+                add: true,
+                del: true,
+                'cancel': {
+                    name: "创建管理员帐号",
+                    action: function (utils, toastr) {
+                        var context = this;
+                        var rows = context.scope.action.bulk();
+                        if (rows.length > 1) {
+                            toastr.warning("最多只能为一家企业添加帐号");
+                            return;
+                        }
+                        if (rows.length == 0) {
+                            toastr.warning("请选择要添加帐号的企业");
+                        } else {
+                            angular.forEach(rows, function (row) {
+                                toastr.warning(row.id + row.uid);
+                            });
+                        }
+                    }
+                }
+            },
+            list: {
+                headers: {
+                    "id": {
+                        displayName: "编号"
+                    },
+                    "cname": {
+                        displayName: "企业名称"
+                    },
+                    "taxNo": {
+                        displayName: "税号"
+                    },
+                    "legalPerson": {
+                        displayName: "法定代表人"
+                    },
+                    "regCapital": {
+                        displayName: "注册资本"
+                    },
+                    "regProvince": {
+                        displayName: "注册省"
+                    },
+                    "contact": {
+                        displayName: "联系人"
+                    },
+                    "tel": {
+                        displayName: "联系电话"
+                    },
+                    "enable": {
+                        displayName: "状态"
+                    }
+                },
+                filters: [
+                    {
+                        type: "input",
+                        name: "cname$match",
+                        label: "名称"
+                    }, {
+                        type: "select",
+                        name: "enable$eq",
+                        label: "状态",
+                        titleMap: [{
+                            value: '1',
+                            name: '启用'
+                        }, {
+                            value: '0',
+                            name: '停用'
+                        }]
+                    }]
+            },
+            form: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            title: "编号",
+                            type: "string",
+                            required: true
+
+                        },
+                        cname: {
+                            title: "中文名称",
+                            type: "string",
+                            required: true
+                        },
+                        ename: {
+                            title: "英文名称",
+                            type: "string"
+                        },
+                        cshortName: {
+                            title: "中文简称",
+                            type: "string"
+                        },
+                        orgCode: {
+                            title: "组织机构代码",
+                            type: "string"
+                        },
+                        file: {
+                            title: "企业营业执照",
+                            type: "string"
+                        },
+                        registrationNo: {
+                            title: "营业执照注册号",
+                            type: "string"
+                        },
+                        regProvince: {
+                            title: "注册地（省）",
+                            type: "string"
+                        },
+                        regCity: {
+                            title: "注册地（市）",
+                            type: "string"
+                        },
+                        regDistrict: {
+                            title: "注册地（区）",
+                            type: "string"
+                        },
+                        regaddr: {
+                            title: "注册地址",
+                            type: "string"
+                        },
+                        website: {
+                            title: "公司网址",
+                            type: "string"
+                        },
+                        taxNo: {
+                            title: "税号",
+                            type: "string"
+                        },
+                        legalPerson: {
+                            title: "法定代表人",
+                            type: "string"
+                        },
+                        regdate: {
+                            title: "注册时间",
+                            type: "string"
+                        },
+                        regTel: {
+                            title: "注册电话",
+                            type: "string"
+                        },
+                        regCapital: {
+                            title: "注册资本(万元)",
+                            type: "string"
+                        },
+                        contact: {
+                            title: "联系人",
+                            type: "string"
+                        },
+                        tel: {
+                            title: "联系电话",
+                            type: "string"
+                        },
+                        enable: {
+                            title: "是否启用",
+                            type: "boolean",
+                            'default': true
+                        },
+                        memo: {
+                            title: "备注",
+                            type: "string"
+                        },
+                        type: {
+                            title: "类型",
+                            'default': "1",
+                            visible: true
+                        }
+                    }
+                },
+                form: [
+                    {
+                        type: "group",
+                        title: "基本信息",
+                        items: [
+                            'id', 'cname', 'ename', 'cshortName', 'orgCode'
+                        ]
+                    },
+                    {
+                        type: "group",
+                        title: "详细信息",
+                        items: [
+                            'file', 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
+                            {
+                                key: "regdate",
+                                type: "dateTimePicker"
+                            }, 'regTel', 'regCapital', 'contact', 'tel',
+                            {
+                                key: 'memo',
+                                type: 'textarea',
+                                singleLine: true
+                            }, 'enable'
+                        ]
+                    }
+                ],
+                model: {}
+            }
+        },
+        enterpriseTwo: {
+            title: "二级企业",
+            operation: {
+                add: true,
+                del: true,
+                'cancel': {
+                    name: "创建管理员帐号",
+                    action: function (utils, toastr, ngDialog) {
+                        var context = this;
+                        var rows = context.scope.action.bulk();
+                        if (rows.length > 1) {
+                            toastr.warning("最多只能为一家企业创建管理员帐号");
+                            return;
+                        }
+                        if (rows.length == 0) {
+                            toastr.warning("请选择要添加帐号的企业");
+                        } else {
+                            ngDialog.open({
+                                template: "plugins/base/pages/account.add.html",
+                                controller: function ($scope) {
+                                    $scope.model = {};
+                                    utils.async("get", "/base/account/" + rows[0]["adminid"], null).then(
+                                        function (res) {
+                                            $scope.model = res.body;
+                                        }
+                                    );
+                                    $scope.uid = rows[0]["uid"];
+                                    $scope.save = function (form) {
+                                        $scope.model.matrixNo = rows[0]["id"];
+                                        utils.async("post", "/base/account", $scope.model).then(
+                                            function (res) {
+                                                toastr.success("创建成功");
+                                                ngDialog.closeAll();
+                                            },
+                                            function (error) {
+                                                toastr.error(error.message);
+                                            }
+                                        );
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            },
+            list: {
+                headers: {
+                    "id": {
+                        displayName: "编号"
+                    },
+                    "cname": {
+                        displayName: "企业名称"
+                    },
+                    "taxNo": {
+                        displayName: "税号"
+                    },
+                    "legalPerson": {
+                        displayName: "法定代表人"
+                    },
+                    "regCapital": {
+                        displayName: "注册资本"
+                    },
+                    "regProvince": {
+                        displayName: "注册省"
+                    },
+                    "contact": {
+                        displayName: "联系人"
+                    },
+                    "tel": {
+                        displayName: "联系电话"
+                    },
+                    "enable": {
+                        displayName: "状态"
+                    }
+                },
+                filters: [
+                    {
+                        type: "input",
+                        name: "cname$match",
+                        label: "名称"
+                    }, {
+                        type: "select",
+                        name: "enable$eq",
+                        label: "状态",
+                        titleMap: [{
+                            value: '1',
+                            name: '启用'
+                        }, {
+                            value: '0',
+                            name: '停用'
+                        }]
+                    }]
+            },
+            form: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            title: "编号",
+                            type: "string",
+                            required: true
+                        },
+                        cname: {
+                            title: "中文名称",
+                            type: "string",
+                            required: true
+                        },
+                        ename: {
+                            title: "英文名称",
+                            type: "string"
+                        },
+                        cshortName: {
+                            title: "中文简称",
+                            type: "string"
+                        },
+                        orgCode: {
+                            title: "组织机构代码",
+                            type: "string"
+                        },
+                        from: {
+                            title: "所属企业",
+                            type: "string",
+                            required: true
+                        },
+                        file: {
+                            title: "企业营业执照",
+                            type: "string"
+                        },
+                        registrationNo: {
+                            title: "营业执照注册号",
+                            type: "string"
+                        },
+                        regProvince: {
+                            title: "注册地（省）",
+                            type: "string"
+                        },
+                        regCity: {
+                            title: "注册地（市）",
+                            type: "string"
+                        },
+                        regDistrict: {
+                            title: "注册地（区）",
+                            type: "string"
+                        },
+                        regaddr: {
+                            title: "注册地址",
+                            type: "string"
+                        },
+                        website: {
+                            title: "公司网址",
+                            type: "string"
+                        },
+                        taxNo: {
+                            title: "税号",
+                            type: "string"
+                        },
+                        legalPerson: {
+                            title: "法定代表人",
+                            type: "string"
+                        },
+                        regdate: {
+                            title: "注册时间",
+                            type: "string"
+                        },
+                        regTel: {
+                            title: "注册电话",
+                            type: "string"
+                        },
+                        regCapital: {
+                            title: "注册资本(万元)",
+                            type: "string"
+                        },
+                        contact: {
+                            title: "联系人",
+                            type: "string"
+                        },
+                        tel: {
+                            title: "联系电话",
+                            type: "string"
+                        },
+                        enable: {
+                            title: "是否启用",
+                            type: "boolean",
+                            'default': true
+                        },
+                        memo: {
+                            title: "备注",
+                            type: "string"
+                        },
+                        type: {
+                            title: "类型",
+                            'default': "2",
+                            visible: true
+                        }
+                    }
+                },
+                form: [
+                    {
+                        type: "group",
+                        title: "基本信息",
+                        items: [
+                            'id', 'cname', 'ename', 'cshortName', 'orgCode',
+                            {
+                                key: 'from',
+                                type: 'select',
+                                titleMap: []
+                            }
+                        ]
+                    },
+                    {
+                        type: "group",
+                        title: "详细信息",
+                        items: [
+                            'file', 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
+                            {
+                                key: "regdate",
+                                type: "dateTimePicker"
+                            }, 'regTel', 'regCapital', 'contact', 'tel',
+                            {
+                                key: 'memo',
+                                type: 'textarea',
+                                singleLine: true
+                            }, 'enable'
+                        ]
+                    }
+                ],
+                resolves: [function (utils, oPath) {
+                    var context = this;
+                    context.scope.events.on('detailLoad', function (entity) {
+                        utils.async('get', '/base/enterprise', null).then(function (res) {
+                            var model = oPath.find(context, ["form", '[title:基本信息]', 'items', '[key:from]'], {});
+                            model.titleMap = res.body.items.map(function (entry) {
+                                return {
+                                    value: entry.id,
+                                    name: entry.cname
+                                };
+                            });
+                        });
+                        if (entity && entity.id) {
+                            utils.async('get', '/base/enterprisers/getFromByTo?to=' + entity.id, null).then(function (res) {
+                                var model = oPath.find(context, ["form", '[title:基本信息]', 'items', '[key:from]'], {});
+                                model.value = res.body.items;
+                            });
+                        }
+                    });
+                    context.scope.events.on('beforeSave', function (form) {
+                        var from = form.model.from;
+                        var enterprise = form.model;
+                        delete enterprise.from;
+                        form.model = {
+                            "enterprise": enterprise,
+                            "from": from
+                        };
+                    });
+                }],
+                model: {}
             }
         }
     });

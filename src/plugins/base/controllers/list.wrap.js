@@ -2,9 +2,9 @@ define(['base/services/mapper'], function (mapper) {
     "use strict";
     angular.module('app')
         .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
-            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr', '$translate',
+            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr', '$translate', 'ngDialog',
             function ($scope, $stateParams, $timeout, $location, $rootScope,
-                      $log, $http, utils, interpreter, settings, toastr, $translate) {
+                      $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
                 var self = $scope;
                 var detailId = $location.search()['uid'];
@@ -37,17 +37,28 @@ define(['base/services/mapper'], function (mapper) {
                         var rows = self.gridApi.selection.getSelectedRows() || [];
                         var loading = 0;
                         if (rows.length) {
-                            angular.forEach(rows, function (row) {
-                                var namespace = [$stateParams.name, $stateParams.page].join("/");
-                                utils.async('delete', namespace + "/" + row.uid).then(function (res) {
-                                    self.load();
-                                    loading++;
-                                    if (loading == rows.length) {
-                                        toastr.success('删除成功！');
-                                        loading = 0;
-                                    }
+                            ngDialog.openConfirm({
+                                className: 'ngdialog-theme-default',
+                                template: '\
+                    <p style="margin-left:20px;">确定删除该条记录？</p>\
+                    <div class="ngdialog-buttons">\
+                        <button type="button" style="margin-right:45px;" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">取消</button>\
+                        <button type="button" style="margin-right:35px;" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">确认</button>\
+                    </div>',
+                                plain: true
+                            }).then(function () {
+                                angular.forEach(rows, function (row) {
+                                    var namespace = [$stateParams.name, $stateParams.page].join("/");
+                                    utils.async('delete', namespace + "/" + row.uid).then(function (res) {
+                                        self.load();
+                                        loading++;
+                                        if (loading == rows.length) {
+                                            toastr.success('删除成功！');
+                                            loading = 0;
+                                        }
+                                    });
                                 });
-                            });
+                            })
                         }
                         else {
                             toastr.warning('请选中要删除的数据');
@@ -309,7 +320,6 @@ define(['base/services/mapper'], function (mapper) {
                     self.form.model = {};
                     utils.resetScroll();
                 });
-
                 self.init();
             }
         ]);
