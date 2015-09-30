@@ -1,5 +1,5 @@
-<div class="yes-uploader yes-ui clearfix">
-    <div class="browser">
+<div class="yes-uploader yes-ui clearfix" style="min-height:35px;">
+    <div ng-if="!readonly" class="browser">
         <label class="btn btn-sm btn-info">
             <span class="fa fa-paperclip"></span>
             <span>{{"选择图片" | translate}}</span>
@@ -19,7 +19,7 @@
 				<a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}" target="_blank">
 					<i class="fa fa-download" style="font-size: 15px;"></i>
 				</a>
-				<a href="javascript:void(0);" ng-click="remove(item);item.remove();">
+				<a ng-if="!readonly" href="javascript:void(0);" ng-click="remove(item);item.remove();">
 					<i class="fa fa-remove red" style="font-size: 20px;"></i>
 				</a>
 			</div>

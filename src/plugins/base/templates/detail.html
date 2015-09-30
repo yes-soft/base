@@ -13,7 +13,7 @@
         <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form">
             <div class="buttons-wrap">
 
-                <button ng-repeat="op in config.form.operations" class="btn btn-sm btn-info" type="{{op.type}}" style="margin-right: 5px;"
+                <button ng-if="config.editable" ng-repeat="op in config.form.operations" class="btn btn-sm btn-info" type="{{op.type}}" style="margin-right: 5px;"
                         ng-click="op.action(edit$form);">
                     <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
                 </button>
@@ -21,9 +21,8 @@
             </div>
 
             <div class="col-sm-12 edit-body">
-
-                <div sf-schema="form.schema" sf-form="form.form" sf-model="form.model"></div>
-                <div ng-if="scaffold" class="code-modal"> {{form.model}}</div>
+                <div sf-schema="myform.schema" sf-form="myform.form" sf-model="myform.model"></div>
+                <div ng-if="scaffold" class="code-modal"> {{myform.model}}</div>
             </div>
         </form>
     </div>

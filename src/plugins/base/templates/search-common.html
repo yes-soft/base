@@ -1,7 +1,7 @@
 <div class="clearfix searchs-div">
     <form name="search" ng-submit="$parent.action.search();">
         <div class="searchItem" ng-repeat="search in filtersConf" ng-hide="search.hide">
-            <label>{{::search.label}} :&nbsp;&nbsp;</label>
+            <label>{{search.label | translate}} :&nbsp;&nbsp;</label>
 
             <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                    type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">

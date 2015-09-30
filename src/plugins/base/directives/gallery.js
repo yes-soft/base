@@ -9,7 +9,8 @@
                     templateUrl: 'plugins/base/templates/gallery.html',
                     replace: true,
                     scope: {
-                        options: "="
+                        options: "=",
+						readonly: "="
                     },
                     require: 'ngModel',
                     link: function link(scope, element, attrs, ngModelController) {
