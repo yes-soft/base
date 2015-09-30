@@ -1,7 +1,5 @@
 "use strict";
-angular
-    .module("app.config")
-    .constant(
+angular.module("app.config").constant(
     "base.config",
     {
         defaults: {
@@ -237,6 +235,10 @@ angular
                             title: "所属群组",
                             type: "string"
                         },
+                        editor: {
+                            title: "富文本",
+                            type: "string"
+                        },
                         "tname": {
                             "type": "string",
                             "title": "名称",
@@ -323,7 +325,20 @@ angular
                             {
                                 key: "groupId",
                                 type: "select2",
+                                refresh: function (address) {
+                                    console.log("address");
+                                    var params = {address: address, sensor: false};
+                                    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {params: params})
+                                        .then(function (response) {
+                                            $scope.addresses = response.data.results
+                                        });
+                                },
                                 ngModelOptions: {}
+                            },
+                            {
+                                key: "editor",
+                                type: "editor",
+                                singleLine: true
                             }
                         ]
                     },
