@@ -5,7 +5,6 @@ angular.module('ui.tinymce', [])
     .value('uiTinymceConfig', {})
     .directive('uiTinymce', ['$rootScope', '$compile', '$timeout', '$window', '$sce', 'uiTinymceConfig', 'settings',
         function ($rootScope, $compile, $timeout, $window, $sce, uiTinymceConfig, settings) {
-            console.log("sss:", settings);
             //uiTinymceConfig = uiTinymceConfig || {};
             var generatedIds = 0;
             var ID_ATTR = 'ui-tinymce';

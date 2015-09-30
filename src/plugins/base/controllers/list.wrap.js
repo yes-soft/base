@@ -6,6 +6,10 @@ define(['base/services/mapper'], function (mapper) {
             function ($scope, $stateParams, $timeout, $location, $rootScope,
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
+                /*$scope.refreshAddresses = function(add){
+                    console.log("refreshAddresses:",add);
+                };*/
+
                 var self = $scope;
                 var detailId = $location.search()['uid'];
 
@@ -117,7 +121,7 @@ define(['base/services/mapper'], function (mapper) {
                                 }
                             };
                         }
-                        utils.disableScroll();
+                        //utils.disableScroll();
                     },
                     save: function (form) {
 
@@ -166,6 +170,10 @@ define(['base/services/mapper'], function (mapper) {
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
 
                 self.init = function () {
+                    self.editable = true;
+                    if(config.list.editable == false){
+                        self.editable = false;
+                    }
                     self.entries = [];
                     self.filter = {
                         count: pageSize
@@ -259,7 +267,6 @@ define(['base/services/mapper'], function (mapper) {
                         self.detailLoad(body);
                     });
                 };
-
                 self.detailLoad = function (entity) {
                     if (!entity)
                         entity = {};
@@ -322,5 +329,6 @@ define(['base/services/mapper'], function (mapper) {
                 });
                 self.init();
             }
-        ]);
+        ])
+        ;
 });
