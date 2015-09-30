@@ -10,10 +10,12 @@
         <select ui-select2="{ allowClear: true}" ng-model="$$value$$" style="width: 100%"
                 ng-model-options="form.ngModelOptions"
                 ng-disabled="form.readonly"
-                sf-changed="form"
+                sf-change`d="form"
                 schema-validate="form"
                 ng-options="item.value as item.name group by item.group for item in form.titleMap"
-                name="{{form.key.slice(-1)[0]}}">
+                name="{{form.key.slice(-1)[0]}}"
+                refresh="form.refresh('address')"
+                >
         </select>
     </div>
 

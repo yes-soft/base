@@ -5,6 +5,26 @@
 <div class="page-content list-scope">
     <div class="wrapper-md">
 
+        <!--<ui-select ng-model="address.selected"
+                   theme="bootstrap"
+                   ng-disabled="disabled"
+                   reset-search-input="false"
+                   style="width: 300px;">
+            <ui-select-match placeholder="Enter an address...">{{$select.selected}}</ui-select-match>
+            <ui-select-choices repeat="address in addresses track by $index"
+                               refresh="refreshAddresses($select.search)"
+                               refresh-delay="0">
+                <div ng-bind-html="address"></div>
+            </ui-select-choices>
+        </ui-select>-->
+
+        <select ui-select2 ng-model="test" style="width: 100%"
+                ng-options="item.value as item.name group by item.group for item in form.titleMap">
+
+
+
+        </select>
+
         <div data-search-common
              data-operations="config.operations"
              data-filters-conf="config.list.filters"

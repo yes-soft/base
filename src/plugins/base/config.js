@@ -69,6 +69,7 @@ angular.module("app.config").constant(
                 del: true
             },
             list: {
+                editable: false,
                 wrap: "default",
                 headers: {
                     "name": {
