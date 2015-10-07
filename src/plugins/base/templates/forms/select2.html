@@ -12,9 +12,9 @@
                 ng-disabled="form.readonly"
                 sf-change`d="form"
                 schema-validate="form"
-                ng-options="item.value as item.name group by item.group for item in form.titleMap"
+                ng-options="item.value as item.name for item in form.titleMap"
                 name="{{form.key.slice(-1)[0]}}"
-                refresh="form.refresh('address')"
+                ng-init="form.init(form)"
                 >
         </select>
     </div>

@@ -273,15 +273,14 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.entryCopy = angular.copy(entity);
                     self.detailUid = entity.uid;
-                    if (self.form) {
-                        self.myform = angular.copy(self.form);
-                    } else {
-                        self.myform = {};
+                    if (!self.form) {
+                        self.form = {};
                     }
+                    //self.myform = angular.copy(self.form);
                     if (!self.editable) {
-                        setReadonly(self.myform.form);
+                        setReadonly(self.form.form);
                     }
-                    self.myform.model = entity;
+                    self.form.model = entity;
                     self.detailUrl = config.form.template;
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
