@@ -6,10 +6,6 @@ define(['base/services/mapper'], function (mapper) {
             function ($scope, $stateParams, $timeout, $location, $rootScope,
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
-                /*$scope.refreshAddresses = function(add){
-                 console.log("refreshAddresses:",add);
-                 };*/
-
                 var self = $scope;
                 var detailId = $location.search()['uid'];
 
@@ -70,58 +66,6 @@ define(['base/services/mapper'], function (mapper) {
                     },
                     create: function () {
                         self.detailLoad();
-                        if (!self.form.schema) {
-
-                            self.scaffold = true;
-
-                            self.form.model = {"type": "object", "properties": []};
-
-                            angular.forEach(self.headers, function (raw, key) {
-                                var entry = {};
-                                entry['key'] = key;
-                                entry['title'] = raw;
-                                entry['type'] = "string";
-                                self.form.model.properties.push(entry);
-                            });
-
-                            self.form.schema = {
-                                "type": "object",
-                                "properties": {
-                                    "properties": {
-                                        "type": "array",
-                                        "title": "字段设置",
-                                        "items": {
-                                            "type": "object",
-                                            "title": "属性名称",
-                                            "properties": {
-                                                "title": {
-                                                    "type": "string",
-                                                    "title": "名称"
-                                                },
-                                                "required": {
-                                                    "type": "boolean",
-                                                    "title": "是否必填"
-                                                },
-                                                "type": {
-                                                    "type": "string",
-                                                    "title": "类型",
-                                                    "enum": ["string", "boolean", "object"]
-                                                },
-                                                "partten": {
-                                                    "type": "string",
-                                                    "title": "验证正则"
-                                                },
-                                                "placeholder": {
-                                                    "type": "string",
-                                                    "title": "placeholder"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            };
-                        }
-                        //utils.disableScroll();
                     },
                     save: function (form) {
 
@@ -170,10 +114,7 @@ define(['base/services/mapper'], function (mapper) {
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
 
                 self.init = function () {
-                    self.editable = true;
-                    if (config.list.editable == false) {
-                        self.editable = false;
-                    }
+                    self.editable = config.list.editable !== false;
                     self.entries = [];
                     self.filter = {
                         count: pageSize
@@ -211,53 +152,40 @@ define(['base/services/mapper'], function (mapper) {
                 };
 
 
+                var requestApi = function (res) {
+                    var body = res.body;
+                    self.entries = body.items || [];
+
+                    if (self.headers) {
+                        var columnDefs = [];
+                        angular.forEach(self.headers, function (name, key) {
+                            if (name.filter && angular.isFunction(name.filter)) {
+                                name.filter.apply(name, [columnDefs, $rootScope]);
+                            } else {
+                                columnDefs.push(name);
+                            }
+                        });
+                        self.gridOptions.columnDefs = columnDefs;
+                    }
+
+                    self.pagination.totalItems = body.count;
+
+                    self.events.trigger('listLoaded');
+
+                    if (self.form.debug && self.entries.length) {
+                        self.detailLoad(self.entries[0]);
+                    }
+                };
+
                 self.load = function () {
                     var namespace = [$stateParams.name, $stateParams.page].join("/");
-                    utils.async("GET", namespace, self.filter).then(function (res) {
-                        var body = res.body;
-                        self.entries = body.items || [];
-
-                        if (self.headers) {
-                            var columnDefs = [];
-                            angular.forEach(self.headers, function (name, key) {
-                                if (name.filter && angular.isFunction(name.filter)) {
-                                    name.filter.apply(name, [columnDefs, $rootScope]);
-                                } else {
-                                    columnDefs.push(name);
-                                }
-                            });
-                            self.gridOptions.columnDefs = columnDefs;
-
-                            if (body.count > self.paginationOptions.pageSize) {
-                                $scope.height = ((self.paginationOptions.pageSize * 30) + 90);
-                                self.gridOptions.minRowsToShow = self.paginationOptions.pageSize;
-                                // gridOptoins.virtualizationThreshold = self.paginationOptions.pageSize;
-
-                                setTimeout(function () {
-                                    angular.element(window).trigger('resize');
-                                }, 500);
-
-                            }
-                            else {
-                                $scope.height = ((body.count * 30) + 90) > 460 ? ((body.count * 30) + 90) : 460;
-                                self.gridOptions.minRowsToShow = body.count;
-                                // gridOptoins.virtualizationThreshold = body.count;
-
-                                setTimeout(function () {
-                                    angular.element(window).trigger('resize');
-                                }, 500);
-                            }
-
-                        }
-
-                        self.gridOptions.totalItems = body.count;
-
-                        self.events.trigger('listLoaded');
-
-                        if (self.form.debug && self.entries.length) {
-                            self.detailLoad(self.entries[0]);
-                        }
-                    });
+                    if (self.config.list.mock) {
+                        requestApi({'body': {items: [], count: 0}});
+                    } else {
+                        utils.async("GET", namespace, self.filter).then(function (res) {
+                            requestApi(res);
+                        });
+                    }
                 };
 
                 self.loadOne = function () {
@@ -267,6 +195,7 @@ define(['base/services/mapper'], function (mapper) {
                         self.detailLoad(body);
                     });
                 };
+
                 self.detailLoad = function (entity) {
                     if (!entity)
                         entity = {};
@@ -285,6 +214,15 @@ define(['base/services/mapper'], function (mapper) {
                     self.detailUrl = config.form.template;
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
+                };
+
+                self.pagination = {
+                    pageSize: 20,
+                    onPageChange: function (newPage) {
+                        self.filter.start = (newPage - 1) * self.pagination.pageSize;
+                        self.filter.count = self.pagination.pageSize;
+                        self.load();
+                    }
                 };
 
                 function setReadonly(form) {
@@ -327,17 +265,15 @@ define(['base/services/mapper'], function (mapper) {
                     //useExternalSorting: true,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
-                        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-                            self.filter.start = (newPage - 1) * pageSize;
-                            self.filter.count = pageSize;
-                            self.load();
-                            self.paginationOptions.pageNumber = newPage;
-                            self.paginationOptions.pageSize = pageSize;
-                        });
+                        //gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                        //    self.filter.start = (newPage - 1) * pageSize;
+                        //    self.filter.count = pageSize;
+                        //    self.load();
+                        //    self.paginationOptions.pageNumber = newPage;
+                        //    self.paginationOptions.pageSize = pageSize;
+                        //});
                     },
                     selectedItems: [],
-                    paginationPageSizes: [pageSize, 200, 1000],
-                    paginationPageSize: pageSize,
                     virtualizationThreshold: 1000,
                     appScopeProvider: {
                         onDblClick: function (row) {
@@ -357,6 +293,5 @@ define(['base/services/mapper'], function (mapper) {
                 });
                 self.init();
             }
-        ])
-    ;
+        ]);
 });

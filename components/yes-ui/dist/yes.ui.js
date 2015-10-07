@@ -611,7 +611,7 @@
                             if (self.totalItems > 0) {
                                 return self.currentPage >= self.getTotalPages();
                             } else {
-                                return self.data.length < 1;
+                                return false;
                             }
                         };
 

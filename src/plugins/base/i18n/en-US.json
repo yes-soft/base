@@ -12,7 +12,7 @@
   "请输入": "please input",
   "首页": "main",
   "修改密码": "change the password",
-  "退出登录": "Log out",
+  "退出登录": "Log off",
   "福建中烟办公协同平台": "China Tobacco",
   "帐号": "Account",
   "名称": "Name",
@@ -24,7 +24,7 @@
   "关联编号": "relate identifier",
   "类型": "type",
   "密码": "password",
-  "手机号码": "phone",
+  "手机号码": "phone number",
   "头像": "photos",
   "图片夹": "photo",
   "是否主帐号": "is main account",
@@ -34,10 +34,5 @@
   "内容匹配": "match content",
   "主要信息": "main info",
   "请输入帐号": "input Account",
-  "请输入名称": "input Name",
-  "帐号类型": "Type",
-  "日期": "date",
-  "时间": "time",
-  "日期范围": "range",
-  "状态": "status"
+  "请输入名称": "input Name"
 }

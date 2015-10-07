@@ -1,0 +1,110 @@
+@import "variables";
+
+.yes-menu {
+
+  .nav > li {
+    padding: 0 20px;
+    margin-top: 1px;
+    a {
+      border-bottom: 1px solid @borderColor;
+    }
+    a:after {
+      content: ">";
+      position: absolute;
+      right: 0;
+      color: @silver;
+    }
+
+    a:hover {
+      background: @white;
+      color: @linkColor;
+    }
+    a:focus {
+      background: inherit;
+    }
+  }
+
+  li:hover {
+    background: @white;
+    padding-top: 2px;
+    margin-top: -1px;
+    border-color: @white;
+    border-top: 1px;
+    & a, a:hover {
+      background-color: @white;
+      color: @linkColor;
+      border-color: @white;
+    }
+  }
+
+  li.active, li.active:hover {
+    margin-top: -1px;
+    padding-top: 2px;
+    background-color: @brandColor;
+    & a, a:hover {
+      background-color: @brandColor;
+      color: @white;
+      border-color: @brandColor;
+    }
+  }
+
+  .menu-group {
+    padding-top: 5px;
+    clear: both;
+
+    & h4 {
+      margin: 18px 10px 16px 10px;
+      border-bottom: 1px solid #ccc;
+      line-height: 28px;
+      padding-bottom: 4px;
+    }
+    .icons {
+      margin: 0 8px;
+      li {
+        margin: 10px 6px;
+        border-radius: 10px;
+        text-align: center;
+        float: left;
+        min-width: 64px;
+        min-height: 60px;
+        p {
+          padding: 0;
+        }
+        i {
+          display: block;
+          margin: 0 0 3px;
+          font-size: 32px;
+          line-height: 30px;
+        }
+      }
+    }
+
+    .btn.btn-app{
+      border: medium none;
+      border-radius: 12px;
+      color: @white;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.7;
+      margin: 2px;
+      padding: 12px 0 8px;
+      position: relative;
+      text-align: center;
+      width: 100px;
+    }
+
+    .btn.btn-app.btn-sm {
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      width: 80px;
+    }
+    .btn.btn-app.btn-sm > .ace-icon {
+      display: block;
+      font-size: 28px;
+      line-height: 30px;
+      margin: 0 0 3px;
+    }
+  }
+}

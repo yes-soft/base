@@ -5,19 +5,6 @@
 <div class="page-content list-scope">
     <div class="wrapper-md">
 
-        <!--<ui-select ng-model="address.selected"
-                   theme="bootstrap"
-                   ng-disabled="disabled"
-                   reset-search-input="false"
-                   style="width: 300px;">
-            <ui-select-match placeholder="Enter an address...">{{$select.selected}}</ui-select-match>
-            <ui-select-choices repeat="address in addresses track by $index"
-                               refresh="refreshAddresses($select.search)"
-                               refresh-delay="0">
-                <div ng-bind-html="address"></div>
-            </ui-select-choices>
-        </ui-select>-->
-
         <div data-search-common
              data-operations="config.operations"
              data-filters-conf="config.list.filters"
@@ -27,13 +14,16 @@
         <div class="list-wrap">
             <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
                 <div ui-grid="gridOptions" ng-style="{'height':height}" ui-grid-selection ui-grid-resize-columns
-                     ui-grid-pagination
                      ui-grid-exporter ui-grid-move-columns ui-grid-auto-resize
                      class="grid"></div>
             </div>
 
+            <div class="pagination-wrap">
+                <div yes-pagination="pagination"></div>
+            </div>
 
         </div>
 
+        </div>
     </div>
 </div>
