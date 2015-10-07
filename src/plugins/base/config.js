@@ -260,8 +260,19 @@ angular.module("app.config").constant(
                         lastLogin6: {
                             title: "预言范围",
                             type: "string"
+                        },
+                        sheng: {
+                            title: "省",
+                            type: "string"
+                        },
+                        shi: {
+                            title: "市",
+                            type: "string"
+                        },
+                        xian: {
+                            title: "县",
+                            type: "string"
                         }
-
                     }
                 },
                 form: [
@@ -345,6 +356,32 @@ angular.module("app.config").constant(
                                      });*/
                                 },
                                 ngModelOptions: {}
+                            },
+                            {
+                                key: "sheng",
+                                type: "select2",
+                                init: function (form) {
+                                    var injector = angular.element('body').injector();
+                                    var utils = injector.get('utils');
+                                    utils.async("get", "sheng").then(function (rs) {
+                                        var temp = [];
+                                        rs.body.items.forEach(function (it) {
+                                            temp.push({
+                                                value: it.uid,
+                                                name: it.name
+                                            });
+                                        });
+                                        form.titleMap = temp;
+                                    });
+                                }
+                            },
+                            {
+                                key: "shi",
+                                type: "select2"
+                            },
+                            {
+                                key: "xian",
+                                type: "select2"
                             }
                         ]
                     },
@@ -380,30 +417,51 @@ angular.module("app.config").constant(
                             }
                         ]
                     }
-                ]/*,
-                 resolves: [
-                 function (utils, oPath) {
-                 var context = this;
-                 context.scope.events.on('detailLoad', function (entity) {
-                 console.log("detailLoad");
-                 if (entity && entity.pid) {
-                 utils.async('get', '/sms/policydetail/?pid$eq=' + entity.pid, null).then(function (res) {
-                 var model = oPath.get(context, 'scope.form.model', {});
-                 model.values = res.body.items;
-                 });
-                 }
-                 });
-                 context.scope.events.on('beforeSave', function (form) {
-                 console.log("beforeSave");
-                 /!*var policyDetail = form.model.values;
-                 var policy = form.model;
-                 delete policy.values;
-                 form.model = {
-                 "policyDetail": policyDetail,
-                 "policy": policy
-                 };*!/
-                 });
-                 }]*/
+                ],
+                watches: function (self, watch) {
+                    watch('form.model.sheng').when(true, function () {
+                        var value = self.form.model.sheng;
+                        if (value) {
+                            var injector = angular.element('body').injector();
+                            var utils = injector.get('utils');
+                            utils.async("get", "shi",{"sheng":value}).then(function (rs) {
+                                var temp = [];
+                                rs.body.items.forEach(function (it) {
+                                    temp.push({
+                                        value: it.uid,
+                                        name: it.name
+                                    });
+                                });
+                                var shi = findByFormKey(self.form.form, "shi");
+                                if(shi){
+                                    shi.titleMap = temp;
+                                }
+                            });
+                        }
+                    });
+
+                    watch('form.model.shi').when(true, function () {
+                        var value = self.form.model.shi;
+                        if (value) {
+                            var injector = angular.element('body').injector();
+                            var utils = injector.get('utils');
+                            utils.async("get", "xian",{"shi":value}).then(function (rs) {
+                                var temp = [];
+                                rs.body.items.forEach(function (it) {
+                                    temp.push({
+                                        value: it.uid,
+                                        name: it.name
+                                    });
+                                });
+                                var xian = findByFormKey(self.form.form, "xian");
+                                if(xian){
+                                    xian.titleMap = temp;
+                                }
+                            });
+                        }
+                    });
+
+                }
             }
 
         },
@@ -1515,3 +1573,20 @@ angular.module("app.config").constant(
             }
         }
     });
+function findByFormKey(form, key) {
+    for (var i = 0, size = form.length; i < size; i++) {
+        var cnf = form[i];
+        if (angular.isObject(cnf)) {
+            if (cnf.type == "group" || cnf.type == "list") {
+                var rs = findByFormKey(cnf.items, key);
+                if (rs) {
+                    return rs;
+                }
+            } else if (cnf.key == key) {
+                return cnf;
+            }
+        } else if (key == cnf) {
+            return cnf;
+        }
+    }
+}

@@ -114,7 +114,10 @@ define(['base/services/mapper'], function (mapper) {
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
 
                 self.init = function () {
-                    self.editable = config.list.editable !== false;
+                    self.editable = true;
+                    if (config.list.editable == false) {
+                        self.editable = false;
+                    }
                     self.entries = [];
                     self.filter = {
                         count: pageSize
@@ -196,6 +199,27 @@ define(['base/services/mapper'], function (mapper) {
                     });
                 };
 
+                var Watcher = function (name) {
+                    this.name = name;
+                    var result = {
+                        then: function () {
+                        }
+                    };
+
+                    this.when = function (condition, callback) {
+                        self.$watch(name, function () {
+                            if (condition == true || self.$eval(condition)) {
+                                if (angular.isFunction(callback))
+                                    callback.apply();
+                            }
+                        });
+                    };
+                };
+
+                var watch = function (name) {
+                    return new Watcher(name);
+                };
+
                 self.detailLoad = function (entity) {
                     if (!entity)
                         entity = {};
@@ -211,6 +235,7 @@ define(['base/services/mapper'], function (mapper) {
                     }
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
+                    self.form.watches(self, watch);
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
                 };
