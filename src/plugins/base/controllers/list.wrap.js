@@ -7,8 +7,8 @@ define(['base/services/mapper'], function (mapper) {
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
                 /*$scope.refreshAddresses = function(add){
-                    console.log("refreshAddresses:",add);
-                };*/
+                 console.log("refreshAddresses:",add);
+                 };*/
 
                 var self = $scope;
                 var detailId = $location.search()['uid'];
@@ -171,7 +171,7 @@ define(['base/services/mapper'], function (mapper) {
 
                 self.init = function () {
                     self.editable = true;
-                    if(config.list.editable == false){
+                    if (config.list.editable == false) {
                         self.editable = false;
                     }
                     self.entries = [];
@@ -273,12 +273,40 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.entryCopy = angular.copy(entity);
                     self.detailUid = entity.uid;
-                    self.form = self.form || {};
-                    self.form.model = entity;
+                    if (self.form) {
+                        self.myform = angular.copy(self.form);
+                    } else {
+                        self.myform = {};
+                    }
+                    if (!self.editable) {
+                        setReadonly(self.myform.form);
+                    }
+                    self.myform.model = entity;
                     self.detailUrl = config.form.template;
-                    //utils.disableScroll();
                     self.events.trigger('detailLoad', entity);
+                    //utils.disableScroll();
                 };
+
+                function setReadonly(form) {
+                    for (var i = 0, size = form.length; i < size; i++) {
+                        var cnf = form[i];
+                        if (angular.isObject(cnf)) {
+                            if (cnf.type) {
+                                if (cnf.type == "group" || cnf.type == "list") {
+                                    setReadonly(cnf.items);
+                                } else if (cnf.type == "gallery" || cnf.type == "uploader") {
+                                    cnf.readonly = true;
+                                } else {
+                                    cnf.type = "label";
+                                }
+                            } else {
+                                cnf.type = "label";
+                            }
+                        } else if (angular.isString(cnf)) {
+                            form[i] = {"key": cnf, "type": "label"};
+                        }
+                    }
+                }
 
                 self.paginationOptions = {
                     pageNumber: 1,
@@ -330,5 +358,5 @@ define(['base/services/mapper'], function (mapper) {
                 self.init();
             }
         ])
-        ;
+    ;
 });

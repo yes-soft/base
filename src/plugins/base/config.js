@@ -309,7 +309,7 @@ angular.module("app.config").constant(
                             'mobile',
                             {
                                 key: "picture",
-                                type: " uplo",
+                                type: "uploader",
                                 options: {
                                     multiple: 10,
                                     maxMB: 10
@@ -335,11 +335,6 @@ angular.module("app.config").constant(
                                         });
                                 },
                                 ngModelOptions: {}
-                            },
-                            {
-                                key: "editor",
-                                type: "editor",
-                                singleLine: true
                             }
                         ]
                     },

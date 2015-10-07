@@ -1,5 +1,5 @@
-<div class="yes-uploader yes-ui">
-    <div class="browser">
+<div class="yes-uploader yes-ui" style="min-height:35px;">
+    <div ng-if="!readonly" class="browser">
         <label class="btn btn-sm btn-info">
             <span class="fa fa-paperclip"></span>
             <span>{{"选择文件" | translate}}</span>
@@ -17,7 +17,7 @@
 	                 ng-style="{ 'width': item.progress + '%' }"></div>
             </span>
             <span><i class="glyphicon glyphicon-ok"></i></span>
-            <span class="glyphicon glyphicon-trash click" ng-click="remove(item);"></span>
+            <span ng-if="!readonly" class="glyphicon glyphicon-trash click" ng-click="remove(item);"></span>
             <a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}">
         </li>
         <li ng-repeat="item in uploader.queue">

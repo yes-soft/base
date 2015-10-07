@@ -1,11 +1,11 @@
 <div class="form-group has-feedback {{form.htmlClass}}">
     <div class="col-xs-12 col-sm-12 clearfix">
         <div class="col-xs-12 col-sm-4 col-md-3 text-right">
-            <label class="{{form.labelHtmlClass}}">{{form.title}}</label>
+            <label class="{{form.labelHtmlClass}}">{{form.title | translate}}</label>
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
-            <div ng-bind-html="$$value$$"></div>
+            <div ng-bind-html="$$value$$?$$value$$:'&nbsp;'" style="border-bottom: 1px dotted #A5A5C7;"></div>
         </div>
 
         <div class="help-block clearfix text-right" sf-message="form.description"></div>

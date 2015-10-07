@@ -3,12 +3,10 @@
 
     <div class="col-xs-12 col-sm-4 col-md-3  text-right">
         <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
-            {{form.title | translate}}s
+            {{form.title | translate}}
         </label>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
-        <div yes-uploader data-ng-model="$$value$$"></div>
+        <div yes-uploader data-ng-model="$$value$$" readonly="form.readonly" editable="false"></div>
     </div>
-
-    <div class="help-block clearfix" sf-message="form.description"></div>
 </div>
