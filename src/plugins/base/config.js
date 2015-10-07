@@ -69,7 +69,7 @@ angular.module("app.config").constant(
                 del: true
             },
             list: {
-                editable: false,
+                editable: true,
                 wrap: "default",
                 headers: {
                     "name": {
@@ -326,13 +326,23 @@ angular.module("app.config").constant(
                             {
                                 key: "groupId",
                                 type: "select2",
-                                refresh: function (address) {
-                                    console.log("address");
-                                    var params = {address: address, sensor: false};
-                                    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {params: params})
-                                        .then(function (response) {
-                                            $scope.addresses = response.data.results
+                                init: function (form) {
+                                    var injector = angular.element('body').injector();
+                                    var utils = injector.get('utils');
+                                    utils.async("get", "roles").then(function (rs) {
+                                        var temp = [];
+                                        rs.body.items.forEach(function (it) {
+                                            temp.push({
+                                                value: it.uid,
+                                                name: it.name
+                                            });
                                         });
+                                        form.titleMap = temp;
+                                    });
+                                    /*return $http.get('http://maps.googleapis.com/maps/api/geocode/json')
+                                     .then(function (response) {
+                                     console.log(response);
+                                     });*/
                                 },
                                 ngModelOptions: {}
                             }
