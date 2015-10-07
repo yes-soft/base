@@ -1,0 +1,340 @@
+@import "variables";
+@import "menu";
+@import "login";
+@import "ui-grid-ext";
+@import "yes-ui";
+@import "buttons";
+@import "./../less/mixins";
+@import "widget";
+
+body {
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background: @pageBg;
+  overflow-y: scroll;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none !important;
+  outline: none;
+}
+
+a {
+  color: @linkColor;
+  text-decoration: none;
+}
+
+input,
+button {
+  outline: none !important;
+}
+
+.click {
+  cursor: pointer;
+}
+
+#header {
+  padding-top: 10px;
+
+  .logo {
+    height: 40px;
+    float: left;
+    margin-left: 28px;
+    margin-top: 5px;
+    line-height: 40px;
+  }
+
+  .title {
+    font-size: 28px;
+    color: @brandColor;
+    float: left;
+    margin: 5px 10px;
+    padding-bottom: 15px;
+    a {
+      color: @brandColor;
+    }
+  }
+
+  .info {
+    float: right;
+    margin-right: 20px;
+  }
+
+  .ops {
+    margin-right: 10px;
+    font-size: 13px;
+    float: right;
+  }
+
+  .ops a {
+    color: @brandColor;
+  }
+
+  .op {
+    margin-left: 40px;
+  }
+
+}
+
+.nav-bar {
+  overflow: hidden;
+  position: inherit;
+  height: 50px;
+  border: 0;
+  border-radius: 0;
+  background: @brandColor;
+
+  .badge.badge-info {
+    background-color: @white;
+    color: @brandLightColor;
+    padding: 2px 5px;
+    top: -7px;
+    position: relative;
+  }
+
+  .list-group li {
+    display: inline-block;
+    font-size: 16px;
+    color: @white;
+    width: 140px;
+    text-align: center;
+    line-height: 50px;
+  }
+
+  .list-group li a,
+  .left-list .list-group li a {
+    color: @white;
+  }
+
+  .list-group li a,
+  .list-group li a:hover {
+    display: block;
+    text-decoration: none;
+  }
+  .list-group li:first-child {
+    margin-left: 50px;
+  }
+
+  .list-group li.active,
+  .left-list .list-group li.active, .left-list .list-group li:hover, .left-list .list-group li:hover a, .nav .list-group li:hover {
+    background: @brandLightColor;
+    color: @white;
+    border: 0;
+  }
+}
+
+.btn {
+  margin-right: 10px;
+  width: 77px;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid @borderColor;
+  outline: none;
+
+  &:hover {
+    background: #f7f7f7;
+  }
+}
+
+.btn-primary {
+  background: @brandColor;
+  border-color: @brandColor;
+}
+
+.btn-primary:hover {
+  background: @brandLightColor;
+  border-color: @brandLightColor;
+}
+
+.layout-wrap {
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+
+  min-height: 520px;
+  border: 1px solid @borderColor;
+  border-radius: 4px;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  margin: 20px auto;
+
+  .sidebar-left {
+    position: relative;
+    bottom: 0;
+    width: 18%;
+    height: 100%;
+    margin-right: 0;
+    margin-bottom: -10000px;
+    padding-top: 30px;
+    padding-bottom: 10000px;
+    top: 0;
+    left: 0;
+    float: left;
+    background: @lighter none repeat scroll 0 0;
+    border-right: 1px solid @borderLightColor;
+    .menu-left {
+      display: block;
+    }
+
+  }
+
+  .main {
+    margin-left: 0;
+    width: 82%;
+    position: relative;
+    display: inline;
+    float: left;
+
+    .main-content {
+      padding-top: 15px;
+    }
+
+    .filters-wrap {
+      padding-left: 10px;
+    }
+
+    .searchItem label {
+      width: 90px;
+      overflow: hidden;
+    }
+
+    .list-buttons {
+      clear: both;
+    }
+
+    .list-wrap {
+      padding: 10px 0 15px 10px;
+      .ui-grid {
+        border: 0;
+      }
+    }
+
+  }
+
+}
+
+.search-input {
+  float: left;
+}
+
+.select2-container .select2-choice {
+  height: 30px;
+  line-height: 30px;
+  background-image: none;
+}
+
+.moresearch {
+  font-size: 14px;
+  float: right;
+  margin-right: 10px;
+  margin-left: 3px;
+  margin-top: -3px;
+}
+
+.result {
+  width: 98%;
+  margin: 25px auto;
+}
+
+table {
+  max-width: 100%;
+}
+
+.table > thead > tr > th {
+  border-width: 1px;
+  background: @lighter;
+  height: 36px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table > thead > tr > th .pos-rel {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.table > tbody > tr > td {
+  text-align: center;
+  border-bottom: 1px solid @borderColor;
+  height: 35px;
+  line-height: 35px;
+}
+
+.pagination {
+  margin-left: 200px;
+}
+
+.page:hover {
+  text-decoration: none;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+.yes-grid table {
+  table-layout: fixed;
+}
+
+.pagination-wrap {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.buttons-panel {
+  display: none;
+}
+
+.operations:hover {
+  position: relative;
+  .buttons-panel {
+    display: block;
+    position: absolute;
+    border-radius: 3px;
+    .box-shadow(0 0 8px rgba(0, 0, 0, 0.31));
+    width: 120px;
+    right: 0;
+    top: -50%;
+    color: @white;
+    background-color: @dark;
+    padding: 10px 5px;
+    span {
+      margin: 0 5px;
+    }
+  }
+}
+
+.form-group {
+  .control-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    display: inline-block;
+    width: 100%;
+    padding-right: 8px;
+    position: relative;
+  }
+
+  .control-label.required:after {
+    content: ' *';
+    color:@red;
+    position: absolute;
+    right: 0;
+  }
+
+}
+

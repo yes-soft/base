@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/fonts/fonts.googleapis.com.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
-
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
 
     <!-- inject:css -->
@@ -23,7 +22,6 @@
     <script src="base/vendor/ace/assets/js/html5shiv.min.js"></script>
     <script src="base/vendor/ace/assets/js/respond.min.js"></script>
     <![endif]-->
-
 
 </head>
 <body class="no-skin">
@@ -40,9 +38,8 @@
 <!-- inject:js -->
 <!-- endinject -->
 
-<script type="text/javascript" src="../components/yes-ui/dist/yes.ui.js"></script>
-<script type="text/javascript" src="../components/tinymce-dist/tinymce.min.js"></script>
-<script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>
+<script type="text/javascript" src="base/vendor/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="base/vendor/tinymce/angular.tinymce.js"></script>
 
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
@@ -64,7 +61,7 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate','ui.select2']);
 
     angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
         function ($translateProvider, $translatePartialLoaderProvider) {

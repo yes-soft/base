@@ -1,0 +1,101 @@
+.dark {
+  color: #333333 !important;
+}
+.white {
+  color: #fbfbfb !important;
+}
+.red {
+  color: #dd5a43 !important;
+}
+.red2 {
+  color: #e08374 !important;
+}
+.light-red {
+  color: #ff7777 !important;
+}
+.blue {
+  color: #478fca !important;
+}
+.light-blue {
+  color: #93cbf9 !important;
+}
+.green {
+  color: #69aa46 !important;
+}
+.light-green {
+  color: #b0d877 !important;
+}
+.orange {
+  color: #ff892a !important;
+}
+.orange2 {
+  color: #feb902 !important;
+}
+.light-orange {
+  color: #feb902 !important;
+}
+.purple {
+  color: #9585bf !important;
+}
+.pink {
+  color: #c6699f !important;
+}
+.pink2 {
+  color: #d6487e !important;
+}
+.brown {
+  color: brown !important;
+}
+.grey {
+  color: #555555 !important;
+}
+.yes-pagination {
+  margin: 0 auto;
+}
+.yes-pagination .per-page,
+.yes-pagination .pages,
+.yes-pagination .previous,
+.yes-pagination .next,
+.yes-pagination .page {
+  color: #777777;
+  font-size: 12px;
+  border: 1px solid #d7d7d7;
+  border-radius: 5px;
+  padding: 4px 10px;
+  background: #fbfbfb;
+}
+.yes-pagination .per-page input {
+  width: 28px;
+  height: 20px;
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  text-align: center;
+  color: #000000;
+}
+.yes-pagination a {
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.yes-pagination a.active span {
+  background-color: #00a533;
+  border-radius: 4px;
+  color: #fbfbfb;
+  display: inline-block;
+}
+.yes-pagination a.separate {
+  cursor: default !important;
+}
+.yes-pagination a span {
+  padding: 2px 5px;
+}
+.yes-pagination .previous.btn,
+.yes-pagination .next.btn {
+  height: 25px;
+}
+.yes-pagination .current {
+  background: #00d843;
+  border: 0;
+  color: #fbfbfb;
+}

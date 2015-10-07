@@ -1,0 +1,51 @@
+<div class="main-content">
+
+    <div class="widget-box ui-sortable-handle scroll-y" ng-show="detailUrl">
+        <div ng-include="detailUrl"></div>
+    </div>
+
+    <div class="yes-filters" data-search-common
+         data-operations="config.operations"
+         data-filters-conf="config.list.filters"
+         data-filter="filter"
+         data-on-search="load();"></div>
+    <div class="yes-grid">
+        <div class="result">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="50">
+                        <label> <input type="checkbox" ng-change="checkAllChanged()" ng-model="checkedAll"
+                                       name="check"></label>
+                    </th>
+                    <th class="ellipsis" ng-repeat="col in columns" ng-class="{'hidden':col.visible}"
+                        ng-style="{ 'width':col.width, 'min-width':col.minWidth,'max-width':col.maxWidth}">
+                        {{col.displayName}}
+                    </th>
+                    <th width="90">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in entries">
+                    <td>
+                        <label><input type="checkbox" ng-model="row.checked" name="check"></label>
+                    </td>
+                    <td ng-repeat="col in columns" class="ellipsis" ng-class="{'hidden':col.visible}">
+                        {{row[col.name]}}
+                    </td>
+                    <td>
+                        <i class="fa fa-gear click operations">
+                            <div class="buttons-panel">
+                                <span ng-repeat="ops in config.list.operations" ng-click="ops.action(row)"> 编辑 </span>
+                            </div>
+                        </i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-wrap">
+            <div yes-pagination="pagination"></div>
+        </div>
+    </div>
+</div>
