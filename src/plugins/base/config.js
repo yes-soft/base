@@ -442,6 +442,11 @@ angular.module("app.config").constant(
 
                     watch('form.model.shi').when(true, function () {
                         var value = self.form.model.shi;
+                        if(value=="0003"){
+                            findByFormKey(self.form.form, "aid").hide = true;
+                        }else{
+                            findByFormKey(self.form.form, "aid").hide = false;
+                        }
                         if (value) {
                             var injector = angular.element('body').injector();
                             var utils = injector.get('utils');
@@ -453,10 +458,7 @@ angular.module("app.config").constant(
                                         name: it.name
                                     });
                                 });
-                                var xian = findByFormKey(self.form.form, "xian");
-                                if(xian){
-                                    xian.titleMap = temp;
-                                }
+                                findByFormKey(self.form.form, "xian").titleMap = temp;
                             });
                         }
                     });

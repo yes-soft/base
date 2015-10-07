@@ -4,6 +4,8 @@
   "body": {
     "items": [
       {
+        "aid": "12",
+        "name": "name12",
         "type": "admin",
         "email": "admin@admin.com",
         "password": "admin",
@@ -18,7 +20,12 @@
         "createdAt": "2015-02-05T04:42:53.290Z",
         "activeCode": "4JOBY-aq",
         "roles": [],
-        "gender": 0
+        "gender": 0,
+        "sheng": "0003",
+        "shi": "0002",
+        "xian": "0002",
+        "tname": "tname",
+        "groupId": "0001"
       },
       {
         "type": "seller",
@@ -32,7 +39,7 @@
         "createdAt": "2014-02-04T04:42:53.290Z",
         "activeCode": "NJluHK-6c",
         "roles": [],
-        "enable":true,
+        "enable": true,
         "gender": 0
       },
       {
@@ -47,7 +54,7 @@
         "createdAt": "2013-02-04T04:42:53.290Z",
         "activeCode": "VkbdSKWpc",
         "roles": [],
-        "enable":false,
+        "enable": false,
         "gender": 0
       },
       {
