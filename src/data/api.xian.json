@@ -1,0 +1,16 @@
+{
+  "errors": null,
+  "message": true,
+  "body": {
+    "items": [
+      {
+        "uid": "0001",
+        "name": "东京县"
+      },
+      {
+        "uid": "0002",
+        "name": "巴黎县"
+      }
+    ]
+  }
+}

@@ -208,6 +208,7 @@ define(['base/services/mapper'], function (mapper) {
                     }
 
                     self.events.trigger('listInit');
+
                 };
 
 
@@ -267,6 +268,28 @@ define(['base/services/mapper'], function (mapper) {
                         self.detailLoad(body);
                     });
                 };
+
+                var Watcher = function (name) {
+                    this.name = name;
+                    var result = {
+                        then: function () {
+                        }
+                    };
+
+                    this.when = function (condition, callback) {
+                        self.$watch(name, function () {
+                            if (condition == true || self.$eval(condition)) {
+                                if (angular.isFunction(callback))
+                                    callback.apply();
+                            }
+                        });
+                    };
+                };
+
+                var watch = function (name) {
+                    return new Watcher(name);
+                };
+
                 self.detailLoad = function (entity) {
                     if (!entity)
                         entity = {};
@@ -282,7 +305,14 @@ define(['base/services/mapper'], function (mapper) {
                     }
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
+                    self.form.watches(self, watch);
                     self.events.trigger('detailLoad', entity);
+
+                    /*watch('model.email').when('model.email.length>8', function () {
+                     self.model.comment = "you are typing too long ..: " + self.model.email;
+                     self.model.comment.readonly = true;
+                     // self.model.select2.required = true;
+                     });*/
                     //utils.disableScroll();
                 };
 
