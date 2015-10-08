@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css"/>
 
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
-    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css" />
+    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css"/>
 
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
@@ -78,7 +78,10 @@
 
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
-   // language = "en";
+    if (localStorage.language) {
+        language = localStorage.language;
+    }
+    // language = "en";
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
@@ -97,16 +100,16 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate','ui.select2']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate', 'ui.select2']);
 
     angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
-            function ($translateProvider, $translatePartialLoaderProvider) {
-        $translateProvider.useLoader('$translatePartialLoader', {
-            urlTemplate: 'plugins/{part}/i18n/{lang}.json'
-        });
-        $translatePartialLoaderProvider.addPart('base');
-        $translateProvider.preferredLanguage(language);
-    }]);
+        function ($translateProvider, $translatePartialLoaderProvider) {
+            $translateProvider.useLoader('$translatePartialLoader', {
+                urlTemplate: 'plugins/{part}/i18n/{lang}.json'
+            });
+            $translatePartialLoaderProvider.addPart('base');
+            $translateProvider.preferredLanguage(language);
+        }]);
 
     angular.module('yes.settings').config(['settingsProvider', '$ocLazyLoadProvider',
         function (settingsProvider, $ocLazyLoadProvider) {

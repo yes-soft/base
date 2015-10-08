@@ -1,5 +1,5 @@
 angular.module('app')
-    .controller('app.layout', ['$scope', '$stateParams', '$location', 'settings', 'utils','ngDialog','toastr',
+    .controller('app.layout', ['$scope', '$stateParams', '$location', 'settings', 'utils', 'ngDialog', 'toastr',
         function ($scope, $stateParams, $location, settings, utils, ngDialog, toastr) {
 
 
@@ -50,31 +50,56 @@ angular.module('app')
 
             $scope.displayName = localStorage.getItem("displayName");
             var logout = function () {
-            	utils.async("GET", "logout").then(function (res) {
-            		localStorage.removeItem("displayName");
-            		location.reload();
-            	}, function (error) {
-            		location.reload();
-            	});
+                utils.async("GET", "logout").then(function (res) {
+                    localStorage.removeItem("displayName");
+                    location.reload();
+                }, function (error) {
+                    location.reload();
+                });
             };
             $scope.action = {
-            	logout:logout,
-                updatePassword: function(){
-                	ngDialog.open({
+                logout: logout,
+                updatePassword: function () {
+                    ngDialog.open({
                         template: "plugins/base/pages/updatePassword.html",
-                        controller: function ($scope) {                                  
-                            $scope.save = function(form){                                     	
+                        controller: function ($scope) {
+                            $scope.save = function (form) {
                                 utils.async("post", "setpassword", $scope.model).then(function (res) {
-                                	ngDialog.closeAll();
-                            		toastr.success("密码修改成功,3秒后自动退出...");
-                            		setTimeout(function(){
-                            			logout();
-                            		}, 2000);
-                            	},
-                            	function (error) {
-                            		toastr.error(error.message);
-                            	});
+                                        ngDialog.closeAll();
+                                        toastr.success("密码修改成功,3秒后自动退出...");
+                                        setTimeout(function () {
+                                            logout();
+                                        }, 2000);
+                                    },
+                                    function (error) {
+                                        toastr.error(error.message);
+                                    });
                             }
+                        }
+                    });
+                },
+                changeLanguage: function () {
+                    ngDialog.open({
+                        template: "plugins/base/pages/change.language.html",
+                        controller: function ($scope, $translate) {
+                            $scope.changeLang = function (lang) {
+                                //$translate.use(lang);如果使用这个 javascript翻译的部分会有问题
+                                //ngDialog.closeAll();
+                                localStorage.language = lang;
+                                window.location.reload();
+                            };
+                            /*$scope.save = function (form) {
+                             utils.async("post", "setpassword", $scope.model).then(function (res) {
+                             ngDialog.closeAll();
+                             toastr.success("密码修改成功,3秒后自动退出...");
+                             setTimeout(function () {
+                             logout();
+                             }, 2000);
+                             },
+                             function (error) {
+                             toastr.error(error.message);
+                             });
+                             }*/
                         }
                     });
                 }

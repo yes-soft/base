@@ -1,3 +1,10 @@
+.language-div > div {
+  padding: 3px;
+  cursor: pointer;
+}
+.language-div > div:hover {
+  background: #97F0DF;
+}
 .iframe-wrapper {
   width: 100%;
   height: 100%;

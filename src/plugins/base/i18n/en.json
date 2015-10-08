@@ -39,5 +39,6 @@
   "日期": "date",
   "时间": "time",
   "日期范围": "range",
-  "状态": "status"
+  "状态": "status",
+  "更换语言": "change language"
 }
