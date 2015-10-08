@@ -40,8 +40,8 @@
                                     $(this).prev().focus();
                                 });
                             } else if (type == "daterange") {
-                                var changeInScope="model";
-                                if($scope.changeInScope){
+                                var changeInScope = "model";
+                                if ($scope.changeInScope) {
                                     changeInScope = $scope.changeInScope;
                                 }
                                 var from = $scope.$parent[changeInScope][$scope.nameFrom];
@@ -57,12 +57,17 @@
                                         applyLabel: 'Apply',
                                         cancelLabel: 'Cancel'
                                     }
-                                }, function (start, end, label) {
-                                    $scope.$parent[changeInScope][$scope.nameFrom] = start.format("YYYY-MM-DD");
-                                    $scope.$parent[changeInScope][$scope.nameTo] = end.format("YYYY-MM-DD");
+                                }, function (start, end) {
+                                    var str = start.format("YYYY-MM-DD"), end = end.format("YYYY-MM-DD");
+                                    $scope.$parent[changeInScope][$scope.nameFrom] = str;
+                                    $scope.$parent[changeInScope][$scope.nameTo] = end;
+                                    ngModelController.$setViewValue(str + " - " + end);
+                                    date.val(str + " - " + end);
+                                    //$scope.$parent[changeInScope][ngModelController.$viewName] = ;
                                 });
                                 if (from && to) {
                                     date.val(from + " - " + to);
+                                    ngModelController.$setViewValue(from + " - " + to);
                                 }
                                 $(element).prev().on("click", function () {
                                     $(this).next().focus();
