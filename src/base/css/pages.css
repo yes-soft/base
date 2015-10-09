@@ -336,3 +336,8 @@
 .document-detail .auditing-div .adt-time {
   float: right;
 }
+.widget-toolbar {
+  position: absolute;
+  bottom: 3px;
+  right: 0;
+}

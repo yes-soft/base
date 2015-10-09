@@ -7,17 +7,24 @@
         </label>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
-        <select ui-select2="{ allowClear: true}" ng-model="$$value$$" style="width: 100%"
-                ng-model-options="form.ngModelOptions"
-                ng-disabled="form.readonly"
-                sf-change`d="form"
-                schema-validate="form"
-                ng-options="item.value as item.name for item in form.titleMap"
-                name="{{form.key.slice(-1)[0]}}"
-                ng-init="form.init(form)"
-                >
-        </select>
-    </div>
 
+        <ui-select ng-model="$$value$$"
+                   theme="bootstrap"
+                   ng-disabled="form.readonly"
+                   reset-search-input="false"
+                   style="min-width: 120px;"
+                   title="{{form.title | translate}}">
+            <ui-select-match placeholder="{{form.placeholder}}">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="item in form.titleMap"
+                               refresh="form.refresh($select.search)"
+                               refresh-delay="0">
+                <div ng-bind-html="item.name | highlight: $select.search"></div>
+            </ui-select-choices>
+        </ui-select>
+
+        <span ng-if="form.fieldAddonRight"
+              class="input-group-addon"
+              ng-bind-html="form.fieldAddonRight"></span>
+    </div>
     <div class="help-block clearfix" sf-message="form.description"></div>
 </div>
