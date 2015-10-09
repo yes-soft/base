@@ -224,7 +224,9 @@ angular.module("app.config").constant(
                 initEdit: function (self, watch) {
                 	if(self.detailUid){//如果是编辑
                 		findByFormKey(self.form.form, "aid").readonly = true;
-                	}
+                	}else{
+                        findByFormKey(self.form.form, "aid").readonly = false;
+                    }
                 }
             }
 
