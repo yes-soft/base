@@ -4,11 +4,11 @@ angular.module('app')
             $scope.filter = {};
             $scope.login = function () {
                 if($scope.filter.username == null || $scope.filter.username == ""){
-                    toastr.warning("ÓÃ»§Ãû²»ÄÜÎª¿Õ!");
+                    toastr.warning("ç”¨æˆ·åä¸èƒ½ä¸ºç©º!");
                     return;
                 }
                 if($scope.filter.password == null || $scope.filter.password == ""){
-                    toastr.warning("ÃÜÂë²»ÄÜÎª¿Õ!");
+                    toastr.warning("å¯†ç ä¸èƒ½ä¸ºç©º!");
                     return;
                 }
 
