@@ -118,51 +118,53 @@ angular.module("app.config").constant(
                         minWidth: 150
                     }
                 },
-                filters: [{
-                    type: "select",
-                    name: "type$eq",
-                    label: "帐号类型",
-                    titleMap: [{
-                        value: "admin",
-                        name: "管理员"
+                filters: [
+                    {
+                        type: "select",
+                        name: "type$eq",
+                        label: "帐号类型",
+                        titleMap: [{
+                            value: "admin",
+                            name: "管理员"
+                        }, {
+                            value: "user",
+                            name: "用户"
+                        }]
                     }, {
-                        value: "user",
-                        name: "用户"
-                    }]
-                }, {
-                    type: "input",
-                    name: "mail$match",
-                    label: "电子邮箱"
-                }, {
-                    type: "select",
-                    name: "enable$eq",
-                    label: "状态",
-                    titleMap: [{
-                        value: '1',
-                        name: "已启用"
+                        type: "input",
+                        name: "mail$match",
+                        label: "电子邮箱"
                     }, {
-                        value: '0',
-                        name: "未启用"
-                    }]
-                }, {
-                    type: "input",
-                    name: "mobile$eq",
-                    label: "手机号码"
-                }, {
-                    type: "datePicker",
-                    name: "date$eq",
-                    label: "日期"
-                }, {
-                    type: "dateTimePicker",
-                    name: "time$eq",
-                    label: "时间"
-                }, {
-                    type: "dateRangePicker",
-                    name: "dateRange",
-                    from: "dateStart",
-                    to: "dateEnd",
-                    label: "日期范围"
-                }]
+                        type: "select",
+                        name: "enable$eq",
+                        label: "状态",
+                        titleMap: [{
+                            value: '1',
+                            name: "已启用"
+                        }, {
+                            value: '0',
+                            name: "未启用"
+                        }]
+                    }, {
+                        type: "input",
+                        name: "mobile$eq",
+                        label: "手机号码"
+                    }, {
+                        type: "datePicker",
+                        name: "date$eq",
+                        label: "日期"
+                    }, {
+                        type: "dateTimePicker",
+                        name: "time$eq",
+                        label: "时间"
+                    }, {
+                        type: "dateRangePicker",
+                        name: "dateRange",
+                        from: "dateStart",
+                        to: "dateEnd",
+                        label: "日期范围"
+                    }
+                ]
             },
             form: {
                 schema: {
@@ -424,7 +426,7 @@ angular.module("app.config").constant(
                         if (value) {
                             var injector = angular.element('body').injector();
                             var utils = injector.get('utils');
-                            utils.async("get", "shi",{"sheng":value}).then(function (rs) {
+                            utils.async("get", "shi", {"sheng": value}).then(function (rs) {
                                 var temp = [];
                                 rs.body.items.forEach(function (it) {
                                     temp.push({
@@ -433,7 +435,7 @@ angular.module("app.config").constant(
                                     });
                                 });
                                 var shi = findByFormKey(self.form.form, "shi");
-                                if(shi){
+                                if (shi) {
                                     shi.titleMap = temp;
                                 }
                             });
@@ -442,15 +444,15 @@ angular.module("app.config").constant(
 
                     watch('form.model.shi').when(true, function () {
                         var value = self.form.model.shi;
-                        if(value=="0003"){
+                        if (value == "0003") {
                             findByFormKey(self.form.form, "aid").hide = true;
-                        }else{
+                        } else {
                             findByFormKey(self.form.form, "aid").hide = false;
                         }
                         if (value) {
                             var injector = angular.element('body').injector();
                             var utils = injector.get('utils');
-                            utils.async("get", "xian",{"shi":value}).then(function (rs) {
+                            utils.async("get", "xian", {"shi": value}).then(function (rs) {
                                 var temp = [];
                                 rs.body.items.forEach(function (it) {
                                     temp.push({
