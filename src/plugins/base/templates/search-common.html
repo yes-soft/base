@@ -6,7 +6,7 @@
             <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                    type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
 
-            <select ng-if="::search.type=='select'" ui-select2="{ allowClear: true}" style="min-width: 180px;"
+            <select ng-if="::search.type=='select'" ui-select2="{ allowClear: true}" style="width: 220px;"
                     ng-model="filter[search.name]"
                     ng-change="selectChange(search)">
                 <option value="">{{'请选择' | translate}}</option>
@@ -14,35 +14,29 @@
             </select>
 
             <div ng-if="::search.type=='datePicker'" class="input-group">
-                <div class="input-group">
-                    <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"
-                           ng-model="filter[search.name]" type="text" picker-type="'date'" options="search.options">
+                <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"
+                       ng-model="filter[search.name]" type="text" picker-type="'date'" options="search.options">
                 <span class="input-group-addon">
                     <i class="fa fa-calendar bigger-110"></i>
                 </span>
-                </div>
             </div>
 
             <div ng-if="::search.type=='dateTimePicker'" class="input-group">
-                <div class="input-group">
-                    <input date-picker readonly class="form-control"
-                           ng-model="filter[search.name]" type="text" picker-type="'datetime'" options="search.options">
+                <input date-picker readonly class="form-control"
+                       ng-model="filter[search.name]" type="text" picker-type="'datetime'" options="search.options">
                 <span class="input-group-addon">
                     <i class="fa fa-clock-o bigger-110"></i>
                 </span>
-                </div>
             </div>
 
             <div ng-if="::search.type=='dateRangePicker'" class="input-group">
-                <div class="input-group">
                 <span class="input-group-addon">
                     <i class="fa fa-calendar bigger-110"></i>
                 </span>
-                    <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"
-                           name-from="search.from" name-to="search.to"
-                           ng-model="filter[search.name]" type="text" picker-type="'daterange'" options="search.options"
-                           change-in-scope="'filter'">
-                </div>
+                <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"
+                       name-from="search.from" name-to="search.to"
+                       ng-model="filter[search.name]" type="text" picker-type="'daterange'" options="search.options"
+                       change-in-scope="'filter'">
             </div>
 
             <input ng-if="::search.type=='department'" ng-model="filter[search.name]" class="department"
