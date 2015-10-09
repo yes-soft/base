@@ -9,6 +9,7 @@ angular.module("app.config")
                 del: true
             },
             list: {
+                mock: true,
                 headers: {
                     id: {
                         displayName: "编号",
@@ -85,14 +86,21 @@ angular.module("app.config")
                         "type": "string",
                         required: true
                     }, {
-                        "key": "radio",
-                        "title": "单选示例",
+                        "key": "number",
+                        "title": "数字示例",
                         "type": "number"
                     }, {
-                        "key": "checkboxes",
-                        "title": "多选示例",
+                        "key": "cn.name1",
+                        "title": "名称2",
                         "type": "string",
                         required: true
+                    }, {
+                        "key": "radio",
+                        "title": "单选示例",
+                        "type": "string"
+                    }, {
+                        "key": "checkboxes",
+                        "title": "多选示例"
                     }, {
                         "key": "textarea",
                         "title": "大文本示例",
@@ -113,7 +121,17 @@ angular.module("app.config")
                         "key": "attachments",
                         "title": "附件示例",
                         "type": "string"
-                    }]
+                    },
+                        {
+                            "key": "cn.name",
+                            "title": "中文名称",
+                            "type": "string"
+                        },
+                        {
+                            "key": "en.name",
+                            "title": "英文名称",
+                            "type": "string"
+                        }]
                 },
                 form: [{
                     type: "group",
@@ -123,22 +141,55 @@ angular.module("app.config")
                         placeholder: "编号"
                     }, {
                         key: 'name',
-                        placeholder: '名称'
+                        placeholder: '名称',
+                        title: '名称很长很长很长'
+                    }, {
+                        key: 'cn.name',
+                        placeholder: '中文名称',
+                        title: '中文名称'
+                    }, {
+                        key: 'en.name',
+                        placeholder: '英文名称',
+                        title: '英文名称'
+                    }, {
+                        key: 'cn.name1',
+                        title: '英文名称2'
+                    }, {
+                        key: 'number',
+                        title: '数字示例',
+                        type: 'select2',
+                        fieldAddonRight: '<button class="btn btn-default" type="button">添加</button>'
                     }, {
                         key: 'radio',
-                        type: 'radio',
-                        placeholder: '单选示例'
+                        type: 'radios-inline',
+                        placeholder: '单选示例',
+                        singleLine: true,
+                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"},
+                        ],
+                        refresh: function (arg) {
+                            console.log(arg)
+                        }
+                    }, {
+                        key: 'checkboxes',
+                        type: 'checkboxes-inline',
+                        placeholder: '多选示例',
+                        title: '多选示例标题很长很长',
+                        singleLine: true,
+                        titleMap: [{value: "ABC", name: "示例1"}, {value: "egf", name: "示例2"}]
                     }, {
                         key: 'textarea',
-                        type: 'textarea'
+                        type: 'textarea',
+                        singleLine: true
                     }, {
                         key: 'select2',
                         type: 'select2',
-                        placeholder: '选择示例'
+                        placeholder: '选择示例',
+                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"}]
                     }, {
                         key: 'editor',
                         type: 'editor',
-                        placeholder: '富文本编辑'
+                        placeholder: '富文本编辑',
+                        singleLine: true
                     }]
                 }]
             }

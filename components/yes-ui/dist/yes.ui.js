@@ -322,10 +322,8 @@
                             });
 
                             uploader.onSuccessItem = function (item, res, status, headers) {
-                                if (angular.isArray(res.message))
-                                    $scope.message = res.message.split("<br>");
-                                else
-                                    $scope.message = res.message;
+                                $scope.message = res.message.split("<br>");
+
                                 if (angular.isFunction(options.resolve)) {
                                     var context = {'scope': $scope};
                                     context.res = res;
@@ -556,11 +554,13 @@
                             }
                         });
 
-                        self.pagesLength = self.pagesLength || 10;
+                        self.pagesLength = self.pagesLength * 2 || 10;
+
+                        console.log(self.pagesLength);
 
                         scope.pagination = self;
 
-                        var renderNumbers = function () {
+                        function renderNumbers() {
                             self.numbers = [];
                             var i = 0;
                             var totalPages = self.getTotalPages();
@@ -572,7 +572,7 @@
                                     self.numbers.push(i);
                                 }
                             } else {
-                                var offset = Math.ceil((self.pagesLength - 1) / 2);
+                                var offset = Math.floor((self.pagesLength - 1) / 2);
 
                                 if (self.currentPage <= offset) {
                                     for (i = 1; i <= offset + 1; i++) {
@@ -590,7 +590,7 @@
                                 } else {
                                     self.numbers.push(1);
                                     self.numbers.push('...');
-                                    for (i = Math.ceil(offset / 2); i >= 1; i--) {
+                                    for (i = Math.floor(offset / 2); i >= 1; i--) {
                                         self.numbers.push(self.currentPage - i);
                                     }
                                     self.numbers.push(self.currentPage);
@@ -601,9 +601,16 @@
                                     self.numbers.push(totalPages);
                                 }
                             }
-                        };
+                        }
 
-                        scope.$watch('pagination.currentPage', renderNumbers);
+                        function currentPageChanged() {
+                            renderNumbers();
+                            if (angular.isNumber(self.currentPage)
+                                && angular.isFunction(self.onPageChange))
+                                self.onPageChange(self.currentPage);
+                        }
+
+                        scope.$watch('pagination.currentPage', currentPageChanged);
                         scope.$watch('pagination.totalItems', renderNumbers);
                         scope.$watch('pagination.pageSize', renderNumbers);
 
@@ -614,7 +621,6 @@
                                 return false;
                             }
                         };
-
                         self.cantPageToLast = function () {
                             if (self.totalItems > 0) {
                                 return $scope.cantPageForward();
@@ -622,7 +628,6 @@
                                 return true;
                             }
                         };
-
                         self.cantPageBackward = function () {
                             return self.currentPage <= 1;
                         };

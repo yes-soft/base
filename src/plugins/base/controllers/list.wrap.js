@@ -114,10 +114,7 @@ define(['base/services/mapper'], function (mapper) {
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
 
                 self.init = function () {
-                    self.editable = true;
-                    if (config.list.editable == false) {
-                        self.editable = false;
-                    }
+                    self.editable = config.list.editable !== false;
                     self.entries = [];
                     self.filter = {
                         count: pageSize
@@ -125,8 +122,7 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.form = config.form;
                     self.config = config;
-                    self.headers = config.list.headers;// || body.headers;
-
+                    self.headers = config.list.headers || body.headers;
                     var names = [];
                     angular.forEach(self.headers, function (name, key) {
                         if (angular.isObject(name)) {
@@ -182,6 +178,9 @@ define(['base/services/mapper'], function (mapper) {
 
                 self.load = function () {
                     var namespace = [$stateParams.name, $stateParams.page].join("/");
+
+                    console.log(self.config.list);
+
                     if (self.config.list.mock) {
                         requestApi({'body': {items: [], count: 0}});
                     } else {
@@ -233,9 +232,13 @@ define(['base/services/mapper'], function (mapper) {
                     if (!self.editable) {
                         setReadonly(self.form.form);
                     }
+
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
-                    self.form.watches(self, watch);
+
+                    if (self.form.watches)
+                        self.form.watches(self, watch);
+
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
                 };

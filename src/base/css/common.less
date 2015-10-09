@@ -198,7 +198,7 @@
         color: #0B0D9B;
       }
       & > .right {
-        text-indent: 0px;
+        text-indent: 0;
         display: block;
         width: 170px;
         overflow: hidden;
@@ -777,4 +777,24 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
+}
+
+.form-group {
+  .control-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    display: inline-block;
+    width: 100%;
+    padding-right: 8px;
+    position: relative;
+  }
+
+  .control-label.required:after {
+    content: ' *';
+    color: #f00;
+    position: absolute;
+    right: 0;
+  }
 }

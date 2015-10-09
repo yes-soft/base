@@ -85,6 +85,16 @@
                     "plugins/base/templates/forms/label.html"
                 );
 
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'checkboxes-inline',
+                    "plugins/base/templates/forms/checkboxes-inline.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'checkboxes-inline',
+                    "plugins/base/templates/forms/checkboxes-inline.html"
+                );
+
             }
         ]);
 

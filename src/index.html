@@ -19,10 +19,9 @@
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
-    <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/select2/select2.css"/>
-
+    <link rel="stylesheet" href="base/vendor/select2/select.css"/>
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
-    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css"/>
+    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css" />
 
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
@@ -100,7 +99,7 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate', 'ui.select2']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate', 'ui.select']);
 
     angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
         function ($translateProvider, $translatePartialLoaderProvider) {

@@ -5,7 +5,6 @@
 
             <label class="control-label {{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle(),'required':form.required}"
                    for="{{form.key.slice(-1)[0]}}">{{form.title | translate}}</label>
-            <span ng-if="form.required" class="form-required">*</span>
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
             <input ng-if="!form.fieldAddonLeft && !form.fieldAddonRight"

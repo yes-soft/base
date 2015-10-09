@@ -1,18 +1,23 @@
 <div class="form-group schema-form-radios-inline {{form.htmlClass}}"
      ng-class="{'has-error': form.disableErrorState !== true &&  hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess()}">
-  <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">{{form.title | translate}}</label>
-  <div>
-      <label class="radio-inline" ng-repeat="item in form.titleMap" >
-      <input type="radio"
-             class="{{form.fieldHtmlClass}}"
-             sf-changed="form"
-             ng-disabled="form.readonly"
-             ng-model="$$value$$"
-             schema-validate="form"
-             ng-value="item.value"
-             name="{{form.key.join('.')}}">
-      <span ng-bind-html="item.name"></span>
-    </label>
-  </div>
-  <div class="help-block" sf-message="form.description"></div>
+
+    <div class="col-xs-12 col-sm-2 col-md-1 text-right">
+        <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+            {{form.title | translate}}
+        </label>
+    </div>
+    <div class="col-xs-12 col-sm-10 col-md-11 padding-right-0">
+        <label class="radio-inline" ng-repeat="item in form.titleMap">
+            <input type="radio"
+                   class="{{form.fieldHtmlClass}}"
+                   sf-changed="form"
+                   ng-disabled="form.readonly"
+                   ng-model="$$value$$"
+                   schema-validate="form"
+                   ng-value="item.value"
+                   name="{{form.key.join('.')}}">
+            <span ng-bind-html="item.name"></span>
+        </label>
+    </div>
+    <div class="help-block" sf-message="form.description"></div>
 </div>
