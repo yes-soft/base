@@ -76,6 +76,10 @@ angular.module("app.config").constant(
                         displayName: "名称",
                         minWidth: 100
                     },
+                    "aid": {
+                        displayName: "帐号",
+                        width: 70
+                    },
                     "mail": {
                         displayName: "电子邮箱",
                         minWidth: 150
@@ -96,10 +100,6 @@ angular.module("app.config").constant(
                         displayName: "关联编号",
                         width: 100
                     },
-                    "aid": {
-                        displayName: "帐号",
-                        width: 70
-                    },
                     "type": {
                         displayName: "类型",
                         width: 70
@@ -119,21 +119,22 @@ angular.module("app.config").constant(
                     }
                 },
                 filters: [
-                    {
-                        type: "select",
-                        name: "type$eq",
-                        label: "帐号类型",
-                        titleMap: [{
-                            value: "admin",
-                            name: "管理员"
-                        }, {
-                            value: "user",
-                            name: "用户"
-                        }]
-                    }, {
+					{
+					    type: "input",
+					    name: "name$match",
+					    label: "名称"
+					}, {
+					    type: "input",
+					    name: "aid$match",
+					    label: "账号"
+					}, {
                         type: "input",
                         name: "mail$match",
                         label: "电子邮箱"
+                    }, {
+                        type: "input",
+                        name: "mobile$eq",
+                        label: "手机号码"
                     }, {
                         type: "select",
                         name: "enable$eq",
@@ -146,23 +147,16 @@ angular.module("app.config").constant(
                             name: "未启用"
                         }]
                     }, {
-                        type: "input",
-                        name: "mobile$eq",
-                        label: "手机号码"
-                    }, {
-                        type: "datePicker",
-                        name: "date$eq",
-                        label: "日期"
-                    }, {
-                        type: "dateTimePicker",
-                        name: "time$eq",
-                        label: "时间"
-                    }, {
-                        type: "dateRangePicker",
-                        name: "dateRange",
-                        from: "dateStart",
-                        to: "dateEnd",
-                        label: "日期范围"
+                        type: "select",
+                        name: "type$eq",
+                        label: "帐号类型",
+                        titleMap: [{
+                            value: "admin",
+                            name: "管理员"
+                        }, {
+                            value: "user",
+                            name: "用户"
+                        }]
                     }
                 ]
             },
@@ -172,18 +166,6 @@ angular.module("app.config").constant(
                     properties: {
                         mail: {
                             title: "电子邮箱",
-                            type: "string"
-                        },
-                        lastLogin: {
-                            title: "最后登入时间",
-                            type: "string"
-                        },
-                        lastLogin2: {
-                            title: "最终时刻",
-                            type: "string"
-                        },
-                        lastLogin3: {
-                            title: "预言范围",
                             type: "string"
                         },
                         name: {
@@ -226,22 +208,6 @@ angular.module("app.config").constant(
                             title: "手机号码",
                             type: "string"
                         },
-                        picture: {
-                            title: "头像",
-                            type: "string"
-                        },
-                        photos: {
-                            title: "图片夹",
-                            type: "string"
-                        },
-                        groupId: {
-                            title: "所属群组",
-                            type: "string"
-                        },
-                        editor: {
-                            title: "富文本",
-                            type: "string"
-                        },
                         "tname": {
                             "type": "string",
                             "title": "名称",
@@ -250,30 +216,6 @@ angular.module("app.config").constant(
                         "match": {
                             "type": "string",
                             "title": "内容匹配"
-                        },
-                        lastLogin4: {
-                            title: "最后登入时间",
-                            type: "string"
-                        },
-                        lastLogin5: {
-                            title: "最终时刻",
-                            type: "string"
-                        },
-                        lastLogin6: {
-                            title: "预言范围",
-                            type: "string"
-                        },
-                        sheng: {
-                            title: "省",
-                            type: "string"
-                        },
-                        shi: {
-                            title: "市",
-                            type: "string"
-                        },
-                        xian: {
-                            title: "县",
-                            type: "string"
                         }
                     }
                 },
@@ -290,18 +232,6 @@ angular.module("app.config").constant(
                                 placeholder: "请输入名称"
                             },
                             'mail',
-                            {
-                                key: 'lastLogin',
-                                type: "datePicker"
-                            }, {
-                                key: 'lastLogin2',
-                                type: "dateTimePicker"
-                            }, {
-                                key: 'lastLogin3',
-                                from: 'lastLogin3_start',
-                                to: 'lastLogin3_end',
-                                type: "dateRangePicker"
-                            },
                             'parent',
                             'matrixNo',
                             {
@@ -319,152 +249,19 @@ angular.module("app.config").constant(
                                 key: "password",
                                 type: "password"
                             },
-                            'mobile',
-                            {
-                                key: "picture",
-                                type: "uploader",
-                                options: {
-                                    multiple: 10,
-                                    maxMB: 10
-                                }
-                            },
-                            {
-                                key: "photos",
-                                type: "gallery",
-                                singleLine: true,
-                                options: {
-                                    multiple: 10
-                                }
-                            },
-                            {
-                                key: "groupId",
-                                type: "select2",
-                                init: function (form) {
-                                    var injector = angular.element('body').injector();
-                                    var utils = injector.get('utils');
-                                    utils.async("get", "roles").then(function (rs) {
-                                        var temp = [];
-                                        rs.body.items.forEach(function (it) {
-                                            temp.push({
-                                                value: it.uid,
-                                                name: it.name
-                                            });
-                                        });
-                                        form.titleMap = temp;
-                                    });
-                                    /*return $http.get('http://maps.googleapis.com/maps/api/geocode/json')
-                                     .then(function (response) {
-                                     console.log(response);
-                                     });*/
-                                },
-                                ngModelOptions: {}
-                            },
-                            {
-                                key: "sheng",
-                                type: "select2",
-                                init: function (form) {
-                                    var injector = angular.element('body').injector();
-                                    var utils = injector.get('utils');
-                                    utils.async("get", "sheng").then(function (rs) {
-                                        var temp = [];
-                                        rs.body.items.forEach(function (it) {
-                                            temp.push({
-                                                value: it.uid,
-                                                name: it.name
-                                            });
-                                        });
-                                        form.titleMap = temp;
-                                    });
-                                }
-                            },
-                            {
-                                key: "shi",
-                                type: "select2"
-                            },
-                            {
-                                key: "xian",
-                                type: "select2"
-                            }
+                            'mobile'
                         ]
                     },
                     {
                         type: "group",
                         title: "其他信息",
                         items: ['master', 'enable']
-                    },
-                    {
-                        "type": "list",
-                        "title": "配置详情",
-                        "items": [
-                            {
-                                key: "tname",
-                                placeholder: "请输入名称"
-                            },
-                            {
-                                key: "match"
-                            },
-                            {
-                                key: 'lastLogin4',
-                                type: "datePicker"
-                            },
-                            {
-                                key: 'lastLogin5',
-                                type: "dateTimePicker"
-                            },
-                            {
-                                key: 'lastLogin6',
-                                from: 'lastLogin6_start',
-                                to: 'lastLogin6_end',
-                                type: "dateRangePicker"
-                            }
-                        ]
                     }
                 ],
-                watches: function (self, watch) {
-                    watch('form.model.sheng').when(true, function () {
-                        var value = self.form.model.sheng;
-                        if (value) {
-                            var injector = angular.element('body').injector();
-                            var utils = injector.get('utils');
-                            utils.async("get", "shi", {"sheng": value}).then(function (rs) {
-                                var temp = [];
-                                rs.body.items.forEach(function (it) {
-                                    temp.push({
-                                        value: it.uid,
-                                        name: it.name
-                                    });
-                                });
-                                var shi = findByFormKey(self.form.form, "shi");
-                                if (shi) {
-                                    shi.titleMap = temp;
-                                }
-                            });
-                        }
-                    });
-
-                    watch('form.model.shi').when(true, function () {
-                        var value = self.form.model.shi;
-                        if (value == "0003") {
-                            findByFormKey(self.form.form, "aid").hide = true;
-                        } else {
-                            findByFormKey(self.form.form, "aid").hide = false;
-                        }
-                        if (value) {
-                            var injector = angular.element('body').injector();
-                            var utils = injector.get('utils');
-                            utils.async("get", "xian", {"shi": value}).then(function (rs) {
-                                var temp = [];
-                                rs.body.items.forEach(function (it) {
-                                    temp.push({
-                                        value: it.uid,
-                                        name: it.name
-                                    });
-                                });
-                                findByFormKey(self.form.form, "xian").titleMap = temp;
-                            });
-                        }
-                    });
-
+                initEdit: function (self, watch) {
+                	if(self.detailUid){//如果是编辑
+                		findByFormKey(self.form.form, "aid").readonly = true;
+                	}
                 }
             }
 

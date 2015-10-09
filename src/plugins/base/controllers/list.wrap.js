@@ -235,7 +235,7 @@ define(['base/services/mapper'], function (mapper) {
                     }
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
-                    self.form.watches(self, watch);
+                    self.form.initEdit && self.form.initEdit(self, watch);
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
                 };
