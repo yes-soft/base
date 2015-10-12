@@ -22,7 +22,7 @@ angular.module("app.config").constant(
                     },
                     save: true
                 },
-                template: 'detail.html'
+                template: 'detail.html',
             }
         },
         account: {
@@ -137,12 +137,8 @@ angular.module("app.config").constant(
                             required: true
                         },
                         enable: {
-                            title: "已启用",
+                            title: "是否启用",
                             type: "boolean"
-                        },
-                        parent: {
-                            title: "主帐号",
-                            type: "string"
                         },
                         matrixNo: {
                             title: "关联编号",
@@ -162,10 +158,6 @@ angular.module("app.config").constant(
                             title: "密码",
                             type: "string",
                             required: true
-                        },
-                        master: {
-                            title: "是否主帐号",
-                            type: "boolean"
                         },
                         mobile: {
                             title: "手机号码",
@@ -195,8 +187,6 @@ angular.module("app.config").constant(
                                 placeholder: "请输入名称"
                             },
                             'mail',
-                            'parent',
-                            'matrixNo',
                             {
                                 key: 'type',
                                 type: "select",
@@ -212,19 +202,21 @@ angular.module("app.config").constant(
                                 key: "password",
                                 type: "password"
                             },
-                            'mobile'
+                            'mobile',
+                            'enable'
                         ]
                     },
                     {
                         type: "group",
-                        title: "其他信息",
-                        items: ['master', 'enable']
+                        title: "权限管理",
+                        items: [ 'matrixNo']
                     }
                 ],
                 initEdit: function (self, watch) {
                 	if(self.detailUid){//如果是编辑
                 		findByFormKey(self.form.form, "aid").readonly = true;
                 	}else{
+                		self.form.model.enable = true;
                         findByFormKey(self.form.form, "aid").readonly = false;
                     }
                 }
@@ -882,24 +874,45 @@ angular.module("app.config").constant(
             }
         },
         enterprise: {
-            title: "运营商",
+            title: "企业管理",
             operation: {
                 add: true,
                 del: true,
-                'cancel': {
+                'createManager': {
                     name: "创建管理员帐号",
-                    action: function (utils, toastr) {
+                    action: function (utils, toastr, ngDialog) {
                         var context = this;
                         var rows = context.scope.action.bulk();
                         if (rows.length > 1) {
-                            toastr.warning("最多只能为一家企业添加帐号");
+                            toastr.warning("最多只能为一家企业创建管理员帐号");
                             return;
                         }
                         if (rows.length == 0) {
                             toastr.warning("请选择要添加帐号的企业");
                         } else {
-                            angular.forEach(rows, function (row) {
-                                toastr.warning(row.id + row.uid);
+                            ngDialog.open({
+                                template: "plugins/base/pages/account.add.html",
+                                controller: function ($scope) {
+                                    $scope.model = {};
+                                    utils.async("get", "/base/account/" + rows[0]["adminid"], null).then(
+                                        function (res) {
+                                            $scope.model = res.body;
+                                        }
+                                    );
+                                    $scope.uid = rows[0]["uid"];
+                                    $scope.save = function (form) {
+                                        $scope.model.matrixNo = rows[0]["id"];
+                                        utils.async("post", "/base/account", $scope.model).then(
+                                            function (res) {
+                                                toastr.success("创建成功");
+                                                ngDialog.closeAll();
+                                            },
+                                            function (error) {
+                                                toastr.error(error.message);
+                                            }
+                                        );
+                                    }
+                                }
                             });
                         }
                     }
@@ -1064,7 +1077,15 @@ angular.module("app.config").constant(
                         type: "group",
                         title: "详细信息",
                         items: [
-                            'file', 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
+                             {
+                                key: "file",
+                                type: "uploader",
+                                singleLine: true,
+                                options: {
+                                    multiple: 1,
+                                    maxMB: 10
+                                }
+                            }, 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
                             {
                                 key: "regdate",
                                 type: "dateTimePicker"
@@ -1085,7 +1106,7 @@ angular.module("app.config").constant(
             operation: {
                 add: true,
                 del: true,
-                'cancel': {
+                'createManager': {
                     name: "创建管理员帐号",
                     action: function (utils, toastr, ngDialog) {
                         var context = this;

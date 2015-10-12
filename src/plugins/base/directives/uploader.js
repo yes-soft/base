@@ -16,6 +16,13 @@
                     link: function link(scope, element, attrs, ngModelController) {
                         setTimeout(function () {
                             scope.attachmentId = ngModelController.$viewValue;
+                            scope.options = angular.extend({
+                                maxMB: 10,
+                                multiple: 10
+                            }, scope.options);
+                            if (scope.options.multiple == false) {
+                                scope.options.multiple = 1;
+                            }
                             scope.init();
                             scope.$watch("attachmentId", function () {
                                 if (scope.attachmentId && !ngModelController.$viewValue) {
@@ -33,7 +40,7 @@
                                 url: url,
                                 autoUpload: true
                             });
-
+                            $scope.sumSize = 0;
                             $scope.init = function () {
                                 $scope.apiPath = settings.apiPath;
                                 if (!$scope.attachmentId) {
@@ -50,7 +57,7 @@
                                     item.uid = res.body.data[0].uid;
                                     $scope.message = res.message;
                                 };
-                            }
+                            };
 
                             $scope.remove = function (item) {
                                 utils.async("DELETE", settings.delByUid + "/" + item.uid).then(function (rs) {
@@ -67,6 +74,31 @@
                                     }
                                 });
                             };
+
+                            uploader.filters.push({
+                                name: 'sizeFilter',
+                                fn: function (item /*{File|FileLikeObject}*/, options) {
+                                    var tsum = 0;
+                                    if ($scope.items) {
+                                        $scope.items.forEach(function (item) {
+                                            tsum += item.fileSize ? item.fileSize : 0;
+                                        });
+                                    }
+                                    uploader.queue.forEach(function (item) {
+                                        tsum += item.size;
+                                    });
+                                    tsum += item.size;
+                                    if (tsum > $scope.options.maxMB * 1048576) {
+                                        alert("大小不能超过" + $scope.options.maxMB + "M!");
+                                        return false;
+                                    } else if ((uploader.queue ? uploader.queue.length : 0 + $scope.items ? $scope.items.length : 0) >= $scope.options.multiple) {
+                                        alert("最多只能上传" + $scope.options.multiple + "个文件!");
+                                        return false;
+                                    } else {
+                                        return true;
+                                    }
+                                }
+                            });
 
                             //
                             //uploader.filters.push({

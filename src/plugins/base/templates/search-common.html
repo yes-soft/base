@@ -6,7 +6,7 @@
             <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                    type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
 
-            <select ng-if="::search.type=='select'" ui-select2="{ allowClear: true}" style="width: 220px;"
+            <select ng-if="::search.type=='select'" style="width: 220px;"
                     ng-model="filter[search.name]"
                     ng-change="selectChange(search)">
                 <option value="">{{'请选择' | translate}}</option>
