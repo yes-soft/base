@@ -91,7 +91,7 @@
                                     if (tsum > $scope.options.maxMB * 1048576) {
                                         alert("大小不能超过" + $scope.options.maxMB + "M!");
                                         return false;
-                                    } else if ((uploader.queue ? uploader.queue.length : 0 + $scope.items ? $scope.items.length : 0) >= $scope.options.multiple) {
+                                    } else if (((uploader.queue ? uploader.queue.length : 0) + ($scope.items ? $scope.items.length : 0)) >= $scope.options.multiple) {
                                         alert("最多只能上传" + $scope.options.multiple + "个文件!");
                                         return false;
                                     } else {
