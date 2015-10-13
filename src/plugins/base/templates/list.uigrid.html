@@ -13,17 +13,15 @@
 
         <div class="list-wrap">
             <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
-                <div ui-grid="gridOptions" ng-style="{'height':height}" ui-grid-selection ui-grid-resize-columns
-                     ui-grid-exporter ui-grid-move-columns ui-grid-auto-resize
+                <div ui-grid="gridOptions" ng-style="{'height':height}"
+                     ui-grid-selection
+                     ui-grid-resize-columns
+                     ui-grid-exporter
+                     ui-grid-move-columns
+                     ui-grid-auto-resize
+                     ui-grid-pagination
                      class="grid"></div>
             </div>
-
-            <div class="pagination-wrap">
-                <div yes-pagination="pagination"></div>
-            </div>
-
-        </div>
-
         </div>
     </div>
 </div>

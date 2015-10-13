@@ -6,12 +6,17 @@
             <input ng-if="::search.type=='input'" ng-model="filter[search.name]" class="input"
                    type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
 
-            <select ng-if="::search.type=='select'" style="width: 220px;"
-                    ng-model="filter[search.name]"
-                    ng-change="selectChange(search)">
-                <option value="">{{'请选择' | translate}}</option>
-                <option value="{{option.value}}" ng-repeat="option in search.titleMap">{{option.name}}</option>
-            </select>
+            <div ng-if="::search.type=='select'" class="input-group">
+                <ui-select  ng-model="filter[search.name]"
+                           theme="bootstrap"
+                           reset-search-input="true"
+                           style="min-width: 120px;">
+                    <ui-select-match placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="item in search.titleMap | filter:$select.search">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
 
             <div ng-if="::search.type=='datePicker'" class="input-group">
                 <input date-picker readonly data-date-format="yyyy-mm-dd" class="form-control"

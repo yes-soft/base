@@ -62,7 +62,7 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate','ui.select2']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate','ui.select']);
 
     angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
         function ($translateProvider, $translatePartialLoaderProvider) {
@@ -92,7 +92,7 @@
                     'login': 'plugins/base/templates/login.html',
                     'dashboard': 'plugins/base/templates/dashboard.html',
                     'list': 'plugins/base/templates/list.uigrid.html',
-                    'detail': 'plugins/base/templates/page.detail.html',
+                    'detail': 'plugins/base/templates/detail.html',
                     'searchCommon': 'plugins/base/templates/search-common.html',
                     'dialog': 'plugins/base/templates/dialog-container.html',
                     'import': 'plugins/base/templates/import.html',

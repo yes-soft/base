@@ -20,12 +20,11 @@
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="../components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css"/>
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
-    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css"/>
+    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css" />
     <link rel="stylesheet" href="base/vendor/select2/select.css"/>
     <link href="base/css/common.css" rel="stylesheet">
     <link href="base/css/pages.css" rel="stylesheet">
     <link href="base/css/yes.ui.css" rel="stylesheet">
-
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
@@ -73,8 +72,7 @@
 <script type="text/javascript" src="base/vendor/tinymce/angular.tinymce.js"></script>
 <!--<script type="text/javascript" src="../components/angular-ui-tinymce/src/tinymce.js"></script>-->
 
-<script type="text/javascript"
-        src="../components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+<script type="text/javascript" src="../components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
 
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
@@ -82,6 +80,7 @@
         language = localStorage.language;
     }
 
+    // language = "en";
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
@@ -117,7 +116,7 @@
             var settings = {
                 version: "0.2.0",
                 host: 'self',
-                mock: false,
+                mock: true,
                 menuRoot: null,
                 debug: true,
                 menuApi: 'base/menus',
@@ -209,7 +208,6 @@
                     ]
                 }
             };
-
             settings.otherwise = '/dashboard';
 
             $ocLazyLoadProvider.config({

@@ -134,24 +134,6 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.form = config.form;
                     self.config = config;
-                    self.headers = config.list.headers || body.headers;
-                    var names = [];
-                    angular.forEach(self.headers, function (name, key) {
-                        if (angular.isObject(name)) {
-                            name.original = name.displayName;
-                            name.name = key;
-                            names.push(name.original);
-                        } else {
-                            self.headers[key] = {"displayName": name, "name": key, "original": name};
-                            names.push(name);
-                        }
-                    });
-
-                    $translate(names).then(function (translations) {
-                        angular.forEach(self.headers, function (name, key) {
-                            name.displayName = translations[name.original];
-                        });
-                    });
 
                     self.load();
 
@@ -167,6 +149,8 @@ define(['base/services/mapper'], function (mapper) {
                     var body = res.body;
                     self.entries = body.items || [];
 
+                    self.headers = config.list.headers || body.headers;
+
                     if (self.headers) {
                         var columnDefs = [];
                         angular.forEach(self.headers, function (name, key) {
@@ -176,11 +160,29 @@ define(['base/services/mapper'], function (mapper) {
                                 columnDefs.push(name);
                             }
                         });
+
+                        var names = [];
+                        angular.forEach(self.headers, function (name, key) {
+                            if (angular.isObject(name)) {
+                                name.original = name.displayName;
+                                name.name = key;
+                                names.push(name.original);
+                            } else {
+                                self.headers[key] = {"displayName": name, "name": key, "original": name};
+                                names.push(name);
+                            }
+                        });
+
+                        $translate(names).then(function (translations) {
+                            angular.forEach(self.headers, function (name, key) {
+                                name.displayName = translations[name.original];
+                            });
+                        });
+
                         self.gridOptions.columnDefs = columnDefs;
                     }
 
-                    self.pagination.totalItems = body.count;
-
+                    self.gridOptions.totalItems = body.count;
                     self.events.trigger('listLoaded');
 
                     if (self.form.debug && self.entries.length) {
@@ -293,19 +295,20 @@ define(['base/services/mapper'], function (mapper) {
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
-                    useExternalPagination: true,
-                    //useExternalSorting: true,
+                    useExternalPagination: false,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
-                        //gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-                        //    self.filter.start = (newPage - 1) * pageSize;
-                        //    self.filter.count = pageSize;
-                        //    self.load();
-                        //    self.paginationOptions.pageNumber = newPage;
-                        //    self.paginationOptions.pageSize = pageSize;
-                        //});
+                        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                            self.filter.start = (newPage - 1) * pageSize;
+                            self.filter.count = pageSize;
+                            self.load();
+                            self.paginationOptions.pageNumber = newPage;
+                            self.paginationOptions.pageSize = pageSize;
+                        });
                     },
                     selectedItems: [],
+                    paginationPageSizes: [pageSize, 200, 1000],
+                    paginationPageSize: pageSize,
                     virtualizationThreshold: 1000,
                     appScopeProvider: {
                         onDblClick: function (row) {

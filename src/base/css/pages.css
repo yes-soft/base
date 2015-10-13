@@ -336,8 +336,32 @@
 .document-detail .auditing-div .adt-time {
   float: right;
 }
-.widget-toolbar {
+.document-detail .widget-toolbar {
+  cursor: pointer;
+}
+.edit-body .header {
+  position: relative;
+}
+.edit-body .widget-toolbar {
   position: absolute;
-  bottom: 3px;
+  bottom: 0;
   right: 0;
+}
+#sidebar {
+  margin-bottom: -10000px;
+  padding-bottom: 10000px;
+}
+#main-container {
+  overflow: hidden;
+}
+.yes-pagination input[type="text"] {
+  font-size: 12px;
+  padding: 0;
+}
+.ui-grid-header-cell-wrapper {
+  line-height: 1.6;
+}
+.ui-grid-menu-button {
+  right: -1px;
+  top: -1px;
 }
