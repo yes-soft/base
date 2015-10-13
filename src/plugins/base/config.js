@@ -884,43 +884,52 @@ angular.module("app.config").constant(
                         var context = this;
                         var rows = context.scope.action.bulk();
                         if (rows.length > 1) {
-                            toastr.warning("最多只能为一家企业创建管理员帐号");
+                            toastr.warning("每次只能为一家企业创建管理员帐号");
                             return;
                         }
                         if (rows.length == 0) {
-                            toastr.warning("请选择要添加帐号的企业");
+                            toastr.warning("请选择要添加管理员帐号的企业");
                         } else {
-                            ngDialog.open({
-                                template: "plugins/base/pages/account.add.html",
-                                controller: function ($scope) {
-                                    $scope.model = {};
-                                    utils.async("get", "/base/account/" + rows[0]["adminid"], null).then(
-                                        function (res) {
-                                            $scope.model = res.body;
-                                        }
-                                    );
-                                    $scope.uid = rows[0]["uid"];
-                                    $scope.save = function (form) {
-                                        $scope.model.matrixNo = rows[0]["id"];
-                                        utils.async("post", "/base/account", $scope.model).then(
-                                            function (res) {
-                                                toastr.success("创建成功");
-                                                ngDialog.closeAll();
-                                            },
-                                            function (error) {
-                                                toastr.error(error.message);
-                                            }
-                                        );
-                                    }
+                        	var model = rows[0];
+                        	utils.async("get", "/base/account/getEnterpriseManger/"+model.eid).then(
+                                function (res) {
+                                	ngDialog.open({
+        	                            template: "plugins/base/pages/account.add.html",
+        	                            controller: function ($scope) {
+        	                                $scope.model = {
+        	                                	"aid": model.no,
+        	                                	"name": model.cname,
+        	                                	"mobile": model.tel,
+        	                                	"eid": model.eid,
+        	                                	"password": "123456",
+        	                                	"enable": true,
+        	                                	"type": "enterprise"
+        	                                };
+        	                                $scope.save = function (form) {
+        	                                    utils.async("post", "/base/account", $scope.model).then(
+        	                                        function (res) {
+        	                                            toastr.success("企业管理员创建成功");
+        	                                            ngDialog.closeAll();
+        	                                        },
+        	                                        function (error) {
+        	                                            toastr.error(error.message);
+        	                                        }
+        	                                    );
+        	                                }
+        	                            }
+        	                        });
+                                },
+                                function (error) {
+                                    toastr.error(error.message);
                                 }
-                            });
+                            );
                         }
                     }
                 }
             },
             list: {
                 headers: {
-                    "id": {
+                    "no": {
                         displayName: "编号"
                     },
                     "cname": {
@@ -970,11 +979,9 @@ angular.module("app.config").constant(
                 schema: {
                     type: "object",
                     properties: {
-                        id: {
+                        no: {
                             title: "编号",
-                            type: "string",
-                            required: true
-
+                            type: "string"
                         },
                         cname: {
                             title: "中文名称",
@@ -993,7 +1000,7 @@ angular.module("app.config").constant(
                             title: "组织机构代码",
                             type: "string"
                         },
-                        file: {
+                        attachment: {
                             title: "企业营业执照",
                             type: "string"
                         },
@@ -1070,7 +1077,10 @@ angular.module("app.config").constant(
                         type: "group",
                         title: "基本信息",
                         items: [
-                            'id', 'cname', 'ename', 'cshortName', 'orgCode'
+                            {
+                            	key: 'no',
+                            	readonly: true
+                            }, 'cname', 'ename', 'cshortName', 'orgCode'
                         ]
                     },
                     {
@@ -1078,12 +1088,12 @@ angular.module("app.config").constant(
                         title: "详细信息",
                         items: [
                              {
-                                key: "file",
+                                key: "attachment",
                                 type: "uploader",
                                 singleLine: true,
                                 options: {
                                     multiple: 1,
-                                    maxMB: 10
+                                    maxMB: 20
                                 }
                             }, 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
                             {
@@ -1098,6 +1108,40 @@ angular.module("app.config").constant(
                         ]
                     }
                 ],
+	            resolves: [function (utils, oPath, ngDialog, toastr) {
+                    var context = this;
+                    
+                    context.scope.events.on('entrySaved', function (model) {
+                    	if(model.isNew){
+	                    	ngDialog.open({
+	                            template: "plugins/base/pages/account.add.html",
+	                            controller: function ($scope) {
+	                                $scope.model = {
+	                                	"aid": model.no,
+	                                	"name": model.cname,
+	                                	"mobile": model.tel,
+	                                	"eid": model.eid,
+	                                	"password": "123456",
+	                                	"enable": true,
+	                                	"type": "enterprise"
+	                                };
+	                                $scope.save = function (form) {
+	                                    utils.async("post", "/base/account", $scope.model).then(
+	                                        function (res) {
+	                                            toastr.success("企业管理员创建成功");
+	                                            ngDialog.closeAll();
+	                                        },
+	                                        function (error) {
+	                                            toastr.error(error.message);
+	                                        }
+	                                    );
+	                                }
+	                            }
+	                        });
+                    	}
+                    });
+                    
+                }],
                 model: {}
             }
         },

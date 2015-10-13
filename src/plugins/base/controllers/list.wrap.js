@@ -92,9 +92,10 @@ define(['base/services/mapper'], function (mapper) {
                             self.events.trigger("beforeSave", self.form);
                             //TODO show loading;
                             utils.async(method, namespace, self.form.model).then(function (res) {
+                            	res.body.isNew = method == "put"?false:true;
+                            	self.events.trigger("entrySaved", res.body);
                                 self.load();
                                 self.events.trigger("closeDetail");
-                                self.events.trigger("entrySaved");
                             }, function (error) {
                                 toastr.error(error.message);
                             });
@@ -111,6 +112,15 @@ define(['base/services/mapper'], function (mapper) {
                     }
                 };
 
+                function tempStop(stop){
+                	setTimeout(function(){
+                		if(stop){
+                			tempStop(stop);
+                			console.log("stoped");
+                		}
+                	},500);
+                }
+                
                 self.events = utils.createEvents();
 
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
