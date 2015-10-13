@@ -50,13 +50,12 @@ gulp.task('scripts', function () {
             './components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js',
             './components/yes-bundle/dist/vendor/tv4.js',
             './components/yes-bundle/dist/vendor/ObjectPath.js',
-            //'./components/yes-bundle/dist/vendor/schema-form.js',
-            './src/base/vendor/angular-schema-form/schema-form.js',
             './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
             './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
             './components/yes-bundle/dist/vendor/select2/select2.js',
             './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
-            './components/angular-ui-select3/src/select3.js',
+            './src/base/vendor/angular-schema-form/schema-form.js',
+            './src/base/vendor/select2/select.js',
             './components/angular-translate-loader-partial/angular-translate-loader-partial.js',
             './components/yes-ui/dist/yes.ui.js'
         ]
@@ -66,7 +65,6 @@ gulp.task('scripts', function () {
         .pipe(uglify())
         .pipe(rename({extname: '.min.js'}))
         .pipe(gulp.dest(distBase + scripts));
-
 });
 
 gulp.task('css', function () {

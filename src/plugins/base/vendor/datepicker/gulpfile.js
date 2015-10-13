@@ -29,7 +29,7 @@ gulp.task('css', function () {
     return gulp.src([
         'bootstrap-datetimepicker.min.css',
         'datepicker.min.css',
-        'daterangepicker.min.css',
+        'daterangepicker.min.css'
     ])
         .pipe(concat('date.package.min.css'))
         .pipe(gulp.dest(""));

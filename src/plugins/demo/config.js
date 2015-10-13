@@ -1,15 +1,15 @@
 "use strict";
 angular.module("app.config")
-    .constant("example.config",
+    .constant("demo.config",
     {
-        demo: {
+        examples: {
             title: "配置示例",
             operation: {
                 add: true,
                 del: true
             },
             list: {
-                mock: true,
+                mock: false,
                 headers: {
                     id: {
                         displayName: "编号",
@@ -110,6 +110,10 @@ angular.module("app.config")
                         "title": "选择示例",
                         "type": "string"
                     }, {
+                        "key": "select2.value",
+                        "title": "选择示例",
+                        "type": "string"
+                    }, {
                         "key": "editor",
                         "title": "富文本编辑",
                         "type": "string"
@@ -121,6 +125,10 @@ angular.module("app.config")
                         "key": "attachments",
                         "title": "附件示例",
                         "type": "string"
+                    }, {
+                        key: 'myselect2',
+                        title: "测试select2",
+                        type: 'string'
                     },
                         {
                             "key": "cn.name",
@@ -157,18 +165,13 @@ angular.module("app.config")
                     }, {
                         key: 'number',
                         title: '数字示例',
-                        type: 'select2',
-                        fieldAddonRight: '<button class="btn btn-default" type="button">添加</button>'
+                        type: 'number'
                     }, {
                         key: 'radio',
                         type: 'radios-inline',
                         placeholder: '单选示例',
                         singleLine: true,
-                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"},
-                        ],
-                        refresh: function (arg) {
-                            console.log(arg)
-                        }
+                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"}]
                     }, {
                         key: 'checkboxes',
                         type: 'checkboxes-inline',
@@ -181,10 +184,62 @@ angular.module("app.config")
                         type: 'textarea',
                         singleLine: true
                     }, {
+                        key: 'myselect2',
+                        title: 'test select2',
+                        type: 'select2',
+                        titleMap: [{value: "ABC", name: "示例1"}, {value: "egf", name: "示例2"}],
+                        singleLine: true
+                    }, {
                         key: 'select2',
                         type: 'select2',
                         placeholder: '选择示例',
-                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"}]
+                        htmlClass: 'value-select2',
+                        titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"}],
+                        fieldAddonRight: 'fa-plus',
+                        dialog: function (parent) {
+                            var dialog = angular.element('body').injector().get('ngDialog');
+                            var key = 'select2';
+                            var model = parent.model;
+                            var utils = angular.element('body').injector().get('utils');
+                            var toastr = angular.element('body').injector().get('toastr');
+                            dialog.open(
+                                {
+                                    template: 'plugins/example/templates/test.html',
+                                    controller: function ($scope) {
+                                        $scope.save = function () {
+                                            utils.async('post', 'base/accounts', {"name": $scope.test}).then(
+                                                function (res) {
+                                                    model[key] = model[key] || {};
+                                                    model[key].name = res.body.name;
+                                                    model[key].value = res.body.value;
+                                                    $scope.closeThisDialog();
+                                                }, function (error) {
+                                                    // toastr.error("message");
+                                                }
+                                            );
+                                        };
+                                    }
+                                }
+                            );
+                        },
+                        refresh: function (cfg, value) {
+                            var utils = angular.element('body').injector().get('utils');
+                            utils.async('get', 'base/accounts', {displayName$match: value}).then(
+                                function (res) {
+                                    cfg.titleMap = res.body.items.map(function (entry) {
+                                        return {
+                                            value: entry.uid,
+                                            name: entry.displayName
+                                        };
+                                    });
+                                }
+                            );
+                        },
+                        small: true
+                    }, {
+                        key: 'select2.value',
+                        title: '绑定',
+                        readOnly: true
                     }, {
                         key: 'editor',
                         type: 'editor',
