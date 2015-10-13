@@ -22,7 +22,7 @@ angular.module("app.config").constant(
                     },
                     save: true
                 },
-                template: 'detail.html'
+                template: 'detail.html',
             }
         },
         account: {
@@ -38,6 +38,10 @@ angular.module("app.config").constant(
                     "name": {
                         displayName: "名称",
                         minWidth: 100
+                    },
+                    "aid": {
+                        displayName: "帐号",
+                        width: 70
                     },
                     "mail": {
                         displayName: "电子邮箱",
@@ -59,10 +63,6 @@ angular.module("app.config").constant(
                         displayName: "关联编号",
                         width: 100
                     },
-                    "aid": {
-                        displayName: "帐号",
-                        width: 70
-                    },
                     "type": {
                         displayName: "类型",
                         width: 70
@@ -82,21 +82,22 @@ angular.module("app.config").constant(
                     }
                 },
                 filters: [
-                    {
-                        type: "select",
-                        name: "type$eq",
-                        label: "帐号类型",
-                        titleMap: [{
-                            value: "admin",
-                            name: "管理员"
-                        }, {
-                            value: "user",
-                            name: "用户"
-                        }]
-                    }, {
+					{
+					    type: "input",
+					    name: "name$match",
+					    label: "名称"
+					}, {
+					    type: "input",
+					    name: "aid$match",
+					    label: "账号"
+					}, {
                         type: "input",
                         name: "mail$match",
                         label: "电子邮箱"
+                    }, {
+                        type: "input",
+                        name: "mobile$eq",
+                        label: "手机号码"
                     }, {
                         type: "select",
                         name: "enable$eq",
@@ -109,23 +110,16 @@ angular.module("app.config").constant(
                             name: "未启用"
                         }]
                     }, {
-                        type: "input",
-                        name: "mobile$eq",
-                        label: "手机号码"
-                    }, {
-                        type: "datePicker",
-                        name: "date$eq",
-                        label: "日期"
-                    }, {
-                        type: "dateTimePicker",
-                        name: "time$eq",
-                        label: "时间"
-                    }, {
-                        type: "dateRangePicker",
-                        name: "dateRange",
-                        from: "dateStart",
-                        to: "dateEnd",
-                        label: "日期范围"
+                        type: "select",
+                        name: "type$eq",
+                        label: "帐号类型",
+                        titleMap: [{
+                            value: "admin",
+                            name: "管理员"
+                        }, {
+                            value: "user",
+                            name: "用户"
+                        }]
                     }
                 ]
             },
@@ -137,30 +131,14 @@ angular.module("app.config").constant(
                             title: "电子邮箱",
                             type: "string"
                         },
-                        lastLogin: {
-                            title: "最后登入时间",
-                            type: "string"
-                        },
-                        lastLogin2: {
-                            title: "最终时刻",
-                            type: "string"
-                        },
-                        lastLogin3: {
-                            title: "预言范围",
-                            type: "string"
-                        },
                         name: {
                             title: "名称",
                             type: "string",
                             required: true
                         },
                         enable: {
-                            title: "已启用",
+                            title: "是否启用",
                             type: "boolean"
-                        },
-                        parent: {
-                            title: "主帐号",
-                            type: "string"
                         },
                         matrixNo: {
                             title: "关联编号",
@@ -181,28 +159,8 @@ angular.module("app.config").constant(
                             type: "string",
                             required: true
                         },
-                        master: {
-                            title: "是否主帐号",
-                            type: "boolean"
-                        },
                         mobile: {
                             title: "手机号码",
-                            type: "string"
-                        },
-                        picture: {
-                            title: "头像",
-                            type: "string"
-                        },
-                        photos: {
-                            title: "图片夹",
-                            type: "string"
-                        },
-                        groupId: {
-                            title: "所属群组",
-                            type: "string"
-                        },
-                        editor: {
-                            title: "富文本",
                             type: "string"
                         },
                         "tname": {
@@ -213,30 +171,6 @@ angular.module("app.config").constant(
                         "match": {
                             "type": "string",
                             "title": "内容匹配"
-                        },
-                        lastLogin4: {
-                            title: "最后登入时间",
-                            type: "string"
-                        },
-                        lastLogin5: {
-                            title: "最终时刻",
-                            type: "string"
-                        },
-                        lastLogin6: {
-                            title: "预言范围",
-                            type: "string"
-                        },
-                        sheng: {
-                            title: "省",
-                            type: "string"
-                        },
-                        shi: {
-                            title: "市",
-                            type: "string"
-                        },
-                        xian: {
-                            title: "县",
-                            type: "string"
                         }
                     }
                 },
@@ -254,20 +188,6 @@ angular.module("app.config").constant(
                             },
                             'mail',
                             {
-                                key: 'lastLogin',
-                                type: "datePicker"
-                            }, {
-                                key: 'lastLogin2',
-                                type: "dateTimePicker"
-                            }, {
-                                key: 'lastLogin3',
-                                from: 'lastLogin3_start',
-                                to: 'lastLogin3_end',
-                                type: "dateRangePicker"
-                            },
-                            'parent',
-                            'matrixNo',
-                            {
                                 key: 'type',
                                 type: "select",
                                 titleMap: [{
@@ -283,151 +203,22 @@ angular.module("app.config").constant(
                                 type: "password"
                             },
                             'mobile',
-                            {
-                                key: "picture",
-                                type: "uploader",
-                                options: {
-                                    multiple: 10,
-                                    maxMB: 10
-                                }
-                            },
-                            {
-                                key: "photos",
-                                type: "gallery",
-                                singleLine: true,
-                                options: {
-                                    multiple: 10
-                                }
-                            },
-                            {
-                                key: "groupId",
-                                type: "select2",
-                                init: function (form) {
-                                    var injector = angular.element('body').injector();
-                                    var utils = injector.get('utils');
-                                    utils.async("get", "roles").then(function (rs) {
-                                        var temp = [];
-                                        rs.body.items.forEach(function (it) {
-                                            temp.push({
-                                                value: it.uid,
-                                                name: it.name
-                                            });
-                                        });
-                                        form.titleMap = temp;
-                                    });
-                                    /*return $http.get('http://maps.googleapis.com/maps/api/geocode/json')
-                                     .then(function (response) {
-                                     console.log(response);
-                                     });*/
-                                },
-                                ngModelOptions: {}
-                            },
-                            {
-                                key: "sheng",
-                                type: "select2",
-                                init: function (form) {
-                                    var injector = angular.element('body').injector();
-                                    var utils = injector.get('utils');
-                                    utils.async("get", "sheng").then(function (rs) {
-                                        var temp = [];
-                                        rs.body.items.forEach(function (it) {
-                                            temp.push({
-                                                value: it.uid,
-                                                name: it.name
-                                            });
-                                        });
-                                        form.titleMap = temp;
-                                    });
-                                }
-                            },
-                            {
-                                key: "shi",
-                                type: "select2"
-                            },
-                            {
-                                key: "xian",
-                                type: "select2"
-                            }
+                            'enable'
                         ]
                     },
                     {
                         type: "group",
-                        title: "其他信息",
-                        items: ['master', 'enable']
-                    },
-                    {
-                        "type": "list",
-                        "title": "配置详情",
-                        "items": [
-                            {
-                                key: "tname",
-                                placeholder: "请输入名称"
-                            },
-                            {
-                                key: "match"
-                            },
-                            {
-                                key: 'lastLogin4',
-                                type: "datePicker"
-                            },
-                            {
-                                key: 'lastLogin5',
-                                type: "dateTimePicker"
-                            },
-                            {
-                                key: 'lastLogin6',
-                                from: 'lastLogin6_start',
-                                to: 'lastLogin6_end',
-                                type: "dateRangePicker"
-                            }
-                        ]
+                        title: "权限管理",
+                        items: [ 'matrixNo']
                     }
                 ],
-                watches: function (self, watch) {
-                    watch('form.model.sheng').when(true, function () {
-                        var value = self.form.model.sheng;
-                        if (value) {
-                            var injector = angular.element('body').injector();
-                            var utils = injector.get('utils');
-                            utils.async("get", "shi", {"sheng": value}).then(function (rs) {
-                                var temp = [];
-                                rs.body.items.forEach(function (it) {
-                                    temp.push({
-                                        value: it.uid,
-                                        name: it.name
-                                    });
-                                });
-                                var shi = findByFormKey(self.form.form, "shi");
-                                if (shi) {
-                                    shi.titleMap = temp;
-                                }
-                            });
-                        }
-                    });
-
-                    watch('form.model.shi').when(true, function () {
-                        var value = self.form.model.shi;
-                        if (value == "0003") {
-                            findByFormKey(self.form.form, "aid").hide = true;
-                        } else {
-                            findByFormKey(self.form.form, "aid").hide = false;
-                        }
-                        if (value) {
-                            var injector = angular.element('body').injector();
-                            var utils = injector.get('utils');
-                            utils.async("get", "xian", {"shi": value}).then(function (rs) {
-                                var temp = [];
-                                rs.body.items.forEach(function (it) {
-                                    temp.push({
-                                        value: it.uid,
-                                        name: it.name
-                                    });
-                                });
-                                findByFormKey(self.form.form, "xian").titleMap = temp;
-                            });
-                        }
-                    });
-
+                initEdit: function (self, watch) {
+                	if(self.detailUid){//如果是编辑
+                		findByFormKey(self.form.form, "aid").readonly = true;
+                	}else{
+                		self.form.model.enable = true;
+                        findByFormKey(self.form.form, "aid").readonly = false;
+                    }
                 }
             }
 
@@ -1083,24 +874,45 @@ angular.module("app.config").constant(
             }
         },
         enterprise: {
-            title: "运营商",
+            title: "企业管理",
             operation: {
                 add: true,
                 del: true,
-                'cancel': {
+                'createManager': {
                     name: "创建管理员帐号",
-                    action: function (utils, toastr) {
+                    action: function (utils, toastr, ngDialog) {
                         var context = this;
                         var rows = context.scope.action.bulk();
                         if (rows.length > 1) {
-                            toastr.warning("最多只能为一家企业添加帐号");
+                            toastr.warning("最多只能为一家企业创建管理员帐号");
                             return;
                         }
                         if (rows.length == 0) {
                             toastr.warning("请选择要添加帐号的企业");
                         } else {
-                            angular.forEach(rows, function (row) {
-                                toastr.warning(row.id + row.uid);
+                            ngDialog.open({
+                                template: "plugins/base/pages/account.add.html",
+                                controller: function ($scope) {
+                                    $scope.model = {};
+                                    utils.async("get", "/base/account/" + rows[0]["adminid"], null).then(
+                                        function (res) {
+                                            $scope.model = res.body;
+                                        }
+                                    );
+                                    $scope.uid = rows[0]["uid"];
+                                    $scope.save = function (form) {
+                                        $scope.model.matrixNo = rows[0]["id"];
+                                        utils.async("post", "/base/account", $scope.model).then(
+                                            function (res) {
+                                                toastr.success("创建成功");
+                                                ngDialog.closeAll();
+                                            },
+                                            function (error) {
+                                                toastr.error(error.message);
+                                            }
+                                        );
+                                    }
+                                }
                             });
                         }
                     }
@@ -1265,7 +1077,15 @@ angular.module("app.config").constant(
                         type: "group",
                         title: "详细信息",
                         items: [
-                            'file', 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
+                             {
+                                key: "file",
+                                type: "uploader",
+                                singleLine: true,
+                                options: {
+                                    multiple: 1,
+                                    maxMB: 10
+                                }
+                            }, 'registrationNo', 'regProvince', 'regCity', 'regDistrict', 'regaddr', 'website', 'taxNo', 'legalPerson',
                             {
                                 key: "regdate",
                                 type: "dateTimePicker"
@@ -1286,7 +1106,7 @@ angular.module("app.config").constant(
             operation: {
                 add: true,
                 del: true,
-                'cancel': {
+                'createManager': {
                     name: "创建管理员帐号",
                     action: function (utils, toastr, ngDialog) {
                         var context = this;

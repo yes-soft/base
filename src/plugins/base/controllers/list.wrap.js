@@ -56,6 +56,8 @@ define(['base/services/mapper'], function (mapper) {
                                             toastr.success('删除成功！');
                                             loading = 0;
                                         }
+                                    }, function (error) {
+                                        toastr.error(error.message);
                                     });
                                 });
                             })
@@ -94,7 +96,7 @@ define(['base/services/mapper'], function (mapper) {
                                 self.events.trigger("closeDetail");
                                 self.events.trigger("entrySaved");
                             }, function (error) {
-                                // toastr.error(error.message);  TODO
+                                toastr.error(error.message);
                             });
 
                         } else {
@@ -231,13 +233,9 @@ define(['base/services/mapper'], function (mapper) {
                     if (!self.editable) {
                         setReadonly(self.form.form);
                     }
-
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
-
-                    if (self.form.watches)
-                        self.form.watches(self, watch);
-
+                    self.form.initEdit && self.form.initEdit(self, watch);
                     self.events.trigger('detailLoad', entity);
                     //utils.disableScroll();
                 };

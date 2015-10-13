@@ -509,6 +509,7 @@ body {
 }
 .searchItem select {
   width: 220px;
+  height: 30px;
 }
 .searchItem label {
   text-align: right;
