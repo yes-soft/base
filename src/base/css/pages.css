@@ -347,6 +347,9 @@
   bottom: 0;
   right: 0;
 }
+.edit-body .widget-toolbar::before {
+  border: 0;
+}
 #sidebar {
   margin-bottom: -10000px;
   padding-bottom: 10000px;

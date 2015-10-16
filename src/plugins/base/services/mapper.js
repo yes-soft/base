@@ -2,7 +2,6 @@ define([], function () {
     angular.module('yes.ui')
         .filter('dict', ['$rootScope', function ($rootScope) {
             return function (str, dictName) {
-
                 if (angular.isUndefined(str))
                     str = "";
 
@@ -19,5 +18,16 @@ define([], function () {
             return function (str, format) {
                 return moment(str).format(format);
             };
-        });
+        }).filter('translatePrefix', ['$translate', function ($translate) {
+
+            var translateFilter = function (translationId, prefix) {
+                return $translate.instant(prefix + "_" + translationId);
+            };
+
+            if ($translate.statefulFilter()) {
+                translateFilter.$stateful = true;
+            }
+
+            return translateFilter;
+        }]);
 });

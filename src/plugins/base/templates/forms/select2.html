@@ -14,6 +14,7 @@
                        reset-search-input="true"
                        style="min-width: 120px;">
                 <ui-select-match placeholder="{{form.placeholder}}">{{$select.selected.name}}</ui-select-match>
+
                 <ui-select-choices
                         refresh="form.refresh(form,$select.search)"
                         refresh-delay="0"
@@ -25,7 +26,7 @@
 
         <span ng-if="form.fieldAddonRight"
               class="input-group-btn">
-            <button class="btn btn-default btn-sm" ng-click="form.dialog($parent)"
+            <button class="btn btn-default btn-sm" ng-click="form.dialog(form,$parent)"
                     type="button">
                 <i class="fa {{form.fieldAddonRight}}"></i>
             </button>

@@ -11,9 +11,320 @@ angular.module("app.config")
             list: {
                 mock: false,
                 headers: {
+                    uid: {
+                        displayName: '用户编号',
+                        visible: false
+                    },
+                    username: {
+                        displayName: "用户名",
+                        width: 90
+                    },
+                    mobile: {
+                        displayName: '手机',
+                        enableSorting: false
+                    },
+                    email: {
+                        displayName: '邮件地址',
+                        enableSorting: false
+                    },
+                    lastLogin: {
+                        displayName: '最后登录时间',
+                        cellFilter: "time:'LLL'"
+                    },
+                    displayName: {
+                        displayName: '昵称'
+                    },
+                    gender: {
+                        displayName: '性别',
+                        cellFilter: "translatePrefix:'gender'",
+                        width: 40
+                    },
+                    active: {
+                        displayName: '激活',
+                        cellFilter: "translate",
+                        width: 40
+                    },
+                    createdAt: {
+                        displayName: '创建日期',
+                        cellFilter: "time:'YYYY-MM-DD'"
+                    },
+                    type: {
+                        displayName: '类型',
+                        cellFilter: 'translate'
+                    },
+                    frozenMoney: {
+                        displayName: '冻结资金',
+                        visible: false
+                    }
+                },
+                filters: [
+                    {
+                        type: "input",
+                        name: "username$match",
+                        label: "用户名"
+                    },
+                    {
+                        type: "select",
+                        name: "type$match",
+                        label: "账号类型",
+                        titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}]
+                    },
+                    {
+                        type: "dateRangePicker",
+                        name: "createdAt$rang",
+                        from: "createdAt$gte",
+                        to: "createdAt$lte",
+                        label: "创建日期"
+                    },
+                    {
+                        type: "input",
+                        name: "mobile$match",
+                        label: "手机号码"
+                    }],
+                resolves: function (utils, oPath) {
+
+                }
+            },
+            form: {
+                fullScreen: false,
+                schema: {
+                    type: "object",
+                    "properties": [
+                        {
+                            key: "uid",
+                            type: "string"
+                        },
+                        {
+                            key: "username",
+                            title: "用户名称",
+                            type: "string",
+                            required: true
+                        },
+                        {
+                            key: "mobile",
+                            title: "手机",
+                            pattern: "^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$",
+                            type: "string"
+                        },
+                        {
+                            key: "email",
+                            title: "电子邮箱",
+                            pattern: "^\\S+@\\S+$",
+                            type: "string"
+                        },
+                        {
+                            key: "password",
+                            title: "密码",
+                            type: "string",
+                            required: true
+                        },
+                        {
+                            key: "lastLogin",
+                            title: "最后登录时间",
+                            readonly: true
+                        },
+                        {
+                            key: "displayName",
+                            title: "昵称",
+                            type: "string"
+                        },
+                        {
+                            key: "gender",
+                            title: "性别",
+                            type: 'number'
+                        },
+                        {
+                            key: "activeCode",
+                            title: "激活码",
+                            type: "string"
+                        },
+                        {
+                            key: "type",
+                            title: "类型",
+                            type: "string"
+                        },
+                        {
+                            key: "frozenMoney",
+                            title: "冻结资金",
+                            type: "number"
+                        },
+                        {
+                            key: "about",
+                            title: "介绍",
+                            type: "string"
+                        },
+                        {
+                            key: "photo",
+                            title: "照片",
+                            type: "string"
+                        },
+                        {
+                            key: "images",
+                            title: "照片",
+                            type: "string"
+                        },
+                        {
+                            key: "files",
+                            title: "附件示例",
+                            type: "string"
+                        }, {
+                            key: 'active',
+                            title: "账号状态",
+                            type: "boolean"
+                        }]
+                },
+                form: [{
+                    type: "group",
+                    title: "基本信息",
+                    items: [{
+                        key: 'uid',
+                        title: '编号',
+                        placeholder: "编号"
+                    },
+                        {
+                            key: 'username',
+                            placeholder: '请输入用户名',
+                            title: '用户名'
+                        }, {
+                            key: 'mobile',
+                            required: true
+                        }, {
+                            key: 'email',
+                            placeholder: '请输入电子邮箱',
+                            title: '电子邮箱'
+                        }, {
+                            key: 'password',
+                            type: 'password'
+                        }]
+                },
+                    {
+                        type: "group",
+                        title: "扩展信息",
+                        items: [{
+                            key: 'activeCode',
+                            title: '激活码'
+                        }, {
+                            key: 'type',
+                            placeholder: '请输入用户名',
+                            titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}],
+                            title: '账号类型',
+                            type: 'select'
+                        }, {
+                            key: 'frozenMoney',
+                            title: '冻结资金'
+                        }, {
+                            key: 'photo',
+                            singleLine: true,
+                            title: '头像',
+                            type: 'gallery'
+                        }, {
+                            key: 'images',
+                            singleLine: true,
+                            title: '照片',
+                            type: 'gallery'
+                        }, {
+                            key: 'files',
+                            singleLine: true,
+                            title: '文件',
+                            type: 'uploader'
+                        }, {
+                            key: 'about',
+                            singleLine: true,
+                            type: 'editor'
+                        }]
+                    }, {
+                        type: "group",
+                        title: "其他信息",
+                        items: [
+                            {
+                                key: 'active',
+                                title: '账户状态',
+                                type: "checkbox"
+                            },
+                            {
+                                key: 'lastLogin',
+                                title: '最后登录',
+                                type: "label"
+                            }]
+                    }]
+            }
+        },
+        configurations: {
+            title: "产品配置",
+            operation: {add: true, del: true},
+            list: {
+                mock: false,
+                filters: [],
+                resolves: function (utils, oPath) {
+
+                }
+            },
+            form: {
+                schema: {
+                    type: "object",
+                    "properties": [{
+                        key: "id",
+                        title: "编号",
+                        type: "string",
+                        required: true
+                    }, {
+                        key: "name",
+                        title: "名称",
+                        type: "string",
+                        required: true
+                    }, {
+                        key: "configScript",
+                        title: "配置计算脚本",
+                        singleLine: true,
+                        type: "textarea"
+                    }, {
+                        key: "modelScript",
+                        title: "型号计算脚本",
+                        singleLine: true,
+                        type: "textarea",
+                        required: true
+                    }, {
+                        key: "partScript",
+                        singleLine: true,
+                        title: "标准配件数量计算脚本"
+                    }]
+                },
+                form: [{
+                    type: "group",
+                    title: "扩展信息",
+                    items: [{
+                        key: 'configScript',
+                        title: '配置计算脚本',
+                        type: "textarea"
+                    }, {
+                        key: 'modelScript',
+                        title: '型号计算脚本',
+                        type: "textarea"
+                    }, {
+                        key: 'partScript',
+                        title: '标准配件数量计算脚本',
+                        type: "textarea"
+                    }]
+                }]
+            }
+        },
+        components: {
+            title: '组件示例',
+            operation: {
+                add: true,
+                del: true
+            },
+            list: {
+                mock: false,
+                headers: {
                     id: {
                         displayName: "编号",
                         width: 80
+                    },
+                    username: {
+                        displayName: "用户名",
+                        width: 90,
+                        cellFilter: 'translate'
                     },
                     name: {
                         displayName: "名称",
@@ -59,6 +370,12 @@ angular.module("app.config")
                         label: "名称查询"
                     },
                     {
+                        type: "select",
+                        name: "type$match",
+                        label: "类型",
+                        titleMap: [{name: '管理员', value: 'admin'}, {name: '用户', value: 'user'}]
+                    },
+                    {
                         type: "datePicker",
                         name: "calendar$gte",
                         label: "时间开始"
@@ -74,71 +391,71 @@ angular.module("app.config")
             },
             form: {
                 schema: {
-                    "type": "object",
+                    type: "object",
                     "properties": [{
-                        "key": "id",
-                        "title": "编号",
-                        "type": "string",
+                        key: "id",
+                        title: "编号",
+                        type: "string",
                         required: true
                     }, {
-                        "key": "name",
-                        "title": "名称",
-                        "type": "string",
+                        key: "name",
+                        title: "名称",
+                        type: "string",
                         required: true
                     }, {
-                        "key": "number",
-                        "title": "数字示例",
-                        "type": "number"
+                        key: "number",
+                        title: "数字示例",
+                        type: "number"
                     }, {
-                        "key": "cn.name1",
-                        "title": "名称2",
-                        "type": "string",
+                        key: "cn.name1",
+                        title: "名称2",
+                        type: "string",
                         required: true
                     }, {
-                        "key": "radio",
-                        "title": "单选示例",
-                        "type": "string"
+                        key: "radio",
+                        title: "单选示例",
+                        type: "string"
                     }, {
-                        "key": "checkboxes",
-                        "title": "多选示例"
+                        key: "checkboxes",
+                        title: "多选示例"
                     }, {
-                        "key": "textarea",
-                        "title": "大文本示例",
-                        "type": "string"
+                        key: "textarea",
+                        title: "大文本示例",
+                        type: "string"
                     }, {
-                        "key": "select2",
-                        "title": "选择示例",
-                        "type": "string"
+                        key: "select2",
+                        title: "选择示例",
+                        type: "string"
                     }, {
-                        "key": "select2.value",
-                        "title": "选择示例",
-                        "type": "string"
+                        key: "select2.value",
+                        title: "选择示例",
+                        type: "string"
                     }, {
-                        "key": "editor",
-                        "title": "富文本编辑",
-                        "type": "string"
+                        key: "editor",
+                        title: "富文本编辑",
+                        type: "string"
                     }, {
-                        "key": "images",
-                        "title": "多图示例",
-                        "type": "string"
+                        key: "images",
+                        title: "多图示例",
+                        type: "string"
                     }, {
-                        "key": "attachments",
-                        "title": "附件示例",
-                        "type": "string"
+                        key: "attachments",
+                        title: "附件示例",
+                        type: "string"
                     }, {
                         key: 'myselect2',
                         title: "测试select2",
                         type: 'string'
                     },
                         {
-                            "key": "cn.name",
-                            "title": "中文名称",
-                            "type": "string"
+                            key: "cn.name",
+                            title: "中文名称",
+                            type: "string"
                         },
                         {
-                            "key": "en.name",
-                            "title": "英文名称",
-                            "type": "string"
+                            key: "en.name",
+                            title: "英文名称",
+                            type: "string"
                         }]
                 },
                 form: [{
@@ -196,7 +513,7 @@ angular.module("app.config")
                         htmlClass: 'value-select2',
                         titleMap: [{value: "1", name: "示例1"}, {value: "2", name: "示例2"}],
                         fieldAddonRight: 'fa-plus',
-                        dialog: function (parent) {
+                        dialog: function (cfg, parent) {
                             var dialog = angular.element('body').injector().get('ngDialog');
                             var key = 'select2';
                             var model = parent.model;
@@ -204,7 +521,7 @@ angular.module("app.config")
                             var toastr = angular.element('body').injector().get('toastr');
                             dialog.open(
                                 {
-                                    template: 'plugins/example/templates/test.html',
+                                    template: 'plugins/demo/templates/test.html',
                                     controller: function ($scope) {
                                         $scope.save = function () {
                                             utils.async('post', 'base/accounts', {"name": $scope.test}).then(
@@ -212,6 +529,8 @@ angular.module("app.config")
                                                     model[key] = model[key] || {};
                                                     model[key].name = res.body.name;
                                                     model[key].value = res.body.value;
+                                                    cfg.titleMap = cfg.titleMap || [];
+                                                    cfg.titleMap.push(model[key]);
                                                     $scope.closeThisDialog();
                                                 }, function (error) {
                                                     // toastr.error("message");

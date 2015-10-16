@@ -92,8 +92,8 @@ define(['base/services/mapper'], function (mapper) {
                             self.events.trigger("beforeSave", self.form);
                             //TODO show loading;
                             utils.async(method, namespace, self.form.model).then(function (res) {
-                            	res.body.isNew = method == "put"?false:true;
-                            	self.events.trigger("entrySaved", res.body);
+                                res.body.isNew = method != "put";
+                                self.events.trigger("entrySaved", res.body);
                                 self.load();
                                 self.events.trigger("closeDetail");
                             }, function (error) {
@@ -112,18 +112,18 @@ define(['base/services/mapper'], function (mapper) {
                     }
                 };
 
-                function tempStop(stop){
-                	setTimeout(function(){
-                		if(stop){
-                			tempStop(stop);
-                			console.log("stoped");
-                		}
-                	},500);
+                function tempStop(stop) {
+                    setTimeout(function () {
+                        if (stop) {
+                            tempStop(stop);
+                        }
+                    }, 500);
                 }
-                
+
                 self.events = utils.createEvents();
 
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
+
 
                 self.init = function () {
                     self.editable = config.list.editable !== false;
@@ -134,7 +134,7 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.form = config.form;
                     self.config = config;
-
+                    self.form.fullScreen = (self.form.fullScreen !== false);
                     self.load();
 
                     if (detailId) {
@@ -148,38 +148,23 @@ define(['base/services/mapper'], function (mapper) {
                 var requestApi = function (res) {
                     var body = res.body;
                     self.entries = body.items || [];
-
                     self.headers = config.list.headers || body.headers;
-
                     if (self.headers) {
-                        var columnDefs = [];
-                        angular.forEach(self.headers, function (name, key) {
-                            if (name.filter && angular.isFunction(name.filter)) {
-                                name.filter.apply(name, [columnDefs, $rootScope]);
+                        var columns = [];
+                        angular.forEach(self.headers, function (col, key) {
+                            if (angular.isString(col)) {
+                                col = {name: key, original: col, displayName: col};
+                            } else if (angular.isObject(col) && key) {
+                                col.name = key;
+                            }
+                            col.headerCellFilter = "translate";
+                            if (col.filter && angular.isFunction(col.filter)) {
+                                col.filter.apply(col, [columns, $rootScope]);
                             } else {
-                                columnDefs.push(name);
+                                columns.push(col);
                             }
                         });
-
-                        var names = [];
-                        angular.forEach(self.headers, function (name, key) {
-                            if (angular.isObject(name)) {
-                                name.original = name.displayName;
-                                name.name = key;
-                                names.push(name.original);
-                            } else {
-                                self.headers[key] = {"displayName": name, "name": key, "original": name};
-                                names.push(name);
-                            }
-                        });
-
-                        $translate(names).then(function (translations) {
-                            angular.forEach(self.headers, function (name, key) {
-                                name.displayName = translations[name.original];
-                            });
-                        });
-
-                        self.gridOptions.columnDefs = columnDefs;
+                        self.gridOptions.columnDefs = columns;
                     }
 
                     self.gridOptions.totalItems = body.count;
@@ -239,7 +224,6 @@ define(['base/services/mapper'], function (mapper) {
                     if (!self.form) {
                         self.form = {};
                     }
-                    //self.myform = angular.copy(self.form);
                     if (!self.editable) {
                         setReadonly(self.form.form);
                     }
@@ -247,7 +231,6 @@ define(['base/services/mapper'], function (mapper) {
                     self.detailUrl = config.form.template;
                     self.form.initEdit && self.form.initEdit(self, watch);
                     self.events.trigger('detailLoad', entity);
-                    //utils.disableScroll();
                 };
 
                 self.pagination = {
