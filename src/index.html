@@ -82,6 +82,12 @@
         language = localStorage.language;
     }
 
+    var dict = {
+        'zh-CN': '',
+        'en-US': 'en'
+    };
+    var langPrefix = dict[language];
+
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
@@ -142,7 +148,7 @@
                     more: 10
                 },
                 getByAttIdUrl: "/base/attachment/getByAttId",
-                uploadUrl: "/base/attachment/upload",
+                uploadUrl: "/upload",
                 getUuid: "/base/attachment/getUuid",
                 delByUid: "/base/attachment/"
             };
@@ -224,6 +230,5 @@
 
 <script type="text/javascript" src="../components/yes-bundle/dist/vendor/require.js"
         data-main="plugins/start.js"></script>
-
 </body>
 </html>

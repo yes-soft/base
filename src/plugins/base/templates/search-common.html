@@ -7,12 +7,14 @@
                    type="text" placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
 
             <div ng-if="::search.type=='select'" class="input-group">
-                <ui-select  ng-model="filter[search.name]"
+                <ui-select ng-model="filter[search.name]"
                            theme="bootstrap"
                            reset-search-input="true"
                            style="min-width: 120px;">
-                    <ui-select-match placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">{{$select.selected.name}}</ui-select-match>
-                    <ui-select-choices repeat="item in search.titleMap | filter:$select.search">
+                    <ui-select-match placeholder="{{::search.placeholder?search.placeholder:'请输入' | translate}}">
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item.value as item in search.titleMap | filter:$select.search">
                         <div ng-bind-html="item.name | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
