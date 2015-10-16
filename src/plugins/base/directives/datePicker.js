@@ -115,8 +115,10 @@
                                     'cancelClass': 'btn-sm btn-default'
                                 }, function (start, end, label) {
                                     var str = start.format("YYYY-MM-DD"), end = end.format("YYYY-MM-DD");
-                                    $scope.$parent[changeInScope][$scope.nameFrom] = str;
-                                    $scope.$parent[changeInScope][$scope.nameTo] = end;
+                                    if($scope.nameFrom)
+                                        $scope.$parent[changeInScope][$scope.nameFrom] = str;
+                                    if($scope.nameTo)
+                                        $scope.$parent[changeInScope][$scope.nameTo] = end;
                                     ngModelController.$setViewValue(str + "~" + end);
                                     date.val(str + "~" + end);
                                     //$scope.$parent[changeInScope][ngModelController.$viewName] = ;
