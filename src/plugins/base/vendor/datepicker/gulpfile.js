@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     fs = require("fs"),
     del = require('del'),
     concat = require('gulp-concat'), rename = require('gulp-rename'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify')
+    ,minify = require('gulp-minify');
 
 var inject = require('gulp-inject');
 var annotate = require('gulp-ng-annotate');
@@ -15,12 +16,11 @@ gulp.task('scripts', function () {
         [
             'bootstrap-datepicker.min.js',
             'bootstrap-datetimepicker.min.js',
-            'daterangepicker.min.js'
+            'daterangepicker.js'
         ]
     )
-        .pipe(concat('date.package.js'))
+        .pipe(concat('date.package.min.js'))
         .pipe(uglify())
-        .pipe(rename({extname: '.min.js'}))
         .pipe(gulp.dest(""));
 
 });
@@ -29,8 +29,9 @@ gulp.task('css', function () {
     return gulp.src([
         'bootstrap-datetimepicker.min.css',
         'datepicker.min.css',
-        'daterangepicker.min.css'
+        'daterangepicker.css'
     ])
         .pipe(concat('date.package.min.css'))
+        .pipe(minify())
         .pipe(gulp.dest(""));
 });
