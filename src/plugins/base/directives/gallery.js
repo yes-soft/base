@@ -46,13 +46,14 @@
                                 if (!$scope.attachmentId) {
                                     utils.async("GET", settings.getUuid).then(function (attId) {
                                         $scope.attachmentId = attId;
+                                        uploader.formData = [{'attachmentId': $scope.attachmentId}, {'isImage': true}];
                                     });
                                 } else {
+                                	uploader.formData = [{'attachmentId': $scope.attachmentId}, {'isImage': true}];
                                     utils.async("GET", settings.getByAttIdUrl, {"attId": $scope.attachmentId}).then(function (rs) {
                                         $scope.items = rs.body;
                                     });
                                 }
-                                uploader.formData = [{'attachmentId': $scope.attachmentId}, {'isImage': true}];
                                 uploader.onSuccessItem = function (item, res, status, headers) {
                                     item.uid = res.body.data[0].uid;
                                     $scope.message = res.message;
