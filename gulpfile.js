@@ -24,52 +24,43 @@ gulp.task('copy-vendor', function () {
         .pipe(gulp.dest(distBase + "vendor"));
 });
 
-gulp.task('copy-plugins', function () {
-    return gulp.src('./src/plugins/**/*')
-        .pipe(gulp.dest(dist + "plugins"));
-});
-
-gulp.task('copy-templates', function () {
-    return gulp.src('./src/base/templates/**/*.html')
-        .pipe(gulp.dest(distBase + "templates"));
-});
-
-gulp.task('copy-data', function () {
-    return gulp.src('./src/data/**/*')
-        .pipe(gulp.dest(dist + "data"));
-});
-
-gulp.task('scripts', function () {
-    return gulp.src([
-        'components/angular/angular.js',
-        'components/angular-animate/angular-animate.js',
-        'components/angular-bootstrap/ui-bootstrap-tpls.js',
-        'components/angular-cookie/angular-cookie.js',
-        'components/angular-resource/angular-resource.js',
-        'components/angular-sanitize/angular-sanitize.js',
-        'components/angular-touch/angular-touch.js',
-        'components/angular-translate/angular-translate.js',
-        'components/angular-ui-router/release/angular-ui-router.js',
-        'components/angular-ui-utils/ui-utils.js',
-        'components/angular-ui-grid/ui-grid.js',
-        'components/ngstorage/ngStorage.js',
-        'components/oclazyload/dist/oclazyload.js',
-        'components/moment/min/moment-with-locales.js',
-        'components/angular-moment/angular-moment.js'
-    ])
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(distBase + scripts))
-        .pipe(uglify())
-        .pipe(rename({extname: '.min.js'}))
+gulp.task('require-js', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/vendor/require.js']
+    )
+        .pipe(concat('require.js'))
         .pipe(gulp.dest(distBase + scripts));
 });
 
+gulp.task('jquery', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/vendor/jquery.min.js']
+    )
+        .pipe(concat('jquery.min.js'))
+        .pipe(gulp.dest(distBase + scripts));
+});
 
-gulp.task('basejs', function () {
-    return gulp.src([
-        './src/scripts/**/*.js'
-    ])
-        .pipe(concat('base.js'))
+gulp.task('scripts', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/yes.bundle.js',
+            './components/yes-utils/dist/yes.utils.js',
+            './components/yes-bundle/dist/vendor/bootstrap/js/bootstrap.js',
+            './components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js',
+            './components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js',
+            './components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js',
+            './components/yes-bundle/dist/vendor/tv4.js',
+            './components/yes-bundle/dist/vendor/ObjectPath.js',
+            './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
+            './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
+            './components/yes-bundle/dist/vendor/select2/select2.js',
+            './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
+            './src/base/vendor/angular-schema-form/schema-form.js',
+            './src/base/vendor/select2/select.js',
+            './components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+            './components/yes-ui/dist/yes.ui.js'
+        ]
+    )
+        .pipe(concat('yes.app.js'))
         .pipe(gulp.dest(distBase + scripts))
         .pipe(uglify())
         .pipe(rename({extname: '.min.js'}))
@@ -77,23 +68,58 @@ gulp.task('basejs', function () {
 });
 
 gulp.task('css', function () {
-    return gulp.src('./src/css/**/*.css')
+    return gulp.src([
+        'src/base/css/**/*.css'
+    ])
         .pipe(concat('main.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
 
-gulp.task('default', ['scripts', 'basejs', 'css',
-        'copy-templates', 'copy-vendor', 'copy-plugins', 'copy-data'],
+gulp.task('css-vendor', function () {
+    return gulp.src([
+        'components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.min.css',
+        'components/yes-bundle/dist/vendor/toaster/angular-toastr.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-default.css',
+        'components/yes-bundle/dist/vendor/ng-dialog/ngDialog-theme-plain.css',
+        'components/yes-bundle/dist/vendor/select2/select2.css'
+    ])
+        .pipe(concat('vendor.css'))
+        .pipe(gulp.dest(distBase + 'css'));
+});
+
+gulp.task('copy-plugins', function () {
+    return gulp.src('./src/plugins/**/*')
+        .pipe(gulp.dest(dist + "plugins"));
+});
+
+gulp.task('copy-fonts', function () {
+    return gulp.src([
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.ttf',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.svg',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.woff',
+        'components/yes-bundle/dist/vendor/angular-ui-grid/**/*.eot'
+    ])
+        .pipe(gulp.dest(distBase + "css"));
+});
+
+gulp.task('copy-data', function () {
+    return gulp.src('./src/data/**/*')
+        .pipe(gulp.dest(dist + "data"));
+});
+
+gulp.task('default', ['scripts', 'css', 'css-vendor', 'copy-fonts',
+        'copy-vendor', 'copy-plugins', 'copy-data', 'require-js', 'jquery'],
     function () {
 
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
 
         var js = gulp.src([
-            'base/scripts/app.js',
-            'base/scripts/base.js'
+            'base/scripts/yes.app.js'
         ], {read: false, cwd: dist});
 
         var css = gulp.src([
+            'base/css/vendor.css',
             'base/css/main.css'
         ], {read: false, cwd: dist});
 

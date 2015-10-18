@@ -1,0 +1,37 @@
+<div class="form-group {{form.htmlClass}} schema-form-select"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
+
+    <div class="col-xs-12 col-sm-4 col-md-3  text-right">
+        <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+            {{form.title | translate}}
+        </label>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 padding-right-0">
+        <div ng-class="{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}">
+            <ui-select ng-model="$$value$$"
+                       theme="bootstrap"
+                       ng-disabled="form.readonly"
+                       reset-search-input="true"
+                       style="min-width: 120px;">
+                <ui-select-match placeholder="{{form.placeholder}}">{{$select.selected.name}}</ui-select-match>
+
+                <ui-select-choices
+                        refresh="form.refresh(form,$select.search)"
+                        refresh-delay="0"
+                        repeat="item in form.titleMap | filter:$select.search">
+                    <div class="select2-item" ng-bind-html="item.name | highlight: $select.search"></div>
+                    <small ng-if="form.small" ng-bind-html="item.value | highlight: $select.search"></small>
+                </ui-select-choices>
+            </ui-select>
+
+        <span ng-if="form.fieldAddonRight"
+              class="input-group-btn">
+            <button class="btn btn-default btn-sm" ng-click="form.dialog(form,$parent)"
+                    type="button">
+                <i class="fa {{form.fieldAddonRight}}"></i>
+            </button>
+        </span>
+        </div>
+    </div>
+    <div class="help-block clearfix" sf-message="form.description"></div>
+</div>

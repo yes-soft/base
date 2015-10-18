@@ -1,0 +1,43 @@
+<div class="form-group has-feedback {{form.htmlClass}} schema-form-textarea"
+     ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true &&  hasSuccess()}">
+    <div class="col-xs-12 col-sm-12 clearfix">
+        <div class="col-xs-12 {{form.singleLine?'col-sm-2 col-md-1':'col-sm-4 col-md-3'}} text-right">
+            <label class="{{form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle(),'required':form.required}" for="{{form.key.slice(-1)[0]}}">{{form.title | translate}}</label>
+            <span ng-if="form.required" class="form-required">*</span>
+        </div>
+
+        <div class="col-xs-12 {{form.singleLine?'col-sm-10 col-md-11':'col-sm-8 col-md-9'}} padding-right-0">
+  <textarea ng-if="!form.fieldAddonLeft && !form.fieldAddonRight"
+            class="form-control json-textarea {{form.fieldHtmlClass}}"
+            id="{{form.key.slice(-1)[0]}}"
+            sf-changed="form"
+            placeholder="{{form.placeholder | translate}}"
+            ng-disabled="form.readonly"
+            ng-model="$$value$$"
+            ng-model-options="form.ngModelOptions"
+            schema-validate="form"
+            name="{{form.key.slice(-1)[0]}}"></textarea>
+
+            <div ng-if="form.fieldAddonLeft || form.fieldAddonRight"
+                 ng-class="{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}">
+    <span ng-if="form.fieldAddonLeft"
+          class="input-group-addon"
+          ng-bind-html="form.fieldAddonLeft"></span>
+    <textarea class="form-control json-textarea {{form.fieldHtmlClass}}"
+              id="{{form.key.slice(-1)[0]}}"
+              sf-changed="form"
+              placeholder="{{form.placeholder | translate}}"
+              ng-disabled="form.readonly"
+              ng-model="$$value$$"
+              ng-model-options="form.ngModelOptions"
+              schema-validate="form"
+              name="{{form.key.slice(-1)[0]}}"></textarea>
+    <span ng-if="form.fieldAddonRight"
+          class="input-group-addon"
+          ng-bind-html="form.fieldAddonRight"></span>
+            </div>
+        </div>
+
+        <div class="help-block clearfix text-right" sf-message="form.description"></div>
+    </div>
+</div>

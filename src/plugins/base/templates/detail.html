@@ -1,4 +1,13 @@
 <div class="document-detail" ng-class="{'editing':form.model.uid}">
+    <style type="text/css">
+        .list-wrap {
+            display: none;
+        }
+        .widget-box{
+            border:0;
+        }
+    </style>
+
     <div class="widget-header widget-header-flat">
         <h5 class="widget-title">{{config.title}}</h5>
 
@@ -9,29 +18,20 @@
         </div>
     </div>
 
-    <div class="widget-body">
-        <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form"
-              ng-submit="action.save(edit$form)">
+    <div class="widget-body clearfix">
+        <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form">
             <div class="buttons-wrap">
-
-                <button type="submit" name="yes_temp_show_task" class="btn btn-sm btn-info"
-                        title=""><i class="fa fa-save bigger-110"></i> 保存
+                <button ng-if="editable" ng-repeat="op in config.form.operations" class="btn btn-sm btn-info"
+                        type="{{op.type}}" style="margin-right: 5px;"
+                        ng-click="op.action(edit$form);">
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
                 </button>
 
-                <button type="button" name="yes_temp_show_task" class="btn btn-sm btn-info"
-                        title="" ng-click="action.cancel()"><i class="ace-icon fa fa-undo bigger-110"></i> 重置
-                </button>
-
-                <button type="button" name="yes_temp_show_task" ng-click="action.close();"
-                        class="btn btn-sm btn-info"
-                        title=""><i class="ace-icon fa fa-times bigger-130"></i> 返回
-                </button>
             </div>
 
             <div class="col-sm-12 edit-body">
-
                 <div sf-schema="form.schema" sf-form="form.form" sf-model="form.model"></div>
-                <div ng-if="scaffold" class="code-modal"> {{form.model}}</div>
+                <div ng-if="scaffold" class="code-modal"> {{myform.model}}</div>
             </div>
         </form>
     </div>

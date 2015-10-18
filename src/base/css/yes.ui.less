@@ -1,0 +1,89 @@
+.yes-uploader {
+  .img-panel {
+    width: 150px;
+    height: 150px;
+  }
+  .emptyimg .up_percent {
+    line-height: 150px;
+    bottom: 0;
+    top: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.20);
+    opacity: 1;
+    //filter: alpha(opacity=0.2);
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    font-size: 14px;
+  }
+  .click {
+    cursor: pointer;
+  }
+
+  position: relative;
+  border: 2px dotted #A5A5C7;
+  width: 100%;
+  color: #92AAB0;
+  vertical-align: middle;
+  padding: 5px;
+
+  margin-bottom: 10px;
+
+  cursor: default;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  div.or {
+    font-size: 50%;
+    font-weight: bold;
+    color: #C0C0C0;
+    padding: 10px;
+  }
+
+  div.browser {
+
+    span {
+      cursor: pointer;
+    }
+
+    input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      border: solid transparent;
+      border-width: 0 0 100px 200px;
+      opacity: .0;
+      filter: alpha(opacity=0);
+      -o-transform: translate(250px, -50px) scale(1);
+      -moz-transform: translate(-300px, 0) scale(4);
+      direction: ltr;
+      cursor: pointer;
+    }
+
+    label.btn {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      width: 120px;
+    }
+
+    .file-name {
+      max-width: 120px;
+      overflow: hidden;
+    }
+
+  }
+
+  ul, li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    line-height: 24px;
+  }
+
+}

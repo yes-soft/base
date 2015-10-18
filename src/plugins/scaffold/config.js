@@ -1,6 +1,6 @@
 "use strict";
 angular
-    .module("app.config")
+    .module("app")
     .constant("scaffold.config", {
         plugins: {
             "title": "系统初始化",

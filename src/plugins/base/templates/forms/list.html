@@ -1,0 +1,15 @@
+<div class="schema-form-section col-xs-12 clearfix {{form.htmlClass}}" ng-class="{'hide': form.hide}">
+    <div class="header smaller lighter collapsed">
+        <label ng-class="{'sr-only': !showTitle() }">{{ form.title | translate}}</label>
+
+        <div class="widget-toolbar">
+            <a data-action="collapse" ng-click="isCollapsed = !isCollapsed">
+                <i class="ace-icon fa fa-chevron-up" ng-class="{'fa-chevron-down':!isCollapsed}"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 list-item" collapse="isCollapsed">
+        <sf-decorator ng-class="{'hide': form.hide}" class="col-xs-12 {{!item.singleLine?'col-sm-6 col-md-4':''}}" ng-repeat="item in form.items"
+                      form="item"></sf-decorator>
+    </div>
+</div>

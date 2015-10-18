@@ -4,11 +4,246 @@
 .submenu a {
   cursor: pointer;
 }
+.yes-full-screen {
+  position: absolute;
+  margin: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  background-color: #FFF;
+  border-width: 3px;
+  z-index: 1040 !important;
+}
+.tree .checked {
+  background-color: #f0f7fc;
+}
+.tree .operate-span {
+  padding: 2px 4px;
+}
+.tree .operate-btn.fa-plus-circle {
+  font-size: 14px !important;
+  color: #06ca06;
+}
+.tree .operate-btn.fa-minus-circle {
+  font-size: 14px !important;
+  color: #c71313;
+}
+.tree .tree-branch {
+  cursor: auto !important;
+}
+.tree-small .tree-branch .tree-branch-children {
+  margin: 0 0 0 17px !important;
+}
+.tree-small:before {
+  bottom: 12px !important;
+}
+.tree-small .tree-branch:before,
+.tree-small .tree-item:before {
+  top: 10px !important;
+  left: -12px !important;
+}
+.tree-small .tree-branch .tree-branch-children:before {
+  left: -12px !important;
+  bottom: 12px !important;
+}
+.tree-small .tree-item,
+.tree-small .tree-branch .tree-branch-header {
+  padding: 1px !important;
+}
+.tree-small div {
+  font-size: 12px !important;
+}
+.tree-children {
+  padding-left: 20px;
+}
+.tree-item-name,
+.tree-branch-name {
+  white-space: nowrap !important;
+}
+.modal-dialog {
+  margin: 5px auto;
+}
+.tab-pack-left {
+  padding: 0 3px;
+}
+.tab-pack-left .widget-toolbar {
+  float: left;
+  padding: 0;
+}
+.tab-pack-left .widget-body {
+  min-height: 500px !important;
+  border-bottom: 1px solid #DCE8F1 !important;
+  border-left: 1px solid #DCE8F1 !important;
+  border-right: 1px solid #DCE8F1 !important;
+}
+.btn-bottom {
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+  padding: 0;
+}
+.btn-bottom .btn {
+  margin-top: 4px;
+  float: right;
+  padding: 3px 5px;
+}
+.document-selector {
+  min-height: 456px;
+}
+.document-selector .selector-body {
+  margin: 0 30px;
+}
+.document-selector .selector-body .boxes-div {
+  margin: 0 40px;
+}
+.document-selector .selector-body .option-span {
+  float: left;
+  min-width: 184px;
+  white-space: nowrap;
+}
+.document-selector .selector-body .gzsdw .option-span {
+  min-width: 245px !important;
+}
+.document-selector .checkbox-label {
+  cursor: pointer;
+}
+.document-selector .checkbox-label input {
+  margin: 2px 0;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+}
+.document-selector .checkbox-label span {
+  margin-left: 20px;
+}
+.document-selector .util-box {
+  margin-bottom: 10px;
+}
+.document-selector .util-box .box-header {
+  margin: 5px 0;
+  height: 30px;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+}
+.document-selector .util-box .widget-toolbar {
+  line-height: 30px !important;
+}
+.document-selector .util-box .box-body {
+  margin-left: 20px;
+}
+.document-selector .top-div {
+  height: 43px;
+  width: 100%;
+}
+.document-selector .tree-div {
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif !important;
+  width: auto;
+  height: 442px;
+  overflow-y: auto;
+  border: 1px solid #DCE8F1;
+}
+.document-selector .tree-div .person_girl {
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_man {
+  background-position: left 50%;
+}
+.document-selector .tree-div .person_dept {
+  background-position: left 50%;
+}
+.document-selector .tree-div .people-row:hover {
+  background-color: #F0F7FC;
+}
+.document-selector .tree-div .people-row {
+  border-bottom: 1px solid #CCCCCC;
+  color: #333333;
+  text-decoration: none;
+  text-indent: 20px;
+  height: 27px;
+  padding: 3px 5px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  background-repeat: no-repeat;
+}
+.document-selector .tree-div .people-row > i {
+  text-indent: 5px;
+  float: right;
+  margin-top: 3px;
+}
+.document-selector .tree-div .people-row > i.fa-minus {
+  color: #FAFA0B;
+}
+.document-selector .tree-div .people-row > i.fa-plus {
+  color: #0B0D9B;
+}
+.document-selector .tree-div .people-row > .right {
+  text-indent: 0;
+  display: block;
+  width: 170px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.document-selector .page-div {
+  width: 100%;
+  text-align: center;
+}
+.document-selector .page-div .curePage {
+  font-size: 15px;
+}
+.document-selector .page-div .page-icon {
+  font-size: 20px;
+  padding: 0 6px;
+  cursor: pointer;
+}
+.search-span {
+  width: 100%;
+}
+.search-span > input {
+  height: 29px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+.sift-div {
+  width: 25px;
+  float: left;
+  font-family: Arial, "微软雅黑", "宋体";
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+  text-decoration: none;
+  text-align: center;
+}
+.sift-div .characters-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sift-div .characters-ul > li {
+  line-height: 17px;
+  color: #6fb3e0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.sift-div .characters-ul > li:hover {
+  color: #fff;
+  background-color: #6fb3e0;
+}
+.input-group > input {
+  cursor: pointer !important;
+}
+.menu-div .nav-tabs .menu-icon {
+  font-size: 18px;
+}
 .grid {
   min-height: 460px;
 }
 .scroll-y {
   overflow-y: auto;
+}
+.full-width {
+  width: 100%;
 }
 .right {
   float: right;
@@ -16,6 +251,48 @@
 .no-def-padding {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+.document-detail .main-title-div {
+  height: 45px;
+  width: 100%;
+  background: #438eb9;
+  line-height: 45px;
+  padding: 0 12px;
+}
+.document-detail .main-title-div label {
+  font-size: 20px;
+  color: #fff;
+}
+.document-detail .main-title-div button {
+  margin-top: 2px;
+}
+.document-detail .flow-title-div {
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  border-bottom: 1px dotted #e2e2e2;
+  padding: 0 12px;
+}
+.document-detail .flow-title-div label {
+  font-size: 20px;
+  color: #000;
+}
+.document-detail .flow-title-div button {
+  margin-top: 3px;
+}
+.document-detail .idea-top-div {
+  margin-top: 10px;
+}
+.document-detail .idea-top-div .suggestion {
+  height: 50px;
+  width: 100%;
+  padding: 0;
+}
+.document-detail .buttons {
+  margin-top: 10px;
+}
+.document-detail .buttons button {
+  margin-right: 5px;
 }
 .document-detail .item-div {
   padding-top: 10px;
@@ -26,10 +303,10 @@
   border-bottom: 1px solid #DDD;
 }
 .document-detail .tr-div > div {
-  min-height: 35.1042px;
   padding-top: 7px;
   padding-bottom: 7px;
   border-right: 1px solid #DDD;
+  height: 35px;
 }
 .document-detail .tr-div > div:last-child {
   border-right: 0;
@@ -46,8 +323,85 @@
 .document-detail .tab-detail-div i {
   margin: 0 4px;
 }
+.document-detail .ofIdea {
+  position: absolute;
+  z-index: 9999;
+  width: 500px;
+  background-color: #f2f2f2;
+  border: 3px solid #ddd;
+}
+.document-detail .ofIdea .clsdiv {
+  width: 100%;
+  float: left;
+}
+.document-detail .ofIdea .clsdiv span {
+  float: left;
+  font-size: 16px;
+  margin: 5px 0 0 8px;
+}
+.document-detail .ofIdea .clsdiv button {
+  border: 1px solid #abbac3;
+  margin: 5px;
+}
+.document-detail .ofIdea .clsdiv button i {
+  margin: 0 3px;
+}
+.document-detail .ofIdea .ofcontent {
+  position: relative;
+  width: 96%;
+  max-height: 300px;
+  margin: 2% 2%;
+  margin-top: 0;
+  float: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+.document-detail .ofIdea .addFileDiv {
+  float: left;
+  width: 96%;
+  height: 30px;
+  margin: 2% 2%;
+}
+.document-detail .ofIdea .addFileDiv input {
+  height: 25px;
+  padding: 0 !important;
+  width: 390px;
+  margin-left: 2px;
+}
+.document-detail .ofIdea .addOneFile {
+  line-height: 25px;
+  float: right;
+  padding: 0 20px 0 20px;
+  background: #438EB8;
+  cursor: pointer;
+}
+.document-detail .ofIdea .ofli {
+  float: left;
+  width: 98%;
+  list-style: none;
+  line-height: 21px;
+  text-align: left;
+  padding: 1%;
+  cursor: pointer;
+  border-bottom: 1px solid #dddddd;
+}
+.document-detail .ofIdea .ofli .liclose {
+  float: right;
+  font-size: 30px;
+}
+.document-detail .ofIdea .ofli:nth-last-child(1) {
+  border-bottom: 0 !important;
+}
+.document-detail .ofIdea .ofli:hover {
+  background-color: #ddd;
+}
 .hide {
   display: none;
+}
+.input-group > input {
+  background: #fff !important;
 }
 .searchs-div {
   margin-top: 10px;
@@ -134,41 +488,35 @@ body {
   display: block;
   float: left;
   margin-bottom: 10px;
-  margin-right: 10px;
-  min-width: 270px;
+  width: 33.3333%;
 }
-.searchItem .input-group-btn .glyphicon {
-  height: 17px;
-}
-.searchItem input {
-  width: 200px;
+.searchItem .input-group {
+  width: 220px;
 }
 .searchItem .datetime .input-group-addon {
   width: 32px;
   padding: 0 2px;
 }
-.searchItem .datetime .input-group {
-  width: 180px;
-}
 .searchItem input.input {
-  width: 180px;
+  width: 220px;
   height: 30px;
 }
 .searchItem .date {
-  max-width: 180px;
+  width: 220px;
 }
 .searchItem input[datepicker-popup] {
   min-width: 136px;
 }
 .searchItem select {
-  min-width: 180px;
+  width: 220px;
+  height: 30px;
 }
 .searchItem label {
   text-align: right;
   display: block;
   float: left;
   line-height: 30px;
-  width: 86px;
+  width: 30%;
   vertical-align: middle;
 }
 .form-search .btns {
@@ -335,7 +683,7 @@ body {
   display: block;
   clear: both;
   line-height: 2.2;
-  min-height: 30px;
+  min-height: 32px;
   padding-right: 25px;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -359,7 +707,33 @@ body {
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   width: 520px;
 }
+.ui-grid-menu .ui-grid-menu-inner .ui-grid-menu-close-button {
+  display: none;
+}
+.form-group .control-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  display: inline-block;
+  width: 100%;
+  padding-right: 8px;
+  position: relative;
+}
+.form-group .control-label.required:after {
+  content: ' *';
+  color: #f00;
+  position: absolute;
+  right: 0;
+}
 
+.language-div > div {
+  padding: 3px;
+  cursor: pointer;
+}
+.language-div > div:hover {
+  background: #97F0DF;
+}
 .iframe-wrapper {
   width: 100%;
   height: 100%;
@@ -690,4 +1064,332 @@ body {
 }
 .document-detail .auditing-div .adt-time {
   float: right;
+}
+.document-detail .widget-toolbar {
+  cursor: pointer;
+}
+.edit-body .header {
+  position: relative;
+}
+.edit-body .widget-toolbar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.edit-body .widget-toolbar::before {
+  border: 0;
+}
+#sidebar {
+  margin-bottom: -10000px;
+  padding-bottom: 10000px;
+}
+#main-container {
+  overflow: hidden;
+}
+.yes-pagination input[type="text"] {
+  font-size: 12px;
+  padding: 0;
+}
+.ui-grid-header-cell-wrapper {
+  line-height: 1.6;
+}
+.ui-grid-menu-button {
+  right: -1px;
+  top: -1px;
+}
+
+/*!
+ * ui-select
+ * http://github.com/angular-ui/ui-select
+ * Version: 0.11.2 - 2015-03-17T04:08:46.478Z
+ * License: MIT
+ */
+
+
+/* Style when highlighting a search. */
+.ui-select-highlight {
+    font-weight: bold;
+}
+
+.ui-select-offscreen {
+    clip: rect(0 0 0 0) !important;
+    width: 1px !important;
+    height: 1px !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    outline: 0 !important;
+    left: 0px !important;
+    top: 0px !important;
+}
+
+/* Select2 theme */
+
+/* Mark invalid Select2 */
+.ng-dirty.ng-invalid > a.select2-choice {
+    border-color: #D44950;
+}
+
+.select2-result-single {
+    padding-left: 0;
+}
+
+.select2-locked > .select2-search-choice-close{
+    display:none;
+}
+
+.select-locked > .ui-select-match-close{
+    display:none;
+}
+
+body > .select2-container.open {
+    z-index: 9999; /* The z-index Select2 applies to the select2-drop */
+}
+
+/* Selectize theme */
+
+/* Helper class to show styles when focus */
+.selectize-input.selectize-focus{
+    border-color: #007FBB !important;
+}
+
+/* Fix input width for Selectize theme */
+.selectize-control > .selectize-input > input {
+    width: 100%;
+}
+
+/* Fix dropdown width for Selectize theme */
+.selectize-control > .selectize-dropdown {
+    width: 100%;
+}
+
+/* Mark invalid Selectize */
+.ng-dirty.ng-invalid > div.selectize-input {
+    border-color: #D44950;
+}
+
+
+/* Bootstrap theme */
+
+/* Helper class to show styles when focus */
+.btn-default-focus {
+    color: #333;
+    background-color: #EBEBEB;
+    border-color: #ADADAD;
+    text-decoration: none;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.ui-select-bootstrap .ui-select-toggle {
+    position: relative;
+}
+
+.ui-select-bootstrap .ui-select-toggle > .caret {
+    position: absolute;
+    height: 10px;
+    top: 50%;
+    right: 10px;
+    margin-top: -2px;
+}
+
+/* Fix Bootstrap dropdown position when inside a input-group */
+.input-group > .ui-select-bootstrap.dropdown {
+    /* Instead of relative */
+    position: static;
+}
+
+.input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
+    border-radius: 4px; /* FIXME hardcoded value :-/ */
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ui-select-bootstrap > .ui-select-match > .btn{
+    /* Instead of center because of .btn */
+    text-align: left !important;
+}
+
+.ui-select-bootstrap > .ui-select-match > .caret {
+    position: absolute;
+    top: 45%;
+    right: 15px;
+}
+
+/* See Scrollable Menu with Bootstrap 3 http://stackoverflow.com/questions/19227496 */
+.ui-select-bootstrap > .ui-select-choices {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    margin-top: -1px;
+}
+
+body > .ui-select-bootstrap.open {
+    z-index: 1000; /* Standard Bootstrap dropdown z-index */
+}
+
+.ui-select-multiple.ui-select-bootstrap {
+    height: auto;
+    padding: 3px 3px 0 3px;
+}
+
+.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+    background-color: transparent !important; /* To prevent double background when disabled */
+    border: none;
+    outline: none;
+    height: 1.666666em;
+    margin-bottom: 3px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    font-size: 1.6em;
+    line-height: 0.75;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    outline: 0;
+    margin: 0 3px 3px 0;
+}
+
+.ui-select-multiple .ui-select-match-item {
+    position: relative;
+}
+
+.ui-select-multiple .ui-select-match-item.dropping-before:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    height: 100%;
+    margin-right: 2px;
+    border-left: 1px solid #428bca;
+}
+
+.ui-select-multiple .ui-select-match-item.dropping-after:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    margin-left: 2px;
+    border-right: 1px solid #428bca;
+}
+
+.ui-select-bootstrap .ui-select-choices-row>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.ui-select-bootstrap .ui-select-choices-row>a:hover, .ui-select-bootstrap .ui-select-choices-row>a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5;
+}
+
+.ui-select-bootstrap .ui-select-choices-row.active>a {
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca;
+}
+
+.ui-select-bootstrap .ui-select-choices-row.disabled>a,
+.ui-select-bootstrap .ui-select-choices-row.active.disabled>a {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+}
+
+/* fix hide/show angular animation */
+.ui-select-match.ng-hide-add,
+.ui-select-search.ng-hide-add {
+    display: none !important;
+}
+
+/* Mark invalid Bootstrap */
+.ui-select-bootstrap.ng-dirty.ng-invalid > button.btn.ui-select-match {
+    border-color: #D44950;
+}
+.yes-uploader {
+  position: relative;
+  border: 2px dotted #A5A5C7;
+  width: 100%;
+  color: #92AAB0;
+  vertical-align: middle;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.yes-uploader .img-panel {
+  width: 150px;
+  height: 150px;
+}
+.yes-uploader .emptyimg .up_percent {
+  line-height: 150px;
+  bottom: 0;
+  top: 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  font-size: 14px;
+}
+.yes-uploader .click {
+  cursor: pointer;
+}
+.yes-uploader div.or {
+  font-size: 50%;
+  font-weight: bold;
+  color: #C0C0C0;
+  padding: 10px;
+}
+.yes-uploader div.browser span {
+  cursor: pointer;
+}
+.yes-uploader div.browser input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  border: solid transparent;
+  border-width: 0 0 100px 200px;
+  opacity: .0;
+  filter: alpha(opacity=0);
+  -o-transform: translate(250px, -50px) scale(1);
+  -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr;
+  cursor: pointer;
+}
+.yes-uploader div.browser label.btn {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 120px;
+}
+.yes-uploader div.browser .file-name {
+  max-width: 120px;
+  overflow: hidden;
+}
+.yes-uploader ul,
+.yes-uploader li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
 }

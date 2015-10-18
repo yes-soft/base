@@ -1,0 +1,19 @@
+<div class="yes-pagination">
+    <span class="per-page">{{'每页显示' | translate }}
+        <input type="text" ng-model="pagination.pageSize" class="items">{{ '条' | translate}}</span>
+    <span class="pages">{{'总共' | translate}}
+        <span class="totalItems">{{pagination.totalItems}}</span> {{ '条' | translate}}</span>
+    <button class="previous btn" ng-disabled="pagination.cantPageBackward()" ng-click="pagination.previousPage()">
+        {{'上一页'
+        | translate}}
+    </button>
+
+    <a ng-repeat="number in pagination.numbers track by $index" ng-click="pagination.seek(number)"
+       ng-class="{'active': number == pagination.getPage(), 'separate': number == '...'}"> <span>{{ number }} </span>
+    </a>
+
+    <!--<a class="current" href="">{{pagination.getPage()}}</a>-->
+    <button class="next btn" ng-disabled="pagination.cantPageForward()" ng-click="pagination.nextPage()">{{'下一页' |
+        translate}}
+    </button>
+</div>

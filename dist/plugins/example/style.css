@@ -1,0 +1,6 @@
+.value-select2 .ui-select-choices-row-inner .select2-item:before {
+  content: '名称: ';
+}
+.value-select2 .ui-select-choices-row-inner small:before {
+  content: '编号: ';
+}

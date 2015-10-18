@@ -1,0 +1,8 @@
+<div>
+    <label> 角色权限:
+        <select ui-select2="{ allowClear: true}" ng-model="currentRole" style="width:180px;">
+            <option>请选择角色</option>
+            <option ng-repeat="role in roles" value="{{role.uid}}">{{role.name}}</option>
+        </select></label>
+    <button ng-click="copy()">复制权限</button>
+</div>
