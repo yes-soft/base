@@ -6,7 +6,16 @@ angular.module("app.config")
             title: "配置示例",
             operation: {
                 add: true,
-                del: true
+                del: true,
+                custom: {
+                    name: "示例",
+                    icon: "fa-plus",
+                    action: function (toastr) {
+                        var context = this;
+                        console.log(context.scope);
+                        toastr.success("hello");
+                    }
+                }
             },
             list: {
                 mock: false,
@@ -81,8 +90,12 @@ angular.module("app.config")
                         name: "mobile$match",
                         label: "手机号码"
                     }],
-                resolves: function (utils, oPath) {
-
+                resolves: function (utils, oPath, $timeout) {
+                    var context = this;
+                    var titleMap = oPath.find(context, ['list', 'filters', '[name:type$match]', 'titleMap'], []);
+                    $timeout(function () {
+                        titleMap.push({name: '示例脚本', value: '----'});
+                    }, 3000);
                 }
             },
             form: {
@@ -208,15 +221,51 @@ angular.module("app.config")
                             placeholder: '请输入用户名',
                             titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}],
                             title: '账号类型',
-                            type: 'select'
+                            type: 'select2',
+                            fieldAddonRight: 'fa-plus',
+                            dialog: function (cfg, parent) {
+                                var injector = angular.element(document).injector();
+                                var dialog = injector.get('ngDialog');
+                                var key = 'type';
+                                var model = parent.model;
+                                var utils = injector.get('ngDialog');
+                                var toastr = injector.get('toastr');
+                                var $timeout = injector.get('$timeout');
+                                dialog.open(
+                                    {
+                                        template: 'plugins/demo/templates/test.html',
+                                        controller: function ($scope) {
+                                            $scope.save = function () {
+                                                $timeout(function () {
+                                                    model[key] = model[key] || {};
+                                                    model[key].name = $scope.test;
+                                                    model[key].value = $scope.test;
+                                                    cfg.titleMap = cfg.titleMap || [];
+                                                    cfg.titleMap.push(model[key]);
+                                                    $scope.closeThisDialog();
+                                                }, 200);
+                                            };
+                                        }
+                                    }
+                                );
+                            },
+                            refresh: function (cfg, value) {
+                                var utils = angular.element('body').injector().get('utils');
+                                utils.async('get', 'base/accounts', {displayName$match: value}).then(
+                                    function (res) {
+                                        cfg.titleMap = res.body.items.map(function (entry) {
+                                            return {
+                                                value: entry.uid,
+                                                name: entry.displayName
+                                            };
+                                        });
+                                    }
+                                );
+                            },
+                            small: true
                         }, {
                             key: 'frozenMoney',
                             title: '冻结资金'
-                        }, {
-                            key: 'photo',
-                            singleLine: true,
-                            title: '头像',
-                            type: 'gallery'
                         }, {
                             key: 'images',
                             singleLine: true,
