@@ -33,7 +33,7 @@ YES base 基于 Angularjs 技术
 │       └── select2
 ├── data
 ├── plugins
-│   └── base
+│   ├─── base
 │   │   ├── assets
 │   │   ├── controllers
 │   │   ├── directives
