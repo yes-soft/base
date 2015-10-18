@@ -1,13 +1,50 @@
-# yes base 是什么 #
-----------
+# YES Base
 
-yes base 是一套用于后台管理,可配置的前端管理框架,使用 yes base 可以很容易的定义数据菜单、列表页面、详情页面.
+YES base 是一套可以配置的管理系统前端开发框架
 
+#### 安装
 
-# yes base 如何安装 
-
-### bower
-
-```shell
+``` 
 bower install yes-base
 ```
+
+#### 技术构架
+
+YES base 基于 Angularjs 技术
+
+#### 结构目录
+
+``` 
+├── Base
+│   ├── css
+│   │   ├── main.css
+│   │   ├── vendor.css
+│   ├── scripts
+│   │   ├── require.js
+│   │   ├── yes.app.js
+│   │   ├── yes.app.min.js
+│   └── vendor
+│       ├── ace
+│       ├── angular-schema-form
+│       ├── angular-ui-grid
+│       ├── ie8
+│       ├── jquery
+│       ├── tinymce
+│       └── select2
+├── data
+├── plugins
+│   └── base
+│   │   ├── assets
+│   │   ├── controllers
+│   │   ├── directives
+│   │   ├── i18n
+│   │   ├── pages
+│   │   ├── services
+│   │   ├── templates
+│   │   ├── app.js
+│   │   └── config.js
+│   └── ├── demo
+```
+
+
+

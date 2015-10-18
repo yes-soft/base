@@ -71,7 +71,7 @@ angular.module("app.config")
                     },
                     {
                         type: "dateRangePicker",
-                        name: "createdAt$rang",
+                        name: "createdAtRang",
                         from: "createdAt$gte",
                         to: "createdAt$lte",
                         label: "创建日期"
@@ -255,8 +255,12 @@ angular.module("app.config")
             list: {
                 mock: false,
                 filters: [],
-                resolves: function (utils, oPath) {
-
+                resolves: function (utils, $http) {
+                    //var url = "http://localhost:3000/src/plugins/demo/jsonp/script.js";
+                    //$http.jsonp(url)
+                    //    .success(function (data) {
+                    //        data.found();
+                    //    });
                 }
             },
             form: {
@@ -276,6 +280,7 @@ angular.module("app.config")
                         key: "configScript",
                         title: "配置计算脚本",
                         singleLine: true,
+                        required: true,
                         type: "textarea"
                     }, {
                         key: "modelScript",
@@ -293,16 +298,22 @@ angular.module("app.config")
                     type: "group",
                     title: "扩展信息",
                     items: [{
+                        key: 'name',
+                        title: '名称'
+                    }, {
                         key: 'configScript',
                         title: '配置计算脚本',
+                        singleLine: true,
                         type: "textarea"
                     }, {
                         key: 'modelScript',
                         title: '型号计算脚本',
+                        singleLine: true,
                         type: "textarea"
                     }, {
                         key: 'partScript',
                         title: '标准配件数量计算脚本',
+                        singleLine: true,
                         type: "textarea"
                     }]
                 }]
@@ -381,9 +392,9 @@ angular.module("app.config")
                         label: "时间开始"
                     },
                     {
-                        type: "dateRangePicker",
-                        name: "calendar$range",
-                        label: "范围查询"
+                        type: "input",
+                        name: "mobile$match",
+                        label: "手机号码"
                     }],
                 resolves: function (utils, oPath) {
 

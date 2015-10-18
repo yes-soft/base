@@ -6,6 +6,7 @@ define(['base/services/mapper'], function (mapper) {
             function ($scope, $stateParams, $timeout, $location, $rootScope,
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
+
                 var self = $scope;
                 var detailId = $location.search()['uid'];
 
@@ -124,7 +125,6 @@ define(['base/services/mapper'], function (mapper) {
 
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
 
-
                 self.init = function () {
                     self.editable = config.list.editable !== false;
                     self.entries = [];
@@ -143,7 +143,6 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.events.trigger('listInit');
                 };
-
 
                 var requestApi = function (res) {
                     var body = res.body;
