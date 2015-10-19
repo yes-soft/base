@@ -113,14 +113,6 @@ define(['base/services/mapper'], function (mapper) {
                     }
                 };
 
-                function tempStop(stop) {
-                    setTimeout(function () {
-                        if (stop) {
-                            tempStop(stop);
-                        }
-                    }, 500);
-                }
-
                 self.events = utils.createEvents();
 
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
