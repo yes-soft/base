@@ -1,0 +1,73 @@
+<div class="document-detail" ng-class="{'editing':form.model.uid}">
+    <style type="text/css">
+        .list-wrap {
+            display: none;
+        }
+
+        .widget-box {
+            border: 0;
+        }
+
+        .label-col {
+            min-width: 180px;
+        }
+
+        .value-col {
+            max-width: 530px;
+        }
+
+        .quantity {
+            width: 180px;
+        }
+
+        .row .col-0 {
+            width: 74%;
+            display: inline-block;
+            position: relative;
+            float: left;
+        }
+
+        .row .col-1 {
+            width: 24%;
+            display: inline-block;
+            position: relative;
+            float: left;
+        }
+
+        .readonly, .readonly span, .readonly label {
+            color: #999999 !important;
+        }
+
+    </style>
+
+    <div class="widget-header widget-header-flat">
+        <h5 class="widget-title">{{config.title}}</h5>
+
+        <div class="widget-toolbar">
+            <a data-action="close" ng-click="action.close();">
+                <i class="ace-icon fa fa-times bigger-130"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="widget-body clearfix">
+        <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form">
+            <div class="buttons-wrap">
+
+                <button ng-if="editable" ng-repeat="op in detail.operations" class="btn btn-sm btn-info"
+                        type="{{op.type}}" style="margin-right: 5px;"
+                        ng-click="op.action(edit$form);">
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
+                </button>
+
+            </div>
+
+            <div class="col-sm-12 edit-body">
+                <div sf-schema="form.schema" sf-form="form.form" sf-model="form.model"></div>
+            </div>
+            <div>
+                JSON: {{form.model}}
+            </div>
+        </form>
+    </div>
+</div>

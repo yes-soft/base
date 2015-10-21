@@ -1,0 +1,30 @@
+<div ng-controller="app.demo.product">
+    <div class="widget-box ui-sortable-handle" ng-show="detailUrl">
+        <div ng-include="detailUrl"></div>
+    </div>
+    <div class="list-wrap">
+        <div ng-include="'./plugins/base/templates/breadcrumbs.html'"></div>
+        <div class="page-content list-scope">
+            <div class="wrapper-md">
+
+                <!--<div data-search-common-->
+                     <!--data-operations="config.operations"-->
+                     <!--data-filters-conf="config.list.filters"-->
+                     <!--data-filter="filter"-->
+                     <!--data-on-search="load();"></div>-->
+
+
+                <!--<div ng-class="{'enable-filter':gridOptions.enableFiltering}">-->
+                    <!--<div ui-grid="gridOptions"-->
+                         <!--ui-grid-selection-->
+                         <!--ui-grid-resize-columns-->
+                         <!--ui-grid-exporter-->
+                         <!--ui-grid-move-columns-->
+                         <!--ui-grid-auto-resize-->
+                         <!--ui-grid-pagination-->
+                         <!--class="grid"></div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>

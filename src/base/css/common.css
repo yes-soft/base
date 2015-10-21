@@ -632,7 +632,8 @@ body {
   float: left;
 }
 .schema-form .json-textarea {
-  min-height: 60px;
+  min-height: 160px;
+  font-size: 12px;
 }
 .schema-form .form-list-group .help-block {
   display: none;

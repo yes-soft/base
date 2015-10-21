@@ -13,6 +13,7 @@ YES base 基于 Angularjs 技术
 > 3. requirejs
 > 4. less css
 > 5. bootstrap
+> 6. gulp
 
 #### 结构目录
 
@@ -98,7 +99,6 @@ var settings = {
     getUuid: "/base/attachment/getUuid",
     delByUid: "/base/attachment/"
 };
-
 ```
 
 #### 路由设置
@@ -243,6 +243,7 @@ gender: {
   visible:true,
   min-width:40px,
   width: 60,
+  htmlClass:"abc",
   cellTemplate:'' //列的显示模版
 }
 ```
@@ -365,5 +366,7 @@ settings  直接注入取得
 ###### angular-schema-form https://github.com/Textalk/angular-schema-form
 
 ###### ngDialog https://github.com/likeastore/ngDialog
+
+#### 多语言 translate
 
 ##### 

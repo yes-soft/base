@@ -95,6 +95,18 @@
                     "plugins/base/templates/forms/checkboxes-inline.html"
                 );
 
+
+                schemaFormDecoratorsProvider.addMapping(
+                    'bootstrapDecorator',
+                    'columns',
+                    "plugins/base/templates/forms/columns.html"
+                );
+                schemaFormDecoratorsProvider.createDirective(
+                    'columns',
+                    "plugins/base/templates/forms/columns.html"
+                );
+
+
             }
         ]);
 

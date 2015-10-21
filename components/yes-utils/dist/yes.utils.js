@@ -91,8 +91,8 @@ angular.module('yes.utils').config(["utilsProvider",
 
             var deferred = $q.defer();
 
-            var getSeparator = function(url){ 
-                return url.indexOf('?')>-1?"&":"?";
+            var getSeparator = function (url) {
+                return url.indexOf('?') > -1 ? "&" : "?";
             };
 
             if (!uri)
@@ -100,13 +100,13 @@ angular.module('yes.utils').config(["utilsProvider",
             else {
 
                 if (options.data && options.method.toLowerCase() == "get") {
-                    options.url = options.url + getSeparator(options.url) + options.data + "&r_=" + Math.random() * 10000;
+                    options.url = options.url + getSeparator(options.url) + options.data + "&r_=" + Math.floor(Math.random() * 10000);
                 } else if (options.method.toLowerCase() == "get") {
-                    options.url += getSeparator(options.url) + "r_=" + Math.random() * 10000;
+                    options.url += getSeparator(options.url) + "r_=" + Math.floor(Math.random() * 10000);
                 }
 
                 $http(options).success(function (res) {
-                    if (res.error == 0 || !res.error) {
+                    if (res.error == 0 || res.error == 200 || res.error == 201 || !res.error) {
                         deferred.resolve(res);
                     } else if (res.message) {
                         deferred.reject(res);
@@ -537,6 +537,16 @@ angular.module('yes.utils').factory('interpreter', ["$stateParams", "oPath", "ut
                         if (angular.isObject(entry)) {
                             entry.required = entry.required || config.schema.properties[entry.key].required;
                         }
+
+                        //for (var prop in entry) {
+                        //    if (entry.hasOwnProperty(prop) && angular.isFunction(entry[prop])) {
+                        //        var raw = entry[prop];
+                        //        entry[prop] = new function () {
+                        //            raw();
+                        //        };
+                        //    }
+                        //}
+
                     });
                 });
             }
