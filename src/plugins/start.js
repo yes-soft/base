@@ -6,10 +6,11 @@ require.config({
         'forms': 'base/directives/forms',
         'uploader': 'base/directives/uploader',
         'gallery': 'base/directives/gallery',
-        'datePicker': 'base/directives/datePicker'
+        'datePicker': 'base/directives/datePicker',
+        'selector': 'base/pages/selector'
     },
     shim: {
-        'app': ['resolves', 'forms', 'uploader', 'gallery','datePicker']
+        'app': ['resolves', 'forms', 'uploader', 'gallery','datePicker','selector']
     }
 });
 

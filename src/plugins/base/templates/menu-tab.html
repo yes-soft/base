@@ -17,7 +17,7 @@
 
                         <li ng-repeat="l2Menu in menu.subMenus" on-menu-render>
                             <a ng-href="{{l2Menu.url}}" class="dropdown-toggle">
-                                <i class="menu-icon fa fa-file-o {{::l2Menu.icon}}"></i>
+                                <i class="menu-icon fa {{::l2Menu.icon}}"></i>
                                 <span class="menu-text">
                                    {{l2Menu.name}}
                                 </span>
