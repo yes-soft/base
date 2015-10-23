@@ -1,14 +1,18 @@
 define(['base/services/mapper'], function (mapper) {
     "use strict";
     angular.module('app')
-        .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
-            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr', '$translate', 'ngDialog',
+        .controller('app.demo.product', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
+            '$log', '$http', 'utils', 'interpreter', 'settings', 'toastr', '$translate', 'ngDialog', 'oPath',
             function ($scope, $stateParams, $timeout, $location, $rootScope,
-                      $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
+                      $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog, oPath) {
 
-
+                var pageSize = settings.pageSize.defaults;
                 var self = $scope;
                 var detailId = $location.search()['uid'];
+
+                var api = [$stateParams.name, $stateParams.action].join("/");
+
+                self.detailUrl = "plugins/demo/pages/product.detail.html";
 
                 self.action = {
                     search: function () {
@@ -40,12 +44,12 @@ define(['base/services/mapper'], function (mapper) {
                         if (rows.length) {
                             ngDialog.openConfirm({
                                 className: 'ngdialog-theme-default',
-                                template: 'plugins/base/templates/confirm.html',
+                                template: '',
                                 plain: true
                             }).then(function () {
                                 angular.forEach(rows, function (row) {
-                                    var namespace = [$stateParams.name, $stateParams.page].join("/");
-                                    utils.async('delete', namespace + "/" + row.uid).then(function (res) {
+
+                                    utils.async('delete', api + "/" + row.uid).then(function (res) {
                                         self.load();
                                         loading++;
                                         if (loading == rows.length) {
@@ -70,7 +74,7 @@ define(['base/services/mapper'], function (mapper) {
                         self.$broadcast('schemaFormValidate');
                         if (form.$valid) {
 
-                            var namespace = [$stateParams.name, $stateParams.page].join("/");
+                            var namespace = api;
                             var method = self.form.model.uid ? "put" : "post";
                             if (method == "put") {
                                 namespace = [namespace, self.form.model.uid].join("/");
@@ -86,8 +90,7 @@ define(['base/services/mapper'], function (mapper) {
                             }
 
                             self.events.trigger("beforeSave", self.form);
-                            //TODO show loading;
-                            utils.async(method, namespace, self.form.model).then(function (res) {
+                            utils.async(method, api, self.form.model).then(function (res) {
                                 res.body.isNew = method != "put";
                                 self.events.trigger("entrySaved", res.body);
                                 self.load();
@@ -110,132 +113,137 @@ define(['base/services/mapper'], function (mapper) {
 
                 self.events = utils.createEvents();
 
-                var config = interpreter.configuration(self), pageSize = config.list.pageSize;
-
-                self.init = function () {
-                    self.editable = config.list.editable !== false;
-                    self.entries = [];
-                    self.filter = {
-                        count: pageSize
-                    };
-
-                    self.form = config.form;
-                    self.config = config;
-                    self.form.fullScreen = (self.form.fullScreen !== false);
-                    self.load();
-
-                    if (detailId) {
-                        self.loadOne();
-                    }
-
-                    self.events.trigger('listInit');
-                };
-
-                var requestApi = function (res) {
-                    var body = res.body;
-                    self.entries = body.items || [];
-                    self.headers = config.list.headers || body.headers;
-                    if (self.headers) {
-                        var columns = [];
-                        angular.forEach(self.headers, function (col, key) {
-                            if (angular.isString(col)) {
-                                col = {name: key, original: col, displayName: col};
-                            } else if (angular.isObject(col) && key) {
-                                col.name = key;
-                            }
-
-                            if (angular.isUndefined(col.headerCellFilter))
-                                col.headerCellFilter = "translate";
-
-                            if (col.filter && angular.isFunction(col.filter)) {
-                                col.filter.apply(col, [columns, $rootScope]);
-                            } else {
-                                columns.push(col);
-                            }
-                        });
-                        self.gridOptions.columnDefs = columns;
-                    }
-
-                    self.gridOptions.totalItems = body.count;
-                    self.events.trigger('listLoaded');
-
-                    if (self.form.debug && self.entries.length) {
-                        self.detailLoad(self.entries[0]);
+                var config = {
+                    title: "配置示例",
+                    operations: [],
+                    list: {
+                        filters: [
+                            {
+                                type: "input",
+                                name: "username$match",
+                                label: "用户名"
+                            },
+                            {
+                                type: "select",
+                                name: "type$match",
+                                label: "账号类型",
+                                titleMap: [{name: 'admin', value: 'admin'}, {name: '普通用户', value: 'user'}]
+                            },
+                            {
+                                type: "dateRangePicker",
+                                name: "createdAtRang",
+                                from: "createdAt$gte",
+                                to: "createdAt$lte",
+                                label: "创建日期"
+                            },
+                            {
+                                type: "input",
+                                name: "mobile$match",
+                                label: "手机号码"
+                            }]
                     }
                 };
 
-                self.load = function () {
-                    var namespace = [$stateParams.name, $stateParams.page].join("/");
-                    if (self.config.list.mock) {
-                        requestApi({'body': {items: [], count: 0}});
-                    } else {
-                        utils.async("GET", namespace, self.filter).then(function (res) {
-                            requestApi(res);
-                        });
-                    }
+                self.form = {};
+
+                self.detail = {
+                    Operations: []
                 };
 
-                self.loadValidation = function () {
-                    utils.async('get', '', {}).then(function () {
-
-                    });
-                };
-
-                self.loadOne = function () {
-                    var namespace = [$stateParams.name, $stateParams.page, detailId].join("/");
-                    utils.async("GET", namespace, self.filter).then(function (res) {
-                        var body = res.body;
-                        self.detailLoad(body);
-                    });
-                };
-
-                var Watcher = function (name) {
+                function Watcher(name) {
                     this.name = name;
-                    var result = {
-                        then: function () {
-                        }
-                    };
 
                     this.when = function (condition, callback) {
-                        self.$watch(name, function () {
+                        self.$watchCollection(name, function (newValue, oldValue) {
                             if (condition == true || self.$eval(condition)) {
+                                console.log(newValue);
                                 if (angular.isFunction(callback))
-                                    callback.apply();
+                                    callback.call(null, newValue);
                             }
                         });
                     };
-                };
 
-                var watch = function (name) {
+                    this.change = function (callback) {
+                        this.when(true, callback);
+                    };
+                }
+
+                function watch(name) {
+                    name = "form.model." + name;
                     return new Watcher(name);
-                };
+                }
 
-                self.detailLoad = function (entity) {
-                    if (!entity)
-                        entity = {};
+                function setValue(key, valueMap, value) {
+                    if (!angular.isUndefined(self.form.model) && valueMap && valueMap.hasOwnProperty(value))
+                        self.form.model[key] = valueMap[value];
+                    else if (value == "") {
+                        self.form.model[key] = "";
+                    }
+                }
 
-                    self.entryCopy = angular.copy(entity);
-                    self.detailUid = entity.uid;
-                    if (!self.form) {
-                        self.form = {};
+                function findByFormKey(form, key) {
+                    for (var i = 0, size = form.length; i < size; i++) {
+                        var cnf = form[i];
+                        if (angular.isObject(cnf)) {
+                            if (cnf.type == "group" || cnf.type == "list") {
+                                var rs = findByFormKey(cnf.items, key);
+                                if (rs) {
+                                    return rs;
+                                }
+                            } else if (cnf.key == key) {
+                                return cnf;
+                            }
+                        } else if (key == cnf) {
+                            return cnf;
+                        }
                     }
-                    if (!self.editable) {
-                        setReadonly(self.form.form);
-                    }
-                    self.form.model = entity;
-                    self.detailUrl = config.form.template;
-                    self.form.initEdit && self.form.initEdit(self, watch);
-                    self.events.trigger('detailLoad', entity);
-                };
+                }
 
-                self.pagination = {
-                    pageSize: 20,
-                    onPageChange: function (newPage) {
-                        self.filter.start = (newPage - 1) * self.pagination.pageSize;
-                        self.filter.count = self.pagination.pageSize;
-                        self.load();
-                    }
-                };
+                function setStatus(key, attributte, status) {
+                    var form = findByFormKey(self.form.form, key);
+                    form = form || {};
+                    form[attributte] = status;
+                }
+
+                function getValue(key) {
+                    if (self.form.model && self.form.model.hasOwnProperty(key))
+                        return self.form.model[key];
+                }
+
+                function requestApi(res) {
+                    var body = res.body;
+                    self.entries = body.items || [];
+                    self.gridOptions.totalItems = body.count;
+                    self.events.trigger('listLoaded');
+                }
+
+                function setGridHeaders() {
+                    var rawColumns = [
+                        {
+                            field: ' uid',
+                            displayName: '用户编号',
+                            visible: false
+                        },
+                        {
+                            field: ' username',
+                            displayName: "用户名",
+                            width: 90
+                        },
+                        {
+                            field: ' mobile',
+                            displayName: '手机',
+                            enableSorting: false
+                        }
+                    ], columns = [];
+
+                    angular.forEach(rawColumns, function (col) {
+                        col.name = col.key;
+                        if (!col.headerCellFilter)
+                            col.headerCellFilter = "translate";
+                        columns.push(col);
+                    });
+                    self.gridOptions.columnDefs = columns;
+                }
 
                 function setReadonly(form) {
                     for (var i = 0, size = form.length; i < size; i++) {
@@ -257,6 +265,87 @@ define(['base/services/mapper'], function (mapper) {
                         }
                     }
                 }
+
+                self.loadSchema = function () {
+                    $http.jsonp('plugins/demo/jsonp/script.js').success(function (res) {
+                        self.form = res.form;
+                        var context = {
+                            watch: watch,
+                            getValue: getValue,
+                            setValue: setValue,
+                            setStatus: setStatus
+                        };
+                        res.script.apply(context);
+                    });
+                };
+
+                self.init = function () {
+                    self.editable = config.list.editable !== false;
+                    self.entries = [];
+                    self.filter = {
+                        count: pageSize
+                    };
+
+                    config.operations.push({
+                        name: "test",
+                        action: function () {
+                            console.log("test");
+                        }
+                    });
+
+                    self.config = config;
+                    self.form.fullScreen = (self.form.fullScreen !== false);
+                    self.load();
+
+                    if (detailId) {
+                        self.loadOne();
+                    }
+
+                    self.loadSchema();
+                    self.events.trigger('listInit');
+                };
+
+                self.load = function () {
+                    setGridHeaders();
+                    if (self.config.list.mock) {
+                        requestApi({'body': {items: [], count: 0}});
+                    } else {
+                        utils.async("GET", api, self.filter).then(function (res) {
+                            requestApi(res);
+                        });
+                    }
+                };
+
+                self.loadEntity = function () {
+                    var namespace = [$stateParams.name, $stateParams.page, detailId].join("/");
+                    utils.async("GET", namespace, self.filter).then(function (res) {
+                        var body = res.body;
+                        self.detailLoad(body);
+                    });
+                };
+
+                self.detailLoad = function (entity) {
+                    if (!entity)
+                        entity = {};
+
+                    self.entryCopy = angular.copy(entity);
+                    self.detailUid = entity.uid;
+
+                    if (!self.editable) {
+                        setReadonly(self.form.form);
+                    }
+                    // self.form.initEdit && self.form.initEdit(self, watch);
+                    self.events.trigger('detailLoad', entity);
+                };
+
+                self.pagination = {
+                    pageSize: 20,
+                    onPageChange: function (newPage) {
+                        self.filter.start = (newPage - 1) * self.pagination.pageSize;
+                        self.filter.count = self.pagination.pageSize;
+                        self.load();
+                    }
+                };
 
                 self.paginationOptions = {
                     pageNumber: 1,
@@ -291,11 +380,6 @@ define(['base/services/mapper'], function (mapper) {
                     appScopeProvider: {
                         onDblClick: function (row) {
                             self.detailLoad(row.entity);
-                        },
-                        customClick: function (name) {
-                            if (angular.isFunction(self[name])) {
-                                self[name].apply();
-                            }
                         }
                     },
                     rowTemplate: "<div ng-dblclick=\"grid.appScope.onDblClick(row)\" " +
@@ -307,8 +391,8 @@ define(['base/services/mapper'], function (mapper) {
                 self.events.on("closeDetail", function () {
                     self.detailUrl = null;
                     self.form.model = {};
-                    utils.resetScroll();
                 });
+
                 self.init();
             }
         ]);

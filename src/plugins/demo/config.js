@@ -13,6 +13,7 @@ angular.module("app.config")
                     action: function (toastr) {
                         var context = this;
                         console.log(context.scope);
+                        //context.scope.load();
                         toastr.success("hello");
                     }
                 }
@@ -37,8 +38,7 @@ angular.module("app.config")
                         enableSorting: false
                     },
                     lastLogin: {
-                        displayName: '最后登录时间',
-                        cellFilter: "time:'LLL'"
+                        displayName: '最后登录时间'
                     },
                     displayName: {
                         displayName: '昵称'
@@ -76,7 +76,7 @@ angular.module("app.config")
                         type: "select",
                         name: "type$match",
                         label: "账号类型",
-                        titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}]
+                        titleMap: [{name: 'admin', value: 'admin'}, {name: '普通用户', value: 'user'}]
                     },
                     {
                         type: "dateRangePicker",
@@ -148,8 +148,7 @@ angular.module("app.config")
                         },
                         {
                             key: "activeCode",
-                            title: "激活码",
-                            type: "string"
+                            title: "激活码"
                         },
                         {
                             key: "type",
@@ -313,6 +312,7 @@ angular.module("app.config")
                 }
             },
             form: {
+                fullScreen: false,
                 schema: {
                     type: "object",
                     "properties": [{
@@ -323,6 +323,11 @@ angular.module("app.config")
                     }, {
                         key: "name",
                         title: "名称",
+                        type: "string",
+                        required: true
+                    }, {
+                        key: "slash",
+                        title: "标识",
                         type: "string",
                         required: true
                     }, {
@@ -349,6 +354,9 @@ angular.module("app.config")
                     items: [{
                         key: 'name',
                         title: '名称'
+                    }, {
+                        key: 'slash',
+                        title: '标识'
                     }, {
                         key: 'configScript',
                         title: '配置计算脚本',
