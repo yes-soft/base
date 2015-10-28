@@ -6,7 +6,17 @@ angular.module("app.config")
             title: "配置示例",
             operation: {
                 add: true,
-                del: true
+                del: true,
+                custom: {
+                    name: "示例",
+                    icon: "fa-plus",
+                    action: function (toastr) {
+                        var context = this;
+                        console.log(context.scope);
+                        //context.scope.load();
+                        toastr.success("hello");
+                    }
+                }
             },
             list: {
                 mock: false,
@@ -25,11 +35,12 @@ angular.module("app.config")
                     },
                     email: {
                         displayName: '邮件地址',
-                        enableSorting: false
+                        enableSorting: false,
+                        hide:'phone,tablet'
                     },
                     lastLogin: {
                         displayName: '最后登录时间',
-                        cellFilter: "time:'LLL'"
+                        hide:'phone,tablet'
                     },
                     displayName: {
                         displayName: '昵称'
@@ -37,24 +48,29 @@ angular.module("app.config")
                     gender: {
                         displayName: '性别',
                         cellFilter: "translatePrefix:'gender'",
-                        width: 40
+                        width: 40,
+                        hide:'phone,tablet'
                     },
                     active: {
                         displayName: '激活',
                         cellFilter: "translate",
+                        hide:'phone,tablet',
                         width: 40
                     },
                     createdAt: {
                         displayName: '创建日期',
-                        cellFilter: "time:'YYYY-MM-DD'"
+                        cellFilter: "time:'YYYY-MM-DD'",
+                        hide:'phone,tablet'
                     },
                     type: {
                         displayName: '类型',
-                        cellFilter: 'translate'
+                        cellFilter: 'translate',
+                        hide:'phone,tablet'
                     },
                     frozenMoney: {
                         displayName: '冻结资金',
-                        visible: false
+                        visible: false,
+                        hide:'phone,tablet'
                     }
                 },
                 filters: [
@@ -67,7 +83,7 @@ angular.module("app.config")
                         type: "select",
                         name: "type$match",
                         label: "账号类型",
-                        titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}]
+                        titleMap: [{name: 'admin', value: 'admin'}, {name: '普通用户', value: 'user'}]
                     },
                     {
                         type: "dateRangePicker",
@@ -81,8 +97,12 @@ angular.module("app.config")
                         name: "mobile$match",
                         label: "手机号码"
                     }],
-                resolves: function (utils, oPath) {
-
+                resolves: function (utils, oPath, $timeout) {
+                    var context = this;
+                    var titleMap = oPath.find(context, ['list', 'filters', '[name:type$match]', 'titleMap'], []);
+                    $timeout(function () {
+                        titleMap.push({name: '示例脚本', value: '----'});
+                    }, 3000);
                 }
             },
             form: {
@@ -135,8 +155,7 @@ angular.module("app.config")
                         },
                         {
                             key: "activeCode",
-                            title: "激活码",
-                            type: "string"
+                            title: "激活码"
                         },
                         {
                             key: "type",
@@ -208,15 +227,51 @@ angular.module("app.config")
                             placeholder: '请输入用户名',
                             titleMap: [{name: '管理员', value: 'admin'}, {name: '普通用户', value: 'user'}],
                             title: '账号类型',
-                            type: 'select'
+                            type: 'select2',
+                            fieldAddonRight: 'fa-plus',
+                            dialog: function (cfg, parent) {
+                                var injector = angular.element(document).injector();
+                                var dialog = injector.get('ngDialog');
+                                var key = 'type';
+                                var model = parent.model;
+                                var utils = injector.get('ngDialog');
+                                var toastr = injector.get('toastr');
+                                var $timeout = injector.get('$timeout');
+                                dialog.open(
+                                    {
+                                        template: 'plugins/demo/templates/test.html',
+                                        controller: function ($scope) {
+                                            $scope.save = function () {
+                                                $timeout(function () {
+                                                    model[key] = model[key] || {};
+                                                    model[key].name = $scope.test;
+                                                    model[key].value = $scope.test;
+                                                    cfg.titleMap = cfg.titleMap || [];
+                                                    cfg.titleMap.push(model[key]);
+                                                    $scope.closeThisDialog();
+                                                }, 200);
+                                            };
+                                        }
+                                    }
+                                );
+                            },
+                            refresh: function (cfg, value) {
+                                var utils = angular.element('body').injector().get('utils');
+                                utils.async('get', 'base/accounts', {displayName$match: value}).then(
+                                    function (res) {
+                                        cfg.titleMap = res.body.items.map(function (entry) {
+                                            return {
+                                                value: entry.uid,
+                                                name: entry.displayName
+                                            };
+                                        });
+                                    }
+                                );
+                            },
+                            small: true
                         }, {
                             key: 'frozenMoney',
                             title: '冻结资金'
-                        }, {
-                            key: 'photo',
-                            singleLine: true,
-                            title: '头像',
-                            type: 'gallery'
                         }, {
                             key: 'images',
                             singleLine: true,
@@ -264,6 +319,7 @@ angular.module("app.config")
                 }
             },
             form: {
+                fullScreen: false,
                 schema: {
                     type: "object",
                     "properties": [{
@@ -274,6 +330,11 @@ angular.module("app.config")
                     }, {
                         key: "name",
                         title: "名称",
+                        type: "string",
+                        required: true
+                    }, {
+                        key: "slash",
+                        title: "标识",
                         type: "string",
                         required: true
                     }, {
@@ -300,6 +361,9 @@ angular.module("app.config")
                     items: [{
                         key: 'name',
                         title: '名称'
+                    }, {
+                        key: 'slash',
+                        title: '标识'
                     }, {
                         key: 'configScript',
                         title: '配置计算脚本',

@@ -5,24 +5,44 @@
     <div ng-include="'./plugins/base/templates/breadcrumbs.html'"></div>
     <div class="page-content list-scope">
         <div class="wrapper-md">
+            <div class="search-controls clearfix">
+                <form name="search" ng-submit="action.search();">
+                    <div class="search-items clearfix">
+                        <div class="item" ng-repeat="item in config.list.filters">
+                            <div class="caption"> {{item.label | translate}} :</div>
+                            <div class="control" yes-query="item" data-filter="filter"
+                                 data-ng-model="filter[item.name]"></div>
+                        </div>
+                    </div>
+                    <div class="buttons-wrap clearfix">
+                        <button class="btn btn-sm" type="submit">
+                            <i class="glyphicon glyphicon-search "></i> {{'搜索' | translate}}
+                        </button>
+                        <button class="btn btn-sm" type="button" ng-click="action.reset();">
+                            <i class="ace-icon fa fa-undo bigger-110"></i>{{'重置' | translate}}
+                        </button>
+                        <button ng-repeat="op in config.operations"
+                                style="margin-right: 3px;"
+                                class="btn btn-sm"
+                                type="button"
+                                ng-click="op.action();">
+                            <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
+                        </button>
 
-            <div data-search-common
-                 data-operations="config.operations"
-                 data-filters-conf="config.list.filters"
-                 data-filter="filter"
-                 data-on-search="load();"></div>
+                        <div yes-pagination="pagination" class="pull-right"></div>
+                    </div>
+                </form>
+            </div>
 
-            <div class="list-wrap">
-                <div class="table-responsive" ng-class="{'enable-filter':gridOptions.enableFiltering}">
-                    <div ui-grid="gridOptions" ng-style="{'height':height}"
-                         ui-grid-selection
-                         ui-grid-resize-columns
-                         ui-grid-exporter
-                         ui-grid-move-columns
-                         ui-grid-auto-resize
-                         ui-grid-pagination
-                         class="grid"></div>
-                </div>
+            <div class="list-grid-wrap" ng-class="{'enable-filter':gridOptions.enableFiltering}">
+                <div ui-grid="gridOptions" ng-style="{'height':height}"
+                     ui-grid-selection
+                     ui-grid-resize-columns
+                     ui-grid-exporter
+                     ui-grid-move-columns
+                     ui-grid-auto-resize
+                     ui-grid-pagination
+                     class="grid"></div>
             </div>
         </div>
     </div>

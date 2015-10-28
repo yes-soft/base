@@ -1,0 +1,91 @@
+.ui-grid-canvas {
+  padding-top: 0;
+}
+.list-wrap .search-controls {
+  margin: 5px 0;
+}
+.list-wrap .buttons-wrap {
+  clear: both;
+}
+.list-wrap .search-items {
+  display: block;
+}
+.list-wrap .search-items .item {
+  min-width: 220px;
+  float: left;
+  display: block;
+  width: 25%;
+  margin: 5px 0;
+}
+.list-wrap .search-items .item .caption {
+  width: 90px;
+  float: left;
+  line-height: 28px;
+  padding: 0 3px;
+}
+.list-wrap .search-items .item .control {
+  margin-left: 90px;
+}
+.list-wrap .form-search .button-wrap {
+  clear: both;
+  text-align: center;
+  display: block;
+  float: left;
+  width: 300px;
+  margin-bottom: 10px;
+}
+.list-wrap .enable-filter .ui-grid-header-canvas {
+  height: 68px !important;
+}
+.list-wrap textarea,
+.list-wrap input[type="text"],
+.list-wrap input[type="password"],
+.list-wrap input[type="datetime"],
+.list-wrap input[type="datetime-local"],
+.list-wrap input[type="date"],
+.list-wrap input[type="month"],
+.list-wrap input[type="time"],
+.list-wrap input[type="week"],
+.list-wrap input[type="number"],
+.list-wrap input[type="email"],
+.list-wrap input[type="url"],
+.list-wrap input[type="search"],
+.list-wrap input[type="tel"],
+.list-wrap input[type="color"],
+.list-wrap .form-control,
+.list-wrap .dropdown-menu {
+  font-size: 12px;
+  padding: 3px 6px;
+}
+.list-wrap a.ui-select-choices-row-inner {
+  padding: 5px 6px;
+}
+.list-wrap .ui-select-placeholder,
+.list-wrap .ui-select-match-text {
+  line-height: 22px;
+}
+.daterangepicker.dropdown-menu {
+  min-width: 600px;
+}
+.daterangepicker .input-mini.active {
+  border: 1px solid #ccc;
+}
+.ui-grid-scrollbar-placeholder {
+  overflow-x: scroll;
+}
+.ui-grid-row:nth-child(odd):hover .ui-grid-cell {
+  background: #438eb9;
+  color: #ffffff;
+}
+.ui-grid-row:nth-child(even):hover .ui-grid-cell {
+  background: #438eb9;
+  color: #fff;
+}
+.yes-pagination {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.search-controls .buttons-wrap {
+  position: relative;
+}

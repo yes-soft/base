@@ -1,12 +1,20 @@
 <div class="form-group schema-form-radios-inline {{form.htmlClass}}"
-     ng-class="{'has-error': form.disableErrorState !== true &&  hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess()}">
+     ng-class="{'has-error': form.disableErrorState !== true &&  hasError(),
+      'has-success': form.disableSuccessState !== true && hasSuccess(),
+      'readonly':form.readonly
+      }">
 
-    <div class="col-xs-12 col-sm-2 col-md-1 text-right">
-        <label class="control-label {{form.labelHtmlClass}}" ng-show="showTitle()">
+    <div class="label-col col-xs-12 col-sm-2 col-md-1 text-right">
+        <label ng-class="{'required':form.required}" class="control-label {{form.labelHtmlClass}}"
+               ng-show="showTitle()">
             {{form.title | translate}}
+            <span ng-if="form.editable">
+                <a ng-href="form.editUrl"> {{'编辑'|translate}}</a>
+                <a ng-href="form.del()"> {{'删除'|translate}}</a>
+            </span>
         </label>
     </div>
-    <div class="col-xs-12 col-sm-10 col-md-11 padding-right-0">
+    <div class="value-col form-inline col-xs-12 col-sm-10 col-md-11 padding-right-0">
         <label class="radio-inline" ng-repeat="item in form.titleMap">
             <input type="radio"
                    class="{{form.fieldHtmlClass}}"
@@ -17,6 +25,9 @@
                    ng-value="item.value"
                    name="{{form.key.join('.')}}">
             <span ng-bind-html="item.name"></span>
+
+            <input type="text" ng-if="item.input" ng-change="$$value$$=item.value=custom" ng-model="custom">
+
         </label>
     </div>
     <div class="help-block" sf-message="form.description"></div>

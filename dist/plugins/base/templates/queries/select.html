@@ -1,0 +1,13 @@
+<div class="yes-filter select">
+    <ui-select ng-model="filter[option.name]"
+               theme="bootstrap"
+               reset-search-input="true"
+               style="min-width: 120px;">
+        <ui-select-match placeholder="{{::option.placeholder?option.placeholder:'请输入' | translate}}">
+            {{$select.selected.name | translate }}
+        </ui-select-match>
+        <ui-select-choices repeat="item.value as item in option.titleMap | filter:$select.search">
+            <div ng-bind-html="item.name | translate | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+</div>

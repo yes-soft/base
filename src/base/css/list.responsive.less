@@ -1,0 +1,35 @@
+@import "./../../less/mixins.less";
+@import "./../../less/variables";
+
+@media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+  select {
+    width: 220px;
+    height: 30px;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  select {
+    width: 220px;
+    height: 30px;
+  }
+}
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  select {
+    width: 220px;
+  }
+}
+
+@media (min-width: @screen-lg-min) and (max-width: @screen-lg-min) {
+  .search-items {
+
+    select,
+    .input-group,
+    input[type=text],
+    input.data {
+      width: 220px;
+    }
+  }
+}
+

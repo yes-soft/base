@@ -2,44 +2,65 @@ angular.module('app')
     .controller('app.layout', ['$scope', '$stateParams', '$location', 'settings', 'utils', 'ngDialog', 'toastr',
         function ($scope, $stateParams, $location, settings, utils, ngDialog, toastr) {
 
-
+            var self = $scope;
             utils.async("GET", settings.menuApi, {}).then(function (res) {
 
                 var data = res.body;
                 if (!angular.isArray(data)) {
                     data = data.items;
                 }
+
                 var menus = data.sort(function (a, b) {
                     return a.order - b.order;
                 });
 
-                $scope.menus = utils.menus.initMenus(settings.menuRoot, menus);
+                self.rawMenus = menus;
 
-                if ($scope.menus.length) {
-                    var uri = $location.path().split('/').slice(1);
-                    if (uri[0] === 'dashboard') {
-                        $scope.menus[0].expanded = true;
-                    }
-                    else {
-                        $scope.menus.forEach(function (menu) {
-                            if (menu.tag == uri[0]) {
-                                menu.expanded = true;
-                            }
-                            else if (menu.expanded == true) {
-                                menu.expanded = false;
-                            }
-                        });
-                    }
-                }
+                $scope.menus = utils.menus.initMenus(settings.menuRoot, menus);
 
                 $scope.menusCache = utils.menus.buildMenuTree(menus);
 
+                findMenuByUrl(self.rawMenus);
+
             });
+
+            function walkParents(menu) {
+                if (menu.parentNode) {
+                    menu.parentNode.active = true;
+                    walkParents(menu.parentNode);
+                }
+            }
+
+            function findMenuByUrl(menus) {
+                var uri = $location.path().substring(1);
+                var menuContainer = {};
+                for (var i = 0; i < menus.length; i++) {
+                    var result = menus[i].url.match(uri + "$");
+                    if (result != null) {
+                        menuContainer.found = menus[i];
+                        menus[i].active = true;
+                    } else {
+                        menus[i].active = false;
+                    }
+                }
+
+                if (menuContainer.found) {
+                    walkParents(menuContainer.found);
+                }
+            }
+
 
             $scope.onSelect = function ($item, $model, $label) {
                 //var hash = $item.url;
                 location.hash = $item.url;
+                $scope.select = "";
+                // jQuery("a href=" + $item.url).click();
             };
+
+            $scope.$on("$locationChangeSuccess", function () {
+                if (self.rawMenus)
+                    findMenuByUrl(self.rawMenus);
+            });
 
             $scope.getMenus = function (value) {
 

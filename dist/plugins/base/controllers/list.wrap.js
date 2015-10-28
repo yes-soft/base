@@ -6,7 +6,6 @@ define(['base/services/mapper'], function (mapper) {
             function ($scope, $stateParams, $timeout, $location, $rootScope,
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
-
                 var self = $scope;
                 var detailId = $location.search()['uid'];
 
@@ -156,7 +155,14 @@ define(['base/services/mapper'], function (mapper) {
                             } else if (angular.isObject(col) && key) {
                                 col.name = key;
                             }
-                            col.headerCellFilter = "translate";
+
+                            if (angular.isUndefined(col.headerCellFilter))
+                                col.headerCellFilter = "translate";
+
+                            if (col.hide) {
+                                col.htmlClass += angular.isDefined(col.htmlClass) ? ( "," + col.hide) : col.hide;
+                            }
+
                             if (col.filter && angular.isFunction(col.filter)) {
                                 col.filter.apply(col, [columns, $rootScope]);
                             } else {
@@ -167,6 +173,8 @@ define(['base/services/mapper'], function (mapper) {
                     }
 
                     self.gridOptions.totalItems = body.count;
+                    self.pagination.totalItems = body.count; //自定义的分页
+
                     self.events.trigger('listLoaded');
 
                     if (self.form.debug && self.entries.length) {
@@ -183,6 +191,12 @@ define(['base/services/mapper'], function (mapper) {
                             requestApi(res);
                         });
                     }
+                };
+
+                self.loadValidation = function () {
+                    utils.async('get', '', {}).then(function () {
+
+                    });
                 };
 
                 self.loadOne = function () {
@@ -223,13 +237,16 @@ define(['base/services/mapper'], function (mapper) {
                     if (!self.form) {
                         self.form = {};
                     }
+
                     if (!self.editable) {
                         setReadonly(self.form.form);
                     }
+
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
                     self.form.initEdit && self.form.initEdit(self, watch);
                     self.events.trigger('detailLoad', entity);
+                    jQuery(window).trigger('resize');
                 };
 
                 self.pagination = {
@@ -270,14 +287,16 @@ define(['base/services/mapper'], function (mapper) {
 
                 self.gridOptions = {
                     data: 'entries',
+                    //showGridFooter: true,
+                    //showColumnFooter: true,
                     enableGridMenu: true,
                     exporterMenuCsv: true,
                     exporterMenuPdf: false,
-                    enablePaginationControls: true,
+                    enablePaginationControls: false,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
-                    useExternalPagination: false,
+                    useExternalPagination: true,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
                         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
@@ -295,6 +314,11 @@ define(['base/services/mapper'], function (mapper) {
                     appScopeProvider: {
                         onDblClick: function (row) {
                             self.detailLoad(row.entity);
+                        },
+                        customClick: function (name) {
+                            if (angular.isFunction(self[name])) {
+                                self[name].apply();
+                            }
                         }
                     },
                     rowTemplate: "<div ng-dblclick=\"grid.appScope.onDblClick(row)\" " +
@@ -307,7 +331,13 @@ define(['base/services/mapper'], function (mapper) {
                     self.detailUrl = null;
                     self.form.model = {};
                     utils.resetScroll();
+
+                    $timeout(function () {
+                        jQuery(window).trigger('resize');
+                    }, 0);
                 });
+
+
                 self.init();
             }
         ]);
