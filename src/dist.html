@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="base/vendor/ace/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
     <link rel="stylesheet" href="base/vendor/select2/select.css"/>
-    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css" />
+    <link rel="stylesheet" href="plugins/base/assets/yes-ui.css"/>
 
     <!-- inject:css -->
     <!-- endinject -->
@@ -45,6 +45,17 @@
 
 <script type="text/javascript">
     var language = navigator.language || navigator.userLanguage;
+
+    if (localStorage.language) {
+        language = localStorage.language;
+    }
+
+    var dict = {
+        'zh-CN': '',
+        'en-US': 'en'
+    };
+    var langPrefix = dict[language];
+
     angular.module('app.config', [
         'ui.bootstrap',
         'ngDialog',
@@ -63,7 +74,7 @@
             amMoment.changeLocale(language);
         }]);
 
-    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate','ui.select']);
+    angular.module('app', ['ui.router', 'oc.lazyLoad', 'yes.utils', 'yes.ui', 'app.config', 'ui.tinymce', 'pascalprecht.translate', 'ui.select']);
 
     angular.module('app').config(['$translateProvider', '$translatePartialLoaderProvider',
         function ($translateProvider, $translatePartialLoaderProvider) {

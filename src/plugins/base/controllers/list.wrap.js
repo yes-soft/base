@@ -284,7 +284,7 @@ define(['base/services/mapper'], function (mapper) {
                     enableGridMenu: true,
                     exporterMenuCsv: true,
                     exporterMenuPdf: false,
-                    enablePaginationControls: false,
+                    enablePaginationControls: true,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
