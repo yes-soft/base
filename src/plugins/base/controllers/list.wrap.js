@@ -273,7 +273,7 @@ define(['base/services/mapper'], function (mapper) {
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
-                    useExternalPagination: false,
+                    useExternalPagination: true,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
                         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
