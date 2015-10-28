@@ -1,11 +1,5 @@
-/**/
-angular.callbacks._0({
+/**/angular.callbacks._0({
     form: {
-        operations: [{
-            name: '保存', action: function (form) {
-                self.action.save(form);
-            }
-        }],
         schema: {
             type: 'object',
             properties: {
@@ -337,7 +331,6 @@ angular.callbacks._0({
             }, selectedValue);
             setStatus('installMethod', 'readonly', true);
         });
-
 
         //2、当(8)选择“电保持（E）”时，(10)项不可选；当(8)选择“机械保持（M）”时，(10)项为必选。
         watch('keepMethod').change(function (selectedValue) {

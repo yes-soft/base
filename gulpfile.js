@@ -69,9 +69,8 @@ gulp.task('scripts', function () {
 
 gulp.task('css', function () {
     return gulp.src([
-        'src/base/css/**/*.css'
-    ])
-        .pipe(concat('main.css'))
+        'src/base/css/style.css'
+    ]).pipe(concat('main.css'))
         .pipe(gulp.dest(distBase + 'css'));
 });
 
@@ -115,7 +114,7 @@ gulp.task('default', ['scripts', 'css', 'css-vendor', 'copy-fonts',
         var target = gulp.src('./src/dist.html').pipe(rename('index.html'));
 
         var js = gulp.src([
-            'base/scripts/yes.app.js'
+            'base/scripts/yes.app.min.js'
         ], {read: false, cwd: dist});
 
         var css = gulp.src([

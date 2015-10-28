@@ -12,8 +12,8 @@
        ng-class="{'active': number == pagination.getPage(), 'separate': number == '...'}"> <span>{{ number }} </span>
     </a>
 
-    <!--<a class="current" href="">{{pagination.getPage()}}</a>-->
-    <button class="next btn" ng-disabled="pagination.cantPageForward()" ng-click="pagination.nextPage()">{{'下一页' |
+    <button class="next btn" ng-disabled="pagination.cantPageForward()" ng-click="pagination.nextPage()">
+        {{'下一页' |
         translate}}
     </button>
 </div>

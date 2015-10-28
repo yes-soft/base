@@ -9,11 +9,27 @@
         }
 
         .label-col {
-            min-width: 180px;
+            min-width: 280px;
+        }
+
+        .cfg-line {
+            border: 1px solid #ccc;
+            padding-top: 10px;
+            border-top: 0;
+        }
+
+        .group-wrap {
+            border-top: 1px solid #ccc;
+        }
+
+        .help-block {
+            height: 1px !important;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .value-col {
-            max-width: 530px;
+            max-width: 570px;
         }
 
         .quantity {
@@ -38,6 +54,13 @@
             color: #999999 !important;
         }
 
+        .radio-inline input[type=text] {
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            padding: 0;
+
+        }
+
     </style>
 
     <div class="widget-header widget-header-flat">
@@ -51,15 +74,13 @@
     </div>
 
     <div class="widget-body clearfix">
-        <form name="edit$form" class="schema-form" ng-class="{'scaffold':scaffold}" role="form">
+        <form name="editForm" class="schema-form" ng-class="{'scaffold':scaffold}" role="form">
             <div class="buttons-wrap">
-
                 <button ng-if="editable" ng-repeat="op in detail.operations" class="btn btn-sm btn-info"
                         type="{{op.type}}" style="margin-right: 5px;"
-                        ng-click="op.action(edit$form);">
+                        ng-click="op.action(editForm);">
                     <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
                 </button>
-
             </div>
 
             <div class="col-sm-12 edit-body">

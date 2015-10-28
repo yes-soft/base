@@ -481,53 +481,6 @@ body {
 .modal-backdrop.fade.in {
   opacity: 0.01;
 }
-.searchs-div .btns {
-  margin-top: -1px;
-}
-.searchItem {
-  display: block;
-  float: left;
-  margin-bottom: 10px;
-  width: 33.3333%;
-}
-.searchItem .input-group {
-  width: 220px;
-}
-.searchItem .datetime .input-group-addon {
-  width: 32px;
-  padding: 0 2px;
-}
-.searchItem input.input {
-  width: 220px;
-  height: 30px;
-}
-.searchItem .date {
-  width: 220px;
-}
-.searchItem input[datepicker-popup] {
-  min-width: 136px;
-}
-.searchItem select {
-  width: 220px;
-  height: 30px;
-}
-.searchItem label {
-  text-align: right;
-  display: block;
-  float: left;
-  line-height: 30px;
-  width: 30%;
-  vertical-align: middle;
-}
-.form-search .btns {
-  text-align: center;
-  float: left;
-  width: 300px;
-  margin-bottom: 10px;
-}
-.enable-filter .ui-grid-header-canvas {
-  height: 68px !important;
-}
 .widget-body .buttons-wrap {
   padding: 10px;
   border-bottom: 1px dotted #e2e2e2;

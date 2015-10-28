@@ -35,15 +35,15 @@
 .yes-menu li.active:hover {
   margin-top: -1px;
   padding-top: 2px;
-  background-color: #00a533;
+  background-color: #438eb9;
 }
 .yes-menu li.active a,
 .yes-menu li.active:hover a,
 .yes-menu li.active a:hover,
 .yes-menu li.active:hover a:hover {
-  background-color: #00a533;
+  background-color: #438eb9;
   color: #fbfbfb;
-  border-color: #00a533;
+  border-color: #438eb9;
 }
 .yes-menu .menu-group {
   padding-top: 5px;

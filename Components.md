@@ -339,7 +339,7 @@ resolves: function (utils, oPath, $timeout) {
 | gallery             | 图片上传          |
 | datepicker          | 日期选择          |
 | dateTimePicker      | 时间选择          |
-| dateRangePicker     | 日期范围选择       |
+| dateRangePicker     | 日期范围选择        |
 | label               | 文本显示          |
 
 #### 常用service介绍

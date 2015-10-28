@@ -8,9 +8,13 @@
         <label ng-class="{'required':form.required}" class="control-label {{form.labelHtmlClass}}"
                ng-show="showTitle()">
             {{form.title | translate}}
+            <span ng-if="form.editable">
+                <a ng-href="form.editUrl"> {{'编辑'|translate}}</a>
+                <a ng-href="form.del()"> {{'删除'|translate}}</a>
+            </span>
         </label>
     </div>
-    <div class="value-col col-xs-12 col-sm-10 col-md-11 padding-right-0">
+    <div class="value-col form-inline col-xs-12 col-sm-10 col-md-11 padding-right-0">
         <label class="radio-inline" ng-repeat="item in form.titleMap">
             <input type="radio"
                    class="{{form.fieldHtmlClass}}"

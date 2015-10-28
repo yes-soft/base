@@ -35,10 +35,12 @@ angular.module("app.config")
                     },
                     email: {
                         displayName: '邮件地址',
-                        enableSorting: false
+                        enableSorting: false,
+                        hide:'phone,tablet'
                     },
                     lastLogin: {
-                        displayName: '最后登录时间'
+                        displayName: '最后登录时间',
+                        hide:'phone,tablet'
                     },
                     displayName: {
                         displayName: '昵称'
@@ -46,24 +48,29 @@ angular.module("app.config")
                     gender: {
                         displayName: '性别',
                         cellFilter: "translatePrefix:'gender'",
-                        width: 40
+                        width: 40,
+                        hide:'phone,tablet'
                     },
                     active: {
                         displayName: '激活',
                         cellFilter: "translate",
+                        hide:'phone,tablet',
                         width: 40
                     },
                     createdAt: {
                         displayName: '创建日期',
-                        cellFilter: "time:'YYYY-MM-DD'"
+                        cellFilter: "time:'YYYY-MM-DD'",
+                        hide:'phone,tablet'
                     },
                     type: {
                         displayName: '类型',
-                        cellFilter: 'translate'
+                        cellFilter: 'translate',
+                        hide:'phone,tablet'
                     },
                     frozenMoney: {
                         displayName: '冻结资金',
-                        visible: false
+                        visible: false,
+                        hide:'phone,tablet'
                     }
                 },
                 filters: [

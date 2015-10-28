@@ -1,21 +1,18 @@
 <div class="clearfix" id="navlist">
-
-
     <div class="tabbable tabs-left menu-div">
-
         <ul class="nav nav-tabs">
-            <li id="{{menu.uid}}" ng-class="{'active':menu.expanded}" ng-repeat="menu in ::menus">
+            <li id="{{menu.uid}}" ng-class="{'active':menu.active}" ng-repeat="menu in ::menus">
                 <a data-toggle="tab" class="clickable">
                     <i class="menu-icon fa {{::menu.icon}}"></i>
                     <span class="menu-text">{{menu.name}}</span></a>
             </li>
         </ul>
         <div class="tab-content">
-            <div id="tab_{{menu.uid}}" ng-repeat="menu in ::menus" ng-class="{'active':menu.expanded}" class="tab-pane">
+            <div id="tab_{{menu.uid}}" ng-repeat="menu in ::menus" ng-class="{'active':menu.active}" class="tab-pane">
                 <div class="slimScrollDiv">
                     <ul class="nav nav-list">
 
-                        <li ng-repeat="l2Menu in menu.subMenus" on-menu-render>
+                        <li ng-repeat="l2Menu in menu.subMenus" on-menu-render ng-class="{'active':l2Menu.active}">
                             <a ng-href="{{l2Menu.url}}" class="dropdown-toggle">
                                 <i class="menu-icon fa fa-file-o {{::l2Menu.icon}}"></i>
                                 <span class="menu-text">

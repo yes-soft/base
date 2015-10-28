@@ -6,8 +6,6 @@
     <meta charset="utf-8"/>
     <title>YES Base</title>
 
-    <!--temporary-->
-    <link href="base/css/select.css" rel="stylesheet">
 
     <link rel="stylesheet" href="base/vendor/ace/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="base/vendor/ace/assets/css/bootstrap.min.css"/>
@@ -22,9 +20,8 @@
     <link rel="stylesheet" href="plugins/base/vendor/datepicker/date.package.min.css"/>
     <link rel="stylesheet" href="plugins/base/assets/yes-ui.css"/>
     <link rel="stylesheet" href="base/vendor/select2/select.css"/>
-    <link href="base/css/common.css" rel="stylesheet">
-    <link href="base/css/pages.css" rel="stylesheet">
-    <link href="base/css/yes.ui.css" rel="stylesheet">
+    <link href="base/css/style.css" rel="stylesheet">
+
 
     <!-- ace settings handler -->
     <script src="base/vendor/ace/assets/js/ace-extra.min.js"></script>
@@ -99,7 +96,8 @@
         'ui.grid.resizeColumns',
         'ui.grid.pagination',
         'ui.grid.autoResize',
-        'ui.grid.exporter'
+        'ui.grid.exporter',
+            'ui.grid.moveColumns'
     ]).run(['$log', '$timeout', '$rootScope', 'amMoment', 'i18nService',
         function ($log, $timeout, $rootScope, amMoment, i18nService) {
             i18nService.setCurrentLang(language);

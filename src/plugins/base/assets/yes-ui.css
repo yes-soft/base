@@ -59,7 +59,7 @@
 .yes-pagination .page {
   color: #777777;
   font-size: 12px;
-  border: 1px solid #d7d7d7;
+  border: 0 solid #d7d7d7;
   border-radius: 5px;
   padding: 4px 10px;
   background: #fbfbfb;
@@ -72,6 +72,9 @@
   text-align: center;
   color: #000000;
 }
+.yes-pagination .yes-pagination span {
+  padding-top: 5px;
+}
 .yes-pagination a {
   line-height: 1.2;
   cursor: pointer;
@@ -79,7 +82,7 @@
   display: inline-block;
 }
 .yes-pagination a.active span {
-  background-color: #00a533;
+  background-color: #438eb9;
   border-radius: 4px;
   color: #fbfbfb;
   display: inline-block;
@@ -95,7 +98,7 @@
   height: 25px;
 }
 .yes-pagination .current {
-  background: #00d843;
+  background: #67a5c8;
   border: 0;
   color: #fbfbfb;
 }

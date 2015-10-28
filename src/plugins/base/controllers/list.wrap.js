@@ -6,7 +6,6 @@ define(['base/services/mapper'], function (mapper) {
             function ($scope, $stateParams, $timeout, $location, $rootScope,
                       $log, $http, utils, interpreter, settings, toastr, $translate, ngDialog) {
 
-
                 var self = $scope;
                 var detailId = $location.search()['uid'];
 
@@ -40,7 +39,12 @@ define(['base/services/mapper'], function (mapper) {
                         if (rows.length) {
                             ngDialog.openConfirm({
                                 className: 'ngdialog-theme-default',
-                                template: 'plugins/base/templates/confirm.html',
+                                template: '\
+                    <p style="margin-left:20px;">确定删除该条记录？</p>\
+                    <div class="ngdialog-buttons">\
+                        <button type="button" style="margin-right:45px;" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">取消</button>\
+                        <button type="button" style="margin-right:35px;" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">确认</button>\
+                    </div>',
                                 plain: true
                             }).then(function () {
                                 angular.forEach(rows, function (row) {
@@ -155,6 +159,10 @@ define(['base/services/mapper'], function (mapper) {
                             if (angular.isUndefined(col.headerCellFilter))
                                 col.headerCellFilter = "translate";
 
+                            if (col.hide) {
+                                col.htmlClass += angular.isDefined(col.htmlClass) ? ( "," + col.hide) : col.hide;
+                            }
+
                             if (col.filter && angular.isFunction(col.filter)) {
                                 col.filter.apply(col, [columns, $rootScope]);
                             } else {
@@ -165,6 +173,8 @@ define(['base/services/mapper'], function (mapper) {
                     }
 
                     self.gridOptions.totalItems = body.count;
+                    self.pagination.totalItems = body.count; //自定义的分页
+
                     self.events.trigger('listLoaded');
 
                     if (self.form.debug && self.entries.length) {
@@ -227,13 +237,16 @@ define(['base/services/mapper'], function (mapper) {
                     if (!self.form) {
                         self.form = {};
                     }
+
                     if (!self.editable) {
                         setReadonly(self.form.form);
                     }
+
                     self.form.model = entity;
                     self.detailUrl = config.form.template;
                     self.form.initEdit && self.form.initEdit(self, watch);
                     self.events.trigger('detailLoad', entity);
+                    jQuery(window).trigger('resize');
                 };
 
                 self.pagination = {
@@ -274,14 +287,16 @@ define(['base/services/mapper'], function (mapper) {
 
                 self.gridOptions = {
                     data: 'entries',
+                    //showGridFooter: true,
+                    //showColumnFooter: true,
                     enableGridMenu: true,
                     exporterMenuCsv: true,
                     exporterMenuPdf: false,
-                    enablePaginationControls: true,
+                    enablePaginationControls: false,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
-                    useExternalPagination: false,
+                    useExternalPagination: true,
                     onRegisterApi: function (gridApi) {
                         self.gridApi = gridApi;
                         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
@@ -316,7 +331,13 @@ define(['base/services/mapper'], function (mapper) {
                     self.detailUrl = null;
                     self.form.model = {};
                     utils.resetScroll();
+
+                    $timeout(function () {
+                        jQuery(window).trigger('resize');
+                    }, 0);
                 });
+
+
                 self.init();
             }
         ]);

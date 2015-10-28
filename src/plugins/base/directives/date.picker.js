@@ -1,8 +1,8 @@
 (function () {
     'use strict';
     angular.module('app')
-        .directive('datePicker', ['$location', 'utils', '$log', 'FileUploader', 'settings',
-            function ($location, utils, $log, FileUploader, settings) {
+        .directive('datePicker', ['$location', 'utils', '$log', 'settings',
+            function ($location, utils, $log, settings) {
                 return {
                     restrict: 'EA',
                     scope: {
@@ -114,7 +114,8 @@
                                     'applyClass': 'btn-sm btn-success',
                                     'cancelClass': 'btn-sm btn-default'
                                 }, function (start, end, label) {
-                                    var str = start.format("YYYY-MM-DD"), end = end.format("YYYY-MM-DD");
+                                    var str = start.format("YYYY-MM-DD");
+                                    end = end.format("YYYY-MM-DD");
                                     if($scope.nameFrom)
                                         $scope.$parent[changeInScope][$scope.nameFrom] = str;
                                     if($scope.nameTo)

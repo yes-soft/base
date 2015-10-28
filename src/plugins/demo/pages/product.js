@@ -24,7 +24,7 @@ define(['base/services/mapper'], function (mapper) {
                                 delete self.filter[key];
                         });
                     },
-                    cancel: function () {
+                    cancel: function (editForm) {
                         angular.forEach(self.form.model, function (raw, key) {
                             if (self.detailUid) {
                                 var namespace = [$stateParams.name, $stateParams.page, self.detailUid].join("/");
@@ -37,6 +37,9 @@ define(['base/services/mapper'], function (mapper) {
                                 self.form.model[key] = [];
                             }
                         });
+
+                        editForm.$setPristine();
+
                     },
                     del: function () {
                         var rows = self.gridApi.selection.getSelectedRows() || [];
@@ -147,7 +150,16 @@ define(['base/services/mapper'], function (mapper) {
                 self.form = {};
 
                 self.detail = {
-                    Operations: []
+                    operations: [{
+                        name: '保存', action: function (form) {
+                            self.action.save(form);
+                        }
+
+                    }, {
+                        name: '重置', action: function (form) {
+                            self.action.cancel(form);
+                        }
+                    }]
                 };
 
                 function Watcher(name) {
@@ -156,7 +168,7 @@ define(['base/services/mapper'], function (mapper) {
                     this.when = function (condition, callback) {
                         self.$watchCollection(name, function (newValue, oldValue) {
                             if (condition == true || self.$eval(condition)) {
-                                console.log(newValue);
+
                                 if (angular.isFunction(callback))
                                     callback.call(null, newValue);
                             }
@@ -267,15 +279,44 @@ define(['base/services/mapper'], function (mapper) {
                 }
 
                 self.loadSchema = function () {
-                    $http.jsonp('plugins/demo/jsonp/script.js').success(function (res) {
+                    $http.jsonp('/api/form?callback=JSON_CALLBACK').success(function (res) {
                         self.form = res.form;
+
+                        if (self.form && self.form.form) {
+                            angular.forEach(self.form.form,
+                                function (group) {
+                                    angular.forEach(group.items, function (item) {
+                                        if (angular.isObject(item)) {
+                                            item.editable = true;
+                                            item.htmlClass = "cfg-line";
+                                            item.editUrl = "...";
+                                            item.del = function () {
+                                                //item.key;
+                                                /* delete */
+                                            };
+                                        }
+                                    });
+                                }
+                            );
+                        }
+
+
                         var context = {
                             watch: watch,
                             getValue: getValue,
                             setValue: setValue,
                             setStatus: setStatus
                         };
-                        res.script.apply(context);
+                        if (angular.isFunction(res.script)) {
+                            res.script.apply(context);
+                        } else if (angular.isString(res.script)) {
+
+                            eval("var fn=" + res.script);
+                            console.log(fn);
+                        }
+
+                    }).error(function (err) {
+                        console.log("error...", err);
                     });
                 };
 
@@ -295,7 +336,7 @@ define(['base/services/mapper'], function (mapper) {
 
                     self.config = config;
                     self.form.fullScreen = (self.form.fullScreen !== false);
-                    self.load();
+                    // self.load();
 
                     if (detailId) {
                         self.loadOne();

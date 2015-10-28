@@ -98,6 +98,7 @@
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {
+
                     if (scope.$last === true) {
                         $timeout(function () {
                             var page = $stateParams.page,
@@ -555,9 +556,6 @@
                         });
 
                         self.pagesLength = self.pagesLength * 2 || 10;
-
-                        console.log(self.pagesLength);
-
                         scope.pagination = self;
 
                         function renderNumbers() {
