@@ -1,0 +1,5 @@
+<div class="row">
+    <div class="col col-{{$index}}" ng-repeat="item in form.items">
+        <sf-decorator ng-class="{'hide': form.hide}" form="item"></sf-decorator>
+    </div>
+</div>
