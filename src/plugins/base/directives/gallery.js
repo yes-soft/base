@@ -52,10 +52,16 @@
                                 	uploader.formData = [{'attachmentId': $scope.attachmentId}, {'isImage': true}];
                                     utils.async("GET", settings.getByAttIdUrl, {"attId": $scope.attachmentId}).then(function (rs) {
                                         $scope.items = rs.body;
+                                        if($scope.items){
+                                            $scope.items.forEach(function(item){
+                                                item.thumbUrl = "/"+$scope.apiPath+"/base/attachment/showthumb?uid="+item.uid;
+                                            });
+                                        }
                                     });
                                 }
                                 uploader.onSuccessItem = function (item, res, status, headers) {
                                     item.uid = res.body.data[0].uid;
+                                    item.thumbUrl = "/"+$scope.apiPath+"/base/attachment/showthumb?uid="+item.uid;
                                     $scope.message = res.message;
                                 };
                             };

@@ -10,7 +10,7 @@
 	<ul class="ace-thumbnails">
 		<li ng-repeat="item in items">
 			<a href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}" target="_blank" class="cboxElement">
-				<img src="/{{::apiPath}}/base/attachment/showthumb?uid={{::item.uid}}" height="150" width="150">
+				<img ng-src="{{item.thumbUrl}}" height="150" width="150">
 				<div class="text">
 					<div class="inner">{{::item.fileName}}</div>
 				</div>
@@ -26,9 +26,9 @@
 		</li>
 		<li ng-repeat="item in uploader.queue">
 			<a ng-show="item.isSuccess" href="/{{::apiPath}}/base/attachment/download?uid={{::item.uid}}" target="_blank" class="cboxElement">
-				<img src="/{{::apiPath}}/base/attachment/showthumb?uid={{::item.uid}}" height="150" width="150">
+				<img ng-src="{{item.thumbUrl}}" height="150" width="150">
 				<div class="text">
-					<div class="inner">{{::item.file.name}}</div>
+					<div class="inner">{{::item.file.name}}*{{item.thumbUrl}}</div>
 				</div>
 			</a>
 			<div ng-show="!item.isSuccess" class="img-panel">

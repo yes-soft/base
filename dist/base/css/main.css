@@ -4,6 +4,16 @@
 .submenu a {
   cursor: pointer;
 }
+.ui-grid-pager-row-count-picker select {
+  padding: 0 !important;
+}
+.my-selector-dialog {
+  padding-top: 40px !important;
+  padding-bottom: 0px !important;
+}
+.my-selector-dialog .ngdialog-content {
+  width: 1100px !important;
+}
 .yes-full-screen {
   position: absolute;
   margin: 0;

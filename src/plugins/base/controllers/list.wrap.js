@@ -8,6 +8,7 @@ define(['base/services/mapper'], function (mapper) {
 
                 var self = $scope;
                 var detailId = $location.search()['uid'];
+                var tag = [$stateParams.name, $stateParams.page].join("/");
 
                 self.action = {
                     search: function () {
@@ -112,14 +113,6 @@ define(['base/services/mapper'], function (mapper) {
                     }
                 };
 
-                function tempStop(stop) {
-                    setTimeout(function () {
-                        if (stop) {
-                            tempStop(stop);
-                        }
-                    }, 500);
-                }
-
                 self.events = utils.createEvents();
 
                 var config = interpreter.configuration(self), pageSize = config.list.pageSize;
@@ -149,6 +142,13 @@ define(['base/services/mapper'], function (mapper) {
                     self.headers = config.list.headers || body.headers;
                     if (self.headers) {
                         var columns = [];
+
+                        var colWidth = localStorage.getItem(tag + "_grid") || "";
+
+                        colWidth = colWidth.split(',');
+
+                        var index = 1;
+
                         angular.forEach(self.headers, function (col, key) {
                             if (angular.isString(col)) {
                                 col = {name: key, original: col, displayName: col};
@@ -163,6 +163,10 @@ define(['base/services/mapper'], function (mapper) {
                                 col.htmlClass += angular.isDefined(col.htmlClass) ? ( "," + col.hide) : col.hide;
                             }
 
+                            if (colWidth.length > index) {
+                                col.width = colWidth[index];
+                            }
+                            index++;
                             if (col.filter && angular.isFunction(col.filter)) {
                                 col.filter.apply(col, [columns, $rootScope]);
                             } else {
@@ -292,7 +296,7 @@ define(['base/services/mapper'], function (mapper) {
                     enableGridMenu: true,
                     exporterMenuCsv: true,
                     exporterMenuPdf: false,
-                    enablePaginationControls: false,
+                    enablePaginationControls: true,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
@@ -305,6 +309,14 @@ define(['base/services/mapper'], function (mapper) {
                             self.load();
                             self.paginationOptions.pageNumber = newPage;
                             self.paginationOptions.pageSize = pageSize;
+                        });
+
+                        gridApi.colResizable.on.columnSizeChanged($scope, function (ar1, ar2) {
+                            var cols = [];
+                            angular.forEach(gridApi.grid.columns, function (column) {
+                                cols.push(column.width);
+                            });
+                            localStorage.setItem(tag + "_grid", cols);
                         });
                     },
                     selectedItems: [],

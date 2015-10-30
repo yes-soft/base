@@ -109,7 +109,11 @@ angular.module("app.config").constant(
                             value: '0',
                             name: "未启用"
                         }]
-                    }, {
+                    }/*, {
+                        type: "dateRangePicker",
+                        name: "asassa",
+                        label: "手机号码"
+                    }*/, {
                         type: "select",
                         name: "type$eq",
                         label: "帐号类型",
@@ -929,11 +933,11 @@ angular.module("app.config").constant(
             },
             list: {
                 headers: {
+                	"cname": {
+                        displayName: "企业名称"
+                    },
                     "no": {
                         displayName: "编号"
-                    },
-                    "cname": {
-                        displayName: "企业名称"
                     },
                     "taxNo": {
                         displayName: "税号"
@@ -957,23 +961,26 @@ angular.module("app.config").constant(
                         displayName: "状态"
                     }
                 },
-                filters: [
-                    {
-                        type: "input",
-                        name: "cname$match",
-                        label: "名称"
+                filters: [{
+                    type: "input",
+                    name: "cname$match",
+                    label: "名称"
+                },{
+                    type: "input",
+                    name: "no$match",
+                    label: "编号"
+                },{
+                    type: "select",
+                    name: "enable$eq",
+                    label: "状态",
+                    titleMap: [{
+                        value: '1',
+                        name: '启用'
                     }, {
-                        type: "select",
-                        name: "enable$eq",
-                        label: "状态",
-                        titleMap: [{
-                            value: '1',
-                            name: '启用'
-                        }, {
-                            value: '0',
-                            name: '停用'
-                        }]
+                        value: '0',
+                        name: '停用'
                     }]
+                }]
             },
             form: {
                 schema: {
