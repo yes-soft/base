@@ -46,10 +46,10 @@
 
 #### 服务类
 
-| 名称       | 功能   |      |
-| -------- | ---- | ---- |
-| utils    |      |      |
-| oPath    |      |      |
-| ngDialog |      |      |
-| toastr   |      |      |
-|          |      |      |
+| 名称       | 功能     |                                          |
+| -------- | ------ | ---------------------------------------- |
+| utils    | 帮助函数库  |                                          |
+| oPath    | 变量路径查找 | https://github.com/mariocasciaro/object-path |
+| ngDialog | 对话框    | https://github.com/likeastore/ngDialog   |
+| toastr   | 提示消息   | https://github.com/Foxandxss/angular-toastr |
+|          |        |                                          |

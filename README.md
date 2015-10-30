@@ -15,6 +15,14 @@ YES base 基于 Angularjs 技术
 > 5. bootstrap
 > 6. gulp
 
+
+
+#### 项目示例
+
+http://www.yosell.com/dist
+
+登录用户名： admin 密码 admin
+
 #### 结构目录
 
 ``` 
@@ -208,7 +216,7 @@ settings.routers = {
  	del: true
  }  
  //搜索、重置为默认开启的按钮; 新建、删除为配置开启的按钮。
- 
+
 ```
 
 #### 自定义操作按钮 operation
@@ -339,7 +347,7 @@ resolves: function (utils, oPath, $timeout) {
 | gallery             | 图片上传          |
 | datepicker          | 日期选择          |
 | dateTimePicker      | 时间选择          |
-| dateRangePicker     | 日期范围选择       |
+| dateRangePicker     | 日期范围选择        |
 | label               | 文本显示          |
 
 #### 常用service介绍
@@ -369,4 +377,4 @@ settings  直接注入取得
 
 #### 多语言 translate
 
-##### 
+#####  
