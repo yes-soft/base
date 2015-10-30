@@ -13,6 +13,15 @@ YES base 基于 Angularjs 技术
 > 3. requirejs
 > 4. less css
 > 5. bootstrap
+> 6. gulp
+
+
+
+#### 项目示例
+
+http://www.yosell.com/dist
+
+登录用户名： admin 密码 admin
 
 #### 结构目录
 
@@ -98,7 +107,6 @@ var settings = {
     getUuid: "/base/attachment/getUuid",
     delByUid: "/base/attachment/"
 };
-
 ```
 
 #### 路由设置
@@ -208,7 +216,7 @@ settings.routers = {
  	del: true
  }  
  //搜索、重置为默认开启的按钮; 新建、删除为配置开启的按钮。
- 
+
 ```
 
 #### 自定义操作按钮 operation
@@ -243,6 +251,7 @@ gender: {
   visible:true,
   min-width:40px,
   width: 60,
+  htmlClass:"abc",
   cellTemplate:'' //列的显示模版
 }
 ```
@@ -366,4 +375,6 @@ settings  直接注入取得
 
 ###### ngDialog https://github.com/likeastore/ngDialog
 
-##### 
+#### 多语言 translate
+
+#####  
