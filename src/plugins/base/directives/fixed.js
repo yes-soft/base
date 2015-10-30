@@ -13,7 +13,7 @@
         });
 
         var gridHeight = winHeight - searchAreaHeight - 124;
-        var $grid = $listWrap.find('.ui-grid');
+        var $grid = $('#ui-grid');
         $grid.height(gridHeight);
 
     }
@@ -29,9 +29,5 @@
             $tabs = $navlist.find('.tab-content');
             $(window).trigger('resize');
         }, 1000);
-
-        setTimeout(function () {
-            $(window).trigger('resize');
-        }, 3000)
     });
 })(jQuery);

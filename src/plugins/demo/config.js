@@ -36,41 +36,44 @@ angular.module("app.config")
                     email: {
                         displayName: '邮件地址',
                         enableSorting: false,
-                        hide:'phone,tablet'
+                        hide: 'phone tablet'
                     },
                     lastLogin: {
                         displayName: '最后登录时间',
-                        hide:'phone,tablet'
+                        hide: 'phone tablet'
                     },
                     displayName: {
-                        displayName: '昵称'
+                        displayName: '昵称',
+                        enableColumnMenu: false
                     },
                     gender: {
                         displayName: '性别',
                         cellFilter: "translatePrefix:'gender'",
                         width: 40,
-                        hide:'phone,tablet'
+                        enableColumnMenu: false,
+                        hide: 'phone tablet'
                     },
                     active: {
                         displayName: '激活',
                         cellFilter: "translate",
-                        hide:'phone,tablet',
+                        hide: 'phone',
                         width: 40
                     },
                     createdAt: {
                         displayName: '创建日期',
                         cellFilter: "time:'YYYY-MM-DD'",
-                        hide:'phone,tablet'
+                        hide: 'phone tablet',
+                        enableColumnMenu: false
                     },
                     type: {
                         displayName: '类型',
                         cellFilter: 'translate',
-                        hide:'phone,tablet'
+                        hide: 'phone'
                     },
                     frozenMoney: {
                         displayName: '冻结资金',
                         visible: false,
-                        hide:'phone,tablet'
+                        hide: 'phone'
                     }
                 },
                 filters: [
@@ -101,7 +104,8 @@ angular.module("app.config")
                     var context = this;
                     var titleMap = oPath.find(context, ['list', 'filters', '[name:type$match]', 'titleMap'], []);
                     $timeout(function () {
-                        titleMap.push({name: '示例脚本', value: '----'});
+                        if (titleMap.length < 3)
+                            titleMap.push({name: '示例脚本', value: '----'});
                     }, 3000);
                 }
             },

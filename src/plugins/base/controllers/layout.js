@@ -65,7 +65,7 @@ angular.module('app')
             $scope.getMenus = function (value) {
 
                 return $scope.menusCache.filter(function (raw) {
-                    return raw.label.contains(value);
+                    return raw.label.includes(value);
                 });
             };
 

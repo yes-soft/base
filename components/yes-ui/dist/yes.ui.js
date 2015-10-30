@@ -98,7 +98,6 @@
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {
-
                     if (scope.$last === true) {
                         $timeout(function () {
                             var page = $stateParams.page,
@@ -556,6 +555,9 @@
                         });
 
                         self.pagesLength = self.pagesLength * 2 || 10;
+
+                        var initiated = false;
+
                         scope.pagination = self;
 
                         function renderNumbers() {
@@ -601,11 +603,13 @@
                             }
                         }
 
-                        function currentPageChanged() {
+                        function currentPageChanged(newValue, oldValue) {
                             renderNumbers();
-                            if (angular.isNumber(self.currentPage)
+                            if (initiated && angular.isNumber(self.currentPage)
                                 && angular.isFunction(self.onPageChange))
                                 self.onPageChange(self.currentPage);
+                            initiated = true;
+
                         }
 
                         scope.$watch('pagination.currentPage', currentPageChanged);
@@ -634,7 +638,7 @@
                 };
             }]);
 })(angular);
-(function(angular,jQuery){
+(function (angular, jQuery) {
 
     angular.module('yes.ui').value('uiSelect2Config', {}).directive('uiSelect2',
         ['uiSelect2Config', '$timeout', function (uiSelect2Config, $timeout) {
@@ -663,11 +667,11 @@
 
                     return function (scope, elm, attrs, controller) {
 
-                        var setPristine = function() {
+                        var setPristine = function () {
                             var form = scope.$eval(elm.closest('form').attr('name'));
-                            form.$dirty          = false;
-                            form.$pristine       = true;
-                            controller.$dirty    = false;
+                            form.$dirty = false;
+                            form.$pristine = true;
+                            controller.$dirty = false;
                             controller.$pristine = true;
                             elm.removeClass('ng-dirty').addClass('ng-pristine');
                             elm.closest('form').removeClass('ng-dirty').addClass('ng-pristine');
@@ -767,7 +771,7 @@
                         });
 
                         if (attrs.ngMultiple) {
-                            scope.$watch(attrs.ngMultiple, function(newVal) {
+                            scope.$watch(attrs.ngMultiple, function (newVal) {
                                 elm.select2(opts);
                             });
                         }
@@ -792,7 +796,7 @@
                 }
             };
         }]);
-})(angular,jQuery);
+})(angular, jQuery);
 (function (angular) {
     angular.module('yes.ui')
         .directive('yesList', function ($timeout) {

@@ -150,6 +150,8 @@ define(['base/services/mapper'], function (mapper) {
                         var index = 1;
 
                         angular.forEach(self.headers, function (col, key) {
+
+
                             if (angular.isString(col)) {
                                 col = {name: key, original: col, displayName: col};
                             } else if (angular.isObject(col) && key) {
@@ -159,14 +161,19 @@ define(['base/services/mapper'], function (mapper) {
                             if (angular.isUndefined(col.headerCellFilter))
                                 col.headerCellFilter = "translate";
 
+                            col.cellClass = col.cellClass | "";
+                            col.headerCellClass = col.headerCellClass | "";
                             if (col.hide) {
-                                col.htmlClass += angular.isDefined(col.htmlClass) ? ( "," + col.hide) : col.hide;
+                                col.cellClass += col.hide;
+                                col.headerCellClass += col.hide;
                             }
 
                             if (colWidth.length > index) {
                                 col.width = colWidth[index];
                             }
+
                             index++;
+
                             if (col.filter && angular.isFunction(col.filter)) {
                                 col.filter.apply(col, [columns, $rootScope]);
                             } else {
@@ -186,22 +193,22 @@ define(['base/services/mapper'], function (mapper) {
                     }
                 };
 
+                var loading = false;
                 self.load = function () {
                     var namespace = [$stateParams.name, $stateParams.page].join("/");
                     if (self.config.list.mock) {
                         requestApi({'body': {items: [], count: 0}});
                     } else {
+                        if (loading)
+                            return;
+                        loading = true;
                         utils.async("GET", namespace, self.filter).then(function (res) {
                             requestApi(res);
+                            loading = false;
                         });
                     }
                 };
 
-                self.loadValidation = function () {
-                    utils.async('get', '', {}).then(function () {
-
-                    });
-                };
 
                 self.loadOne = function () {
                     var namespace = [$stateParams.name, $stateParams.page, detailId].join("/");
@@ -296,7 +303,7 @@ define(['base/services/mapper'], function (mapper) {
                     enableGridMenu: true,
                     exporterMenuCsv: true,
                     exporterMenuPdf: false,
-                    enablePaginationControls: true,
+                    enablePaginationControls: false,
                     enableFiltering: false,
                     enableRowHeaderSelection: true,
                     exporterOlderExcelCompatibility: true,
@@ -306,9 +313,9 @@ define(['base/services/mapper'], function (mapper) {
                         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                             self.filter.start = (newPage - 1) * pageSize;
                             self.filter.count = pageSize;
-                            self.load();
                             self.paginationOptions.pageNumber = newPage;
                             self.paginationOptions.pageSize = pageSize;
+                            self.load();
                         });
 
                         gridApi.colResizable.on.columnSizeChanged($scope, function (ar1, ar2) {
@@ -317,6 +324,12 @@ define(['base/services/mapper'], function (mapper) {
                                 cols.push(column.width);
                             });
                             localStorage.setItem(tag + "_grid", cols);
+                        });
+
+                        gridApi.core.on.renderingComplete($scope, function (ar1) {
+                            $timeout(function () {
+                                angular.element(window).trigger('resize');
+                            }, 0);
                         });
                     },
                     selectedItems: [],
