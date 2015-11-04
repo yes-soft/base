@@ -88,7 +88,8 @@ angular.module('ui.tinymce', [])
                             }
                         },
                         format: 'raw',
-                        selector: '#' + attrs.id
+                        selector: '#' + attrs.id,
+                        language: settings.language.replace('-', '_')
                     };
                     // extend options with initial uiTinymceConfig and
                     // options from directive attribute value

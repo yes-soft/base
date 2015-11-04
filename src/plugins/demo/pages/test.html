@@ -1,1 +1,44 @@
-<div>test</div>
+<div ng-controller="app.demo.test">
+
+    <style type="text/css">
+
+        .steps {
+            margin: 10px;
+            line-height: 26px;
+        }
+
+        .steps span {
+            border: 0 solid #ccc;
+            width: 80px;
+            padding: 5px;
+            display: inline-block;
+            background-color: #ccc;
+            color: white;
+
+        }
+
+        .steps b {
+            width: 60px;
+            display: inline-block;
+            background-color: #ccc;
+            line-height: 0;
+            height: 10px;
+        }
+
+        .steps span.ok,
+        .steps b.ok
+        {
+            background-color: orangered;
+        }
+
+    </style>
+
+    <div class="steps">
+
+        <span ng-class="{'ok':step1.ok}">{{step1.name}}</span><b ng-class="{'ok':step2.ok}"></b><span
+            ng-class="{'ok':step2.ok}">{{step2.name}}</span><b></b><span>step3</span><b></b><span>step4</span>
+
+    </div>
+
+
+</div>

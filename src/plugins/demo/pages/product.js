@@ -1,4 +1,4 @@
-define(['base/services/mapper'], function (mapper) {
+define(['base/services/mapper'], function () {
     "use strict";
     angular.module('app')
         .controller('app.demo.product', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
@@ -9,6 +9,7 @@ define(['base/services/mapper'], function (mapper) {
                 var pageSize = settings.pageSize.defaults;
                 var self = $scope;
                 var detailId = $location.search()['uid'];
+
 
                 var api = [$stateParams.name, $stateParams.action].join("/");
 

@@ -9,10 +9,11 @@ require.config({
         'datePicker': 'base/directives/date.picker',
         'yesQueries': 'base/directives/yes.query',
         'fixed': 'base/directives/fixed',
-        'interpreter': 'base/services/interpreter'
+        'interpreter': 'base/services/interpreter',
+        'mapper': 'base/services/mapper'
     },
     shim: {
-        'app': ['resolves', 'forms', 'uploader', 'gallery', 'datePicker', 'yesQueries', 'fixed', 'interpreter']
+        'app': ['resolves', 'forms', 'uploader', 'gallery', 'datePicker', 'yesQueries', 'fixed', 'interpreter', 'mapper']
     }
 });
 

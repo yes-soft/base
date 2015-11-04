@@ -1,4 +1,4 @@
-define(['base/services/mapper'], function (mapper) {
+define([], function () {
     "use strict";
     angular.module('app')
         .controller('app.wrap.list', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',

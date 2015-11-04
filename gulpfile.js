@@ -67,6 +67,35 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest(distBase + scripts));
 });
 
+
+gulp.task('raw-files', function () {
+    return gulp.src(
+        ['./components/yes-bundle/dist/yes.bundle.js',
+            './components/yes-utils/dist/yes.utils.js',
+            './components/yes-bundle/dist/vendor/bootstrap/js/bootstrap.js',
+            './components/yes-bundle/dist/vendor/ui-bootstrap-tpls.js',
+            './components/yes-bundle/dist/vendor/toaster/angular-toastr.tpls.js',
+            './components/yes-bundle/dist/vendor/angular-ui-grid/ui-grid.js',
+            './components/yes-bundle/dist/vendor/tv4.js',
+            './components/yes-bundle/dist/vendor/ObjectPath.js',
+            './components/yes-bundle/dist/vendor/ng-dialog/ngDialog.js',
+            './components/yes-bundle/dist/vendor/angular-file-upload.min.js',
+            './components/yes-bundle/dist/vendor/select2/select2.js',
+            './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
+            './src/base/vendor/angular-schema-form/schema-form.js',
+            './src/base/vendor/select2/select.js',
+            './components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+            './components/yes-ui/dist/yes.ui.js'
+        ]
+    )
+        //.pipe(concat('yes.app.js'))
+        //.pipe(gulp.dest(distBase + scripts))
+        //.pipe(uglify())
+        //.pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest(distBase + scripts));
+});
+
+
 gulp.task('css', function () {
     return gulp.src([
         'src/base/css/style.css'

@@ -4,6 +4,7 @@ define([], function () {
         .controller('app.demo.custom', ['$scope', '$http', 'uiGridConstants',
             function ($scope, $http, uiGridConstants) {
 
+
                 $scope.gridOptions = {
                     showGridFooter: true,
                     showColumnFooter: true,

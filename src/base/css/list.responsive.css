@@ -1,0 +1,36 @@
+@media (min-width: 480px) and (max-width: 767px) {
+  select {
+    width: 220px;
+    height: 30px;
+  }
+  #ui-grid .tablet,
+  #ui-grid .phone {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  select {
+    width: 220px;
+    height: 30px;
+  }
+  #ui-grid .tablet,
+  #ui-grid .phone {
+    display: none;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  select {
+    width: 220px;
+  }
+  #ui-grid .tablet {
+    display: none;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1200px) {
+  .search-items select,
+  .search-items .input-group,
+  .search-items input[type=text],
+  .search-items input.data {
+    width: 220px;
+  }
+}

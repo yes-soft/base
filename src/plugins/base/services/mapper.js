@@ -30,4 +30,5 @@ define([], function () {
 
             return translateFilter;
         }]);
+
 });
