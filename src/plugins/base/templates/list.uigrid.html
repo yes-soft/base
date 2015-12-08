@@ -6,6 +6,7 @@
     <div class="page-content list-scope">
         <div class="wrapper-md">
             <div class="search-controls clearfix">
+
                 <form name="search" ng-submit="action.search();">
                     <div class="search-items" ng-class="{'line': config.list.filters.length}">
                         <div class="item filter-{{item.type}}" ng-repeat="item in config.list.filters">
@@ -32,6 +33,7 @@
                         <div yes-pagination="pagination" class="pull-right"></div>
                     </div>
                 </form>
+
             </div>
 
             <div class="list-grid-wrap" ng-class="{'enable-filter':gridOptions.enableFiltering}">

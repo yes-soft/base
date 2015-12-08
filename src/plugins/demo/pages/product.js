@@ -1,4 +1,4 @@
-define(['base/services/mapper'], function () {
+define(['base/services/context'], function (context) {
     "use strict";
     angular.module('app')
         .controller('app.demo.product', ['$scope', '$stateParams', '$timeout', '$location', '$rootScope',
@@ -9,7 +9,6 @@ define(['base/services/mapper'], function () {
                 var pageSize = settings.pageSize.defaults;
                 var self = $scope;
                 var detailId = $location.search()['uid'];
-
 
                 var api = [$stateParams.name, $stateParams.action].join("/");
 
@@ -40,7 +39,6 @@ define(['base/services/mapper'], function () {
                         });
 
                         editForm.$setPristine();
-
                     },
                     del: function () {
                         var rows = self.gridApi.selection.getSelectedRows() || [];
@@ -163,65 +161,6 @@ define(['base/services/mapper'], function () {
                     }]
                 };
 
-                function Watcher(name) {
-                    this.name = name;
-
-                    this.when = function (condition, callback) {
-                        self.$watchCollection(name, function (newValue, oldValue) {
-                            if (condition == true || self.$eval(condition)) {
-
-                                if (angular.isFunction(callback))
-                                    callback.call(null, newValue);
-                            }
-                        });
-                    };
-
-                    this.change = function (callback) {
-                        this.when(true, callback);
-                    };
-                }
-
-                function watch(name) {
-                    name = "form.model." + name;
-                    return new Watcher(name);
-                }
-
-                function setValue(key, valueMap, value) {
-                    if (!angular.isUndefined(self.form.model) && valueMap && valueMap.hasOwnProperty(value))
-                        self.form.model[key] = valueMap[value];
-                    else if (value == "") {
-                        self.form.model[key] = "";
-                    }
-                }
-
-                function findByFormKey(form, key) {
-                    for (var i = 0, size = form.length; i < size; i++) {
-                        var cnf = form[i];
-                        if (angular.isObject(cnf)) {
-                            if (cnf.type == "group" || cnf.type == "list") {
-                                var rs = findByFormKey(cnf.items, key);
-                                if (rs) {
-                                    return rs;
-                                }
-                            } else if (cnf.key == key) {
-                                return cnf;
-                            }
-                        } else if (key == cnf) {
-                            return cnf;
-                        }
-                    }
-                }
-
-                function setStatus(key, attributte, status) {
-                    var form = findByFormKey(self.form.form, key);
-                    form = form || {};
-                    form[attributte] = status;
-                }
-
-                function getValue(key) {
-                    if (self.form.model && self.form.model.hasOwnProperty(key))
-                        return self.form.model[key];
-                }
 
                 function requestApi(res) {
                     var body = res.body;
@@ -280,8 +219,15 @@ define(['base/services/mapper'], function () {
                 }
 
                 self.loadSchema = function () {
+
+                    var model = {};
+                    var ctx = new context(self, true);
+                    self.destroyWatches = ctx.destroyWatches;
+
                     $http.jsonp('/api/form?callback=JSON_CALLBACK').success(function (res) {
                         self.form = res.form;
+                        //  self.form.model = model;
+                        ctx.destroyWatches();
 
                         if (self.form && self.form.form) {
                             angular.forEach(self.form.form,
@@ -301,20 +247,13 @@ define(['base/services/mapper'], function () {
                             );
                         }
 
-
-                        var context = {
-                            watch: watch,
-                            getValue: getValue,
-                            setValue: setValue,
-                            setStatus: setStatus
-                        };
                         if (angular.isFunction(res.script)) {
-                            res.script.apply(context);
-                        } else if (angular.isString(res.script)) {
-
-                            eval("var fn=" + res.script);
-                            console.log(fn);
+                            res.script.apply(ctx);
                         }
+
+                        $timeout(function () {
+                            ctx.enableSetValue();
+                        }, 500);
 
                     }).error(function (err) {
                         console.log("error...", err);

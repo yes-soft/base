@@ -1,4 +1,4 @@
-<div class="form-group schema-form-radios-inline {{form.htmlClass}}"
+<div ng-hide="form.hide" class="form-group schema-form-radios-inline {{form.htmlClass}}"
      ng-class="{'has-error': form.disableErrorState !== true &&  hasError(),
       'has-success': form.disableSuccessState !== true && hasSuccess(),
       'readonly':form.readonly
@@ -15,8 +15,8 @@
         </label>
     </div>
     <div class="value-col form-inline col-xs-12 col-sm-10 col-md-11 padding-right-0">
-        <label class="radio-inline" ng-repeat="item in form.titleMap">
-            <input type="radio"
+        <label class="radio-inline" ng-repeat="item in form.titleMap" tooltip="{{item.longTerm}}">
+            <input ng-attr-id="{{item.id}}" type="radio"
                    class="{{form.fieldHtmlClass}}"
                    sf-changed="form"
                    ng-disabled="form.readonly"
@@ -25,6 +25,9 @@
                    ng-value="item.value"
                    name="{{form.key.join('.')}}">
             <span ng-bind-html="item.name"></span>
+
+            <span ng-if="item.optional" radio-dialog="item" ng-model="$$value$$"
+                  ng-show="$$value$$==item.value"></span>
 
             <input type="text" ng-if="item.input" ng-change="$$value$$=item.value=custom" ng-model="custom">
 

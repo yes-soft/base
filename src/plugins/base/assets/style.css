@@ -1883,6 +1883,9 @@ button {
 #header .op {
   margin-left: 40px;
 }
+.click {
+  cursor: pointer;
+}
 .nav-bar {
   overflow: hidden;
   position: inherit;

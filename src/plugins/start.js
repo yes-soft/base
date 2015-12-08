@@ -10,13 +10,16 @@ require.config({
         'yesQueries': 'base/directives/yes.query',
         'fixed': 'base/directives/fixed',
         'interpreter': 'base/services/interpreter',
-        'mapper': 'base/services/mapper'
+        'mapper': 'base/services/mapper',
+        'radioDialog': 'base/directives/radio.dialog'
     },
     shim: {
-        'app': ['resolves', 'forms', 'uploader', 'gallery', 'datePicker', 'yesQueries', 'fixed', 'interpreter', 'mapper']
+        'app': ['resolves', 'forms', 'uploader', 'gallery', 'datePicker', 'yesQueries',
+            'fixed', 'interpreter', 'mapper', 'radioDialog']
     }
 });
 
 require(['app'], function (app) {
     angular.bootstrap(document, ['app']);
 });
+

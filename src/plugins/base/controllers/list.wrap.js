@@ -151,7 +151,6 @@ define([], function () {
 
                         angular.forEach(self.headers, function (col, key) {
 
-
                             if (angular.isString(col)) {
                                 col = {name: key, original: col, displayName: col};
                             } else if (angular.isObject(col) && key) {
@@ -340,9 +339,11 @@ define([], function () {
                         onDblClick: function (row) {
                             self.detailLoad(row.entity);
                         },
-                        customClick: function (name) {
+                        customClick: function (event,name,row) {
+                            event.stopPropagation();
                             if (angular.isFunction(self[name])) {
-                                self[name].apply();
+                                console.log(row);
+                                self[name].call(null,row);
                             }
                         }
                     },

@@ -1,4 +1,5 @@
-/**/angular.callbacks._0({
+/**/
+angular.callbacks._0({
     form: {
         schema: {
             type: 'object',
@@ -221,7 +222,7 @@
                     key: 'secondConnector',
                     singleLine: true,
                     titleMap: [
-                        {name: '标准', value: '标准'},
+                        {name: '标准', value: '标准', optional: true},
                         {name: '非标准', value: '非标准', input: true}
                     ],
                     type: 'radios-inline'

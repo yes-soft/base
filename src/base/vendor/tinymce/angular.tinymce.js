@@ -86,10 +86,26 @@ angular.module('ui.tinymce', [])
                                     updateView: updateView
                                 });
                             }
+
+                            ed.addButton('mybutton', {
+                                title : 'My button',
+                                image : 'img/example.gif',
+                                onclick : function() {
+                                    // Add you own code to execute something on click
+                                    ed.focus();
+                                    ed.selection.setContent('Hello world!');
+                                }
+                            });
                         },
                         format: 'raw',
                         selector: '#' + attrs.id,
-                        language: settings.language.replace('-', '_')
+                        language: settings.language.replace('-', '_'),
+                        plugins: [
+                            "advlist autolink lists link image charmap print preview anchor",
+                            "searchreplace visualblocks code fullscreen",
+                            "insertdatetime media table contextmenu paste"
+                        ],
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
                     };
                     // extend options with initial uiTinymceConfig and
                     // options from directive attribute value

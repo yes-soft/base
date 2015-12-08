@@ -36,18 +36,19 @@
             width: 180px;
         }
 
-        .row .col-0 {
-            width: 74%;
-            display: inline-block;
+        .row.columns {
             position: relative;
-            float: left;
+            border: solid #ccc;
+            padding: 10px 0 0 0;
+            margin: 0;
+            border-width: 0 1px 1px 1px;
         }
 
-        .row .col-1 {
-            width: 24%;
-            display: inline-block;
-            position: relative;
-            float: left;
+        .row .col.quantity {
+            width: 120px;
+            position: absolute;
+            top: 8px;
+            right: 10px;
         }
 
         .readonly, .readonly span, .readonly label {
@@ -58,7 +59,6 @@
             border: 0;
             border-bottom: 1px solid #ccc;
             padding: 0;
-
         }
 
     </style>
@@ -80,6 +80,14 @@
                         type="{{op.type}}" style="margin-right: 5px;"
                         ng-click="op.action(editForm);">
                     <i class="ace-icon fa {{op.icon}} bigger-110"></i> {{op.name | translate}}
+                </button>
+
+                <button ng-click="loadSchema()">
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> 加载防呆
+                </button>
+
+                <button ng-click="destroyWatches()">
+                    <i class="ace-icon fa {{op.icon}} bigger-110"></i> 清除防呆
                 </button>
             </div>
 

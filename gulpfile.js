@@ -56,7 +56,7 @@ gulp.task('scripts', function () {
             './components/yes-bundle/dist/vendor/select2/select2_locale_zh-CN.js',
             './src/base/vendor/angular-schema-form/schema-form.js',
             './src/base/vendor/select2/select.js',
-            './components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+            './src/base/vendor/extra/angular-translate-loader-partial.js',
             './components/yes-ui/dist/yes.ui.js'
         ]
     )
